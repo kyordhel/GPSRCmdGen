@@ -47,6 +47,8 @@ namespace GPSRCmdGen
 				if (this.objects.Contains (o))
 					continue;
 				this.objects.Add (o);
+				// Fix category
+				o.Category = item;
 			}
 		}
 

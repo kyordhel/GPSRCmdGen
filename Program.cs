@@ -92,7 +92,7 @@ namespace GPSRCmdGen
 
 		public static void Main (string[] args)
 		{
-			// ExampleFilesGenerator.GenerateExampleFiles ();
+			 ExampleFilesGenerator.GenerateExampleFiles ();
 			new Program().Run ();
 		}
 	}

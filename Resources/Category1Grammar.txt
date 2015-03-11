@@ -1,0 +1,66 @@
+﻿; grammar name Category I
+; grammar tier Easy
+
+$Main		= $complex 
+; $complex	= $findprs and ($talk | $follow)
+; $follow		= $vbfollow her to the {room}
+; $findprs	= $vbfind a person
+
+##############################################################################
+#
+# Complex Command: Get an object and deliver it
+# 
+##############################################################################
+$complex	= $getobj and $deliver
+
+$getobj		= $vbtake the {kobject} from the {placement 1}
+
+$deliver	= $vbdeliver it to $target
+$target		= me
+$target		= {name} (at | in | which is in) the {room}
+$target		= the {placement 2}
+
+
+##############################################################################
+#
+# Complex Command: Go to room and search for an object
+# 
+##############################################################################
+$complex	= $goroom and $findobj
+
+$goroom		= $vbgoto the {room}
+$findobj	= $vbfind the {kobject}
+
+
+##############################################################################
+#
+# Complex Command: Find a person and talk with
+# 
+##############################################################################
+$complex	= $findprsat and $talk
+
+$findprsat	= $vbfind a person in the {room}
+
+$talk		= $tell | {question}
+$tell		= $vbspeak ($time | $date | $name)
+$name		= your name
+$name		= the name of your team
+$time		= the time
+$time		= what time is it
+$date		= tell the date
+$date		= what day is $day
+$date		= tell the day of the (month | week)
+$day		= today | tomorrow
+
+
+##############################################################################
+#
+# Verbs
+# 
+##############################################################################
+$vbdeliver	= bring | carry | deliver | take
+$vbfind		= find | look for
+$vbfollow	= follow
+$vbgoto		= go to | navigate to | reach | get into
+$vbtake		= take | grasp | get
+$vbspeak	= tell | say | speak

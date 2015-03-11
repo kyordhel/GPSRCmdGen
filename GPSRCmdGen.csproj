@@ -60,12 +60,17 @@
     <Compile Include="Gesture.cs" />
     <Compile Include="Resources.Designer.cs">
       <DependentUpon>Resources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\Category2Grammar.txt" />
+    <Content Include="Resources\Category3Grammar.txt" />
     <Content Include="Resources\CountGrammar.txt" />
     <Content Include="Resources\FormatSpecification.txt" />
     <Content Include="Resources\GrammarHeader.txt" />
+    <Content Include="Resources\Category1Grammar.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

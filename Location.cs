@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 
 namespace GPSRCmdGen
 {
-	[XmlRoot("location")]
+	[Serializable, XmlRoot("location")]
 	public class Location : INameable, IComparable<Location>, IEquatable<Location>
 	{
 		public Location()

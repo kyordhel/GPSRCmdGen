@@ -114,6 +114,9 @@ namespace GPSRCmdGen
 
 			Dictionary<string, string> grammars = new Dictionary<string, string> ();
 			grammars.Add ("count", Resources.CountGrammar);
+			grammars.Add("category1", Resources.Category1Grammar);
+			grammars.Add("category2", Resources.Category2Grammar);
+			grammars.Add("category3", Resources.Category3Grammar);
 
 			foreach (KeyValuePair<string, string> g in grammars) {
 				try{

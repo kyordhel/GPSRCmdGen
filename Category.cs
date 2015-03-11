@@ -5,18 +5,20 @@ using System.Xml.Serialization;
 
 namespace GPSRCmdGen
 {
+	[Serializable]
 	public class Category : INameable
 	{
 		protected Location defaultLocation;
+		protected List<GPSRObject> objects;
 
 		public Category() : this("Unknown objects", Location.TrashBin){
 		}
 
 		public Category(string name, Location defaultLocation){
 			this.Name = name;
-			this.DefaultLocation = defaultLocation;
-			this.DefaultLocation.IsPlacement = true;
-			this.Objects = new List<GPSRObject> ();
+			this.defaultLocation = defaultLocation;
+			this.defaultLocation.IsPlacement = true;
+			this.objects = new List<GPSRObject> ();
 		}
 
 		[XmlAttribute("name")]
@@ -47,7 +49,15 @@ namespace GPSRCmdGen
 		//[XmlArray("objects")]
 		//[XmlArrayItem("object")]
 		[XmlElement("object")]
-		public List<GPSRObject> Objects{ get; set; }
+		public List<GPSRObject> Objects
+		{
+			get { return this.objects; }
+			set {
+				if(value == null) return;
+				foreach (GPSRObject o in value)
+					AddObject(o);
+			}
+		}
 
 		public void AddObject(GPSRObject item){
 			if (this.Objects.Contains (item))
@@ -61,11 +71,11 @@ namespace GPSRCmdGen
 			DifficultyDegree tier;
 			switch (type) {
 				case GPSRObjectType.Alike:
-					tier = DifficultyDegree.Easy;
+					tier = DifficultyDegree.Moderate;
 					break;
 
 				case GPSRObjectType.Known:
-					tier = DifficultyDegree.Moderate;
+					tier = DifficultyDegree.Easy;
 					break;
 
 				default:

@@ -20,6 +20,11 @@ namespace GPSRCmdGen
 
 		[XmlAttribute("difficulty"), DefaultValue(DifficultyDegree.Unknown)]
 		public DifficultyDegree Tier{ get; set; }
+
+		public override string ToString()
+		{
+			return String.Format("{0} ({1})", this.Name, this.Tier);
+		}
 	}
 }
 

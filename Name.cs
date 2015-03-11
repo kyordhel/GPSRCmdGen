@@ -7,6 +7,7 @@ namespace GPSRCmdGen
 {
 	public enum Gender{Female, Male}
 
+	[Serializable]
 	public class Name : INameable
 	{
 		private string value;

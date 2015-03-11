@@ -106,7 +106,7 @@ Offer a drink to the person at the door (robot needs to solve which drink will b
 			snacks.AddObject ("lays", GPSRObjectType.Known, DifficultyDegree.Moderate );
 			snacks.AddObject ("crackers", GPSRObjectType.Known );
 			snacks.AddObject ("pringles", GPSRObjectType.Known );
-			snacks.AddObject ("choclate", GPSRObjectType.Known );
+			snacks.AddObject ("chocolate", GPSRObjectType.Known );
 			man.Add (snacks);
 
 			Location bathroomLocker = new Location ("bathroom locker", true);
