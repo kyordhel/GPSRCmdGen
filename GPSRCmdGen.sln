@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GPSRCmdGen", "GPSRCmdGen.csproj", "{34FB033E-112E-418F-B815-ADB8EC36027C}"
 EndProject
 Global
@@ -14,7 +14,7 @@ Global
 		{34FB033E-112E-418F-B815-ADB8EC36027C}.Release|x86.ActiveCfg = Release|x86
 		{34FB033E-112E-418F-B815-ADB8EC36027C}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = GPSRCmdGen.csproj
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal

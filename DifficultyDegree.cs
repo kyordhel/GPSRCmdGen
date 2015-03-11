@@ -4,7 +4,7 @@ namespace GPSRCmdGen
 {
 	public enum DifficultyDegree
 	{
-		Unknown = 0,
+		Unknown = -1,
 		None = 0,
 		Easy = 1,
 		Moderate = 3,

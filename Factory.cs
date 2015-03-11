@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace GPSRCmdGen
 {
+
+
 	public static class Factory
 	{
-		public static List<Action> GetDefaultActions ()
-		{
 
-			/*
+		/*
 			 * 
 Go to the bedroom, find a person and tell the time.
 Navigate to the kitchen, find a person and follow her.
@@ -19,66 +19,107 @@ Bring a coke to the person in the living room and answer him a question.
 Offer a drink to the person at the door (robot needs to solve which drink will be delivered).
 
 			*/
-			Action action;
-			List<Action> actions = new List<Action>();
 
-			// 	answering
-			action = new Action ("answer", DifficultyDegree.Easy);
-			action.Requires.Add (Actor.Operator);
-			actions.Add (action);
-
-			// 	counting,
-			action = new Action ("count people", DifficultyDegree.High);
-			action.Requires.Add (Actor.Crowd);
-			action.Requires.Add (Actor.Location);
-			actions.Add (action);
-
-			action = new Action ("count objects", DifficultyDegree.High);
-			action.Requires.Add (Actor.LocationPlacement);
-			actions.Add (action);
-
-			// 	finding,
-			action = new Action ("find person", DifficultyDegree.Easy);
-			action.Requires.Add (Actor.Location);
-			actions.Add (action);
-
-			/// 	following
-			action = new Action ("follow", DifficultyDegree.Moderate);
-			action.Requires.Add (Actor.Operator);
-			actions.Add (action);
-
-			/// 	grasping,
-			/// 	handling,
-			/// 	navigating,
-			action = new Action ("go place", DifficultyDegree.Easy);
-			action.Requires.Add (Actor.Location);
-			actions.Add (action);
-
-			action = new Action ("go person", DifficultyDegree.Easy);
-			action.Requires.Add (Actor.Location);
-			actions.Add (action);
-
-			/// 	opening,
-			/// 	pouring,
-			/// 	retrieving,
-			/// 	saying
-
-			return actions;
+		public static List<Gesture> GetDefaultGestures ()
+		{
+			List<Gesture> gestures = new List<Gesture> ();
+			gestures.Add (new Gesture("waving", DifficultyDegree.Easy));
+			gestures.Add (new Gesture("rising left arm", DifficultyDegree.Easy));
+			gestures.Add (new Gesture("rising right arm", DifficultyDegree.Easy));
+			gestures.Add (new Gesture("pointing left", DifficultyDegree.Easy));
+			gestures.Add (new Gesture("pointing right", DifficultyDegree.Easy));
+			return gestures;
 		}
 
 		public static List<Location> GetDefaultLocations ()
 		{
-			return new List<Location>();
+			List<Location> locations = new List<Location>();
+			locations.Add (new Location ("bath room", false));
+			locations.Add (new Location ("bed room", false));
+			locations.Add (new Location ("dining room", false));
+			locations.Add (new Location ("hall", false));
+			locations.Add (new Location ("kitchen", false));
+			locations.Add (new Location ("corridor", false));
+			return locations;
 		}
 
 		public static List<Name> GetDefaultNames ()
 		{
-			return new List<Name>();
+			List<Name> names = new List<Name> ();
+
+			string[] male = new string[] {
+				"Alfred",
+				"Charles",
+				"Daniel",
+				"James",
+				"John",
+				"Luis",
+				"Paul",
+				"Richard",
+				"Robert",
+				"Steve"
+			};
+
+			string[] female = new string[] {
+				"Anna",
+				"Beth",
+				"Carmen",
+				"Jennifer",
+				"Jessica",
+				"Kimberly",
+				"Kristina",
+				"Laura",
+				"Mary",
+				"Sarah"
+			};
+			foreach(string s in female)
+				names.Add(new Name(s, Gender.Female));
+
+			foreach(string s in male)
+				names.Add(new Name(s, Gender.Male));
+
+			return names;
 		}
 
-		public static List<GPSRObject> GetDefaultObjects ()
+		public static GPSRObjectManager GetDefaultObjects ()
 		{
-			return new List<GPSRObject>();
+			GPSRObjectManager man = new GPSRObjectManager ();
+
+			Location shelf = new Location ("shelf", true);
+			Category beverages = new Category ("beverages", shelf);
+			beverages.AddObject ("milk", GPSRObjectType.Known );
+			beverages.AddObject ("coke", GPSRObjectType.Known );
+			beverages.AddObject ("orange juice", GPSRObjectType.Known );
+			beverages.AddObject ("beer", GPSRObjectType.Known, DifficultyDegree.High );
+			man.Add (beverages);
+
+			Location kitchenTable = new Location ("kitchen table", true);
+			Category fruits = new Category ("fruits", kitchenTable);
+			fruits.AddObject ("apple", GPSRObjectType.Alike );
+			fruits.AddObject ("banana", GPSRObjectType.Alike );
+			fruits.AddObject ("orange", GPSRObjectType.Alike );
+			fruits.AddObject ("pear", GPSRObjectType.Alike );
+			man.Add (fruits);
+
+			Location dinnerTable = new Location ("dinner table", true);
+			Category snacks = new Category ("", dinnerTable);
+			snacks.AddObject ("lays", GPSRObjectType.Known, DifficultyDegree.Moderate );
+			snacks.AddObject ("crackers", GPSRObjectType.Known );
+			snacks.AddObject ("pringles", GPSRObjectType.Known );
+			snacks.AddObject ("choclate", GPSRObjectType.Known );
+			man.Add (snacks);
+
+			Location bathroomLocker = new Location ("bathroom locker", true);
+			Category cleaningStuff = new Category ("cleaning stuff", bathroomLocker);
+			cleaningStuff.AddObject ("cloth", GPSRObjectType.Alike, DifficultyDegree.High );
+			cleaningStuff.AddObject ("detergent", GPSRObjectType.Known, DifficultyDegree.High);
+			cleaningStuff.AddObject ("sponge", GPSRObjectType.Known );
+			cleaningStuff.AddObject ("brush", GPSRObjectType.Known, DifficultyDegree.High );
+			man.Add (cleaningStuff);
+
+
+			return man;
+
 		}
 	}
 }

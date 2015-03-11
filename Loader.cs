@@ -7,21 +7,84 @@ using System.Xml.Serialization;
 
 namespace GPSRCmdGen
 {
-	public class Loader
+	public static class Loader
 	{
-		public static List<T> Load<T>(string filePath)
+		private static readonly XmlSerializerNamespaces ns;
+
+		static Loader(){
+			Loader.ns = new XmlSerializerNamespaces();
+			Loader.ns.Add ("", "");
+		}
+
+		public static List<T> LoadArray<T>(string filePath)
 		{
 			T[] array = null;
 			List<T> list = new List<T>();
-			using (FileStream fs = File.OpenRead(filePath))
+			using (StreamReader reader = new StreamReader(filePath, ASCIIEncoding.UTF8))
 			{
-				XmlSerializer serializer = new XmlSerializer(typeof(T[]));
-				array = (T[])serializer.Deserialize(fs);
-				fs.Close();
+				XmlSerializer serializer = new XmlSerializer (typeof(T[]));
+				array = (T[])serializer.Deserialize(reader);
+				reader.Close();
 			}
 			if(array != null)
 				list = new List<T>(array);
 			return list;
+		}
+
+		public static T Load<T>(string filePath)
+		{
+			T item;
+			using (StreamReader reader = new StreamReader(filePath, ASCIIEncoding.UTF8))
+			{
+				XmlSerializer serializer = new XmlSerializer(typeof(T));
+				item = (T)serializer.Deserialize(reader);
+				reader.Close();
+
+			}
+			return item;
+		}
+
+		public static void Save(string filePath, object o){
+			XmlWriterSettings settings = new XmlWriterSettings();
+			settings.Encoding = new UnicodeEncoding(false, false); // no BOM in a .NET string
+			settings.Indent = true;
+			settings.OmitXmlDeclaration = false;
+			using (StreamWriter stream = new StreamWriter(filePath))
+			{
+				using (XmlWriter xmlWriter = XmlWriter.Create(stream, settings))
+				{
+					XmlSerializer serializer = new XmlSerializer(o.GetType());
+					serializer.Serialize(xmlWriter, o, ns);
+					xmlWriter.Close();
+				}
+				stream.Close();
+			}
+		}
+
+		public static List<Grammar> LoadGrammars ()
+		{
+			Grammar grammar;
+			string[] gfs = Directory.GetFiles ("grammars", "*.txt", SearchOption.TopDirectoryOnly);
+			List<Grammar> grammars = new List<Grammar> (gfs.Length);
+			foreach (string gf in gfs) {
+				grammar = Grammar.LoadFromFile (gf);
+				if (grammar != null)
+					grammars.Add (grammar);
+			}
+			if (grammars.Count < 1)
+				throw new Exception ("No grammars could be loaded");
+			return grammars;
+		}
+
+		public static GPSRObjectManager LoadObjects (string filePath)
+		{
+			CategoryContainer categories = Load<CategoryContainer> (filePath);
+			if (categories == null)
+				throw new Exception ("No objects found");
+			GPSRObjectManager manager = new GPSRObjectManager();
+			foreach (Category c in categories.Categories)
+				manager.Add (c);
+			return manager;
 		}
 
 		public static string Serialize<T>(List<T> list)
@@ -30,13 +93,13 @@ namespace GPSRCmdGen
 			T[] array = list.ToArray ();
 			XmlWriterSettings settings = new XmlWriterSettings();
 			settings.Encoding = new UnicodeEncoding(false, false); // no BOM in a .NET string
-			settings.Indent = false;
+			settings.Indent = true;
 			settings.OmitXmlDeclaration = false;
 			using (StringWriter textWriter = new StringWriter())
 			{
 				using (XmlWriter xmlWriter = XmlWriter.Create(textWriter, settings)) {
 					XmlSerializer serializer = new XmlSerializer (typeof(T[]));
-					serializer.Serialize (xmlWriter, array);
+					serializer.Serialize (xmlWriter, array, ns);
 				}
 				serialized = textWriter.ToString ();
 			}

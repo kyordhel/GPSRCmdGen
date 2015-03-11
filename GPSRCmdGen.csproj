@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>10.0.0</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{34FB033E-112E-418F-B815-ADB8EC36027C}</ProjectGuid>
     <OutputType>Exe</OutputType>
@@ -34,6 +34,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -41,17 +42,37 @@
     <Compile Include="Category.cs" />
     <Compile Include="GPSRObject.cs" />
     <Compile Include="Name.cs" />
-    <Compile Include="Command.cs" />
     <Compile Include="Task.cs" />
-    <Compile Include="Action.cs" />
     <Compile Include="DifficultyDegree.cs" />
-    <Compile Include="Actor.cs" />
     <Compile Include="Generator.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="Loader.cs" />
-    <Compile Include="Factory.cs" />
     <Compile Include="Grammar.cs" />
     <Compile Include="ProductionRule.cs" />
+    <Compile Include="Factory.cs" />
+    <Compile Include="GPSRObjectManager.cs" />
+    <Compile Include="ExampleFilesGenerator.cs" />
+    <Compile Include="ITiered.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="WildcardReplacer.cs" />
+    <Compile Include="Token.cs" />
+    <Compile Include="INameable.cs" />
+    <Compile Include="Gesture.cs" />
+    <Compile Include="Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\CountGrammar.txt" />
+    <Content Include="Resources\FormatSpecification.txt" />
+    <Content Include="Resources\GrammarHeader.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <EmbeddedResource Include="Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>
