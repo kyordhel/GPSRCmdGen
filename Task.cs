@@ -1,13 +1,41 @@
 using System;
 using System.Collections.Generic;
-using System.Xml.Serialization;
+using System.Text;
 
 namespace GPSRCmdGen
 {
 	public class Task
 	{
-		public Task ()
+		private List<Token> tokens;
+
+		public Task (){
+			this.tokens = new List<Token>();
+		}
+
+		public Task (List<Token> tokens)
 		{
+			if(tokens == null)return;
+			this.tokens = new List<Token>(tokens);
+		}
+
+		public List<Token> Tokens
+		{
+			get { return this.tokens; }
+			internal set { this.tokens = value; }
+		}
+
+		public override string ToString()
+		{
+			StringBuilder sb = new StringBuilder();
+			if(tokens.Count > 0)
+			sb.Append(tokens[0].StringValue);
+			for (int i = 1; i < tokens.Count; ++i)
+			{
+				sb.Append(tokens[i].StringValue);
+			}
+			return sb.ToString();
+		}
+
 			/// 	answering,
 			/// 	counting,
 			/// 	finding,
@@ -65,9 +93,6 @@ namespace GPSRCmdGen
 			 * 
 			 *********************************************************
 			 */
-
-
-		}
 	}
 
 

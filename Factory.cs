@@ -121,6 +121,62 @@ Offer a drink to the person at the door (robot needs to solve which drink will b
 			return man;
 
 		}
+
+		internal static List<PredefindedQuestion> GetDefaultQuestions()
+		{
+			List<PredefindedQuestion> q = new List<PredefindedQuestion>();
+			q.Add(new PredefindedQuestion("How many rings has the Olympic flag?", "Five"));
+			q.Add(new PredefindedQuestion("Who was the first man in space?", "Yuri Gagarin"));
+			q.Add(new PredefindedQuestion("In which year RoboCup was founded?", "1997"));
+			q.Add(new PredefindedQuestion("Who played and lost against Deep Blue in 1996?", "Gary Kaspárov"));
+			q.Add(new PredefindedQuestion("What is the name of the Simpson's oldest daughter?", "Lisa"));
+			q.Add(new PredefindedQuestion("How many countries are in Europe?", "50"));
+			q.Add(new PredefindedQuestion("Who was Aristotle's teacher?", "Plato"));
+			q.Add(new PredefindedQuestion("What is the capital of Japan?", "Tokyo"));
+			q.Add(new PredefindedQuestion("What is the capital of Poland?", "Warsaw"));
+			q.Add(new PredefindedQuestion("What time is it?", "(Robot must answer with the current time)"));
+			q.Add(new PredefindedQuestion("What is the name of the USS Enterprise's commander?", "James T. Kirk"));
+			q.Add(new PredefindedQuestion("What is the name of Luke Skaywalker's father?", "Anakin Skywalker / Darth Vader"));
+			q.Add(new PredefindedQuestion("What's the name of the composer of The Four Seasons?", "Antonio Vivaldi"));
+			q.Add(new PredefindedQuestion("For which name is better known La Gioconda?", "Mona Lisa"));
+			q.Add(new PredefindedQuestion("What was the first James Bond film?", "Dr No"));
+			q.Add(new PredefindedQuestion("What was discovered in 1922 by Howard Carter?", "Tutankamen tomb"));
+			q.Add(new PredefindedQuestion("What is the national flower of Japan?", "Chrysanthemum"));
+			q.Add(new PredefindedQuestion("Where in France do claret wines come from?", "Bordeaux"));
+			q.Add(new PredefindedQuestion("What is your name?", "(Robot must answer with its own name)"));
+			q.Add(new PredefindedQuestion("What is your team's name?", "(Robot must answer with the team name)"));
+			q.Add(new PredefindedQuestion("What is the national national fruit of Serbia?", "Plum"));
+			q.Add(new PredefindedQuestion("On which national flag is there an eagle and a snake?", "Mexico"));
+			q.Add(new PredefindedQuestion("St Boniface is the Patron Saint of which country?", "Germany"));
+			q.Add(new PredefindedQuestion("A pearmain is what type of fruit?", "Apple"));
+			q.Add(new PredefindedQuestion("In Chinese mythology what is Taimut?", "A Dragon"));
+			q.Add(new PredefindedQuestion("What is ikebana?", "Flower arranging"));
+			q.Add(new PredefindedQuestion("A bind is a group of what type of fish?", "Salmon"));
+			q.Add(new PredefindedQuestion("Which leader lives in the Potola?", "Dalai Lama"));
+			q.Add(new PredefindedQuestion("Who saved Andromeda from the sea monster?", "Perseus"));
+			q.Add(new PredefindedQuestion("What is the answer to the ultimate question about life, the universe and everything?", "42"));
+			q.Add(new PredefindedQuestion("What is the oldest most widely used drug on earth?", "Alcohol"));
+			q.Add(new PredefindedQuestion("What is the worlds most popular green vegetable?", "Lettuce"));
+			q.Add(new PredefindedQuestion("What is Erse?", "Irish Gaelic language"));
+			q.Add(new PredefindedQuestion("Which famous person invented the cat flap?", "Isaac Newton"));
+			q.Add(new PredefindedQuestion("Which country grows the most potatoes?", "Russia"));
+			q.Add(new PredefindedQuestion("What fish can hold objects in its tail?", "Sea Horse"));
+			q.Add(new PredefindedQuestion("Greek mathematician cylinder enclosed sphere carved on grave?", "Archimedes"));
+			q.Add(new PredefindedQuestion("Who was Agrippa's son?", "Nero"));
+			q.Add(new PredefindedQuestion("An alloy of Iron - Chromium and Nickel makes what?", "Stainless Steel"));
+			q.Add(new PredefindedQuestion("Freyr was the Norse god of what?", "Fertility"));
+			q.Add(new PredefindedQuestion("Who was known as the Little Brown Saint?", "Ghandi"));
+			q.Add(new PredefindedQuestion("Who was the Goddess of the rainbow?", "Iris"));
+			q.Add(new PredefindedQuestion("What is a quadriga?", "Roman 4 horse chariot"));
+			q.Add(new PredefindedQuestion("Which country grew the first Orange?", "China"));
+			q.Add(new PredefindedQuestion("Which country was the first to introduce old age pensions?", "Germany"));
+			q.Add(new PredefindedQuestion("Which race destroyed Vulcan Planet?", "Romulans"));
+			q.Add(new PredefindedQuestion("William Hartnell was the first to play what TV character?", "Dr. Who"));
+			q.Add(new PredefindedQuestion("The murder of Gonzago was performed in what Shakespeare play?", "Hamlet"));
+			q.Add(new PredefindedQuestion("Which goddess sprang full grown from the forehead of her father Zeus?", "Athena"));
+			q.Add(new PredefindedQuestion("Which insect has the best eyesight?", "Dragonfly"));
+			return q;
+		}
 	}
 }
 

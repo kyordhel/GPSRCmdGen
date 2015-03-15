@@ -3,7 +3,7 @@
 
 $Main		= $complex 
 ; $complex	= $findprs and ($talk | $follow)
-; $follow		= $vbfollow her to the {room}
+; $follow	= $vbfollow her to the {room}
 ; $findprs	= $vbfind a person
 
 ##############################################################################
@@ -41,7 +41,7 @@ $complex	= $findprsat and $talk
 
 $findprsat	= $vbfind a person in the {room}
 
-$talk		= $tell | {question}
+$talk		= $tell | answer a {question}
 $tell		= $vbspeak ($time | $date | $name)
 $name		= your name
 $name		= the name of your team

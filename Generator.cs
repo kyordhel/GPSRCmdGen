@@ -5,8 +5,13 @@ using System.Text.RegularExpressions;
 
 namespace GPSRCmdGen
 {
+	/// <summary>
+	/// Generates Random Sentences for the GPSR test
+	/// </summary>
 	public class Generator
 	{
+		#region Variables
+
 		/// <summary>
 		/// Random numbers generator
 		/// </summary>
@@ -32,10 +37,21 @@ namespace GPSRCmdGen
 		/// </summary>
 		private GPSRObjectManager allObjects;
 		/// <summary>
+		/// Stores all known questions
+		/// </summary>
+		private List<PredefindedQuestion> allQuestions;
+		/// <summary>
 		/// Stores all generation grammars
 		/// </summary>
 		private List<Grammar> allGrammars;
 
+		#endregion
+
+		#region Constructor
+
+		/// <summary>
+		/// Initializes a new instance of Generator
+		/// </summary>
 		public Generator ()
 		{
 			// Initialize all objects
@@ -45,8 +61,13 @@ namespace GPSRCmdGen
 			this.allNames = new List<Name> ();
 			this.allObjects = new GPSRObjectManager ();
 			this.allGrammars = new List<Grammar> ();
+			this.allQuestions = new List<PredefindedQuestion>();
 			GenerateSortedDifficultyDegreesArray ();
 		}
+
+		#endregion
+
+		#region Properties
 
 		/// <summary>
 		/// Gets the list that stores all known locations
@@ -66,7 +87,12 @@ namespace GPSRCmdGen
 		/// <summary>
 		/// Stores all known objects
 		/// </summary>
-		internal GPSRObjectManager AllObjects{ get { return this.allObjects; } }
+		internal GPSRObjectManager AllObjects { get { return this.allObjects; } }
+
+		/// <summary>
+		/// Stores all known questions
+		/// </summary>
+		internal List<PredefindedQuestion> AllQuestions { get { return this.allQuestions; } }
 
 		/// <summary>
 		/// Gets the random numbers generator
@@ -77,6 +103,8 @@ namespace GPSRCmdGen
 		/// Gets the list that stores sorted difficulty degrees from the hardes to the easiest
 		/// </summary>
 		internal List<DifficultyDegree> SortedDD{ get{ return this.sdd; } }
+
+		#endregion
 
 		/// <summary>
 		/// Generates the list of sorted difficulty degrees from the hardes to the easiest
@@ -90,15 +118,23 @@ namespace GPSRCmdGen
 				);
 		}
 
-		public string GenerateTask (DifficultyDegree tier)
+		/// <summary>
+		/// Randomly generates a task with the requested difficulty degree
+		/// </summary>
+		/// <param name="tier">The maximum difficulty degree allowed to produce the task</param>
+		/// <returns></returns>
+		public Task GenerateTask (DifficultyDegree tier)
 		{
-			string task = GetTask (tier);
+			string taskPrototype = GetTaskPrototype (tier);
 			WildcardReplacer replacer = new WildcardReplacer (this, tier);
-			replacer.GetTokens (task);
-			task = replacer.ReplaceWildcards (task);
-			return task;
+			return replacer.GetTask (taskPrototype);
 		}
 
+		/// <summary>
+		/// Obtains a random grammar with the highest difficulty degree possible
+		/// </summary>
+		/// <param name="tier">The maximum difficulty degree allowed</param>
+		/// <returns>A grammar</returns>
 		private Grammar GetRandomGrammar (DifficultyDegree tier)
 		{
 			int idd;
@@ -115,7 +151,14 @@ namespace GPSRCmdGen
 			return null;
 		}
 
-		public string GetTask (DifficultyDegree tier)
+		/// <summary>
+		/// Randomly selects a grammar of the specified difficulty degree (or lower)
+		/// and uses it to produce a random task sentence prototype. The prototype
+		/// contains several tokens to be replaced by random values
+		/// </summary>
+		/// <param name="tier">The maximum difficulty degree allowed</param>
+		/// <returns>A task sentence prototype with unsolved constructs</returns>
+		private string GetTaskPrototype (DifficultyDegree tier)
 		{	
 			Grammar g;
 
@@ -216,6 +259,20 @@ namespace GPSRCmdGen
 			} catch {
 				this.allObjects = Factory.GetDefaultObjects ();
 				Err ("Failed! Default Objects loaded");
+			}
+		}
+
+		public void LoadQuestions()
+		{
+			try
+			{
+				this.allQuestions = Loader.Load<QuestionsContainer>("Questions.xml").Questions;
+				Green("Done!");
+			}
+			catch
+			{
+				this.allQuestions = Factory.GetDefaultQuestions();
+				Err("Failed! Default Objects loaded");
 			}
 		}
 

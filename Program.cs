@@ -21,7 +21,7 @@ namespace GPSRCmdGen
 			return k.KeyChar;
 		}
 
-		private string GetTask(char opc)
+		private Task GetTask(char opc)
 		{
 			DifficultyDegree tier = DifficultyDegree.Unknown;
 			switch (opc) {
@@ -36,9 +36,9 @@ namespace GPSRCmdGen
 			return gen.GenerateTask (tier);
 		}
 
-		private void PrintTask(string task)
+		private void PrintTask(Task task)
 		{
-			if (String.IsNullOrEmpty (task))
+			if (task == null)
 				return;
 			ConsoleColor pc = Console.ForegroundColor;
 			Console.ForegroundColor = ConsoleColor.White;
@@ -46,11 +46,25 @@ namespace GPSRCmdGen
 			string pad = String.Empty.PadRight (Console.BufferWidth - 1, '=');
 			Console.WriteLine (pad);
 			Console.WriteLine();
-			Console.WriteLine(task.PadRight(4));
+			Console.WriteLine(task.ToString().PadRight(4));
+			PrintTaskMetadata(task);
 			Console.WriteLine();
 			Console.WriteLine (pad);
 			Console.ForegroundColor = pc;
 			Console.WriteLine();
+		}
+
+		private void PrintTaskMetadata(Task task)
+		{
+			foreach (Token token in task.Tokens)
+			{
+				IMetadatable im = token.Value as IMetadatable;
+				if (im == null) continue;
+				Console.WriteLine();
+				Console.WriteLine("{0}", im.Name);
+				foreach(string md in im.Metadata)
+					Console.WriteLine("\t{0}", md);
+			}
 		}
 
 		public void Run()
@@ -60,7 +74,7 @@ namespace GPSRCmdGen
 			do
 			{
 				opc = GetOption();
-				string task = GetTask(opc);
+				Task task = GetTask(opc);
 				PrintTask(task);
 			}
 			while(opc != 'q');
@@ -80,7 +94,9 @@ namespace GPSRCmdGen
 			Console.Write ("Loading locations...");
 			gen.LoadLocations ();
 			Console.Write ("Loading gestures...");
-			gen.LoadGestures ();
+			gen.LoadGestures();
+			Console.Write("Loading predefined questions...");
+			gen.LoadQuestions();
 			Console.Write ("Loading grammars...");
 			gen.LoadGrammars ();
 			//Console.Write ("Loading actions...");
@@ -92,7 +108,7 @@ namespace GPSRCmdGen
 
 		public static void Main (string[] args)
 		{
-			 ExampleFilesGenerator.GenerateExampleFiles ();
+			// ExampleFilesGenerator.GenerateExampleFiles ();
 			new Program().Run ();
 		}
 	}

@@ -16,7 +16,9 @@ namespace GPSRCmdGen
 		}
 
 		public string Key { get { return this.key; } }
-		public INameable Value { get { return this.value; } }
+		public INameable Value { get { return value; } }
+
+		public string StringValue { get { return value == null ? this.key : this.value.Name; } }
 
 		public override string ToString()
 		{

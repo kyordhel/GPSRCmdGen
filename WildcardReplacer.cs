@@ -7,9 +7,22 @@ namespace GPSRCmdGen
 {
 	public class WildcardReplacer
 	{
+		#region Variables
+
+		/// <summary>
+		/// The random generator that contains all required data
+		/// </summary>
 		private readonly Generator generator;
 		private readonly MatchEvaluator dlgEvaluator;
+
+		/// <summary>
+		/// Regular expression for extracting wildcards
+		/// </summary>
 		private static readonly Regex rxWildcard;
+
+		/// <summary>
+		/// The maximum difficulty degree to be used during the replacement
+		/// </summary>
 		private DifficultyDegree tier;
 
 		/// <summary>
@@ -38,6 +51,11 @@ namespace GPSRCmdGen
 		private Dictionary<string, GPSRObject> objects;
 
 		/// <summary>
+		/// Dicctionary of used questions
+		/// </summary>
+		private Dictionary<string, PredefindedQuestion> questions;
+
+		/// <summary>
 		/// List of available categories
 		/// </summary>
 		private List<Category> avCategories; 
@@ -62,6 +80,15 @@ namespace GPSRCmdGen
 		/// </summary>
 		private List<GPSRObject> avObjects;
 
+		/// <summary>
+		/// List of available objects
+		/// </summary>
+		private List<PredefindedQuestion> avQuestions;
+
+		#endregion
+
+		#region Constructors
+
 		public WildcardReplacer(Generator g, DifficultyDegree tier){
 			this.generator = g;
 			this.tier = tier;
@@ -71,6 +98,7 @@ namespace GPSRCmdGen
 			this.locations = new Dictionary<string, Location> ();
 			this.names = new Dictionary<string, Name> ();
 			this.objects = new Dictionary<string, GPSRObject> ();
+			this.questions = new Dictionary<string, PredefindedQuestion>();
 			FillAvailabilityLists ();
 		}
 
@@ -78,6 +106,10 @@ namespace GPSRCmdGen
 		{
 			rxWildcard = new Regex (@"\{\s*(?<name>[a-z]+)(\s+(?<type>[a-z]+))?(\s+(?<id>\d+))?\}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 		}
+
+		#endregion
+
+		#region Evaluate Methods
 
 		private INameable EvaluateCategory (Match m)
 		{
@@ -155,65 +187,20 @@ namespace GPSRCmdGen
 			return obj;
 		}
 
-		private string Evaluator(Match m, out INameable o){
-			o = null;
-			if (!m.Success)
-				return m.Value;
-
-			int id;
-			Int32.TryParse (m.Result ("${id}"), out id);
-
-			switch (m.Result ("${name}").ToLower ()) {
-				case "aobject":
-				case "kobject":
-				case "object":
-					o = EvaluateObject (m);
-					break;
-
-				case "category":
-					o = EvaluateCategory (m);
-					break;
-
-				case "female":
-				case "male":
-				case "name":
-					o = EvaluateName (m);
-					break;
-
-				case "gesture":
-					o = EvaluateGesture (m);
-					break;
-
-				case "location":
-				case "placement":
-				case "room":
-					o = EvaluateLocation (m);
-					break;
-			}
-
-			if (o != null)
-				return o.Name;
-			return m.Value;
+		private INameable EvaluateQuestion(Match m)
+		{
+			string keycode = m.Result("${name}").ToLower();
+			string key = keycode + m.Result("${id}");
+			if (this.questions.ContainsKey(key))
+				return this.questions[key];
+			PredefindedQuestion qst = GetQuestion();
+			questions.Add(key, qst);
+			return qst;
 		}
 
-		private string Evaluator(Match m){
-			INameable inam;
-			return Evaluator (m, out inam);
-		}
+		#endregion
 
-		private void FillAvailabilityLists(){
-			this.avCategories = new List<Category> (generator.AllObjects.Categories);
-			this.avGestures = GetTieredList (generator.AllGestures);
-			this.avLocations = new List<Location> (generator.AllLocations);
-			this.avNames = new List<Name> (generator.AllNames);
-			this.avObjects = GetTieredList (generator.AllObjects.Objects);
-			
-			this.avCategories.Shuffle (generator.Rnd);
-			this.avGestures.Shuffle (generator.Rnd);
-			this.avLocations.Shuffle (generator.Rnd);
-			this.avNames.Shuffle (generator.Rnd);
-			this.avObjects.Shuffle (generator.Rnd);
-		}
+		#region Random Generation Methos
 
 		private Category GetCategory ()
 		{
@@ -292,19 +279,101 @@ namespace GPSRCmdGen
 			return item;
 		}
 
+		private PredefindedQuestion GetQuestion()
+		{
+			PredefindedQuestion item = this.avQuestions[this.avQuestions.Count - 1];
+			this.avQuestions.RemoveAt(this.avQuestions.Count - 1);
+			return item;
+		}
+
 		/// <summary>
 		/// Gets a subset of the provided list on which every element has at most the specified difficulty degree.
 		/// </summary>
 		/// <param name="baseList">Base list which contains all objects.</param>
 		/// <typeparam name="T">The type of objects to fetch. Must be ITiered.</typeparam>
 		/// <returns>The tiered subset.</returns>
-		private List<T> GetTieredList<T>(List<T> baseList) where T : ITiered{
-			if ( (baseList == null) || (baseList.Count < 1) )
-				throw new Exception ("Requested too many elements (count is greater than objects in baseList)");
+		private List<T> GetTieredList<T>(List<T> baseList) where T : ITiered
+		{
+			if ((baseList == null) || (baseList.Count < 1))
+				throw new Exception("Requested too many elements (count is greater than objects in baseList)");
 
 			IEnumerable<T> ie = baseList.Where(item => (int)item.Tier <= (int)this.tier);
-			List<T> tieredList = new List<T> (ie);
+			List<T> tieredList = new List<T>(ie);
 			return tieredList;
+		}
+
+		#endregion
+
+		#region Methods
+
+		private string Evaluator(Match m, out INameable o)
+		{
+			o = null;
+			if (!m.Success)
+				return m.Value;
+
+			int id;
+			Int32.TryParse(m.Result("${id}"), out id);
+
+			switch (m.Result("${name}").ToLower())
+			{
+				case "aobject":
+				case "kobject":
+				case "object":
+					o = EvaluateObject(m);
+					break;
+
+				case "category":
+					o = EvaluateCategory(m);
+					break;
+
+				case "female":
+				case "male":
+				case "name":
+					o = EvaluateName(m);
+					break;
+
+				case "gesture":
+					o = EvaluateGesture(m);
+					break;
+
+				case "location":
+				case "placement":
+				case "room":
+					o = EvaluateLocation(m);
+					break;
+
+				case "question":
+					o = EvaluateQuestion(m);
+					break;
+			}
+
+			if (o != null)
+				return o.Name;
+			return m.Value;
+		}
+
+		private string Evaluator(Match m)
+		{
+			INameable inam;
+			return Evaluator(m, out inam);
+		}
+
+		private void FillAvailabilityLists()
+		{
+			this.avCategories = new List<Category>(generator.AllObjects.Categories);
+			this.avGestures = GetTieredList(generator.AllGestures);
+			this.avLocations = new List<Location>(generator.AllLocations);
+			this.avNames = new List<Name>(generator.AllNames);
+			this.avObjects = GetTieredList(generator.AllObjects.Objects);
+			this.avQuestions = GetTieredList(generator.AllQuestions);
+
+			this.avCategories.Shuffle(generator.Rnd);
+			this.avGestures.Shuffle(generator.Rnd);
+			this.avLocations.Shuffle(generator.Rnd);
+			this.avNames.Shuffle(generator.Rnd);
+			this.avObjects.Shuffle(generator.Rnd);
+			this.avQuestions.Shuffle(generator.Rnd);
 		}
 
 		public string ReplaceWildcards(string s)
@@ -312,26 +381,30 @@ namespace GPSRCmdGen
 			return rxWildcard.Replace (s, dlgEvaluator);
 		}
 
-		public List<Token> GetTokens(string s)
+		public Task GetTask(string taskPrototype)
 		{
 			int bcc = 0;
 			string ss;
 			INameable o;
-			MatchCollection mc = rxWildcard.Matches (s);
+			MatchCollection mc = rxWildcard.Matches (taskPrototype);
 			List<Token> tokens = new List<Token>(2 + mc.Count);
 			foreach (Match m in mc) {
-				ss = s.Substring (bcc, m.Index - bcc);
+				ss = taskPrototype.Substring (bcc, m.Index - bcc);
 				if (!String.IsNullOrEmpty (ss))
 					tokens.Add (new Token (ss, null));
 				bcc = m.Index + m.Value.Length;
 				Evaluator(m, out o);
 				tokens.Add (new Token(m.Value, o));
 			}
-			ss = s.Substring (bcc);
+			ss = taskPrototype.Substring (bcc);
 			if (!String.IsNullOrEmpty (ss))
 				tokens.Add (new Token (ss, null));
-			return tokens;
+			Task task = new Task();
+			task.Tokens = tokens;
+			return task;
 		}
+
+		#endregion
 	}
 }
 

@@ -47,6 +47,16 @@ namespace GPSRCmdGen
 		public List<Category> Categories{ get; set; } 
 	}
 
+	[XmlRoot(ElementName = "questions", Namespace = "")]
+	public class QuestionsContainer{
+
+		public QuestionsContainer(){}
+		public QuestionsContainer(List<PredefindedQuestion> questions) { this.Questions = questions; }
+
+		[XmlElement("question")]
+		public List<PredefindedQuestion> Questions { get; set; }
+	}
+
 	public static class ExampleFilesGenerator
 	{
 		public static void GenerateExampleFiles(){
@@ -60,6 +70,7 @@ namespace GPSRCmdGen
 				if (!locations.Locations.Contains (cat.DefaultLocation))
 					locations.Locations.Add (cat.DefaultLocation);
 			}
+			QuestionsContainer questions = new QuestionsContainer(Factory.GetDefaultQuestions());
 
 			if (Prompt("Gestures.xml"))
 				Loader.Save("Gestures.xml", gestures);
@@ -69,6 +80,8 @@ namespace GPSRCmdGen
 				Loader.Save("Names.xml", names);
 			if(Prompt("Objects.xml"))
 				Loader.Save ("Objects.xml", categories);
+			if (Prompt("Questions.xml"))
+				Loader.Save("Questions.xml", questions);
 		}
 
 		private static bool Prompt (string file)
