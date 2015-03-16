@@ -59,6 +59,7 @@ namespace GPSRCmdGen
 
 	public static class ExampleFilesGenerator
 	{
+
 		public static void GenerateExampleFiles(){
 			SaveGrammars ();
 

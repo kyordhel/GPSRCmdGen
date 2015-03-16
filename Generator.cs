@@ -127,6 +127,8 @@ namespace GPSRCmdGen
 		{
 			string taskPrototype = GetTaskPrototype (tier);
 			WildcardReplacer replacer = new WildcardReplacer (this, tier);
+			if (String.IsNullOrEmpty (taskPrototype))
+				return null;
 			return replacer.GetTask (taskPrototype);
 		}
 
@@ -143,7 +145,7 @@ namespace GPSRCmdGen
 				idd = (int)dd;
 				if ( (idd > (int)tier) || (idd < 1) )
 					continue;
-				g = GetTieredElement (tier, allGrammars);
+				g = GetTieredElement (dd, allGrammars);
 				if (g != null)
 					return g;
 				Warn("No grammars were found for {0} difficulty degree. {1}", dd, idd > 1 ? "Grammar tier reduced." : String.Empty);

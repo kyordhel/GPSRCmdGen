@@ -36,6 +36,13 @@ namespace GPSRCmdGen
 			return gen.GenerateTask (tier);
 		}
 
+		public static void InitializePath()
+		{
+			int xmlFilesCnt = System.IO.Directory.GetFiles (Environment.CurrentDirectory, "*.xml", System.IO.SearchOption.TopDirectoryOnly).Length;
+			if ((xmlFilesCnt < 1) && !System.IO.Directory.Exists ("grammars"))
+				ExampleFilesGenerator.GenerateExampleFiles ();
+		}
+
 		private void PrintTask(Task task)
 		{
 			if (task == null)
@@ -109,6 +116,7 @@ namespace GPSRCmdGen
 		public static void Main (string[] args)
 		{
 			// ExampleFilesGenerator.GenerateExampleFiles ();
+			InitializePath ();
 			new Program().Run ();
 		}
 	}

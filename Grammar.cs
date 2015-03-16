@@ -144,6 +144,7 @@ namespace GPSRCmdGen
 					// Replace the subchunk with the Non-Terminal symbol
 					replacement = replacement.Substring (0, bcc-1) + nonTerminal + replacement.Substring (cc+1);
 					pr.Replacements [i] = replacement;
+					cc = bcc + nonTerminal.Length -2;
 				}
 			}
 		}

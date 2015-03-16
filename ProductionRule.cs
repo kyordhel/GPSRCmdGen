@@ -91,8 +91,18 @@ namespace GPSRCmdGen
 		/// </summary>
 		/// <param name="s">String to process</param>
 		protected internal static void RemoveTopLevelPar(ref string s){
-			if ((s [0] == '(') && (s [s.Length - 1] == ')'))
-				s = s.Substring (1, s.Length - 2);
+			if ((s.Length < 1) || (s [0] == '('))
+				return;
+
+			int i;
+			StringBuilder sb = new StringBuilder (s.Length);
+			for (i = 0; i < s.Length -1; ++i) {
+				if ((s [i] == '(') || (s [i] == '|') || (s [i] == ')'))
+					return;
+				sb.Append(s[i]);
+			}
+			if (s [i] == ')')
+				s = sb.ToString ();
 		}
 
 		public static void SplitProductions (string s, List<string> productions)
