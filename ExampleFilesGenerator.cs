@@ -73,26 +73,32 @@ namespace GPSRCmdGen
 			}
 			QuestionsContainer questions = new QuestionsContainer(Factory.GetDefaultQuestions());
 
-			if (Prompt("Gestures.xml"))
-				Loader.Save("Gestures.xml", gestures);
-			if (Prompt("Locations.xml"))
-				Loader.Save("Locations.xml", locations);
-			if (Prompt("Names.xml"))
-				Loader.Save("Names.xml", names);
-			if(Prompt("Objects.xml"))
-				Loader.Save ("Objects.xml", categories);
-			if (Prompt("Questions.xml"))
-				Loader.Save("Questions.xml", questions);
+			string path = Loader.GetPath("Gestures.xml");
+			if (Overwrite(path))
+				Loader.Save(path, gestures);
+			path = Loader.GetPath("Locations.xml");
+			if (Overwrite(path))
+				Loader.Save(path, locations);
+			path = Loader.GetPath("Names.xml");
+			if (Overwrite(path))
+				Loader.Save(path, names);
+			path = Loader.GetPath("Objects.xml");
+			if(Overwrite(path))
+				Loader.Save (path, categories);
+			path = Loader.GetPath("Questions.xml");
+			if (Overwrite(path))
+				Loader.Save(path, questions);
 		}
 
-		private static bool Prompt (string file)
+		private static bool Overwrite (string file)
 		{
-			if (!File.Exists (file))
+			FileInfo fi = new FileInfo (file);
+			if (!fi.Exists)
 				return true;
-			Console.Write ("File {0} already exists. Overwrite? [yN]", file);
+			Console.Write ("File {0} already exists. Overwrite? [yN]", fi.Name);
 			string answer = Console.ReadLine().ToLower();
 			if ((answer == "y") || (answer == "yes")) {
-				File.Delete (file);
+				fi.Delete ();
 				return true;
 			}
 			return false;
@@ -101,12 +107,9 @@ namespace GPSRCmdGen
 		static void SaveGrammarFile (string name, string header, string formatSpec, string content)
 		{
 			string fileName = String.Format ("{0}.txt", name);
-			fileName = Path.Combine("grammars", fileName);
-			if (File.Exists (fileName)){
-				if(!Prompt (fileName))
-					return;
-				File.Delete (fileName);
-			}
+			fileName = Loader.GetPath("grammars", fileName);
+			if (!Overwrite (fileName))
+				return;
 			string Name = name.Substring (0, 1).ToUpper () + name.Substring (1);
 			header = header.Replace ("${GrammarName}", Name);
 			using (StreamWriter writer = new StreamWriter(fileName)) {
@@ -120,8 +123,9 @@ namespace GPSRCmdGen
 
 		private static void SaveGrammars()
 		{
-			if(!Directory.Exists("grammars"))
-				Directory.CreateDirectory("grammars");
+			string path = Loader.GetPath("grammars");
+			if(!Directory.Exists(path))
+				Directory.CreateDirectory(path);
 
 			string formatSpec = Resources.FormatSpecification;
 			string authoring = Resources.GrammarHeader;

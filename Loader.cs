@@ -9,11 +9,23 @@ namespace GPSRCmdGen
 {
 	public static class Loader
 	{
+		private static readonly string exePath;
 		private static readonly XmlSerializerNamespaces ns;
 
 		static Loader(){
+			Loader.exePath = AppDomain.CurrentDomain.BaseDirectory;
 			Loader.ns = new XmlSerializerNamespaces();
 			Loader.ns.Add ("", "");
+		}
+
+		public static string ExePath{get {return Loader.exePath;} }
+
+		public static string GetPath(string fileName){
+			return Path.Combine (Loader.exePath, fileName);
+		}
+
+		public static string GetPath(string subdir, string fileName){
+			return Path.Combine (Path.Combine(Loader.exePath, subdir), fileName);
 		}
 
 		public static List<T> LoadArray<T>(string filePath)
@@ -64,7 +76,8 @@ namespace GPSRCmdGen
 		public static List<Grammar> LoadGrammars ()
 		{
 			Grammar grammar;
-			string[] gfs = Directory.GetFiles ("grammars", "*.txt", SearchOption.TopDirectoryOnly);
+			string grammarsPath = GetPath ("grammars");
+			string[] gfs = Directory.GetFiles (grammarsPath, "*.txt", SearchOption.TopDirectoryOnly);
 			List<Grammar> grammars = new List<Grammar> (gfs.Length);
 			foreach (string gf in gfs) {
 				grammar = Grammar.LoadFromFile (gf);

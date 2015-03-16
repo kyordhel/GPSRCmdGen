@@ -38,8 +38,8 @@ namespace GPSRCmdGen
 
 		public static void InitializePath()
 		{
-			int xmlFilesCnt = System.IO.Directory.GetFiles (Environment.CurrentDirectory, "*.xml", System.IO.SearchOption.TopDirectoryOnly).Length;
-			if ((xmlFilesCnt < 1) && !System.IO.Directory.Exists ("grammars"))
+			int xmlFilesCnt = System.IO.Directory.GetFiles (Loader.ExePath, "*.xml", System.IO.SearchOption.TopDirectoryOnly).Length;
+			if ((xmlFilesCnt < 1) && !System.IO.Directory.Exists (Loader.GetPath("grammars")))
 				ExampleFilesGenerator.GenerateExampleFiles ();
 		}
 
