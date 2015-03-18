@@ -31,10 +31,10 @@ namespace GPSRCmdGen
 	public class NameContainer{
 
 		public NameContainer(){}
-		public NameContainer(List<Name> names){this.Names=names;}
+		public NameContainer(List<PersonName> names){this.Names=names;}
 
 		[XmlElement("name")]
-		public List<Name> Names{ get; set; } 
+		public List<PersonName> Names{ get; set; } 
 	}
 
 	[XmlRoot(ElementName = "categories", Namespace = "")]

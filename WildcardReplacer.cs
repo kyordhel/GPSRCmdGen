@@ -43,7 +43,7 @@ namespace GPSRCmdGen
 		/// <summary>
 		/// Dicctionary of used names
 		/// </summary>
-		private Dictionary<string, Name> names;
+		private Dictionary<string, PersonName> names;
 
 		/// <summary>
 		/// Dicctionary of used objects
@@ -73,7 +73,7 @@ namespace GPSRCmdGen
 		/// <summary>
 		/// List of available names
 		/// </summary>
-		private List<Name> avNames;
+		private List<PersonName> avNames;
 		
 		/// <summary>
 		/// List of available objects
@@ -96,7 +96,7 @@ namespace GPSRCmdGen
 			this.categories = new Dictionary<string, Category> (); 
 			this.gestures = new Dictionary<string, Gesture> ();
 			this.locations = new Dictionary<string, Location> ();
-			this.names = new Dictionary<string, Name> ();
+			this.names = new Dictionary<string, PersonName> ();
 			this.objects = new Dictionary<string, GPSRObject> ();
 			this.questions = new Dictionary<string, PredefindedQuestion>();
 			FillAvailabilityLists ();
@@ -164,7 +164,7 @@ namespace GPSRCmdGen
 			string key = keycode + m.Result("${id}");
 			if(this.names.ContainsKey(key))
 				return this.names[key];
-			Name nam = GetName (keycode);
+			PersonName nam = GetName (keycode);
 			names.Add (key, nam);
 			return nam;
 		}
@@ -236,9 +236,9 @@ namespace GPSRCmdGen
 			return item;
 		}
 
-		private Name GetName (string keycode)
+		private PersonName GetName (string keycode)
 		{
-			Name item;
+			PersonName item;
 			switch(keycode){
 				case "male":
 				item = this.avNames.First(n => n.Gender == Gender.Male);
@@ -364,7 +364,7 @@ namespace GPSRCmdGen
 			this.avCategories = new List<Category>(generator.AllObjects.Categories);
 			this.avGestures = GetTieredList(generator.AllGestures);
 			this.avLocations = new List<Location>(generator.AllLocations);
-			this.avNames = new List<Name>(generator.AllNames);
+			this.avNames = new List<PersonName>(generator.AllNames);
 			this.avObjects = GetTieredList(generator.AllObjects.Objects);
 			this.avQuestions = GetTieredList(generator.AllQuestions);
 

@@ -43,9 +43,9 @@ Offer a drink to the person at the door (robot needs to solve which drink will b
 			return locations;
 		}
 
-		public static List<Name> GetDefaultNames ()
+		public static List<PersonName> GetDefaultNames ()
 		{
-			List<Name> names = new List<Name> ();
+			List<PersonName> names = new List<PersonName> ();
 
 			string[] male = new string[] {
 				"Alfred",
@@ -73,10 +73,10 @@ Offer a drink to the person at the door (robot needs to solve which drink will b
 				"Sarah"
 			};
 			foreach(string s in female)
-				names.Add(new Name(s, Gender.Female));
+				names.Add(new PersonName(s, Gender.Female));
 
 			foreach(string s in male)
-				names.Add(new Name(s, Gender.Male));
+				names.Add(new PersonName(s, Gender.Male));
 
 			return names;
 		}

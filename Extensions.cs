@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace GPSRCmdGen
 {
+	/// <summary>
+	/// Helper class that contains extension methods
+	/// </summary>
 	public static class Extensions
 	{
 		/// <summary>

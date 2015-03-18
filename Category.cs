@@ -5,15 +5,40 @@ using System.Xml.Serialization;
 
 namespace GPSRCmdGen
 {
+	/// <summary>
+	/// Represents a real-wolrd object category
+	/// according to the RoboCup@Home Rulebook 2015
+	/// </summary>
 	[Serializable]
 	public class Category : INameable
 	{
+		#region Variables
+		/// <summary>
+		/// Stores the default placement default location for objects in the category
+		/// </summary>
 		protected Location defaultLocation;
+
+		/// <summary>
+		/// Stores the default placement default location for objects in the category
+		/// </summary>
 		protected List<GPSRObject> objects;
 
+		#endregion
+
+		#region Constructors
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="GPSRCmdGen.Category"/> class.
+		/// </summary>
+		/// <remarks>Intended for serialization purposes</remarks>
 		public Category() : this("Unknown objects", Location.TrashBin){
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="GPSRCmdGen.Category"/> class.
+		/// </summary>
+		/// <param name="name">The name of the category.</param>
+		/// <param name="defaultLocation">The default placement location for objects in the category.</param>
 		public Category(string name, Location defaultLocation){
 			this.Name = name;
 			this.defaultLocation = defaultLocation;
@@ -21,9 +46,20 @@ namespace GPSRCmdGen
 			this.objects = new List<GPSRObject> ();
 		}
 
+		#endregion
+
+		#region Properties
+
+		/// <summary>
+		/// Gets the name of the Category
+		/// </summary>
 		[XmlAttribute("name")]
 		public string Name{get;set;}
 
+		/// <summary>
+		/// Gets or sets the name of the default location for objects in the category
+		/// </summary>
+		/// <remarks>Use for (de)serialization purposes only</remarks>
 		[XmlAttribute("defaultLocation")]
 		public string LocationString {
 			get {
@@ -36,6 +72,9 @@ namespace GPSRCmdGen
 			}
 		}
 
+		/// <summary>
+		/// Gets or sets the default location for objects in the category
+		/// </summary>
 		[XmlIgnore]
 		public Location DefaultLocation {
 			get{ return this.defaultLocation;}
@@ -46,8 +85,10 @@ namespace GPSRCmdGen
 			}
 		}
 
-		//[XmlArray("objects")]
-		//[XmlArrayItem("object")]
+		/// <summary>
+		/// Gets or sets the list of objects in the category.
+		/// </summary>
+		/// <remarks>Use for (de)serialization purposes only</remarks>
 		[XmlElement("object")]
 		public List<GPSRObject> Objects
 		{
@@ -59,6 +100,14 @@ namespace GPSRCmdGen
 			}
 		}
 
+		#endregion
+
+		#region Methods
+
+		/// <summary>
+		/// Adds an object to the category
+		/// </summary>
+		/// <param name="item">The ibject to add to the category</param>
 		public void AddObject(GPSRObject item){
 			if (this.Objects.Contains (item))
 				return;
@@ -66,7 +115,16 @@ namespace GPSRCmdGen
 			this.Objects.Add (item);
 		}
 		
-
+		/// <summary>
+		/// Adds an object to the category
+		/// </summary>
+		/// <param name="name">The name of the object to add.</param>
+		/// <param name="type">The type of the object to add.</param>
+		/// <remarks>Object difficulty degree is set automatically
+		/// based on type as follows:
+		/// Alike -> Moderate /
+		/// Known -> Easy
+		/// Unknown -> Unknown</remarks>
 		public void AddObject(string name, GPSRObjectType type){
 			DifficultyDegree tier;
 			switch (type) {
@@ -86,15 +144,27 @@ namespace GPSRCmdGen
 			AddObject (name, type, tier);
 		}
 
+		/// <summary>
+		/// Adds an object to the category
+		/// </summary>
+		/// <param name="name">The name of the object to add.</param>
+		/// <param name="type">The type of the object to add.</param>
+		/// <param name="type">The difficulty degree of the object to add.</param>
 		public void AddObject(string name, GPSRObjectType type, DifficultyDegree tier){
 			GPSRObject o = new GPSRObject (name, type, tier);
 			this.AddObject (o);
 		}
 
+		/// <summary>
+		/// Returns a <see cref="System.String"/> that represents the current <see cref="GPSRCmdGen.Category"/>.
+		/// </summary>
+		/// <returns>A <see cref="System.String"/> that represents the current <see cref="GPSRCmdGen.Category"/>.</returns>
 		public override string ToString ()
 		{
 			return string.Format ("{0} [{2} Objects | {1} ]", Name, DefaultLocation.Name, Objects.Count);
 		}
+
+		#endregion
 	}
 }
 

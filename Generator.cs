@@ -31,7 +31,7 @@ namespace GPSRCmdGen
 		/// <summary>
 		/// Stores all known names
 		/// </summary>
-		private List<Name> allNames;
+		private List<PersonName> allNames;
 		/// <summary>
 		/// Stores all known objects
 		/// </summary>
@@ -58,7 +58,7 @@ namespace GPSRCmdGen
 			this.rnd = new Random (DateTime.Now.Millisecond);
 			this.allGestures = new List<Gesture> ();
 			this.allLocations = new List<Location> ();
-			this.allNames = new List<Name> ();
+			this.allNames = new List<PersonName> ();
 			this.allObjects = new GPSRObjectManager ();
 			this.allGrammars = new List<Grammar> ();
 			this.allQuestions = new List<PredefindedQuestion>();
@@ -82,7 +82,7 @@ namespace GPSRCmdGen
 		/// <summary>
 		/// Gets the list that stores all known names
 		/// </summary>
-		internal List<Name> AllNames{ get { return this.allNames; } }
+		internal List<PersonName> AllNames{ get { return this.allNames; } }
 
 		/// <summary>
 		/// Stores all known objects

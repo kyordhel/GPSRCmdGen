@@ -21,10 +21,18 @@
 *	{wildcard [type] [id]}
 * The following wildcards are defined.
 *	{category}	An object category.
+*				Types are ignored.
 *	{gesture}	A gesture name.
-*	{location}	Any location.	Types may be [room|placement]
-*	{name}		A person name.	Types may be [male|female]
-*	{object}	An object name.	Types may be [known|alike]
+*				Types are ignored.
+*	{location}	Any location.
+*				Types may be [room|placement]
+*	{name}		A person name.
+*				Types may be [male|female]
+*	{object}	An object name.
+*				Types may be [known|alike]
+*	{question}	The "question" literal string.
+*				Types are ignored. Metadata contains a question/answer
+*				from the predefined questions set.
 * Also, the following alias are defined
 *	{aobject}	Alias for {object alike}
 *	{female}	Alias for {name female}
