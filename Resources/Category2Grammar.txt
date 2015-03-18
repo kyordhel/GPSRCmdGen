@@ -42,8 +42,8 @@ $complex	= ($findprsat | $fndclprsat) and ($talk | $follow)
 # 
 ##############################################################################
 $findprs	= $vbfind a person
-$findprsat	= $vbfind a person in the {room 1}
-$fndclprsat	= $vbfind the calling person in the {room 1}
+$findprsat	= $vbfind a person in the {room 1 meta:At least 3 people here}
+$fndclprsat	= $vbfind the calling person in the {room 1 }
 
 ##############################################################################
 #

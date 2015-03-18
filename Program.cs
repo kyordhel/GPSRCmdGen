@@ -91,13 +91,12 @@ namespace GPSRCmdGen
 		/// <param name="task">The task object containing metadata to print.</param>
 		private void PrintTaskMetadata(Task task)
 		{
+			Console.WriteLine();
 			foreach (Token token in task.Tokens)
 			{
-				IMetadatable im = token.Value as IMetadatable;
-				if (im == null) continue;
-				Console.WriteLine();
-				Console.WriteLine("{0}", im.Name);
-				foreach(string md in im.Metadata)
+				if (token.Metadata.Length < 1) continue;
+				Console.WriteLine("{0}", token.Name);
+				foreach(string md in token.Metadata)
 					Console.WriteLine("\t{0}", md);
 			}
 		}

@@ -44,7 +44,6 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Category.cs" />
     <Compile Include="GPSRObject.cs" />
-    <Compile Include="Name.cs" />
     <Compile Include="Task.cs" />
     <Compile Include="DifficultyDegree.cs" />
     <Compile Include="Generator.cs" />
@@ -66,6 +65,8 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="PersonName.cs" />
+    <Compile Include="HiddenTaskElement.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Category2Grammar.txt" />

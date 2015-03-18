@@ -4,34 +4,56 @@ using System.Text;
 
 namespace GPSRCmdGen
 {
+	/// <summary>
+	/// Represents a task randomly generated from a grammar.
+	/// The task is composed by list of tokens (original strings or
+	/// wildcards with their replacements and metadata).
+	/// </summary>
 	public class Task
 	{
+		/// <summary>
+		/// Stores the list of grammar's tokens
+		/// </summary>
 		private List<Token> tokens;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="GPSRCmdGen.Task"/> class.
+		/// </summary>
 		public Task (){
 			this.tokens = new List<Token>();
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="GPSRCmdGen.Task"/> class.
+		/// </summary>
+		/// <param name="tokens">The list of tokens to be used to build the task</param>
 		public Task (List<Token> tokens)
 		{
 			if(tokens == null)return;
 			this.tokens = new List<Token>(tokens);
 		}
 
+		/// <summary>
+		/// Gets the list of tokens that compose the task.
+		/// </summary>
 		public List<Token> Tokens
 		{
 			get { return this.tokens; }
 			internal set { this.tokens = value; }
 		}
 
+		/// <summary>
+		/// Returns a <see cref="System.String"/> that represents the current <see cref="GPSRCmdGen.Task"/>.
+		/// </summary>
+		/// <returns>A <see cref="System.String"/> that represents the current <see cref="GPSRCmdGen.Task"/>.</returns>
 		public override string ToString()
 		{
 			StringBuilder sb = new StringBuilder();
 			if(tokens.Count > 0)
-			sb.Append(tokens[0].StringValue);
+			sb.Append(tokens[0].Name);
 			for (int i = 1; i < tokens.Count; ++i)
 			{
-				sb.Append(tokens[i].StringValue);
+				sb.Append(tokens[i].Name);
 			}
 			return sb.ToString();
 		}

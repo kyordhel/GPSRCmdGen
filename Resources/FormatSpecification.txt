@@ -18,7 +18,13 @@
 * generation, replacing them by random values. The same random value may be
 * specified for a set of wildcards by specifying an ID. Also, the type may
 * be optionally specified. Syntax is as follows:
-*	{wildcard [type] [id]}
+*
+*	{wildcard [type] [id] [meta:[metadata]]}
+*
+* When the "meta:" literal string is found within a wildcard, all text
+* following it is addressed as metadata. While etadata is not part of the 
+* generated sentence, it can be used to display additional information.
+*
 * The following wildcards are defined.
 *	{category}	An object category.
 *				Types are ignored.
@@ -33,6 +39,9 @@
 *	{question}	The "question" literal string.
 *				Types are ignored. Metadata contains a question/answer
 *				from the predefined questions set.
+*	{void}		Void construct used to inject metadata.
+*
+*				Types are ignored.
 * Also, the following alias are defined
 *	{aobject}	Alias for {object alike}
 *	{female}	Alias for {name female}
