@@ -36,12 +36,11 @@ namespace GPSRCmdGen
 			int bcc = cc++;
 			while (cc < s.Length) {
 				c = s [cc];
-				if (((c >= '0') && (cc <= '9')) || ((c >= 'A') && (cc <= 'Z')) || ((c >= 'a') && (c <= 'z')) || (c == '_') )
+				if (((c >= '0') && (c <= '9')) || ((c >= 'A') && (c <= 'Z')) || ((c >= 'a') && (c <= 'z')) || (c == '_') )
 					++cc;
 				else
 					break;
 			}
-			string nonTerminal = s.Substring (bcc, cc - bcc);
 			return s.Substring (bcc, cc - bcc);
 		}
 
@@ -96,9 +95,6 @@ namespace GPSRCmdGen
 				nonTerminal = FetchNonTerminal (sentence, ref cc);
 				replacement = FindReplacement (nonTerminal, rnd);
 				replacement = SolveNonTerminals (replacement, rnd, stackCounter);
-				if (replacement.Length < 1)
-					Console.WriteLine ();
-				string old = sentence.Substring (0, bcc) + replacement + sentence.Substring (cc);
 				sentence = sentence.Substring (0, bcc) + replacement + sentence.Substring (cc);
 				cc = bcc + replacement.Length;
 			}

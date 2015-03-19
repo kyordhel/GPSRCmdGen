@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace GPSRCmdGen
 {
@@ -92,12 +93,44 @@ namespace GPSRCmdGen
 		private void PrintTaskMetadata(Task task)
 		{
 			Console.WriteLine();
+			List<string> remarks = new List<string>();
+			// Print named metadata
 			foreach (Token token in task.Tokens)
+				PrintMetadata(token, remarks);
+			PrintRemarks(remarks);
+		}
+
+		/// <summary>
+		/// Prints the metadata of the given Token
+		/// </summary>
+		/// <param name="token">The token onject containing the metadata to print</param>
+		/// <param name="remarks">A list to store all metadata whose token has no name</param>
+		private void PrintMetadata(Token token, List<string> remarks)
+		{
+			if (token.Metadata.Length < 1) return;
+			// Store remarks for later
+			if (String.IsNullOrEmpty(token.Name))
 			{
-				if (token.Metadata.Length < 1) continue;
-				Console.WriteLine("{0}", token.Name);
-				foreach(string md in token.Metadata)
-					Console.WriteLine("\t{0}", md);
+				remarks.AddRange(token.Metadata);
+				return;
+			}
+			// Print current token metadata
+			Console.WriteLine("{0}", token.Name);
+			foreach (string md in token.Metadata)
+				Console.WriteLine("\t{0}", md);
+		}
+
+		/// <summary>
+		/// Prints remaining metadata stored in the remarks list
+		/// </summary>
+		/// <param name="remarks">List of remarks strings</param>
+		private static void PrintRemarks(List<string> remarks)
+		{
+			if (remarks.Count > 0)
+			{
+				Console.WriteLine("remarks");
+				foreach (string r in remarks)
+					Console.WriteLine("\t{0}", r);
 			}
 		}
 

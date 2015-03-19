@@ -25,7 +25,6 @@ $target		= the {placement 2}
 # 
 ##############################################################################
 $complex	= $goroom and $findobj
-
 $findobj	= $vbfind the {aobject}
 
 ##############################################################################
@@ -42,8 +41,9 @@ $complex	= ($findprsat | $fndclprsat) and ($talk | $follow)
 # 
 ##############################################################################
 $findprs	= $vbfind a person
-$findprsat	= $vbfind a person in the {room 1 meta:At least 3 people here}
-$fndclprsat	= $vbfind the calling person in the {room 1 }
+$findprsat	= $vbfind a person in the $partyroom
+$fndclprsat	= $vbfind the calling person in the $partyroom
+$partyroom  = {room 1 meta: This room should have least 3 people in it}
 
 ##############################################################################
 #
@@ -76,7 +76,6 @@ $date		= what day is $day
 $date		= tell the day of the (month | week)
 $day		= today | tomorrow
 
-
 ##############################################################################
 #
 # Verbs
@@ -84,7 +83,7 @@ $day		= today | tomorrow
 ##############################################################################
 $vbdeliver	= bring | carry | deliver | take
 $vbfind		= find | look for
-$vbfollow	= follow
+$vbfollow	= follow{void meta:A person must step between robot and human}
 $vbgoto		= go to | navigate to | reach | get into
 $vbtake		= take | grasp | get
 $vbspeak	= tell | say | speak
