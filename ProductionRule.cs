@@ -6,27 +6,63 @@ using System.Text.RegularExpressions;
 
 namespace GPSRCmdGen
 {
+	/// <summary>
+	/// Represents a production rule of a grammar
+	/// </summary>
 	public class ProductionRule
 	{
+		#region Variables
+
+		/// <summary>
+		/// Stores the non terminal symbol
+		/// </summary>
 		protected string nonTerminal;
+
+		/// <summary>
+		/// Stores the list of productions or replacements for the non terminal symbol
+		/// </summary>
 		protected List<string> replacements;
+
+		/// <summary>
+		/// Regular expression for Rule extraction
+		/// </summary>
 		private static Regex rxRuleParser;
 
+		#endregion
+
+		#region Constructors
+
+		/// <summary>
+		/// Initializes the <see cref="GPSRCmdGen.ProductionRule"/> class.
+		/// </summary>
 		static ProductionRule()
 		{
 			rxRuleParser = new Regex (@"\s*(?<name>\$[0-9A-Za-z_]+)\s*=\s*(?<prod>.+)", RegexOptions.Compiled);
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="GPSRCmdGen.ProductionRule"/> class.
+		/// </summary>
+		/// <param name="nonTerminal">The non-terminal symbol of the production rule.</param>
 		protected ProductionRule (string nonTerminal){
 			this.nonTerminal = nonTerminal;
 			this.replacements = new List<string> ();
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="GPSRCmdGen.ProductionRule"/> class.
+		/// </summary>
+		/// <param name="nonTerminal">The non-terminal symbol of the production rule.</param>
+		/// <param name="replacements">A set of replacements or productions for the non-terminal symbol.</param>
 		public ProductionRule (string nonTerminal, IEnumerable<string> replacements) : this(nonTerminal)
 		{
 			if (replacements != null)
 				this.replacements.AddRange (replacements);
 		}
+
+		#endregion
+
+		#region Properties
 
 		/// <summary>
 		/// Gets the left side of the production rule (Non-Terminal symbol).
@@ -38,6 +74,14 @@ namespace GPSRCmdGen
 		/// </summary>
 		public List<string> Replacements{ get { return this.replacements; } }
 
+		#endregion
+
+		#region Methods
+
+		/// <summary>
+		/// Adds all the replacements in a homonime production rule to this instance
+		/// </summary>
+		/// <param name="pr">The production rule whose replacements will be added</param>
 		public void AddReplacements (ProductionRule pr)
 		{
 			if (pr.NonTerminal != this.NonTerminal)
@@ -49,6 +93,10 @@ namespace GPSRCmdGen
 			}
 		}
 
+		/// <summary>
+		/// Returns a <see cref="System.String"/> that represents the current <see cref="GPSRCmdGen.ProductionRule"/>.
+		/// </summary>
+		/// <returns>A <see cref="System.String"/> that represents the current <see cref="GPSRCmdGen.ProductionRule"/>.</returns>
 		public override string ToString ()
 		{
 			if (this.replacements.Count == 0)
@@ -69,6 +117,10 @@ namespace GPSRCmdGen
 			sb.Append (')');
 			return sb.ToString ();
 		}
+
+		#endregion
+
+		#region Static Methods
 
 		/// <summary>
 		/// Creates a ProductionRule object from a string
@@ -105,6 +157,12 @@ namespace GPSRCmdGen
 				s = sb.ToString ();
 		}
 
+		/// <summary>
+		/// Splits a compose production rule (one with parentheses and OR symbols)
+		/// into a list of single production rules
+		/// </summary>
+		/// <param name="s">The original production rule</param>
+		/// <param name="productions">A list to store the derived poduction rules</param>
 		public static void SplitProductions (string s, List<string> productions)
 		{
 			int cc = 0;
@@ -133,6 +191,13 @@ namespace GPSRCmdGen
 			productions.Add (prod);
 		}
 
+		/// <summary>
+		/// Gets a value indicating if the provided string is an expandable production.
+		/// An expandable production is a rule which can be split into two or more
+		/// new production tules
+		/// </summary>
+		/// <param name="replacement">The replacement (right part) string of a production rule</param>
+		/// <returns><c>true</c> if the provided string is an expandable production; otherwise, <c>false</c>.</returns>
 		internal static bool IsExpandable (string replacement)
 		{
 			return replacement.IndexOf ('(') != -1;
@@ -155,6 +220,8 @@ namespace GPSRCmdGen
 			--cc;
 			return par == 0;
 		}
+
+		#endregion
 	}
 }
 

@@ -58,6 +58,19 @@ namespace GPSRCmdGen
 			return sb.ToString();
 		}
 
+		
+		/*
+			 * 
+Go to the bedroom, find a person and tell the time.
+Navigate to the kitchen, find a person and follow her.
+Attend to the dinner-table, grasp the crackers, and take them to the side-table.
+Go to the shelf, count the drinks and report to me.
+Take this object and bring it to Susan at the hall.
+Bring a coke to the person in the living room and answer him a question.
+Offer a drink to the person at the door (robot needs to solve which drink will be delivered).
+
+			*/
+
 			/// 	answering,
 			/// 	counting,
 			/// 	finding,

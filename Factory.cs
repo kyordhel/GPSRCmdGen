@@ -3,23 +3,15 @@ using System.Collections.Generic;
 
 namespace GPSRCmdGen
 {
-
-
+	/// <summary>
+	/// Helper class that produces lists and containers with predefined example data
+	/// </summary>
 	public static class Factory
 	{
-
-		/*
-			 * 
-Go to the bedroom, find a person and tell the time.
-Navigate to the kitchen, find a person and follow her.
-Attend to the dinner-table, grasp the crackers, and take them to the side-table.
-Go to the shelf, count the drinks and report to me.
-Take this object and bring it to Susan at the hall.
-Bring a coke to the person in the living room and answer him a question.
-Offer a drink to the person at the door (robot needs to solve which drink will be delivered).
-
-			*/
-
+		/// <summary>
+		/// Gets a list with predefined gestures.
+		/// </summary>
+		/// <returns>A list with predefined gestures.</returns>
 		public static List<Gesture> GetDefaultGestures ()
 		{
 			List<Gesture> gestures = new List<Gesture> ();
@@ -31,6 +23,10 @@ Offer a drink to the person at the door (robot needs to solve which drink will b
 			return gestures;
 		}
 
+		/// <summary>
+		/// Gets a list with predefined locations.
+		/// </summary>
+		/// <returns>A list with predefined locations.</returns>
 		public static List<Location> GetDefaultLocations ()
 		{
 			List<Location> locations = new List<Location>();
@@ -43,6 +39,10 @@ Offer a drink to the person at the door (robot needs to solve which drink will b
 			return locations;
 		}
 
+		/// <summary>
+		/// Gets a list with predefined names.
+		/// </summary>
+		/// <returns>A list with predefined names.</returns>
 		public static List<PersonName> GetDefaultNames ()
 		{
 			List<PersonName> names = new List<PersonName> ();
@@ -81,6 +81,10 @@ Offer a drink to the person at the door (robot needs to solve which drink will b
 			return names;
 		}
 
+		/// <summary>
+		/// Gets a GPSRObjectManager which contains example GPSRObjects grouped by category.
+		/// </summary>
+		/// <returns>A GPSRObjectManager with default objects.</returns>
 		public static GPSRObjectManager GetDefaultObjects ()
 		{
 			GPSRObjectManager man = new GPSRObjectManager ();
@@ -122,6 +126,10 @@ Offer a drink to the person at the door (robot needs to solve which drink will b
 
 		}
 
+		/// <summary>
+		/// Gets a list with predefined questions.
+		/// </summary>
+		/// <returns>A list with predefined questions.</returns>
 		internal static List<PredefindedQuestion> GetDefaultQuestions()
 		{
 			List<PredefindedQuestion> q = new List<PredefindedQuestion>();

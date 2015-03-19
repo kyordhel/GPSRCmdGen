@@ -5,6 +5,10 @@ using System.Text.RegularExpressions;
 
 namespace GPSRCmdGen
 {
+	/// <summary>
+	/// Replaces wildcards in a task prototype string
+	/// with random values from data stored in a generator.
+	/// </summary>
 	public class WildcardReplacer
 	{
 		#region Variables
