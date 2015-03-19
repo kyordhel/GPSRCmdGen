@@ -208,6 +208,10 @@ namespace GPSRCmdGen
 
 		#region Load Methods
 
+		/// <summary>
+		/// Loads the set of gestures from disk. If no gestures file is found, 
+		/// the default set is loaded from Factory
+		/// </summary>
 		public void LoadGestures ()
 		{
 			try {
@@ -219,6 +223,10 @@ namespace GPSRCmdGen
 			}
 		}
 
+		/// <summary>
+		/// Loads the grammars from disk. If no grammars are found, the application is
+		/// terminated.
+		/// </summary>
 		public void LoadGrammars ()
 		{
 			try {
@@ -231,6 +239,10 @@ namespace GPSRCmdGen
 			}
 		}
 
+		/// <summary>
+		/// Loads the set of locations from disk. If no locations file is found, 
+		/// the default set is loaded from Factory
+		/// </summary>
 		public void LoadLocations ()
 		{
 			try {
@@ -242,6 +254,10 @@ namespace GPSRCmdGen
 			}
 		}
 
+		/// <summary>
+		/// Loads the set of names from disk. If no names file is found, 
+		/// the default set is loaded from Factory
+		/// </summary>
 		public void LoadNames ()
 		{
 			try {
@@ -253,6 +269,10 @@ namespace GPSRCmdGen
 			}
 		}
 
+		/// <summary>
+		/// Loads the set of objects and categories from disk. If no objects file is found, 
+		/// the default set is loaded from Factory
+		/// </summary>
 		public void LoadObjects ()
 		{
 			try {
@@ -264,6 +284,10 @@ namespace GPSRCmdGen
 			}
 		}
 
+		/// <summary>
+		/// Loads the set of questions from disk. If no questions file is found, 
+		/// the default set is loaded from Factory
+		/// </summary>
 		public void LoadQuestions()
 		{
 			try

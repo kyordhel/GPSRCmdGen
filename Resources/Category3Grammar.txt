@@ -1,2 +1,88 @@
 ﻿; grammar name Category III
 ; grammar tier High
+
+$Main		= $complex
+
+##############################################################################
+#
+# Complex Command: Get an object and deliver it
+# 
+##############################################################################
+$complex	= $getobj and $deliver
+
+$getobj		= $vbtake the {aobject} from the {placement 1}
+
+$deliver	= $vbdeliver it to $target
+$target		= me
+$target		= {name} (at | in | which is in) the {room}
+$target		= the {placement 2}
+
+
+##############################################################################
+#
+# Complex Command: Go to room and search for an object
+# 
+##############################################################################
+$complex	= $goroom and $findobj
+$findobj	= $vbfind the {aobject}
+
+##############################################################################
+#
+# Complex Command: Find a person and describe her
+# 
+##############################################################################
+$complex	= $goroom, $findprs and $describe
+$complex	= ($findprsat | $fndclprsat) and $describe
+
+##############################################################################
+#
+# Simple Command: Find a person
+# 
+##############################################################################
+$findprs	= $vbfind a person
+$findprsat	= $vbfind a person in the $partyroom
+$fndclprsat	= $vbfind the calling person in the $partyroom
+$partyroom  = {room 1 meta: This room should have only 1 pereson in it}
+
+##############################################################################
+#
+# Simple Command: Follow a person
+# 
+##############################################################################
+$follow	= $vbfollow her
+$follow	= $vbfollow her to the {room 2}
+
+##############################################################################
+#
+# Simple Command: Go to room
+# 
+##############################################################################
+$goroom		= $vbgoto the {room 1}
+
+##############################################################################
+#
+# Simple Command: Talk to person
+# 
+##############################################################################
+$talk		= $tell | answer a {question}
+$tell		= $vbspeak ($time | $date | $name)
+$name		= your name
+$name		= the name of your team
+$time		= the time
+$time		= what time is it
+$date		= tell the date
+$date		= what day is $day
+$date		= tell the day of the (month | week)
+$day		= today | tomorrow
+
+##############################################################################
+#
+# Verbs
+# 
+##############################################################################
+$vbdeliver	= bring | carry | deliver | take
+$vbfind		= find | look for
+$vbfollow	= follow{void meta:A person must step between robot and human}
+$vbgoto		= go to | navigate to | reach | get into
+$vbtake		= take | grasp | get
+$vbspeak	= tell | say | speak

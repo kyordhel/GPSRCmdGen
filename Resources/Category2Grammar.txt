@@ -3,7 +3,6 @@
 
 $Main		= $complex
 
-
 ##############################################################################
 #
 # Complex Command: Get an object and deliver it
@@ -43,7 +42,7 @@ $complex	= ($findprsat | $fndclprsat) and ($talk | $follow)
 $findprs	= $vbfind a person
 $findprsat	= $vbfind a person in the $partyroom
 $fndclprsat	= $vbfind the calling person in the $partyroom
-$partyroom  = {room 1 meta: This room should have least 3 people in it}
+$partyroom  = {room 1 meta: This room should have at least 3 people in it}
 
 ##############################################################################
 #
