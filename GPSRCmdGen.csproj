@@ -44,6 +44,7 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Category.cs" />
     <Compile Include="GPSRObject.cs" />
+    <Compile Include="Scanner.cs" />
     <Compile Include="Task.cs" />
     <Compile Include="DifficultyDegree.cs" />
     <Compile Include="Generator.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="ExampleFilesGenerator.cs" />
     <Compile Include="ITiered.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Wildcard.cs" />
     <Compile Include="WildcardReplacer.cs" />
     <Compile Include="Token.cs" />
     <Compile Include="INameable.cs" />
@@ -75,6 +77,8 @@
     <Content Include="Resources\FormatSpecification.txt" />
     <Content Include="Resources\GrammarHeader.txt" />
     <Content Include="Resources\Category1Grammar.txt" />
+    <Content Include="Resources\IncompleteCommandsGrammar.txt" />
+    <Content Include="Resources\IncongruentCommandsGrammar.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

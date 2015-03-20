@@ -17,7 +17,6 @@ $target		= me
 $target		= {name} (at | in | which is in) the {room}
 $target		= the {placement 2}
 
-
 ##############################################################################
 #
 # Complex Command: Go to room and search for an object

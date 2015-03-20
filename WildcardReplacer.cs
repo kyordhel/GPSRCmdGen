@@ -19,16 +19,6 @@ namespace GPSRCmdGen
 		private readonly Generator generator;
 
 		/// <summary>
-		/// Represents the Evaluator(Match) method
-		/// </summary>
-		private readonly MatchEvaluator dlgEvaluator;
-
-		/// <summary>
-		/// Regular expression for extracting wildcards
-		/// </summary>
-		private static readonly Regex rxWildcard;
-
-		/// <summary>
 		/// The maximum difficulty degree to be used during the replacement
 		/// </summary>
 		private DifficultyDegree tier;
@@ -105,7 +95,6 @@ namespace GPSRCmdGen
 		public WildcardReplacer(Generator g, DifficultyDegree tier){
 			this.generator = g;
 			this.tier = tier;
-			this.dlgEvaluator = new MatchEvaluator (Evaluator);
 			this.categories = new Dictionary<string, Category> (); 
 			this.gestures = new Dictionary<string, Gesture> ();
 			this.locations = new Dictionary<string, Location> ();
@@ -113,16 +102,6 @@ namespace GPSRCmdGen
 			this.objects = new Dictionary<string, GPSRObject> ();
 			this.questions = new Dictionary<string, PredefindedQuestion>();
 			FillAvailabilityLists ();
-		}
-
-		/// <summary>
-		/// Initializes the <see cref="GPSRCmdGen.WildcardReplacer"/> class.
-		/// </summary>
-		static WildcardReplacer ()
-		{
-			rxWildcard = new Regex (
-				@"\{\s*(?<name>[a-z]+)(\s+(?<type>[a-z]+))?(\s+(?<id>\d+))?(\s+meta\s*\:\s*(?<meta>[^\}]+))?\s*\}",
-				RegexOptions.Compiled | RegexOptions.IgnoreCase);
 		}
 
 		#endregion
@@ -133,12 +112,12 @@ namespace GPSRCmdGen
 		/// Evaluates a <c>category</c> wildcard, creating a new replacement if the wildcard
 		/// has not been defined before, or retrieving the replacement otherwise. 
 		/// </summary>
-		/// <param name="m">Regular expression match object containing capture groups</param>
+		/// <param name="w">The wilcard to find a replacement for</param>
 		/// <returns>An appropiate replacement for the wildcard.</returns>
-		private INameable EvaluateCategory (Match m)
+		private INameable EvaluateCategory (Wildcard w)
 		{
-			string keycode = m.Result ("${name}").ToLower ();
-			string key = keycode + m.Result("${id}");
+			string keycode = w.Name.ToLower ();
+			string key = keycode + w.Id;
 			if(this.categories.ContainsKey(key))
 				return this.categories[key];
 			Category cat = GetCategory ();
@@ -150,12 +129,12 @@ namespace GPSRCmdGen
 		/// Evaluates a <c>gesture</c> wildcard, creating a new replacement if the wildcard
 		/// has not been defined before, or retrieving the replacement otherwise. 
 		/// </summary>
-		/// <param name="m">Regular expression match object containing capture groups</param>
+		/// <param name="w">The wilcard to find a replacement for</param>
 		/// <returns>An appropiate replacement for the wildcard.</returns>
-		private INameable EvaluateGesture (Match m)
+		private INameable EvaluateGesture(Wildcard w)
 		{
-			string keycode = m.Result ("${name}").ToLower ();
-			string key = keycode + m.Result("${id}");
+			string keycode = w.Name.ToLower ();
+			string key = keycode + w.Id;
 			if(this.gestures.ContainsKey(key))
 				return this.gestures[key];
 			Gesture ges = GetGesture ();
@@ -167,19 +146,19 @@ namespace GPSRCmdGen
 		/// Evaluates a <c>location</c> wildcard, creating a new replacement if the wildcard
 		/// has not been defined before, or retrieving the replacement otherwise. 
 		/// </summary>
-		/// <param name="m">Regular expression match object containing capture groups</param>
+		/// <param name="w">The wilcard to find a replacement for</param>
 		/// <returns>An appropiate replacement for the wildcard.</returns>
-		private INameable EvaluateLocation (Match m)
+		private INameable EvaluateLocation(Wildcard w)
 		{
-			string keycode = m.Result ("${name}").ToLower ();
+			string keycode = w.Name.ToLower ();
 			if (keycode == "location") {
-				string type = m.Result ("${type}").ToLower ();
+				string type = w.Type.ToLower ();
 				if (type == "room")
 					keycode = "room";
 				else if (type == "placement")
 					keycode = "placement";
 			}
-			string key = keycode + m.Result("${id}");
+			string key = keycode + w.Id;
 			if(this.locations.ContainsKey(key))
 				return this.locations[key];
 			Location loc = GetLocation (keycode);
@@ -191,19 +170,19 @@ namespace GPSRCmdGen
 		/// Evaluates a <c>name</c> wildcard, creating a new replacement if the wildcard
 		/// has not been defined before, or retrieving the replacement otherwise. 
 		/// </summary>
-		/// <param name="m">Regular expression match object containing capture groups</param>
+		/// <param name="w">The wilcard to find a replacement for</param>
 		/// <returns>An appropiate replacement for the wildcard.</returns>
-		private INameable EvaluateName (Match m)
+		private INameable EvaluateName(Wildcard w)
 		{
-			string keycode = m.Result ("${name}").ToLower ();
+			string keycode = w.Name.ToLower ();
 			if (keycode == "name") {
-				string type = m.Result ("${type}").ToLower ();
+				string type = w.Type.ToLower ();
 				if (type == "male")
 					keycode = "male";
 				else if (type == "female")
 					keycode = "female";
 			}
-			string key = keycode + m.Result("${id}");
+			string key = keycode + w.Id;
 			if(this.names.ContainsKey(key))
 				return this.names[key];
 			PersonName nam = GetName (keycode);
@@ -215,19 +194,19 @@ namespace GPSRCmdGen
 		/// Evaluates an <c>object</c> wildcard, creating a new replacement if the wildcard
 		/// has not been defined before, or retrieving the replacement otherwise. 
 		/// </summary>
-		/// <param name="m">Regular expression match object containing capture groups</param>
+		/// <param name="w">The wilcard to find a replacement for</param>
 		/// <returns>An appropiate replacement for the wildcard.</returns>
-		private INameable EvaluateObject (Match m)
+		private INameable EvaluateObject(Wildcard w)
 		{
-			string keycode = m.Result ("${name}").ToLower ();
+			string keycode = w.Name.ToLower ();
 			if (keycode == "object") {
-				string type = m.Result ("${type}").ToLower ();
+				string type = w.Type.ToLower ();
 				if (type == "alike")
 					keycode = "aobject";
 				else if (type == "known")
 					keycode = "kobject";
 			}
-			string key = keycode + m.Result("${id}");
+			string key = keycode + w.Id;
 			if(this.objects.ContainsKey(key))
 				return this.objects[key];
 			GPSRObject obj = GetObject (keycode);
@@ -239,12 +218,12 @@ namespace GPSRCmdGen
 		/// Evaluates a <c>question</c> wildcard, creating a new replacement if the wildcard
 		/// has not been defined before, or retrieving the replacement otherwise. 
 		/// </summary>
-		/// <param name="m">Regular expression match object containing capture groups</param>
+		/// <param name="w">The wilcard to find a replacement for</param>
 		/// <returns>An appropiate replacement for the wildcard.</returns>
-		private INameable EvaluateQuestion(Match m)
+		private INameable EvaluateQuestion(Wildcard w)
 		{
-			string keycode = m.Result("${name}").ToLower();
-			string key = keycode + m.Result("${id}");
+			string keycode = w.Name;
+			string key = keycode + w.Id;
 			if (this.questions.ContainsKey(key))
 				return this.questions[key];
 			PredefindedQuestion qst = GetQuestion();
@@ -255,9 +234,9 @@ namespace GPSRCmdGen
 		/// <summary>
 		/// Evaluates a void wildcard
 		/// </summary>
-		/// <param name="m">Regular expression match object containing capture groups</param>
+		/// <param name="w">The wilcard to find a replacement for</param>
 		/// <returns>An appropiate replacement for the wildcard.</returns>
-		private INameable EvaluateVoid(Match m)
+		private INameable EvaluateVoid(Wildcard w)
 		{
 			return new HiddenTaskElement();
 		}
@@ -424,10 +403,10 @@ namespace GPSRCmdGen
 		/// the start of the literal string</param>
 		/// <param name="m">The regular expression match object that contains the next
 		/// wildcard.</param>
-		private Token TokenizeLeftLiteralString(string taskPrototype, ref int cc, Match m)
+		private Token TokenizeLeftLiteralString(string taskPrototype, ref int cc, Wildcard w)
 		{
-			string ss = taskPrototype.Substring (cc, m.Index - cc);
-			cc = m.Index + m.Value.Length;
+			string ss = taskPrototype.Substring (cc, w.Index - cc);
+			cc = w.Index + w.Value.Length;
 			return String.IsNullOrEmpty (ss) ? null : new Token (ss);
 		}
 
@@ -436,10 +415,12 @@ namespace GPSRCmdGen
 		/// match object into a Token object.
 		/// </summary>
 		/// <param name="m">The regular expression match object that contains the wildcard.</param>
-		private Token TokenizeWildcard(Match m)
+		private Token TokenizeWildcard(Wildcard w)
 		{
-			INameable inam = FindReplacement(m);
-			return new Token(m.Value, inam, FetchMetadata(m));
+			// Get a replacement for the wildcard
+			INameable inam = FindReplacement(w);
+			// Create the token
+			return new Token(w.Value, inam, FetchMetadata(w));
 		}
 
 		#endregion
@@ -453,33 +434,33 @@ namespace GPSRCmdGen
 		/// <param name="m">The regular expression match object to evaluate.</param>
 		/// <returns>An INameable replacement object if an adequate replacement
 		/// could be found or produced, null otherwise.</returns>
-		private INameable FindReplacement(Match m)
+		private INameable FindReplacement(Wildcard w)
 		{
-			if (!m.Success)
+			if (!w.Success)
 				return null;
 
-			switch (m.Result("${name}").ToLower())
+			switch (w.Name)
 			{
 				case "aobject": case "kobject": case "object":
-					return EvaluateObject(m);
+					return EvaluateObject(w);
 
 				case "category":
-					return EvaluateCategory(m);
+					return EvaluateCategory(w);
 
 				case "gesture":
-					return EvaluateGesture(m);
+					return EvaluateGesture(w);
 
 				case "name": case "female": case "male":
-					return EvaluateName(m);
+					return EvaluateName(w);
 
 				case "location": case "placement": case "room":
-					return EvaluateLocation(m);
+					return EvaluateLocation(w);
 
 				case "void":
-					return EvaluateVoid(m);
+					return EvaluateVoid(w);
 
 				case "question":
-					return EvaluateQuestion(m);
+					return EvaluateQuestion(w);
 
 				default:
 					return null;
@@ -489,13 +470,13 @@ namespace GPSRCmdGen
 		/// <summary>
 		/// Evaluates the provided regular expression match object producing
 		/// an replacement string
-		private string Evaluator(Match m)
+		private string Evaluator(Wildcard w)
 		{
-			INameable inam = FindReplacement(m);
+			INameable inam = FindReplacement(w);
 
 			if (inam != null)
 				return inam.Name;
-			return m.Value;
+			return w.Value;
 		}
 
 		/// <summary>
@@ -526,9 +507,10 @@ namespace GPSRCmdGen
 		/// contains the wildcard
 		/// </summary>
 		/// <param name="m">The regular expression match object that contains the wildcard.</param>
-		private string[] FetchMetadata(Match m){
-			string sMeta = m.Result ("${meta}");
+		private string[] FetchMetadata(Wildcard w){
+			string sMeta = w.Metadata;
 			if(String.IsNullOrEmpty(sMeta)) return null;
+			sMeta = ReplaceWildcards(sMeta);
 			return sMeta.Split (new string[]{"\r", "\n", @"\\", @"\\r", @"\\n"}, StringSplitOptions.None);
 		}
 
@@ -543,18 +525,18 @@ namespace GPSRCmdGen
 			int bcc = 0;
 			Token token;
 			// Find all wildcards in the task prototype
-			MatchCollection mc = rxWildcard.Matches (taskPrototype);
+			List<Wildcard> wildcards = FindWildcards(taskPrototype);
 			// Having n wildcards interlaced with literal strings and starting with a
 			// literal string there will be n+1 literal strings. Therefore, the worst
 			// number of tokens will never be greater than 2n+1
 			// Since the list may be reallocated, 2n+2 is used for performance
-			List<Token> tokens = new List<Token>(2 * mc.Count + 2);
-			// For each token found
-			foreach (Match m in mc) {
+			List<Token> tokens = new List<Token>(2 * wildcards.Count + 2);
+			// For each wildcard found
+			foreach (Wildcard w in wildcards) {
 				// Add the string on the left (if any) as a token
-				token = TokenizeLeftLiteralString (taskPrototype, ref bcc, m);
+				token = TokenizeLeftLiteralString (taskPrototype, ref bcc, w);
 				if(token != null) tokens.Add (token);
-				token = TokenizeWildcard(m);
+				token = TokenizeWildcard(w);
 				tokens.Add (token);
 			}
 			// If there is more text to the right, add it as last token
@@ -572,7 +554,30 @@ namespace GPSRCmdGen
 		/// <param name="taskPrototype">The input string</param>
 		public string ReplaceWildcards(string taskPrototype)
 		{
-			return rxWildcard.Replace (taskPrototype, dlgEvaluator);
+			return GetTask(taskPrototype).ToString();
+		}
+
+		#endregion
+
+		#region Static Methods
+
+		public static List<Wildcard> FindWildcards(string s)
+		{
+			int cc = 0;
+			List<Wildcard> wildcards = new List<Wildcard>(100);
+			Wildcard w;
+
+			while (cc < s.Length)
+			{
+				if (s[cc] == '{')
+				{
+					w = Wildcard.XtractWildcard(s, ref cc);
+					if (w == null) continue;
+					wildcards.Add(w);
+				}
+				++cc;
+			}
+			return wildcards;
 		}
 
 		#endregion

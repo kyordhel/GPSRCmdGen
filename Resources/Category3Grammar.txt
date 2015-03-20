@@ -5,26 +5,24 @@ $Main		= $complex
 
 ##############################################################################
 #
-# Complex Command: Get an object and deliver it
+# Complex Command: Get a special object and deliver it
 # 
 ##############################################################################
 $complex	= $getobj and $deliver
 
-$getobj		= $vbtake the {aobject} from the {placement 1}
-
+$getobj		= $vbtake the $spobj in the {placement 1}
 $deliver	= $vbdeliver it to $target
 $target		= me
 $target		= {name} (at | in | which is in) the {room}
 $target		= the {placement 2}
-
+$spobj		= cloth | tray | bowl
 
 ##############################################################################
 #
-# Complex Command: Go to room and search for an object
+# Complex Command: Go to room (impossible)
 # 
 ##############################################################################
-$complex	= $goroom and $findobj
-$findobj	= $vbfind the {aobject}
+$complex	= $vbgoto the {room 1 meta: Access is blocked on all paths}
 
 ##############################################################################
 #
@@ -32,7 +30,7 @@ $findobj	= $vbfind the {aobject}
 # 
 ##############################################################################
 $complex	= $goroom, $findprs and $describe
-$complex	= ($findprsat | $fndclprsat) and $describe
+$complex	= $findprsat and $describe
 
 ##############################################################################
 #
@@ -40,17 +38,7 @@ $complex	= ($findprsat | $fndclprsat) and $describe
 # 
 ##############################################################################
 $findprs	= $vbfind a person
-$findprsat	= $vbfind a person in the $partyroom
-$fndclprsat	= $vbfind the calling person in the $partyroom
-$partyroom  = {room 1 meta: This room should have only 1 pereson in it}
-
-##############################################################################
-#
-# Simple Command: Follow a person
-# 
-##############################################################################
-$follow	= $vbfollow her
-$follow	= $vbfollow her to the {room 2}
+$findprsat	= $vbfind a person in the {room 1}
 
 ##############################################################################
 #
@@ -61,19 +49,15 @@ $goroom		= $vbgoto the {room 1}
 
 ##############################################################################
 #
-# Simple Command: Talk to person
+# Simple Command:  Describe a person
 # 
 ##############################################################################
-$talk		= $tell | answer a {question}
-$tell		= $vbspeak ($time | $date | $name)
-$name		= your name
-$name		= the name of your team
-$time		= the time
-$time		= what time is it
-$date		= tell the date
-$date		= what day is $day
-$date		= tell the day of the (month | week)
-$day		= today | tomorrow
+$describe	= $vbspeak ($pgender | $pgesture)
+$pgender	= if the person is $pgenderopt
+$pgender	= the (sex | gender) of that person
+$pgenderopt	= (male or female) | (man or woman) | (boy or girl)
+$pgesture	= (what | which) gesture is (doing | performing) that person
+$pgesture	= the gesture of that person
 
 ##############################################################################
 #
@@ -82,7 +66,6 @@ $day		= today | tomorrow
 ##############################################################################
 $vbdeliver	= bring | carry | deliver | take
 $vbfind		= find | look for
-$vbfollow	= follow{void meta:A person must step between robot and human}
 $vbgoto		= go to | navigate to | reach | get into
 $vbtake		= take | grasp | get
 $vbspeak	= tell | say | speak
