@@ -275,23 +275,28 @@ namespace GPSRCmdGen
 		/// </summary>
 		/// <param name="keycode">The specific type of location to fetch<param>
 		/// <returns>A location</returns>
-		private Location GetLocation (string keycode)
+		private Location GetLocation(string keycode)
 		{
 			Location item;
-			switch(keycode){
-			case "room":
-				item = this.avLocations.First(l => l.IsPlacement == false);
-				break;
+			switch (keycode)
+			{
+				case "beacon":
+					item = this.avLocations.First(l => l is Beacon);
+					break;
 
-			case "placement":
-				item = this.avLocations.First(l => l.IsPlacement == true);
-				break;
+				case "room":
+					item = this.avLocations.First(l => l is Room);
+					break;
 
-			default:
-				item = this.avLocations [this.avLocations.Count - 1];
-				break;
+				case "placement":
+					item = this.avLocations.First(l => l is Placement);
+					break;
+
+				default:
+					item = this.avLocations[this.avLocations.Count - 1];
+					break;
 			}
-			this.avLocations.Remove (item);
+			this.avLocations.Remove(item);
 			return item;
 		}
 

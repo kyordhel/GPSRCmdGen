@@ -6,7 +6,8 @@ using System.Xml.Serialization;
 namespace GPSRCmdGen
 {
 	[Serializable, XmlRoot("location")]
-	public class Location : INameable, IComparable<Location>, IEquatable<Location>
+	[XmlInclude(typeof(Room)), XmlInclude(typeof(Placement)), XmlInclude(typeof(Beacon))]
+	public abstract class Location : INameable, IComparable<Location>, IEquatable<Location>
 	{
 		#region Constructors
 
@@ -14,21 +15,15 @@ namespace GPSRCmdGen
 		/// Initializes a new instance of the <see cref="GPSRCmdGen.Location"/> class.
 		/// </summary>
 		/// <remarks>Intended for serialization purposes only</remarks>
-		public Location()
-			: this(String.Empty, false)
-		{
-		}
+		public Location() : this(String.Empty) { }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="GPSRCmdGen.Location"/> class.
 		/// </summary>
 		/// <param name="name">The name of the location.</param>
-		/// <param name="isPlacement">Flag indicating whether the location is
-		/// suitable for placing objects.</param>
-		public Location(string name, bool isPlacement)
+		public Location(string name)
 		{
 			this.Name = name;
-			this.IsPlacement = isPlacement;
 		}
 
 		#endregion
@@ -38,18 +33,14 @@ namespace GPSRCmdGen
 		/// <summary>
 		/// Gets or sets the name of the location
 		/// </summary>
-		/// <value>The name.</value>
 		[XmlAttribute("name")]
 		public string Name { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating whether the location is
+		/// Gets a value indicating whether the location is
 		/// suitable for placing objects.
 		/// </summary>
-		/// <value><c>true</c> if the location is suitable for placing objects;
-		/// otherwise, <c>false</c>.</value>
-		[XmlAttribute("isPlacement"), DefaultValue(false)]
-		public bool IsPlacement { get; set; }
+		public abstract bool IsPlacement { get; }
 
 		public int CompareTo(Location other)
 		{
@@ -101,11 +92,6 @@ namespace GPSRCmdGen
 		#endregion
 
 		#region Static Members
-
-		/// <summary>
-		/// Gets a location called bin which is also placement
-		/// </summary>
-		public static Location TrashBin { get { return new Location("bin", true); } }
 
 		/// <summary>
 		/// Compares two locations for equality based on the values of their names

@@ -38,12 +38,21 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Beacon.cs" />
+    <Compile Include="Containers\CategoryContainer.cs" />
+    <Compile Include="Containers\GestureContainer.cs" />
+    <Compile Include="Containers\NameContainer.cs" />
+    <Compile Include="Containers\QuestionsContainer.cs" />
+    <Compile Include="Containers\RoomContainer.cs" />
     <Compile Include="IMetadatable.cs" />
+    <Compile Include="LocationManager.cs" />
+    <Compile Include="Placement.cs" />
     <Compile Include="PredefindedQuestion.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Category.cs" />
     <Compile Include="GPSRObject.cs" />
+    <Compile Include="Room.cs" />
     <Compile Include="Scanner.cs" />
     <Compile Include="Task.cs" />
     <Compile Include="DifficultyDegree.cs" />

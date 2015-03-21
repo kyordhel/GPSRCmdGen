@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+using GPSRCmdGen.Containers;
 
 namespace GPSRCmdGen
 {
@@ -154,16 +155,31 @@ namespace GPSRCmdGen
 		}
 
 		/// <summary>
+		/// Loads the set of Locations grouped by room from the Locations.xml file.
+		/// </summary>
+		/// <returns>A LocationManager that contains the set of objects and categories</returns>
+		public static LocationManager LoadLocations(string filePath)
+		{
+			RoomContainer container = Load<RoomContainer>(filePath);
+			if (container == null)
+				throw new Exception("No objects found");
+			LocationManager manager = new LocationManager();
+			foreach (Room r in container.Rooms)
+				manager.Add(r);
+			return manager;
+		}
+
+		/// <summary>
 		/// Loads the set of GPSRObjects and Categories from the Objects.xml file.
 		/// </summary>
 		/// <returns>A GPSRObjectManager that contains the set of objects and categories</returns>
 		public static GPSRObjectManager LoadObjects (string filePath)
 		{
-			CategoryContainer categories = Load<CategoryContainer> (filePath);
-			if (categories == null)
+			CategoryContainer container = Load<CategoryContainer> (filePath);
+			if (container == null)
 				throw new Exception ("No objects found");
 			GPSRObjectManager manager = new GPSRObjectManager();
-			foreach (Category c in categories.Categories)
+			foreach (Category c in container.Categories)
 				manager.Add (c);
 			return manager;
 		}

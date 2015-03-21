@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using GPSRCmdGen.Containers;
 
 namespace GPSRCmdGen
 {
@@ -27,7 +28,7 @@ namespace GPSRCmdGen
 		/// <summary>
 		/// Stores all known locations
 		/// </summary>
-		private List<Location> allLocations;
+		private LocationManager allLocations;
 		/// <summary>
 		/// Stores all known names
 		/// </summary>
@@ -57,7 +58,7 @@ namespace GPSRCmdGen
 			// Initialize all objects
 			this.rnd = new Random (DateTime.Now.Millisecond);
 			this.allGestures = new List<Gesture> ();
-			this.allLocations = new List<Location> ();
+			this.allLocations = new LocationManager();
 			this.allNames = new List<PersonName> ();
 			this.allObjects = new GPSRObjectManager ();
 			this.allGrammars = new List<Grammar> ();
@@ -72,7 +73,7 @@ namespace GPSRCmdGen
 		/// <summary>
 		/// Gets the list that stores all known locations
 		/// </summary>
-		internal List<Location> AllLocations { get{return this.allLocations; } }
+		internal LocationManager AllLocations { get{return this.allLocations; } }
 
 		/// <summary>
 		/// Gets the list that stores all known gestures
@@ -246,7 +247,7 @@ namespace GPSRCmdGen
 		public void LoadLocations ()
 		{
 			try {
-			this.allLocations = Loader.Load<LocationContainer> (Loader.GetPath("Locations.xml")).Locations;
+			this.allLocations = Loader.LoadLocations (Loader.GetPath("Locations.xml"));
 				Green("Done!");
 			} catch {
 				this.allLocations = Factory.GetDefaultLocations ();

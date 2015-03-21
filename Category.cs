@@ -16,10 +16,10 @@ namespace GPSRCmdGen
 		/// <summary>
 		/// Stores the default placement default location for objects in the category
 		/// </summary>
-		protected Location defaultLocation;
+		protected Placement defaultLocation;
 
 		/// <summary>
-		/// Stores the default placement default location for objects in the category
+		/// Stores the list of objects in the category
 		/// </summary>
 		protected List<GPSRObject> objects;
 
@@ -31,7 +31,7 @@ namespace GPSRCmdGen
 		/// Initializes a new instance of the <see cref="GPSRCmdGen.Category"/> class.
 		/// </summary>
 		/// <remarks>Intended for serialization purposes</remarks>
-		public Category() : this("Unknown objects", Location.TrashBin){
+		public Category() : this("Unknown objects", Placement.TrashBin){
 		}
 
 		/// <summary>
@@ -39,10 +39,9 @@ namespace GPSRCmdGen
 		/// </summary>
 		/// <param name="name">The name of the category.</param>
 		/// <param name="defaultLocation">The default placement location for objects in the category.</param>
-		public Category(string name, Location defaultLocation){
+		public Category(string name, Placement defaultLocation){
 			this.Name = name;
 			this.defaultLocation = defaultLocation;
-			this.defaultLocation.IsPlacement = true;
 			this.objects = new List<GPSRObject> ();
 		}
 
@@ -68,7 +67,31 @@ namespace GPSRCmdGen
 				return this.defaultLocation.Name;
 			}
 			set {
-				this.defaultLocation = new Location (value, true);
+				if (this.defaultLocation == null)
+					this.defaultLocation = new Placement(value);
+				else
+					this.defaultLocation.Name = value;
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets the name of the default location's room for objects in the category
+		/// </summary>
+		/// <remarks>Use for (de)serialization purposes only</remarks>
+		[XmlAttribute("room")]
+		public string RoomString
+		{
+			get
+			{
+				if (this.defaultLocation == null)
+					return null;
+				return this.defaultLocation.Room.Name;
+			}
+			set
+			{
+				if(this.defaultLocation == null)
+					this.defaultLocation = new Placement("unknown");
+				this.defaultLocation.Room = new Room(value);
 			}
 		}
 
@@ -76,12 +99,10 @@ namespace GPSRCmdGen
 		/// Gets or sets the default location for objects in the category
 		/// </summary>
 		[XmlIgnore]
-		public Location DefaultLocation {
+		public Placement DefaultLocation {
 			get{ return this.defaultLocation;}
 			set {
 				this.defaultLocation = value;
-                if(value != null)
-				    this.defaultLocation.IsPlacement = true;
 			}
 		}
 
