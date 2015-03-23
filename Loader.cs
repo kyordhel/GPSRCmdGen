@@ -163,7 +163,7 @@ namespace GPSRCmdGen
 			RoomContainer container = Load<RoomContainer>(filePath);
 			if (container == null)
 				throw new Exception("No objects found");
-			LocationManager manager = new LocationManager();
+			LocationManager manager = LocationManager.Instance;
 			foreach (Room r in container.Rooms)
 				manager.Add(r);
 			return manager;
@@ -178,7 +178,7 @@ namespace GPSRCmdGen
 			CategoryContainer container = Load<CategoryContainer> (filePath);
 			if (container == null)
 				throw new Exception ("No objects found");
-			GPSRObjectManager manager = new GPSRObjectManager();
+			GPSRObjectManager manager = GPSRObjectManager.Instance;
 			foreach (Category c in container.Categories)
 				manager.Add (c);
 			return manager;

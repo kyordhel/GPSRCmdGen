@@ -17,16 +17,19 @@ namespace GPSRCmdGen
 		/// differences between two of the kind,
 		/// such as two coke cans of the same brand and model).
 		/// </summary>
+		[XmlEnum("known")]
 		Known = 0,
 		/// <summary>
 		/// Some object features are known
 		/// (Irregular with perceptible differences between two of the kind,
 		/// such as two apples or bannanas).
 		/// </summary>
+		[XmlEnum("alike")]
 		Alike = 1,
 		/// <summary>
 		/// No object features are known, thus, it can not be identified
 		/// </summary>
+		[XmlEnum("unknown")]
 		Unknown = -1
 	}
 

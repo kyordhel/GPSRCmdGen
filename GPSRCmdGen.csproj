@@ -38,7 +38,6 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Beacon.cs" />
     <Compile Include="Containers\CategoryContainer.cs" />
     <Compile Include="Containers\GestureContainer.cs" />
     <Compile Include="Containers\NameContainer.cs" />
@@ -46,7 +45,7 @@
     <Compile Include="Containers\RoomContainer.cs" />
     <Compile Include="IMetadatable.cs" />
     <Compile Include="LocationManager.cs" />
-    <Compile Include="Placement.cs" />
+    <Compile Include="SpecificLocation.cs" />
     <Compile Include="PredefindedQuestion.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="AssemblyInfo.cs" />

@@ -1,38 +1,49 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Xml.Serialization;
+using System.Text;
 
 namespace GPSRCmdGen
 {
-	public class GPSRObjectManager : ICollection<Category>, ICollection<GPSRObject>, IEnumerable<Location>
+	public class GPSRObjectManager : IEnumerable<Category>
 	{
-		private List<Category> categories;
-		private List<GPSRObject> objects;
+		private Dictionary<string, Category> categories;
 
-		public GPSRObjectManager ()
+		private GPSRObjectManager ()
 		{
-			this.categories = new List<Category> ();
-			this.objects = new List<GPSRObject> ();
+			this.categories = new Dictionary<string, Category>();
 		}
 
-		Location GetCategoryLocation (Category category)
+		public Location GetCategoryLocation (Category category)
 		{
-			for (int i = 0; i < this.categories.Count; ++i) {
-				if (category.Name == this.categories [i].Name)
-					return this.categories [i].DefaultLocation;
+			if ((category == null) || !this.categories.ContainsKey(category.Name))
+				return null;
+			return this.categories[category.Name].DefaultLocation;
+		}
+
+		internal List<Category> Categories{ get{ return new List<Category>(this.categories.Values);} }
+
+		/// <summary>
+		/// Gets a lists with all the objects in the container. This is an O(n) operation
+		/// </summary>
+		public List<GPSRObject> Objects
+		{
+			get
+			{
+				List<GPSRObject> objects = new List<GPSRObject>(100);
+				foreach (Category c in this.categories.Values)
+				{
+					foreach (GPSRObject o in c.Objects)
+						objects.Add(o);
+				}
+				return objects;
 			}
-			return null;
 		}
 
-		[XmlArray("categories")]
-		[XmlArrayItem("category")]
-		internal List<Category> Categories{
-			get{ return this.categories;}
-		}
-
-		[XmlIgnore]
-		public List<GPSRObject> Objects { get{return this.objects;} }
+		/// <summary>
+		/// Returns the number of GPSRObjects in the collection
+		/// </summary>
+		public int CategoryCount { get { return this.categories.Count; } }
 
 		#region ICollection implementation
 
@@ -40,15 +51,16 @@ namespace GPSRCmdGen
 		{
 			if (item == null)
 				return;
-			if (!this.categories.Contains (item)) {
-				this.categories.Add (item);
+			if (!this.categories.ContainsKey (item.Name)) {
+				this.categories.Add (item.Name, item);
+				return;
 			}
+			Category category = this.categories[item.Name];
 			foreach (GPSRObject o in item.Objects) {
-				if (this.objects.Contains (o))
+				if (category.Contains (o.Name))
 					continue;
-				this.objects.Add (o);
-				// Fix category
 				o.Category = item;
+				category.AddObject (o);
 			}
 		}
 
@@ -58,30 +70,28 @@ namespace GPSRCmdGen
 				return;
 			if (item.Category == null)
 				throw new ArgumentException ("Cannot add objects without a category");
-			if (!this.categories.Contains (item.Category))
-				this.Add (item.Category);
-			else if (!this.objects.Contains (item)) {
-				if (item.Category.DefaultLocation != this.GetCategoryLocation (item.Category))
-					throw new Exception ("Category location mismatch");
-				this.objects.Add (item);
-			}
+			if (!this.categories.ContainsKey(item.Category.Name))
+				this.Add(item.Category);
+			else this.categories[item.Category.Name].AddObject(item);
 		}
 
 		public void Clear ()
 		{
-			this.objects.Clear ();
 			this.categories.Clear ();
 		}
 
 		public bool Contains (Category item)
 		{
-			return this.categories.Contains (item);
+			if (item == null) return false;
+			return this.categories.ContainsKey (item.Name);
 		}
 
 		public bool Contains (Location item)
 		{
-			for (int i = 0; i < this.categories.Count; ++i) {
-				if (item == this.categories [i].DefaultLocation)
+			if (item == null) return false;
+			foreach (Category c in this.categories.Values)
+			{
+				if (c.LocationString == item.Name)
 					return true;
 			}
 			return false;
@@ -89,51 +99,26 @@ namespace GPSRCmdGen
 
 		public bool Contains (GPSRObject item)
 		{
-			return this.objects.Contains (item);
-		}
-
-		public void CopyTo (Category[] array, int arrayIndex)
-		{
-			this.categories.CopyTo (array, arrayIndex);
-		}
-
-		public void CopyTo (GPSRObject[] array, int arrayIndex)
-		{
-			this.objects.CopyTo (array, arrayIndex);
-		}
-
-		public bool Remove (Category item)
-		{
-			if (this.categories.Remove (item)) {
-				foreach (GPSRObject o in item.Objects)
-					this.objects.Remove (o);
-				return true;
+			foreach (Category c in this.categories.Values)
+			{
+				if (c.Contains(item.Name))
+					return true;
 			}
 			return false;
 		}
 
-		public bool Remove (GPSRObject item)
+		public override string ToString()
 		{
-			if (item == null)
-				return false;
-			if (this.objects.Remove (item)) {
-				this.categories.Remove (item.Category);
-				return true;
+			StringBuilder sb = new StringBuilder();
+			foreach (Category c in this.categories.Values){
+				sb.Append(c.Name);
+				sb.Append(" (");
+				sb.Append(c.ObjectCount);
+				sb.Append("), ");
 			}
-			return false;
+			if (sb.Length > 2) sb.Length -= 2;
+			return sb.ToString();
 		}
-
-		public bool Remove (Location item)
-		{
-			throw new ArgumentException ("Locations can not be removed directly from this collection");
-		}
-
-		/// <summary>
-		/// Returns the number of GPSRObjects in the collection
-		/// </summary>
-		public int Count { get { return objects.Count; } }
-
-		public bool IsReadOnly { get { return false; } }
 
 		#endregion
 
@@ -141,8 +126,10 @@ namespace GPSRCmdGen
 
 		IEnumerator<Category> System.Collections.Generic.IEnumerable<Category>.GetEnumerator ()
 		{
-			return this.categories.GetEnumerator ();
+			return this.categories.Values.GetEnumerator ();
 		}
+
+		/*
 
 		IEnumerator<GPSRObject> System.Collections.Generic.IEnumerable<GPSRObject>.GetEnumerator ()
 		{
@@ -156,6 +143,8 @@ namespace GPSRCmdGen
 				l.Add (this.categories [i].DefaultLocation);
 			return l.GetEnumerator ();
 		}
+		
+		*/
 
 		#endregion
 
@@ -163,8 +152,16 @@ namespace GPSRCmdGen
 
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator ()
 		{
-			return this.objects.GetEnumerator ();
+			return this.categories.Values.GetEnumerator ();
 		}
+		#endregion
+
+		#region Singleton
+
+		private static GPSRObjectManager instance;
+		static GPSRObjectManager() { instance = new GPSRObjectManager(); }
+
+		public static GPSRObjectManager Instance { get { return instance; } }
 
 		#endregion
 	}

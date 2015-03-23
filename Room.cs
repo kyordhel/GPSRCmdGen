@@ -9,19 +9,14 @@ namespace GPSRCmdGen
 	/// Represents a room within the house
 	/// </summary>
 	[Serializable, XmlRoot("room")]
-	public class Room : Location, IEquatable<Room>
+	public class Room : Location
 	{
 		#region Variables
 
 		/// <summary>
-		/// Stores the list of beacons in this room
-		/// </summary>
-		protected List<Beacon> beacons;
-
-		/// <summary>
 		/// Stores the list of placements in this room
 		/// </summary>
-		protected List<Placement> placements;
+		protected Dictionary<string, SpecificLocation> locations;
 
 		#endregion
 
@@ -40,8 +35,7 @@ namespace GPSRCmdGen
 		/// <param name="isPlacement">Flag indicating whether the location is
 		/// suitable for placing objects.</param>
 		public Room(string name) : base(name) {
-			this.beacons = new List<Beacon>();
-			this.placements = new List<Placement>();
+			this.locations = new Dictionary<string, SpecificLocation>();
 		}
 
 		#endregion
@@ -49,58 +43,41 @@ namespace GPSRCmdGen
 		#region Properties
 
 		/// <summary>
-		/// Gets or sets the list of beacons in the room.
+		/// Gets a value indicating whether the location is suitable for placing a person.
 		/// </summary>
-		/// <remarks>Use for (de)serialization purposes only</remarks>
-		[XmlElement("beacon")]
-		public List<Beacon> Beacons
-		{
-			get { return this.beacons; }
-			set
-			{
-				if (value == null) return;
-				foreach (Beacon b in value)
-					AddBeacon(b);
-			}
-		}
+		[XmlIgnore]
+		public override bool IsBeacon { get { return false; } set { } }
 
 		/// <summary>
-		/// Gets a value indicating whether the location is
-		/// suitable for placing objects.
+		/// Gets a value indicating whether the location is suitable for placing objects.
 		/// </summary>
-		public override bool IsPlacement { get { return false; } }
+		[XmlIgnore]
+		public override bool IsPlacement { get { return false; } set { } }
 
 		/// <summary>
 		/// Gets or sets the list of placements in the room.
 		/// </summary>
 		/// <remarks>Use for (de)serialization purposes only</remarks>
-		[XmlElement("placement")]
-		public List<Placement> Placements
+		[XmlElement("location")]
+		public SpecificLocation[] Locations
 		{
-			get { return this.placements; }
+			get { return new List<SpecificLocation>(this.locations.Values).ToArray(); }
 			set
 			{
 				if (value == null) return;
-				foreach (Placement p in value)
-					AddPlacement(p);
+				foreach (SpecificLocation location in value)
+					AddLocation(location);
 			}
 		}
+
+		/// <summary>
+		/// Returns the number of locations in the room
+		/// </summary>
+		public int LocationCount { get { return this.locations.Count; } }
 
 		#endregion
 
 		#region Methods
-
-		/// <summary>
-		/// Adds a beacon to the room
-		/// </summary>
-		/// <param name="item">The beacon to add to the room.</param>
-		public void AddBeacon(Beacon item)
-		{
-			if (this.Beacons.Contains(item))
-				return;
-			item.Room = this;
-			this.Beacons.Add(item);
-		}
 
 		/// <summary>
 		/// Adds an beacon to the room
@@ -108,41 +85,101 @@ namespace GPSRCmdGen
 		/// <param name="name">The name of the beacon to add.</param>
 		public void AddBeacon(string name)
 		{
-			Beacon b = new Beacon(name);
-			this.AddBeacon(b);
+			SpecificLocation b = new SpecificLocation(name, false, true);
+			this.AddLocation(b);
 		}
 
 		/// <summary>
-		/// Adds a placement to the room
+		/// Adds a specific location to the room
 		/// </summary>
-		/// <param name="item">The placement to add to the room.</param>
-		public void AddPlacement(Placement item)
+		/// <param name="item">The specific location to add to the room.</param>
+		public void AddLocation(SpecificLocation item)
 		{
-			if (this.Placements.Contains(item))
+			if(item == null)
 				return;
-			item.Room = this;
-			this.Placements.Add(item);
+			if ((item.Room != null) && (item.Room != this))
+				item.Room.RemoveLocation(item);
+			if (this.locations.ContainsKey(item.Name))
+			{
+				this.locations[item.Name].IsBeacon |= item.IsBeacon;
+				this.locations[item.Name].IsPlacement |= item.IsPlacement;
+			}
+			else
+				this.locations.Add(item.Name, item);
+			if (item.Room != this)
+				item.Room = this;
 		}
 
 		/// <summary>
-		/// Adds an beacon to the room
+		/// Adds a specific location to the room
+		/// </summary>
+		/// <param name="name">The name of the location.</param>
+		/// <param name="placement">Indicates whether the location is
+		/// suitable for placing objects.</param>
+		/// <param name="beacon">Indicates whether the location is
+		/// suitable for placing objects.</param>
+		public void AddLocation(string name, bool placement, bool beacon)
+		{
+			AddLocation(new SpecificLocation(name, placement, beacon));
+		}
+
+		/// <summary>
+		/// Adds an placement to the room
 		/// </summary>
 		/// <param name="name">The name of the placement to add.</param>
 		public void AddPlacement(string name)
 		{
-			Placement p = new Placement(name);
-			this.AddPlacement(p);
+			SpecificLocation p = new SpecificLocation(name, true, false);
+			this.AddLocation(p);
 		}
 
 		/// <summary>
-		/// Determines whether the specified <see cref="GPSRCmdGen.Room"/> is equal to the current <see cref="GPSRCmdGen.Room"/> by comparing their names.
+		/// Gets a value indicating if the room contains a location with the given name
 		/// </summary>
-		/// <param name="other">The <see cref="GPSRCmdGen.Location"/> to compare with the current <see cref="GPSRCmdGen.Location"/>.</param>
-		/// <returns><c>true</c> if the specified <see cref="GPSRCmdGen.Room"/> is equal to the current
-		/// <see cref="GPSRCmdGen.Room"/>; otherwise, <c>false</c>.</returns>
-		public bool Equals(Room other)
+		/// <param name="locationName">The name of the room to look for</param>
+		/// <returns>true if the collection contains a room with the given name, false otherwise</returns>
+		public bool Contains(string locationName)
 		{
-			return String.Compare(this.Name, other.Name, true) == 0;
+			return this.locations.ContainsKey(locationName);
+		}
+
+		/// <summary>
+		/// Removes all locations
+		/// </summary>
+		public void Clear()
+		{
+			this.locations.Clear();
+		}
+
+		/// <summary>
+		/// Removes the given location from the room
+		/// </summary>
+		/// <param name="item">The room to remove</param>
+		/// <returns>true if the room was in the collection, false otherwise</returns>
+		private bool RemoveLocation(SpecificLocation item)
+		{
+			if (item == null)
+				return false;
+			return RemoveLocation(item.Name);
+		}
+
+		/// <summary>
+		/// Removes the given location from the room
+		/// </summary>
+		/// <param name="locationName">The name of the room to remove</param>
+		/// <returns>true if the room was in the collection, false otherwise</returns>
+		private bool RemoveLocation(string locationName)
+		{
+			return this.locations.Remove(locationName);
+		}
+
+		/// <summary>
+		/// Returns a <see cref="System.String"/> that represents the current <see cref="GPSRCmdGen.Room"/>.
+		/// </summary>
+		/// <returns>A <see cref="System.String"/> that represents the current <see cref="GPSRCmdGen.Room"/>.</returns>
+		public override string ToString()
+		{
+			return string.Format("{0} ({1} locations)", Name, LocationCount);
 		}
 
 		#endregion

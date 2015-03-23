@@ -58,9 +58,9 @@ namespace GPSRCmdGen
 			// Initialize all objects
 			this.rnd = new Random (DateTime.Now.Millisecond);
 			this.allGestures = new List<Gesture> ();
-			this.allLocations = new LocationManager();
+			this.allLocations = LocationManager.Instance;
 			this.allNames = new List<PersonName> ();
-			this.allObjects = new GPSRObjectManager ();
+			this.allObjects = GPSRObjectManager.Instance;
 			this.allGrammars = new List<Grammar> ();
 			this.allQuestions = new List<PredefindedQuestion>();
 			GenerateSortedDifficultyDegreesArray ();
@@ -250,7 +250,9 @@ namespace GPSRCmdGen
 			this.allLocations = Loader.LoadLocations (Loader.GetPath("Locations.xml"));
 				Green("Done!");
 			} catch {
-				this.allLocations = Factory.GetDefaultLocations ();
+				List<Room> defaultRooms = Factory.GetDefaultLocations ();
+				foreach (Room room in defaultRooms)
+					this.allLocations.Add(room); 
 				Err ("Failed! Default Locations loaded");
 			}
 		}
@@ -280,7 +282,9 @@ namespace GPSRCmdGen
 				this.allObjects = Loader.LoadObjects(Loader.GetPath("Objects.xml"));
 				Green("Done!");
 			} catch {
-				this.allObjects = Factory.GetDefaultObjects ();
+				List<Category> defaultCategories = Factory.GetDefaultObjects();
+				foreach (Category category in defaultCategories)
+					this.allObjects.Add(category);
 				Err ("Failed! Default Objects loaded");
 			}
 		}

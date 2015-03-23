@@ -1,50 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Xml.Serialization;
+using System.Text;
 
 namespace GPSRCmdGen
 {
-	public class LocationManager : ICollection<Room>, ICollection<Beacon>, ICollection<Placement>, IEnumerable<Location>
+	public class LocationManager : IEnumerable<Location> //, ICollection<Room>, ICollection<SpecificLocation>, 
 	{
-		private List<Room> rooms;
-		private List<Beacon> beacons;
-		private List<Placement> placements;
+		private Dictionary<string, Room> rooms;
 
-		public LocationManager()
+		private LocationManager()
 		{
-			this.rooms = new List<Room>();
-			this.beacons = new List<Beacon>();
-			this.placements = new List<Placement>();
+			this.rooms = new Dictionary<string, Room>();
 		}
 
-		public Room GetRoomOfLocation(string locationName)
-		{
-			for (int i = 0; i < this.placements.Count; ++i)
-			{
-				if (locationName == this.placements[i].Name)
-					return this.placements[i].Room;
-			}
-			for (int i = 0; i < this.beacons.Count; ++i)
-			{
-				if (locationName == this.beacons[i].Name)
-					return this.beacons[i].Room;
-			}
-			return null;
-		}
+		internal List<Room> Rooms { get { return new List<Room>(this.rooms.Values); } }
 
-		[XmlArray("rooms")]
-		[XmlArrayItem("room")]
-		internal List<Room> Rooms
-		{
-			get { return this.rooms; }
-		}
-
-		[XmlIgnore]
-		public List<Beacon> Beacons { get { return this.beacons; } }
-
-		[XmlIgnore]
-		public List<Placement> Placements { get { return this.placements; } }
+		/// <summary>
+		/// Returns the number of rooms in the collection
+		/// </summary>
+		public int RoomCount { get { return rooms.Count; } }
 
 		#region ICollection implementation
 
@@ -52,165 +27,101 @@ namespace GPSRCmdGen
 		{
 			if (item == null)
 				return;
-			if (!this.rooms.Contains(item))
+			if (!this.rooms.ContainsKey(item.Name))
 			{
-				this.rooms.Add(item);
+				this.rooms.Add(item.Name, item);
+				return;
 			}
-			foreach (Beacon b in item.Beacons)
+			Room room = this.rooms[item.Name];
+			foreach (SpecificLocation location in item.Locations)
 			{
-				if (this.beacons.Contains(b))
+				if (room.Contains(location.Name))
 					continue;
-				this.beacons.Add(b);
-				// Fix room
-				b.Room = item;
-			}
-			foreach (Placement o in item.Placements)
-			{
-				if (this.placements.Contains(o))
-					continue;
-				this.placements.Add(o);
-				// Fix room
-				o.Room = item;
+				location.Room = room;
+				room.AddLocation(location);
 			}
 		}
 
-		public void Add(Beacon item)
+		public void Add(SpecificLocation item)
 		{
 			if (item == null)
 				return;
 			if (item.Room == null)
-				throw new ArgumentException("Cannot add beacons without a room");
-			if (!this.rooms.Contains(item.Room))
+				throw new ArgumentException("Cannot add locations without a room");
+			if (!this.rooms.ContainsKey(item.Room.Name))
 				this.Add(item.Room);
-			else if (!this.beacons.Contains(item))
-				this.beacons.Add(item);
-		}
-
-		public void Add(Placement item)
-		{
-			if (item == null)
-				return;
-			if (item.Room == null)
-				throw new ArgumentException("Cannot add placements without a room");
-			if (!this.rooms.Contains(item.Room))
-				this.Add(item.Room);
-			else if (!this.placements.Contains(item))
-				this.placements.Add(item);
+			else this.rooms[item.Room.Name].AddLocation(item);
 		}
 
 		public void Clear()
 		{
-			this.placements.Clear();
-			this.beacons.Clear();
+			foreach (Room room in rooms.Values)
+				room.Clear();
 			this.rooms.Clear();
 		}
 
 		public bool Contains(Room item)
 		{
-			return this.rooms.Contains(item);
+			if (item == null) return false;
+			return this.rooms.ContainsKey(item.Name);
 		}
 
-		public bool Contains(Beacon item)
+		public bool Contains(SpecificLocation item)
 		{
-			return this.beacons.Contains(item);
-		}
-
-		public bool Contains(Placement item)
-		{
-			return this.placements.Contains(item);
-		}
-
-		public void CopyTo(Room[] array, int arrayIndex)
-		{
-			this.rooms.CopyTo(array, arrayIndex);
-		}
-
-		public void CopyTo(Beacon[] array, int arrayIndex)
-		{
-			this.beacons.CopyTo(array, arrayIndex);
-		}
-
-		public void CopyTo(Placement[] array, int arrayIndex)
-		{
-			this.placements.CopyTo(array, arrayIndex);
-		}
-
-		public bool Remove(Room item)
-		{
-			if (this.rooms.Remove(item))
+			if (item == null) return false;
+			foreach (Room room in rooms.Values)
 			{
-				foreach (Beacon b in item.Beacons)
-					this.beacons.Remove(b);
-				foreach (Placement p in item.Placements)
-					this.placements.Remove(p);
-				return true;
+				if (room.Contains(item.Name))
+					return true;
 			}
 			return false;
 		}
 
-		public bool Remove(Beacon item)
+		public override string ToString()
 		{
-			if (item == null)
-				return false;
-			if (this.beacons.Remove(item))
+			StringBuilder sb = new StringBuilder();
+			foreach (Room r in this.rooms.Values)
 			{
-				this.rooms.Remove(item.Room);
-				return true;
+				sb.Append(r.Name);
+				sb.Append(" (");
+				sb.Append(r.LocationCount);
+				sb.Append("), ");
 			}
-			return false;
+			if (sb.Length > 2) sb.Length -= 2;
+			return sb.ToString();
 		}
-
-		public bool Remove(Placement item)
-		{
-			if (item == null)
-				return false;
-			if (this.placements.Remove(item))
-			{
-				this.rooms.Remove(item.Room);
-				return true;
-			}
-			return false;
-		}
-
-		/// <summary>
-		/// Returns the number of rooms in the collection
-		/// </summary>
-		public int Count { get { return rooms.Count; } }
-
-		public bool IsReadOnly { get { return false; } }
 
 		#endregion
 
 		#region IEnumerable implementation
+
+		IEnumerator<Location> System.Collections.Generic.IEnumerable<Location>.GetEnumerator()
+		{
+			List<Location> l = new List<Location>(100);
+			foreach (Room r in this.rooms.Values)
+			{
+				l.Add(r);
+				foreach (Location b in r.Locations)
+					l.Add(b);
+				foreach (Location p in r.Locations)
+					l.Add(p);
+			}
+			return l.GetEnumerator();
+		}
+
+		/*
 
 		IEnumerator<Room> System.Collections.Generic.IEnumerable<Room>.GetEnumerator()
 		{
 			return this.rooms.GetEnumerator();
 		}
 
-		IEnumerator<Beacon> System.Collections.Generic.IEnumerable<Beacon>.GetEnumerator()
+		IEnumerator<SpecificLocation> System.Collections.Generic.IEnumerable<SpecificLocation>.GetEnumerator()
 		{
-			return this.beacons.GetEnumerator();
+			return this.locations.GetEnumerator();
 		}
 
-		IEnumerator<Placement> System.Collections.Generic.IEnumerable<Placement>.GetEnumerator()
-		{
-			return this.placements.GetEnumerator();
-		}
-
-		IEnumerator<Location> System.Collections.Generic.IEnumerable<Location>.GetEnumerator()
-		{
-			List<Location> l = new List<Location>(this.rooms.Count + this.beacons.Count + this.placements.Count);
-			foreach (Room r in this.rooms)
-			{
-				l.Add(r);
-				foreach (Location b in r.Beacons)
-					l.Add(b);
-				foreach (Location p in r.Placements)
-					l.Add(p);
-			}
-			return l.GetEnumerator();
-		}
+		*/
 
 		#endregion
 
@@ -220,6 +131,15 @@ namespace GPSRCmdGen
 		{
 			return this.rooms.GetEnumerator();
 		}
+
+		#endregion
+
+		#region Singleton
+
+		private static LocationManager instance;
+		static LocationManager() { instance = new LocationManager(); }
+
+		public static LocationManager Instance { get { return instance; } }
 
 		#endregion
 	}

@@ -6,9 +6,10 @@ using System.Xml.Serialization;
 namespace GPSRCmdGen
 {
 	[Serializable, XmlRoot("location")]
-	[XmlInclude(typeof(Room)), XmlInclude(typeof(Placement)), XmlInclude(typeof(Beacon))]
+	[XmlInclude(typeof(Room)), XmlInclude(typeof(SpecificLocation)), XmlInclude(typeof(SpecificLocation))]
 	public abstract class Location : INameable, IComparable<Location>, IEquatable<Location>
 	{
+
 		#region Constructors
 
 		/// <summary>
@@ -21,9 +22,24 @@ namespace GPSRCmdGen
 		/// Initializes a new instance of the <see cref="GPSRCmdGen.Location"/> class.
 		/// </summary>
 		/// <param name="name">The name of the location.</param>
-		public Location(string name)
+		public Location(string name) : this(name, false, false)
 		{
 			this.Name = name;
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="GPSRCmdGen.Location"/> class.
+		/// </summary>
+		/// <param name="name">The name of the location.</param>
+		/// <param name="placement">Indicates whether the location is
+		/// suitable for placing objects.</param>
+		/// <param name="beacon">Indicates whether the location is
+		/// suitable for placing objects.</param>
+		public Location(string name, bool placement, bool beacon)
+		{
+			this.Name = name;
+			this.IsPlacement = placement;
+			this.IsBeacon = beacon;
 		}
 
 		#endregion
@@ -38,9 +54,17 @@ namespace GPSRCmdGen
 
 		/// <summary>
 		/// Gets a value indicating whether the location is
+		/// suitable for placing a person.
+		/// </summary>
+		[XmlIgnore]
+		public abstract bool IsBeacon { get; set; }
+
+		/// <summary>
+		/// Gets a value indicating whether the location is
 		/// suitable for placing objects.
 		/// </summary>
-		public abstract bool IsPlacement { get; }
+		[XmlIgnore]
+		public abstract bool IsPlacement { get; set; }
 
 		public int CompareTo(Location other)
 		{

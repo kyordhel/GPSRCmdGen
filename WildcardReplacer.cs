@@ -281,7 +281,7 @@ namespace GPSRCmdGen
 			switch (keycode)
 			{
 				case "beacon":
-					item = this.avLocations.First(l => l is Beacon);
+					item = this.avLocations.First(l => l.IsBeacon);
 					break;
 
 				case "room":
@@ -289,7 +289,7 @@ namespace GPSRCmdGen
 					break;
 
 				case "placement":
-					item = this.avLocations.First(l => l is Placement);
+					item = this.avLocations.First(l => l.IsPlacement);
 					break;
 
 				default:

@@ -12,23 +12,40 @@ namespace GPSRCmdGen
 	/// </summary>
 	public static class ExampleFilesGenerator
 	{
+		/// <summary>
+		/// Adds the location of the objects in the given category list to the given rooms list
+		/// </summary>
+		/// <param name="rooms">The list of locations grouped by room</param>
+		/// <param name="categories">The list of objects grouped by category</param>
+		private static void AddObjectLocations(List<Room> rooms, List<Category> categories)
+		{
+			foreach (Category cat in categories)
+			{
+				int ix = -1;
+				for (int i = 0; i < rooms.Count; ++i)
+				{
+					if (rooms[i].Name == cat.RoomString) ix = i;
+				}
+				if (ix == -1)
+				{
+					ix = rooms.Count;
+					rooms.Add(new Room(cat.RoomString));
+				}
+				rooms[ix].AddLocation(cat.DefaultLocation);
+			}
+		}
 
 		/// <summary>
 		/// Writes down a set of example data files with information gathered from the Factory
 		/// </summary>
 		public static void GenerateExampleFiles(){
 			GestureContainer gestures = new GestureContainer(Factory.GetDefaultGestures());
-			CategoryContainer categories = new CategoryContainer(Factory.GetDefaultObjects().Categories);
-			RoomContainer rooms = new RoomContainer (Factory.GetDefaultLocations ().Rooms);
+			CategoryContainer categories = new CategoryContainer(Factory.GetDefaultObjects());
+			RoomContainer rooms = new RoomContainer (Factory.GetDefaultLocations ());
 			NameContainer names = new NameContainer (Factory.GetDefaultNames ());
-			foreach (Category cat in categories.Categories) {
-				if (!rooms.Rooms.Contains (cat.DefaultLocation.Room))
-					rooms.Rooms.Add (cat.DefaultLocation.Room);
-				int rix = rooms.Rooms.IndexOf(cat.DefaultLocation.Room);
-				rooms.Rooms[rix].AddPlacement(cat.DefaultLocation);
-			}
 			QuestionsContainer questions = new QuestionsContainer(Factory.GetDefaultQuestions());
 
+			AddObjectLocations(rooms.Rooms, categories.Categories);
 			SaveGrammars ();
 			WriteDatafiles (gestures, categories, rooms, names, questions);
 		}

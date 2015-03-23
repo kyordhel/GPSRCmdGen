@@ -16,12 +16,12 @@ namespace GPSRCmdGen
 		/// <summary>
 		/// Stores the default placement default location for objects in the category
 		/// </summary>
-		protected Placement defaultLocation;
+		protected SpecificLocation defaultLocation;
 
 		/// <summary>
 		/// Stores the list of objects in the category
 		/// </summary>
-		protected List<GPSRObject> objects;
+		protected Dictionary<string, GPSRObject> objects;
 
 		#endregion
 
@@ -31,7 +31,7 @@ namespace GPSRCmdGen
 		/// Initializes a new instance of the <see cref="GPSRCmdGen.Category"/> class.
 		/// </summary>
 		/// <remarks>Intended for serialization purposes</remarks>
-		public Category() : this("Unknown objects", Placement.TrashBin){
+		public Category() : this("Unknown objects", null){
 		}
 
 		/// <summary>
@@ -39,15 +39,20 @@ namespace GPSRCmdGen
 		/// </summary>
 		/// <param name="name">The name of the category.</param>
 		/// <param name="defaultLocation">The default placement location for objects in the category.</param>
-		public Category(string name, Placement defaultLocation){
+		public Category(string name, SpecificLocation defaultLocation){
 			this.Name = name;
 			this.defaultLocation = defaultLocation;
-			this.objects = new List<GPSRObject> ();
+			this.objects = new Dictionary<string, GPSRObject>();
 		}
 
 		#endregion
 
 		#region Properties
+
+		/// <summary>
+		/// Returns the number of objects in the category
+		/// </summary>
+		public int ObjectCount { get { return this.objects.Count; } }
 
 		/// <summary>
 		/// Gets the name of the Category
@@ -68,7 +73,7 @@ namespace GPSRCmdGen
 			}
 			set {
 				if (this.defaultLocation == null)
-					this.defaultLocation = new Placement(value);
+					this.defaultLocation = new SpecificLocation(value, true, false);
 				else
 					this.defaultLocation.Name = value;
 			}
@@ -90,7 +95,7 @@ namespace GPSRCmdGen
 			set
 			{
 				if(this.defaultLocation == null)
-					this.defaultLocation = new Placement("unknown");
+					this.defaultLocation = new SpecificLocation("unknown", true, false);
 				this.defaultLocation.Room = new Room(value);
 			}
 		}
@@ -99,7 +104,7 @@ namespace GPSRCmdGen
 		/// Gets or sets the default location for objects in the category
 		/// </summary>
 		[XmlIgnore]
-		public Placement DefaultLocation {
+		public SpecificLocation DefaultLocation {
 			get{ return this.defaultLocation;}
 			set {
 				this.defaultLocation = value;
@@ -111,9 +116,9 @@ namespace GPSRCmdGen
 		/// </summary>
 		/// <remarks>Use for (de)serialization purposes only</remarks>
 		[XmlElement("object")]
-		public List<GPSRObject> Objects
+		public GPSRObject[] Objects
 		{
-			get { return this.objects; }
+			get { return new List<GPSRObject>(this.objects.Values).ToArray(); }
 			set {
 				if(value == null) return;
 				foreach (GPSRObject o in value)
@@ -130,10 +135,14 @@ namespace GPSRCmdGen
 		/// </summary>
 		/// <param name="item">The ibject to add to the category</param>
 		public void AddObject(GPSRObject item){
-			if (this.Objects.Contains (item))
+			if (item == null)
 				return;
-			item.Category = this;
-			this.Objects.Add (item);
+			if ((item.Category != null) && (item.Category != this))
+				item.Category.RemoveObject(item);
+			if (!this.objects.ContainsKey(item.Name))
+				this.objects.Add(item.Name, item);
+			if (item.Category != this)
+				item.Category = this;
 		}
 		
 		/// <summary>
@@ -177,12 +186,52 @@ namespace GPSRCmdGen
 		}
 
 		/// <summary>
+		/// Gets a value indicating if the category contains an object with the given name
+		/// </summary>
+		/// <param name="objectName">The name of the object to look for</param>
+		/// <returns>true if the category contains a object with the given name, false otherwise</returns>
+		public bool Contains(string objectName)
+		{
+			return this.objects.ContainsKey(objectName);
+		}
+
+		/// <summary>
+		/// Removes all objects
+		/// </summary>
+		public void Clear()
+		{
+			this.objects.Clear();
+		}
+
+		/// <summary>
+		/// Removes the given GPSRObject from the Category
+		/// </summary>
+		/// <param name="item">The GPSRObject to remove</param>
+		/// <returns>true if the GPSRObject was in the collection, false otherwise</returns>
+		private bool RemoveObject(GPSRObject item)
+		{
+			if (item == null)
+				return false;
+			return RemoveObject(item.Name);
+		}
+
+		/// <summary>
+		/// Removes the given GPSRObject from the room
+		/// </summary>
+		/// <param name="objectName">The name of the GPSRObject to remove</param>
+		/// <returns>true if the GPSRObject was in the collection, false otherwise</returns>
+		private bool RemoveObject(string objectName)
+		{
+			return this.objects.Remove(objectName);
+		}
+
+		/// <summary>
 		/// Returns a <see cref="System.String"/> that represents the current <see cref="GPSRCmdGen.Category"/>.
 		/// </summary>
 		/// <returns>A <see cref="System.String"/> that represents the current <see cref="GPSRCmdGen.Category"/>.</returns>
 		public override string ToString ()
 		{
-			return string.Format ("{0} [{2} Objects | {1} ]", Name, DefaultLocation.Name, Objects.Count);
+			return string.Format ("{0} [{2} Objects | {1} ]", Name, DefaultLocation.Name, ObjectCount);
 		}
 
 		#endregion

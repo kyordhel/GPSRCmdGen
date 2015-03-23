@@ -27,16 +27,20 @@ namespace GPSRCmdGen
 		/// Gets a list with predefined locations.
 		/// </summary>
 		/// <returns>A list with predefined locations.</returns>
-		public static LocationManager GetDefaultLocations ()
+		public static List<Room> GetDefaultLocations ()
 		{
-			LocationManager man = new LocationManager();
-			man.Add (new Room ("bath room"));
-			man.Add(new Room("bed room"));
-			man.Add(new Room("dining room"));
-			man.Add(new Room("hall"));
-			man.Add(new Room("kitchen"));
-			man.Add(new Room("corridor"));
-			return man;
+			List<Room> tmp = new List<Room>();
+			Room bedroom = new Room("bedroom");
+			bedroom.AddBeacon("chair");
+			bedroom.AddPlacement("bin");
+			bedroom.AddLocation("bed", true, true);
+			tmp.Add(bedroom);
+			tmp.Add (new Room ("bathroom"));
+			tmp.Add(new Room("dining room"));
+			tmp.Add(new Room("hall"));
+			tmp.Add(new Room("kitchen"));
+			tmp.Add(new Room("corridor"));
+			return tmp;
 		}
 
 		/// <summary>
@@ -85,48 +89,47 @@ namespace GPSRCmdGen
 		/// Gets a GPSRObjectManager which contains example GPSRObjects grouped by category.
 		/// </summary>
 		/// <returns>A GPSRObjectManager with default objects.</returns>
-		public static GPSRObjectManager GetDefaultObjects ()
+		public static List<Category> GetDefaultObjects ()
 		{
-			GPSRObjectManager man = new GPSRObjectManager ();
+			List<Category> tmp = new List<Category>();
 
-			Placement shelf = new Placement("shelf");
+			SpecificLocation shelf = SpecificLocation.Placement("shelf");
 			shelf.Room = new Room("dining room");
 			Category beverages = new Category ("beverages", shelf);
 			beverages.AddObject ("milk", GPSRObjectType.Known );
 			beverages.AddObject ("coke", GPSRObjectType.Known );
 			beverages.AddObject ("orange juice", GPSRObjectType.Known );
 			beverages.AddObject ("beer", GPSRObjectType.Known, DifficultyDegree.High );
-			man.Add (beverages);
+			tmp.Add (beverages);
 
-			Placement kitchenTable = new Placement("kitchen table");
+			SpecificLocation kitchenTable = SpecificLocation.Placement("kitchen table");
 			kitchenTable.Room = new Room("kitchen");
 			Category fruits = new Category ("fruits", kitchenTable);
 			fruits.AddObject ("apple", GPSRObjectType.Alike );
 			fruits.AddObject ("banana", GPSRObjectType.Alike );
 			fruits.AddObject ("orange", GPSRObjectType.Alike );
 			fruits.AddObject ("pear", GPSRObjectType.Alike );
-			man.Add (fruits);
+			tmp.Add (fruits);
 
-			Placement dinnerTable = new Placement("dinner table");
+			SpecificLocation dinnerTable = SpecificLocation.Placement("dinner table");
 			dinnerTable.Room = new Room("dining room");
-			Category snacks = new Category ("", dinnerTable);
+			Category snacks = new Category ("snacks", dinnerTable);
 			snacks.AddObject ("lays", GPSRObjectType.Known, DifficultyDegree.Moderate );
 			snacks.AddObject ("crackers", GPSRObjectType.Known );
 			snacks.AddObject ("pringles", GPSRObjectType.Known );
 			snacks.AddObject ("chocolate", GPSRObjectType.Known );
-			man.Add (snacks);
+			tmp.Add (snacks);
 
-			Placement bathroomLocker = new Placement("bathroom locker");
-			bathroomLocker.Room = new Room("bath room");
+			SpecificLocation bathroomLocker = SpecificLocation.Placement("bathroom locker");
+			bathroomLocker.Room = new Room("bathroom");
 			Category cleaningStuff = new Category ("cleaning stuff", bathroomLocker);
 			cleaningStuff.AddObject ("cloth", GPSRObjectType.Alike, DifficultyDegree.High );
 			cleaningStuff.AddObject ("detergent", GPSRObjectType.Known, DifficultyDegree.High);
 			cleaningStuff.AddObject ("sponge", GPSRObjectType.Known );
 			cleaningStuff.AddObject ("brush", GPSRObjectType.Known, DifficultyDegree.High );
-			man.Add (cleaningStuff);
+			tmp.Add (cleaningStuff);
 
-
-			return man;
+			return tmp;
 
 		}
 
