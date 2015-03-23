@@ -137,9 +137,9 @@
     <value>Resources/Category3Grammar.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="IncompleteCommandsGrammar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\incompletecommandsgrammar.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>Resources\IncompleteCommandsGrammar.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="IncongruentCommandsGrammar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\incongruentcommandsgrammar.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>Resources\IncongruentCommandsGrammar.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>
