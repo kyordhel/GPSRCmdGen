@@ -151,12 +151,19 @@ namespace GPSRCmdGen
 		private INameable EvaluateLocation(Wildcard w)
 		{
 			string keycode = w.Name.ToLower ();
-			if (keycode == "location") {
-				string type = w.Type.ToLower ();
-				if (type == "room")
-					keycode = "room";
-				else if (type == "placement")
-					keycode = "placement";
+			if (keycode == "location")
+			{
+				switch (w.Type.ToLower())
+				{
+					case "beacon":
+						keycode = "beacon"; break;
+
+					case "room":
+						keycode = "room"; break;
+
+					case "placement":
+						keycode = "placement"; break;
+				}
 			}
 			string key = keycode + w.Id;
 			if(this.locations.ContainsKey(key))
@@ -388,6 +395,35 @@ namespace GPSRCmdGen
 		#region Tokenize Methods
 
 		/// <summary>
+		/// Converts the wildcard contained within the provided regular expression
+		/// match object into a Token object, considering obfuscation
+		/// </summary>
+		/// <param name="w">The regular expression match object that contains the wildcard.</param>
+		private Token TokenizeObfuscatedWildcard(Wildcard w)
+		{
+			INameable obfuscated = null;
+			INameable inam = FindReplacement(w);
+			switch (w.Name)
+			{
+				case "beacon":
+				case "placement":
+					obfuscated = ((SpecificLocation)inam).Room;
+					break;
+
+				case "object":
+				case "aobject":
+				case "kobject":
+					obfuscated = ((GPSRObject)inam).Category;
+					break;
+			}
+			if(obfuscated == null)
+				return new Token(w.Value, inam, FetchMetadata(w));
+			Token token = new Token(w.Value, obfuscated, FetchMetadata(w));
+			token.Metadata.Add(inam.Name);
+			return token;
+		}
+
+		/// <summary>
 		/// Converts the literal substring string, starting at the given position,
 		/// into a Token object.
 		/// </summary>
@@ -422,6 +458,9 @@ namespace GPSRCmdGen
 		/// <param name="m">The regular expression match object that contains the wildcard.</param>
 		private Token TokenizeWildcard(Wildcard w)
 		{
+			// Handle obfuscated wildcards
+			if (w.Obfuscated)
+				return TokenizeObfuscatedWildcard(w);
 			// Get a replacement for the wildcard
 			INameable inam = FindReplacement(w);
 			// Create the token
@@ -446,9 +485,6 @@ namespace GPSRCmdGen
 
 			switch (w.Name)
 			{
-				case "aobject": case "kobject": case "object":
-					return EvaluateObject(w);
-
 				case "category":
 					return EvaluateCategory(w);
 
@@ -458,14 +494,17 @@ namespace GPSRCmdGen
 				case "name": case "female": case "male":
 					return EvaluateName(w);
 
-				case "location": case "placement": case "room":
+				case "location": case "beacon": case "placement": case "room":
 					return EvaluateLocation(w);
 
-				case "void":
-					return EvaluateVoid(w);
+				case "object": case "aobject": case "kobject": 
+					return EvaluateObject(w);
 
 				case "question":
 					return EvaluateQuestion(w);
+
+				case "void":
+					return EvaluateVoid(w);
 
 				default:
 					return null;

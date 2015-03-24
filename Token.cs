@@ -99,7 +99,15 @@ namespace GPSRCmdGen
 		/// metadata asociated to the Token's value.
 		/// </summary>
 		/// <value>The metadata.</value>
-		public string[] Metadata { get { return this.metadata.ToArray (); } }
+		public List<string> Metadata { get { return this.metadata; } }
+
+		/// <summary>
+		/// Gets the metadata contained in this Token, fetched from both,
+		/// taks prototype string (metadata stored in grammar) and the
+		/// metadata asociated to the Token's value.
+		/// </summary>
+		/// <value>The metadata.</value>
+		string[] IMetadatable.Metadata { get { return this.metadata.ToArray(); } }
 
 		#endregion
 

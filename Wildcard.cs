@@ -30,6 +30,11 @@ namespace GPSRCmdGen
 		private string name;
 
 		/// <summary>
+		///Indicates if the wildcard is obfuscated
+		/// </summary>
+		private bool obfuscated;
+
+		/// <summary>
 		/// Stores the type of the wildcard
 		/// </summary>
 		private string type;
@@ -68,6 +73,11 @@ namespace GPSRCmdGen
 		/// Gets the name of the wildcard
 		/// </summary>
 		public string Name { get { return this.name; } }
+
+		/// <summary>
+		/// Gets a value indicating if the wildcard is obfuscated
+		/// </summary>
+		public bool Obfuscated { get { return this.obfuscated; } }
 
 		/// <summary>
 		/// Gets a value indicating if the wildcard is valid
@@ -118,7 +128,10 @@ namespace GPSRCmdGen
 			// Read wildcard name
 			++cc;
 			wildcard.name = ReadWildcardName(s, ref cc);
-			if(String.IsNullOrEmpty(wildcard.Name)) return null;
+			if (String.IsNullOrEmpty(wildcard.Name)) return null;
+
+			// Read obfuscator
+			wildcard.obfuscated = Scanner.ReadChar('?', s, ref cc);
 
 			// Read wildcard type
 			wildcard.type = ReadWildcardType(s, ref cc);

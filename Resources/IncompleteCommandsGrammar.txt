@@ -1,15 +1,21 @@
 ﻿; grammar name Incomplete Commands
 ; grammar tier High
 
+$Main = $complex
 
 ##############################################################################
 #
 # Complex Command: Get an object and deliver it
 # 
 ##############################################################################
-$complex	= $getobj and $deliver
+$complex	= $getobjobf and $deliver
+$complex	= $getobj and $deliverobf
 
 $getobj		= $vbtake the {aobject} from the {placement 1}
+$getobjobf	= $vbtake the {aobject?} from the {placement 1}
+
+$deliverobf	= $vbdeliver it {void meta:Deliver to {name} in the {room}}
+$deliverobf	= $vbdeliver it to the {placement? 2}
 
 $deliver	= $vbdeliver it to $target
 $target		= me
@@ -22,7 +28,7 @@ $target		= the {placement 2}
 # 
 ##############################################################################
 $complex	= $goroom and $findobj
-$findobj	= $vbfind the {aobject}
+$findobj	= $vbfind the {aobject?}
 
 ##############################################################################
 #
@@ -30,7 +36,7 @@ $findobj	= $vbfind the {aobject}
 # 
 ##############################################################################
 $complex	= $goroom, $findprs and ($talk | $follow)
-$complex	= ($findprsat | $fndclprsat) and ($talk | $follow)
+$complex	= $findprsat and ($talk | $follow)
 
 ##############################################################################
 #
@@ -38,9 +44,7 @@ $complex	= ($findprsat | $fndclprsat) and ($talk | $follow)
 # 
 ##############################################################################
 $findprs	= $vbfind a person
-$findprsat	= $vbfind a person in the $partyroom
-$fndclprsat	= $vbfind the calling person in the $partyroom
-$partyroom  = {room 1 meta: This room should have at least 3 people in it}
+$findprsat	= $vbfind a person {void meta: Person is in the {room 1}}
 
 ##############################################################################
 #
@@ -55,7 +59,7 @@ $follow	= $vbfollow her to the {room 2}
 # Simple Command: Go to room
 # 
 ##############################################################################
-$goroom		= $vbgoto the {room 1}
+$goroom		= go {void meta: Robot must go to {room 1}}
 
 ##############################################################################
 #

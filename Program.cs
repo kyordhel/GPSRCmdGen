@@ -107,7 +107,7 @@ namespace GPSRCmdGen
 		/// <param name="remarks">A list to store all metadata whose token has no name</param>
 		private void PrintMetadata(Token token, List<string> remarks)
 		{
-			if (token.Metadata.Length < 1) return;
+			if (token.Metadata.Count < 1) return;
 			// Store remarks for later
 			if (String.IsNullOrEmpty(token.Name))
 			{
