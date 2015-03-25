@@ -24,7 +24,7 @@ SILENT = @
 ## COMMANDS ###############
 MONO   = mono
 XBUILD = xbuild
-REMOVE = rm -R
+REMOVE = rm -R -f
 
 ## COLORS #################
 
@@ -79,6 +79,11 @@ debug:
 
 release:
 	$(SILENT) $(XBUILD) $(RELEASE) $(SOLUTION)
+
+cleanall:
+	$(SILENT) $(MAKE) clean
+	$(SILENT) $(REMOVE) $(PATH_DEBUG)
+	$(SILENT) $(REMOVE) $(PATH_RELEASE)
 
 clean:
 	$(SILENT) $(XBUILD) $(DEBUG) $(SOLUTION) /t:Clean
