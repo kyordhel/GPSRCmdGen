@@ -216,7 +216,7 @@ namespace GPSRCmdGen
 		public void LoadGestures ()
 		{
 			try {
-				this.allGestures = Loader.Load<GestureContainer> (Loader.GetPath("Gestures.xml")).Gestures;
+				this.allGestures = XmlLoader.Load<GestureContainer> (Loader.GetPath("Gestures.xml")).Gestures;
 				Green("Done!");
 			} catch {
 				this.allGestures = Factory.GetDefaultGestures ();
@@ -231,7 +231,7 @@ namespace GPSRCmdGen
 		public void LoadGrammars ()
 		{
 			try {
-				this.allGrammars = Loader.LoadGrammars ();
+				this.allGrammars = XmlLoader.LoadGrammars ();
 				Green("Done!");
 			} catch {
 
@@ -247,7 +247,7 @@ namespace GPSRCmdGen
 		public void LoadLocations ()
 		{
 			try {
-			this.allLocations = Loader.LoadLocations (Loader.GetPath("Locations.xml"));
+			XmlLoader.LoadLocations (Loader.GetPath("Locations.xml"));
 				Green("Done!");
 			} catch {
 				List<Room> defaultRooms = Factory.GetDefaultLocations ();
@@ -264,7 +264,7 @@ namespace GPSRCmdGen
 		public void LoadNames ()
 		{
 			try {
-				this.allNames = Loader.Load<NameContainer> (Loader.GetPath("Names.xml")).Names;
+				this.allNames = XmlLoader.Load<NameContainer> (Loader.GetPath("Names.xml")).Names;
 				Green("Done!");
 			} catch {
 				this.allNames = Factory.GetDefaultNames ();
@@ -279,7 +279,7 @@ namespace GPSRCmdGen
 		public void LoadObjects ()
 		{
 			try {
-				this.allObjects = Loader.LoadObjects(Loader.GetPath("Objects.xml"));
+				XmlLoader.LoadObjects(Loader.GetPath("Objects.xml"));
 				Green("Done!");
 			} catch {
 				List<Category> defaultCategories = Factory.GetDefaultObjects();
@@ -297,7 +297,7 @@ namespace GPSRCmdGen
 		{
 			try
 			{
-				this.allQuestions = Loader.Load<QuestionsContainer>(Loader.GetPath("Questions.xml")).Questions;
+				this.allQuestions = XmlLoader.Load<QuestionsContainer>(Loader.GetPath("Questions.xml")).Questions;
 				Green("Done!");
 			}
 			catch

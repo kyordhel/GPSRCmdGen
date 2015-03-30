@@ -57,7 +57,6 @@
     <Compile Include="DifficultyDegree.cs" />
     <Compile Include="Generator.cs" />
     <Compile Include="Location.cs" />
-    <Compile Include="Loader.cs" />
     <Compile Include="Grammar.cs" />
     <Compile Include="ProductionRule.cs" />
     <Compile Include="Factory.cs" />
@@ -77,6 +76,9 @@
     </Compile>
     <Compile Include="PersonName.cs" />
     <Compile Include="HiddenTaskElement.cs" />
+    <Compile Include="XmlLoader.cs" />
+    <Compile Include="Loader.cs" />
+    <Compile Include="TextLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Category2Grammar.txt" />

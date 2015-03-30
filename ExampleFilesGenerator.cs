@@ -125,19 +125,19 @@ namespace GPSRCmdGen
 		{
 			string path = Loader.GetPath ("Gestures.xml");
 			if (Overwrite (path))
-				Loader.Save (path, gestures);
+				XmlLoader.Save (path, gestures);
 			path = Loader.GetPath ("Locations.xml");
 			if (Overwrite (path))
-				Loader.Save (path, locations);
+				XmlLoader.Save (path, locations);
 			path = Loader.GetPath ("Names.xml");
 			if (Overwrite (path))
-				Loader.Save (path, names);
+				XmlLoader.Save (path, names);
 			path = Loader.GetPath ("Objects.xml");
 			if (Overwrite (path))
-				Loader.Save (path, categories);
+				XmlLoader.Save (path, categories);
 			path = Loader.GetPath ("Questions.xml");
 			if (Overwrite (path))
-				Loader.Save (path, questions);
+				XmlLoader.Save (path, questions);
 		}
 	}
 }
