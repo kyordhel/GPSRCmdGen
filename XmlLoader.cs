@@ -34,7 +34,154 @@ namespace GPSRCmdGen
 
 		#endregion
 
-		#region Methods
+		#region public Methods
+
+		public static bool DataFilesExists(bool silent = true){
+			bool missing = false;
+			string[] required = {"Gestures.xml", "Locations.xml", "Names.xml", "Objects.xml", "Questions.xml"};
+			if(!System.IO.Directory.Exists(Loader.GetPath("grammars"))){
+				missing = true;
+				if(!silent)
+				Generator.Warn("grammars directory not found");
+			}
+			foreach(string file in required){
+				if(!System.IO.File.Exists(Loader.GetPath(file))){
+					missing = true;
+					if(!silent)
+					Generator.Warn(String.Format("{0} not found", file));
+				}
+			}
+
+			if(missing)
+				return false;
+			return true;
+		}
+
+		public static void LoadData (Generator generator)
+		{
+			Console.Write ("Loading objects...");
+			XmlLoader.LoadObjects();
+			Console.Write ("Loading names...");
+			XmlLoader.LoadNames (generator);
+			Console.Write ("Loading locations...");
+			XmlLoader.LoadLocations ();
+			Console.Write ("Loading gestures...");
+			XmlLoader.LoadGestures(generator);
+			Console.Write("Loading predefined questions...");
+			XmlLoader.LoadQuestions(generator);
+			Console.Write ("Loading grammars...");
+			XmlLoader.LoadGrammars (generator);
+		}
+
+		#endregion
+
+		#region private Methods
+
+		/// <summary>
+		/// Loads the set of gestures from disk. If no gestures file is found, 
+		/// the default set is loaded from Factory
+		/// </summary>
+		private static void LoadGestures (Generator gen)
+		{
+			List<Gesture> gestures;
+			try {
+				gestures = XmlLoader.Load<GestureContainer> (Loader.GetPath ("Gestures.xml")).Gestures;
+				Generator.Green ("Done!");
+			} catch {
+				gestures = Factory.GetDefaultGestures ();
+				Generator.Err ("Failed! Default Gestures loaded");
+			}
+			gen.AllGestures.AddRange (gestures);
+		}
+
+		/// <summary>
+		/// Loads the grammars from disk. If no grammars are found, the application is
+		/// terminated.
+		/// </summary>
+		private static void LoadGrammars (Generator gen)
+		{
+			List<Grammar> grammars;
+			try {
+				grammars = XmlLoader.LoadGrammars ();
+				Generator.Green("Done!");
+			} catch {
+				grammars = null;
+				Generator.Err ("Failed! Application terminated");
+				Environment.Exit (0);
+			}
+			gen.AllGrammars.AddRange (grammars);
+		}
+
+		/// <summary>
+		/// Loads the set of locations from disk. If no locations file is found, 
+		/// the default set is loaded from Factory
+		/// </summary>
+		private static void LoadLocations ()
+		{
+			try {
+				XmlLoader.LoadLocations (Loader.GetPath("Locations.xml"));
+				Generator.Green("Done!");
+			} catch {
+				List<Room> defaultRooms = Factory.GetDefaultLocations ();
+				foreach (Room room in defaultRooms)
+					LocationManager.Instance.Add(room); 
+				Generator.Err ("Failed! Default Locations loaded");
+			}
+		}
+
+		/// <summary>
+		/// Loads the set of names from disk. If no names file is found, 
+		/// the default set is loaded from Factory
+		/// </summary>
+		private static void LoadNames (Generator gen)
+		{
+			List<PersonName> names;
+			try {
+				names = XmlLoader.Load<NameContainer> (Loader.GetPath("Names.xml")).Names;
+				Generator.Green("Done!");
+			} catch {
+				names = Factory.GetDefaultNames ();
+				Generator.Err ("Failed! Default Names loaded");
+			}
+			gen.AllNames.AddRange (names);
+		}
+
+		/// <summary>
+		/// Loads the set of objects and categories from disk. If no objects file is found, 
+		/// the default set is loaded from Factory
+		/// </summary>
+		private static void LoadObjects ()
+		{
+			try {
+				XmlLoader.LoadObjects(Loader.GetPath("Objects.xml"));
+				Generator.Green("Done!");
+			} catch {
+				List<Category> defaultCategories = Factory.GetDefaultObjects();
+				foreach (Category category in defaultCategories)
+					GPSRObjectManager.Instance.Add(category);
+				Generator.Err ("Failed! Default Objects loaded");
+			}
+		}
+
+		/// <summary>
+		/// Loads the set of questions from disk. If no questions file is found, 
+		/// the default set is loaded from Factory
+		/// </summary>
+		private static void LoadQuestions(Generator gen)
+		{
+			List<PredefindedQuestion> questions;
+			try
+			{
+				questions = XmlLoader.Load<QuestionsContainer>(Loader.GetPath("Questions.xml")).Questions;
+				Generator.Green("Done!");
+			}
+			catch
+			{
+				questions = Factory.GetDefaultQuestions();
+				Generator.Err("Failed! Default Objects loaded");
+			}
+			gen.AllQuestions.AddRange (questions);
+		}
 
 		/// <summary>
 		/// Loads an array of T objects from a XML file.

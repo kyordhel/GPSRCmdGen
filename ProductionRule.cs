@@ -221,6 +221,10 @@ namespace GPSRCmdGen
 			return par == 0;
 		}
 
+		internal static ProductionRule CreateMainRule(){
+			return new ProductionRule ("$Main");
+		}
+
 		#endregion
 	}
 }

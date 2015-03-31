@@ -55,7 +55,7 @@ namespace GPSRCmdGen
 		public static void InitializePath()
 		{
 			int xmlFilesCnt = System.IO.Directory.GetFiles (Loader.ExePath, "*.xml", System.IO.SearchOption.TopDirectoryOnly).Length;
-			if ((xmlFilesCnt < 1) && !System.IO.Directory.Exists (Loader.GetPath("grammars")))
+			if (!XmlLoader.DataFilesExists() && !TextLoader.DataFilesExist())
 				ExampleFilesGenerator.GenerateExampleFiles ();
 		}
 
@@ -160,21 +160,7 @@ namespace GPSRCmdGen
 			Console.ForegroundColor = ConsoleColor.Gray;
 			Console.WriteLine ("GPSR Generator 0.1 Beta");
 			Console.WriteLine ();
-			Console.Write ("Loading objects...");
-			gen.LoadObjects();
-			Console.Write ("Loading names...");
-			gen.LoadNames ();
-			Console.Write ("Loading locations...");
-			gen.LoadLocations ();
-			Console.Write ("Loading gestures...");
-			gen.LoadGestures();
-			Console.Write("Loading predefined questions...");
-			gen.LoadQuestions();
-			Console.Write ("Loading grammars...");
-			gen.LoadGrammars ();
-			gen.ValidateLocations ();
-			Console.WriteLine ();
-			Console.WriteLine ();
+			gen.LoadData ();
 		}
 
 		/// <summary>

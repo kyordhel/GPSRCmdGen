@@ -81,6 +81,11 @@ namespace GPSRCmdGen
 		internal List<Gesture> AllGestures { get{return this.allGestures; } }
 
 		/// <summary>
+		/// Gets the list that stores all generation grammars
+		/// </summary>
+		internal List<Grammar> AllGrammars { get{return this.allGrammars; } }
+
+		/// <summary>
 		/// Gets the list that stores all known names
 		/// </summary>
 		internal List<PersonName> AllNames{ get { return this.allNames; } }
@@ -209,102 +214,48 @@ namespace GPSRCmdGen
 
 		#region Load Methods
 
-		/// <summary>
-		/// Loads the set of gestures from disk. If no gestures file is found, 
-		/// the default set is loaded from Factory
-		/// </summary>
-		public void LoadGestures ()
+		public void LoadData ()
 		{
-			try {
-				this.allGestures = XmlLoader.Load<GestureContainer> (Loader.GetPath("Gestures.xml")).Gestures;
-				Green("Done!");
-			} catch {
-				this.allGestures = Factory.GetDefaultGestures ();
-				Err ("Failed! Default Gestures loaded");
+			if (!XmlLoader.DataFilesExists()) {
+				Warn ("Looking for data in old legacy text files");
+				if (!LoadTextData ()) {
+					Err ("Error loading datafiles! Exiting.");
+					Environment.Exit (0);
+					return;
+				}
 			}
+			else
+				XmlLoader.LoadData (this);
+			this.ValidateLocations ();
+			Console.WriteLine ();
+			Console.WriteLine ();
 		}
 
-		/// <summary>
-		/// Loads the grammars from disk. If no grammars are found, the application is
-		/// terminated.
-		/// </summary>
-		public void LoadGrammars ()
+		private bool LoadTextData ()
 		{
-			try {
-				this.allGrammars = XmlLoader.LoadGrammars ();
-				Green("Done!");
-			} catch {
-
-				Err ("Failed! Application terminated");
-				Environment.Exit (0);
-			}
+			if(!TextLoader.DataFilesExist())
+				return false;
+			TextLoader.LoadData (this);
+			return true;
 		}
 
-		/// <summary>
-		/// Loads the set of locations from disk. If no locations file is found, 
-		/// the default set is loaded from Factory
-		/// </summary>
-		public void LoadLocations ()
-		{
-			try {
-			XmlLoader.LoadLocations (Loader.GetPath("Locations.xml"));
-				Green("Done!");
-			} catch {
-				List<Room> defaultRooms = Factory.GetDefaultLocations ();
-				foreach (Room room in defaultRooms)
-					this.allLocations.Add(room); 
-				Err ("Failed! Default Locations loaded");
+		private bool CheckXmlDataFiles(){
+			bool missing = false;
+			string[] required = {"Gestures.xml", "Locations.xml", "Names.xml", "Objects.xml", "Questions.xml"};
+			if(!System.IO.Directory.Exists(Loader.GetPath("grammars"))){
+				missing = true;
+				Warn("grammars directory not found");
 			}
-		}
+			foreach(string file in required){
+				if(!System.IO.Directory.Exists(Loader.GetPath(file))){
+					missing = true;
+					Warn(String.Format("{0} not found", file));
+				}
+			}
 
-		/// <summary>
-		/// Loads the set of names from disk. If no names file is found, 
-		/// the default set is loaded from Factory
-		/// </summary>
-		public void LoadNames ()
-		{
-			try {
-				this.allNames = XmlLoader.Load<NameContainer> (Loader.GetPath("Names.xml")).Names;
-				Green("Done!");
-			} catch {
-				this.allNames = Factory.GetDefaultNames ();
-				Err ("Failed! Default Names loaded");
-			}
-		}
-
-		/// <summary>
-		/// Loads the set of objects and categories from disk. If no objects file is found, 
-		/// the default set is loaded from Factory
-		/// </summary>
-		public void LoadObjects ()
-		{
-			try {
-				XmlLoader.LoadObjects(Loader.GetPath("Objects.xml"));
-				Green("Done!");
-			} catch {
-				List<Category> defaultCategories = Factory.GetDefaultObjects();
-				foreach (Category category in defaultCategories)
-					this.allObjects.Add(category);
-				Err ("Failed! Default Objects loaded");
-			}
-		}
-
-		/// <summary>
-		/// Loads the set of questions from disk. If no questions file is found, 
-		/// the default set is loaded from Factory
-		/// </summary>
-		public void LoadQuestions()
-		{
-			try
-			{
-				this.allQuestions = XmlLoader.Load<QuestionsContainer>(Loader.GetPath("Questions.xml")).Questions;
-				Green("Done!");
-			}
-			catch
-			{
-				this.allQuestions = Factory.GetDefaultQuestions();
-				Err("Failed! Default Objects loaded");
-			}
+			if(missing)
+				return false;
+			return true;
 		}
 
 		/// <summary>
@@ -327,11 +278,11 @@ namespace GPSRCmdGen
 		/// Writes the provided exception's Message to the console in RED text
 		/// </summary>
 		/// <param name="ex">Exception to be written.</param>
-		private static void Err(Exception ex){
+		public static void Err(Exception ex){
 			Err (null, ex);
 		}
 
-		private static void Err(string format, params object[] args){
+		public static void Err(string format, params object[] args){
 			Err (String.Format (format, args));
 		}
 
@@ -339,7 +290,7 @@ namespace GPSRCmdGen
 		/// Writes the provided message string to the console in RED text
 		/// </summary>
 		/// <param name="message">The message to be written.</param>
-		private static void Err(string message){
+		public static void Err(string message){
 			Err(message, (Exception)null);
 		}
 
@@ -362,11 +313,11 @@ namespace GPSRCmdGen
 		/// Writes the provided exception's Message to the console in YELLOW text
 		/// </summary>
 		/// <param name="ex">Exception to be written.</param>
-		private static void Warn(Exception ex){
+		public static void Warn(Exception ex){
 			Err (null, ex);
 		}
 
-		private static void Warn(string format, params object[] args){
+		public static void Warn(string format, params object[] args){
 			Err (String.Format (format, args));
 		}
 
@@ -374,7 +325,7 @@ namespace GPSRCmdGen
 		/// Writes the provided message string to the console in YELLOW text
 		/// </summary>
 		/// <param name="message">The message to be written.</param>
-		private static void Warn(string message){
+		public static void Warn(string message){
 			Err(message, (Exception)null);
 		}
 
@@ -383,7 +334,7 @@ namespace GPSRCmdGen
 		/// </summary>
 		/// <param name="message">The message to be written.</param>
 		/// <param name="ex">Exception to be written.</param>
-		private static void Warn(string message, Exception ex){
+		public static void Warn(string message, Exception ex){
 			ConsoleColor pc = Console.ForegroundColor;
 			Console.ForegroundColor = ConsoleColor.DarkYellow;
 			if(!String.IsNullOrEmpty(message))
@@ -397,7 +348,7 @@ namespace GPSRCmdGen
 		/// Writes the provided message string to the console in GREEN text
 		/// </summary>
 		/// <param name="message">The message to be written.</param>
-		private static void Green(string message){
+		public static void Green(string message){
 			ConsoleColor pc = Console.ForegroundColor;
 			Console.ForegroundColor = ConsoleColor.DarkGreen;
 			Console.WriteLine (message);
