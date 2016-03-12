@@ -1,0 +1,12 @@
+##############################################################################
+#
+# ${GrammarName} Grammar
+# 
+# Author:  Mauricio Matamoros
+# Date:    March 2015
+#
+# IMPORTANT: 
+# Since this document declares a grammar for generating sentences,
+# NO RECURSIVE rules must be used.
+# 
+##############################################################################
