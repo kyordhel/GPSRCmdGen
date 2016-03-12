@@ -1,0 +1,40 @@
+﻿; grammar name Breakfast
+; grammar tier High
+
+$Main		= $breakfast
+
+##############################################################################
+#
+# Breakfast: 
+# 
+##############################################################################
+$breakfast	= $servetray, and $deliver
+
+$servetray	= $vbput a {kobject} and a {aobject} onto the tray
+$servetray	= $vbpour some $cereals into the bowl, put the bowl onto the tray
+
+$deliver	= $vbdeliver it to $target
+
+##############################################################################
+#
+# Cereals
+# 
+##############################################################################
+$cereals	= cereals | flakes | choco flakes
+
+##############################################################################
+#
+# Verbs
+# 
+##############################################################################
+$vbdeliver	= bring | carry | deliver | take
+$vbput		= put | place | serve
+$vbpour		= pour | serve
+
+##############################################################################
+#
+# Target
+# 
+##############################################################################
+$target		= me
+$target		= {name} (at | in | who is in) the {beacon}
