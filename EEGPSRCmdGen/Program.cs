@@ -159,7 +159,7 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 			this.gen = new EEGPSRGenerator ();
 
 			Console.ForegroundColor = ConsoleColor.Gray;
-			Console.WriteLine ("GPSR Generator 2016 Beta");
+			Console.WriteLine ("EEGPSR Generator 2016 Beta");
 			Console.WriteLine ();
 			Console.Write ("Loading objects...");
 			gen.LoadObjects();

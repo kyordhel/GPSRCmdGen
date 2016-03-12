@@ -8,7 +8,7 @@ using RoboCup.AtHome.CommandGenerator.Containers;
 namespace RoboCup.AtHome.EEGPSRCmdGen
 {
 	/// <summary>
-	/// Generates Random Sentences for the GPSR test
+	/// Generates Random Sentences for the EEGPSR test
 	/// </summary>
 	public class EEGPSRGenerator : RoboCup.AtHome.CommandGenerator.Generator
 	{
@@ -19,7 +19,7 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 		#region Constructor
 
 		/// <summary>
-		/// Initializes a new instance of GPSRGenerator
+		/// Initializes a new instance of EEGPSRGenerator
 		/// </summary>
 		public EEGPSRGenerator() : base() {}
 

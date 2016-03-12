@@ -100,12 +100,13 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 			string authoring = Resources.GrammarHeader;
 
 			Dictionary<string, string> grammars = new Dictionary<string, string> ();
-			grammars.Add ("count", Resources.CountGrammar);
-			grammars.Add("incomplete", Resources.IncompleteCommandsGrammar);
-			grammars.Add("incongruent", Resources.IncongruentCommandsGrammar);
+			// grammars.Add ("count", Resources.CountGrammar);
+			// grammars.Add("incomplete", Resources.IncompleteCommandsGrammar);
+			// grammars.Add("incongruent", Resources.IncongruentCommandsGrammar);
 			grammars.Add("category1", Resources.Category1Grammar);
 			grammars.Add("category2", Resources.Category2Grammar);
-			grammars.Add("category3", Resources.Category3Grammar);
+			grammars.Add("breakfast", Resources.BreakfastGrammar);
+			grammars.Add("describe", Resources.DescribeGrammar);
 
 			foreach (KeyValuePair<string, string> g in grammars) {
 				try{

@@ -61,6 +61,32 @@ namespace RoboCup.AtHome.EEGPSRCmdGen {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ; grammar name Breakfast
+        ///; grammar tier High
+        ///
+        ///$Main		= $Breakfast
+        ///
+        ///##############################################################################
+        ///#
+        ///# Breakfast: 
+        ///# 
+        ///##############################################################################
+        ///$Breakfast	= $servetray and $deliver
+        ///
+        ///$servetray	= $vbput {kobject} and {aobject} onto the tray
+        ///$servetray	= $vbpour some $cereals into the bowl, put it onto the tray
+        ///
+        ///$deliver	= $vbdeliver it to $target
+        ///$target		= me
+        ///$target		= {name} (at | in | whic [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string BreakfastGrammar {
+            get {
+                return ResourceManager.GetString("BreakfastGrammar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ; grammar name Category I
         ///; grammar tier Easy
         ///
@@ -162,6 +188,15 @@ namespace RoboCup.AtHome.EEGPSRCmdGen {
         internal static string CountGrammar {
             get {
                 return ResourceManager.GetString("CountGrammar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string DescribeGrammar {
+            get {
+                return ResourceManager.GetString("DescribeGrammar", resourceCulture);
             }
         }
         
