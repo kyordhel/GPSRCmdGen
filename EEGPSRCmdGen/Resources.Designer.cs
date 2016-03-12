@@ -64,21 +64,21 @@ namespace RoboCup.AtHome.EEGPSRCmdGen {
         ///   Looks up a localized string similar to ; grammar name Breakfast
         ///; grammar tier High
         ///
-        ///$Main		= $Breakfast
+        ///$Main		= $breakfast
         ///
         ///##############################################################################
         ///#
         ///# Breakfast: 
         ///# 
         ///##############################################################################
-        ///$Breakfast	= $servetray and $deliver
+        ///$breakfast	= $servetray, and $deliver
         ///
-        ///$servetray	= $vbput {kobject} and {aobject} onto the tray
-        ///$servetray	= $vbpour some $cereals into the bowl, put it onto the tray
+        ///$servetray	= $vbput a {kobject} and a {aobject} onto the tray
+        ///$servetray	= $vbpour some $cereals into the bowl, put the bowl onto the tray
         ///
         ///$deliver	= $vbdeliver it to $target
-        ///$target		= me
-        ///$target		= {name} (at | in | whic [rest of string was truncated]&quot;;.
+        ///
+        ///################################### [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string BreakfastGrammar {
             get {
@@ -192,7 +192,21 @@ namespace RoboCup.AtHome.EEGPSRCmdGen {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to ; grammar name Describe
+        ///; grammar tier High
+        ///
+        ///$Main		= $describe
+        ///
+        ///##############################################################################
+        ///#
+        ///# Describe: Go with person at place and describe them the objects at place
+        ///# 
+        ///##############################################################################
+        ///$describe	= come (to | with) me and $dodescribe
+        ///$describe	= $vbgo1 $target and $dodescribe
+        ///$describe	= $vbgo2 {room}, $vbfind {name}, and $dodescribe
+        ///
+        ///############################################ [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string DescribeGrammar {
             get {
@@ -244,7 +258,7 @@ namespace RoboCup.AtHome.EEGPSRCmdGen {
         
         /// <summary>
         ///   Looks up a localized string similar to ; grammar name Incomplete Commands
-        ///; grammar tier High
+        ///; grammar tier Easy
         ///
         ///$Main = $complex
         ///
@@ -269,7 +283,7 @@ namespace RoboCup.AtHome.EEGPSRCmdGen {
         
         /// <summary>
         ///   Looks up a localized string similar to ; grammar name Incongruent Commands
-        ///; grammar tier High
+        ///; grammar tier Moderate
         ///
         ///$Main		= $complex
         ///
@@ -283,7 +297,7 @@ namespace RoboCup.AtHome.EEGPSRCmdGen {
         ///$getobj		= $vbtake the {object} from the {placement 1}
         ///$dlvrsame	= $vbdeliver it to {placement 1 meta: replace with {placement 2}}
         ///
-        ///########################################### [rest of string was truncated]&quot;;.
+        ///####################################### [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string IncongruentCommandsGrammar {
             get {

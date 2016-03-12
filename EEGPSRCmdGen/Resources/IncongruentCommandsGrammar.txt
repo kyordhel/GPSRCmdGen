@@ -1,5 +1,5 @@
 ﻿; grammar name Incongruent Commands
-; grammar tier High
+; grammar tier Moderate
 
 $Main		= $complex
 

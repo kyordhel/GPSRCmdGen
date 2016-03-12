@@ -1,5 +1,5 @@
 ﻿; grammar name Incomplete Commands
-; grammar tier High
+; grammar tier Easy
 
 $Main = $complex
 
@@ -11,8 +11,8 @@ $Main = $complex
 $complex	= $getobjobf and $deliver
 $complex	= $getobj and $deliverobf
 
-$getobj		= $vbtake the {aobject} from the {placement 1}
-$getobjobf	= $vbtake the {aobject?} from the {placement 1}
+$getobj		= $vbtake the {object} from the {placement 1}
+$getobjobf	= $vbtake the {object?} from the {placement 1}
 
 $deliverobf	= $vbdeliver it {void meta:Deliver to {name} in the {room}}
 $deliverobf	= $vbdeliver it to the {placement? 2}
@@ -28,7 +28,7 @@ $target		= the {placement 2}
 # 
 ##############################################################################
 $complex	= $goroom and $findobj
-$findobj	= $vbfind the {aobject?}
+$findobj	= $vbfind the {object?}
 
 ##############################################################################
 #
