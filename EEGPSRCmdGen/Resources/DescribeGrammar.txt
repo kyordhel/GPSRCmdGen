@@ -1,0 +1,44 @@
+﻿; grammar name Describe
+; grammar tier High
+
+$Main		= $describe
+
+##############################################################################
+#
+# Describe: Go with person at place and describe them the objects at place
+# 
+##############################################################################
+$describe	= come (to | with) me and $dodescribe
+$describe	= $vbgo1 $target and $dodescribe
+$describe	= $vbgo2 {room}, $vbfind {name}, and $dodescribe
+
+##############################################################################
+#
+# Describe: describe the objects in place to person in place
+# 
+##############################################################################
+$describe	= $dodescribe to ($target | me)
+
+##############################################################################
+#
+# Describing objects
+# 
+##############################################################################
+$dodescribe	= $vbdescribe the (objects | {category}) (that are in | from | in ) the {placement}
+
+##############################################################################
+#
+# Verbs
+# 
+##############################################################################
+$vbgo1		= go with | reach | navigate to
+$vbgo2		= go to | navigate to | reach | get into
+$vbfind		= find | look for
+$vbdescribe	= describe
+
+##############################################################################
+#
+# Target
+# 
+##############################################################################
+$target	= {name} (at | in | who is in) the {beacon}

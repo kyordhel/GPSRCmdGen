@@ -1,0 +1,71 @@
+﻿; grammar name Category III
+; grammar tier High
+
+$Main		= $complex
+
+##############################################################################
+#
+# Complex Command: Get a special object and deliver it
+# 
+##############################################################################
+$complex	= $getobj and $deliver
+
+$getobj		= $vbtake the $spobj in the {placement 1}
+$deliver	= $vbdeliver it to $target
+$target		= me
+$target		= {name} (at | in | which is in) the {room}
+$target		= the {placement 2}
+$spobj		= cloth | tray | bowl
+
+##############################################################################
+#
+# Complex Command: Go to room (impossible)
+# 
+##############################################################################
+$complex	= $vbgoto the {room 1 meta: Access is blocked on all paths}
+
+##############################################################################
+#
+# Complex Command: Find a person and describe her
+# 
+##############################################################################
+$complex	= $goroom, $findprs and $describe
+$complex	= $findprsat and $describe
+
+##############################################################################
+#
+# Simple Command: Find a person
+# 
+##############################################################################
+$findprs	= $vbfind a person
+$findprsat	= $vbfind a person in the {room 1}
+
+##############################################################################
+#
+# Simple Command: Go to room
+# 
+##############################################################################
+$goroom		= $vbgoto the {room 1}
+
+##############################################################################
+#
+# Simple Command:  Describe a person
+# 
+##############################################################################
+$describe	= $vbspeak ($pgender | $pgesture)
+$pgender	= if the person is $pgenderopt
+$pgender	= the (sex | gender) of that person
+$pgenderopt	= (male or female) | (man or woman) | (boy or girl)
+$pgesture	= (what | which) gesture is (doing | performing) that person
+$pgesture	= the gesture of that person
+
+##############################################################################
+#
+# Verbs
+# 
+##############################################################################
+$vbdeliver	= bring | carry | deliver | take
+$vbfind		= find | look for
+$vbgoto		= go to | navigate to | reach | get into
+$vbtake		= take | grasp | get
+$vbspeak	= tell | say | speak
