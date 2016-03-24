@@ -11,11 +11,12 @@ PREFIX = GPSRCmdGen
 SOLUTION     = $(PREFIX).sln
 PATH_DEBUG   = bin/Debug
 PATH_RELEASE = bin/Release
-BIN_DEBUG    = $(PATH_DEBUG)/$(PREFIX).exe
-BIN_RELEASE  = $(PATH_RELEASE)/$(PREFIX).exe
+PATH_INTERM  = obj/
+BIN_DEBUG    = $(PATH_DEBUG)/
+BIN_RELEASE  = $(PATH_RELEASE)/
 XBUILDFLAGS  = /p:Platform="x86"
-DEBUG        = $(XBUILDFLAGS) /p:OutputPath="$(PATH_DEBUG)" /p:Configuration=Debug
-RELEASE      = $(XBUILDFLAGS) /p:OutputPath="$(PATH_RELEASE)" /p:Configuration=Release
+DEBUG        = $(XBUILDFLAGS) /p:Configuration=Debug
+RELEASE      = $(XBUILDFLAGS) /p:Configuration=Release
 
 ## OPTIONS ################
 
@@ -69,10 +70,25 @@ ERROR = $(RED)
 
 all: clean debug release
 
+#run:
+#	$(SILENT) $(MAKE) clean
+#	$(SILENT) $(MAKE) release
+#	$(SILENT) $(MONO) $(BIN_RELEASE)GPSRCmdGen.exe
+
 run:
 	$(SILENT) $(MAKE) clean
 	$(SILENT) $(MAKE) release
-	$(SILENT) $(MONO) $(BIN_RELEASE)
+	$(SILENT) $(MONO) $(BIN_RELEASE)GPSRCmdGen.exe
+
+gpsr:
+	$(SILENT) $(MAKE) clean
+	$(SILENT) $(MAKE) release
+	$(SILENT) $(MONO) $(BIN_RELEASE)GPSRCmdGen.exe
+
+eegpsr:
+	$(SILENT) $(MAKE) clean
+	$(SILENT) $(MAKE) release
+	$(SILENT) $(MONO) $(BIN_RELEASE)EEGPSRCmdGen.exe
 
 debug:
 	$(SILENT) $(XBUILD) $(DEBUG) $(SOLUTION)
@@ -84,6 +100,7 @@ cleanall:
 	$(SILENT) $(MAKE) clean
 	$(SILENT) $(REMOVE) $(PATH_DEBUG)
 	$(SILENT) $(REMOVE) $(PATH_RELEASE)
+	$(SILENT) $(REMOVE) $(PATH_INTERM)
 
 clean:
 	$(SILENT) $(XBUILD) $(DEBUG) $(SOLUTION) /t:Clean
