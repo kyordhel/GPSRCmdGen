@@ -374,7 +374,6 @@ namespace RoboCup.AtHome.CommandGenerator
 			Console.ForegroundColor = pc;
 		}
 
-
 		#endregion
 	}
 }
