@@ -34,14 +34,21 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Gma.QrCodeNet.Encoding.Net35, Version=0.4.0.0, Culture=neutral, PublicKeyToken=e8a75d24b142be49, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\Gma.QrCodeNet.Encoding.Net35.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseProgram.cs" />
     <Compile Include="Category.cs" />
     <Compile Include="Containers\CategoryContainer.cs" />
     <Compile Include="Containers\GestureContainer.cs" />
@@ -55,6 +62,12 @@
     <Compile Include="GPSRObject.cs" />
     <Compile Include="GPSRObjectManager.cs" />
     <Compile Include="Grammar.cs" />
+    <Compile Include="GUI\QRDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\QRDialog.Designer.cs">
+      <DependentUpon>QRDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="HiddenTaskElement.cs" />
     <Compile Include="IMetadatable.cs" />
     <Compile Include="INameable.cs" />
@@ -73,6 +86,14 @@
     <Compile Include="Token.cs" />
     <Compile Include="Wildcard.cs" />
     <Compile Include="WildcardReplacer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="GUI\QRDialog.resx">
+      <DependentUpon>QRDialog.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="NewFolder1\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
