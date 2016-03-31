@@ -37,6 +37,8 @@ namespace RoboCup.AtHome.CommandGenerator
 			{
 				k = Console.ReadKey(true);
 			} while ((k.Key != ConsoleKey.Escape) && (k.KeyChar != 'q') && (k.KeyChar != 't') && (k.KeyChar != 'c') && ((k.KeyChar < '1') || (k.KeyChar > '3')));
+			if (k.Key == ConsoleKey.Escape)
+				return '\0';
 			Console.WriteLine(k.KeyChar);
 			return k.KeyChar;
 		}
