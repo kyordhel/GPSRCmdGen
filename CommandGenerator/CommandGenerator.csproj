@@ -62,6 +62,7 @@
     <Compile Include="GPSRObject.cs" />
     <Compile Include="GPSRObjectManager.cs" />
     <Compile Include="Grammar.cs" />
+    <Compile Include="GrammarConverter.cs" />
     <Compile Include="GUI\QRDialog.cs">
       <SubType>Form</SubType>
     </Compile>
