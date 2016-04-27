@@ -13,7 +13,7 @@ namespace RoboCup.AtHome.CommandGenerator
 	public class GrammarConverter
 	{
 		private Grammar grammar;
-		private XmlWriter writer;
+		protected XmlWriter writer;
 		private List<Gesture> gestures;
 		private LocationManager locations;
 		private List<PersonName> names;
@@ -22,30 +22,60 @@ namespace RoboCup.AtHome.CommandGenerator
 		//private static 
 
 		/// <summary>
+		/// Initializes a new instance of GrammarConverter
+		/// </summary>
+		private GrammarConverter()
+		{
+			this.objects = GPSRObjectManager.Instance;
+			this.locations = LocationManager.Instance;
+		}
+
+		/// <summary>
+		/// Initializes a new instance of GrammarConverter
+		/// </summary>
+		/// <param name="grammar">The grammar to convert</param>
+		/// <param name="gestures">List of gesture names</param>
+		/// <param name="names">List of people name</param>
+		/// <param name="questions">List of known questions</param>
+		public GrammarConverter(Grammar grammar, List<Gesture> gestures, List<PersonName> names, List<PredefindedQuestion> questions) : this()
+		{
+			if (grammar == null) throw new ArgumentNullException();
+			this.grammar = grammar;
+			this.gestures = (gestures != null)? gestures : new List<Gesture>();
+			this.names = (names != null)?names  : new List<PersonName>();
+			this.questions = (questions != null) ? questions : new List<PredefindedQuestion>();
+		}
+
+		/// <summary>
 		/// Saves the provided grammar as an SRGSS xml file
 		/// </summary>
 		/// <param name="grammar">The grammar to convert</param>
 		/// <param name="filePath">Path to the SRGS xml file to save the grammar in</param>
-		public static void SaveToSRGS(Grammar grammar, string filePath, List<Gesture> gestures, LocationManager locations, List<PersonName> names, GPSRObjectManager objects, List<PredefindedQuestion> questions)
+		/// <param name="grammar">The grammar to convert</param>
+		/// <param name="gestures">List of gesture names</param>
+		/// <param name="names">List of people name</param>
+		/// <param name="questions">List of known questions</param>
+		public static void SaveToSRGS(Grammar grammar, string filePath, List<Gesture> gestures, List<PersonName> names, List<PredefindedQuestion> questions)
 		{
 			if (grammar == null) throw new ArgumentNullException();
 			GrammarConverter converter = new GrammarConverter();
 			converter.grammar = grammar;
 			converter.gestures = gestures;
-			converter.locations = locations;
 			converter.names = names;
-			converter.objects = objects;
 			converter.questions = questions;
 
-			converter.Convert(filePath);
+			converter.ConvertToXmlSRGS(filePath);
 		}
 
-		private void Convert(string filePath)
+		/// <summary>
+		/// Converts the grammar to Xml SRGS specification, saving it in the provided stream
+		/// </summary>
+		public void ConvertToXmlSRGS(TextWriter writer)
 		{
 			XmlWriterSettings settings = new XmlWriterSettings();
 			settings.Indent = true;
 			settings.IndentChars = "\t";
-			using (writer = XmlTextWriter.Create(filePath, settings))
+			using (this.writer = XmlTextWriter.Create(writer, settings))
 			{
 				SRGSWriteHeader();
 				SRGSWriteMainRule();
@@ -56,17 +86,53 @@ namespace RoboCup.AtHome.CommandGenerator
 				}
 				SRGSWriteWildcardRules();
 				SRGSWriteQuestionsRule();
-				writer.WriteEndElement();
+				this.writer.WriteEndElement();
 			}
 		}
 
-		private void SRGSWriteHeader()
+		/// <summary>
+		/// Converts the grammar to ABNF SRGS specification, saving it in the provided stream
+		/// </summary>
+		public void ConvertToAbnfSRGS(TextWriter writer)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <summary>
+		/// Converts the grammar to ABNF SRGS specification, saving it into the specified file
+		/// </summary>
+		/// <param name="filePath">The name of the file in which the converted grammar will be stored</param>
+		public void ConvertToAbnfSRGS(string filePath)
+		{
+			using (StreamWriter stream = new StreamWriter(filePath))
+			{
+				ConvertToAbnfSRGS(stream);
+				stream.Close();
+			}
+		}
+
+		/// <summary>
+		/// Converts the grammar to Xml SRGS specification, saving it into the specified file
+		/// </summary>
+		/// <param name="filePath">The name of the file in which the converted grammar will be stored</param>
+		public void ConvertToXmlSRGS(string filePath)
+		{
+			using (StreamWriter stream = new StreamWriter(filePath))
+			{
+				ConvertToXmlSRGS(stream);
+				stream.Close();
+			}
+		}
+
+		protected virtual void SRGSWriteHeader()
 		{
 			writer.WriteStartDocument();
-			writer.WriteDocType("grammar", "-//W3C//DTD GRAMMAR 1.0//EN", "http://www.w3.org/TR/speech-grammar/grammar.dtd", null);
+			// writer.WriteDocType("grammar", "-//W3C//DTD GRAMMAR 1.0//EN", "http://www.w3.org/TR/speech-grammar/grammar.dtd", null);
 			writer.WriteStartElement("grammar", "http://www.w3.org/2001/06/grammar");
-			writer.WriteAttributeString("xmlns", "xsi", null, "http://www.w3.org/2001/XMLSchema-instance");
-			writer.WriteAttributeString("xsi", "schemaLocation", null, "http://www.w3.org/2001/06/grammar http://www.w3.org/TR/speech-grammar/grammar.xsd");
+			writer.WriteAttributeString("version", "1.0");
+			writer.WriteAttributeString("xml", "lang", null, "en-US");
+			// writer.WriteAttributeString("xmlns", "xsi", null, "http://www.w3.org/2001/XMLSchema-instance");
+			// writer.WriteAttributeString("xsi", "schemaLocation", null, "http://www.w3.org/2001/06/grammar http://www.w3.org/TR/speech-grammar/grammar.xsd");
 			writer.WriteAttributeString("root", "main");
 
 
@@ -93,7 +159,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		private void SRGSWriteProductionRule(ProductionRule productionRule)
 		{
 			writer.WriteStartElement("rule");
-			writer.WriteAttributeString("root", SRGSNonTerminalToRuleName(productionRule.NonTerminal));
+			writer.WriteAttributeString("id", SRGSNonTerminalToRuleName(productionRule.NonTerminal));
 			writer.WriteAttributeString("scope", "private");
 			
 			SRGSWriteReplacements(productionRule);
@@ -229,7 +295,7 @@ namespace RoboCup.AtHome.CommandGenerator
 			if (gestures == null)
 				return;
 			writer.WriteStartElement("rule");
-			writer.WriteAttributeString("id", "_categories");
+			writer.WriteAttributeString("id", "_gestures");
 			writer.WriteAttributeString("scope", "private");
 			writer.WriteStartElement("one-of");
 			foreach (Gesture gesture in gestures)
