@@ -72,9 +72,9 @@ $name		= your name
 $name		= the name of your team
 $time		= the time
 $time		= what time is it
-$date		= tell the date
+$date		= the date
 $date		= what day is $day
-$date		= tell the day of the (month | week)
+$date		= the day of the (month | week)
 $day		= today | tomorrow
 
 ##############################################################################

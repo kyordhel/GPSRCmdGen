@@ -271,8 +271,8 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <returns>A category</returns>
 		private Gesture GetGesture ()
 		{
-			Gesture item = this.avGestures [this.avCategories.Count - 1];
-			this.avGestures.RemoveAt (this.avCategories.Count - 1);
+			Gesture item = this.avGestures [this.avGestures.Count - 1];
+			this.avGestures.RemoveAt (this.avGestures.Count - 1);
 			return item;
 		}
 
