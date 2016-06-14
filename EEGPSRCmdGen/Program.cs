@@ -9,6 +9,20 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 	/// </summary>
 	public class Program : BaseProgram
 	{
+		/// <summary>
+		/// Random Task generator
+		/// </summary>
+		protected EEGPSRGenerator gen;
+
+		protected override Generator Gen
+		{
+			get { return this.gen; }
+		}
+
+		public Program()
+		{
+			gen = new EEGPSRGenerator();
+		}
 
 		/// <summary>
 		/// Checks if at least one of the required files are present. If not, initializes the 
@@ -21,7 +35,60 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 				ExampleFilesGenerator.GenerateExampleFiles ();
 		}
 
-		
+		/// <summary>
+		/// Request the user to choose an option for random task generation.
+		/// </summary>
+		/// <returns>The user's option.</returns>
+		protected override char GetOption()
+		{
+			return base.GetOption(1, 6);
+		}
+
+		/// <summary>
+		/// Executes the user's option
+		/// </summary>
+		/// <param name="opc">User option (category).</param>
+		protected override void RunOption(char opc, ref Task task)
+		{
+			DifficultyDegree tier = DifficultyDegree.Unknown;
+			switch (opc)
+			{
+				case '1': task = gen.GenerateTask("Cat1 - Advanced Manipulation");
+					break;
+				case '2': task = gen.GenerateTask("Cat2 - Advanced Object Recognition");
+					break;
+				case '3': task = gen.GenerateTask("Cat3 - HRI");
+					break;
+				case '4': task = gen.GenerateTask("Cat4 - Memory and Awareness");
+					break;
+				case '5': task = gen.GenerateTask("Cat5 - People Recognition and Navigation");
+					break;
+				case '6': task = gen.GenerateTask("Cat6 - Simple Tasks");
+					break;
+
+				case 'c':
+					Console.Clear();
+					return;
+
+				case 't':
+					DisplayQRText();
+					return;
+
+				case 'q':
+					if (task == null)
+					{
+						Generator.Warn("Generate a task first");
+						return;
+					}
+
+					ShowQRDialog(task.ToString());
+					return;
+			}
+
+			Console.WriteLine("Choosen category {0}", opc);
+			task = gen.GenerateTask(tier);
+			PrintTask(task);
+		}
 
 		/// <summary>
 		/// Initializes the random task Generator and loads data from lists and storage
@@ -71,8 +138,8 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 					continue;
 				}
 				switch (category) {
-					case 1: tier = DifficultyDegree.Easy; break;
-					case 2: tier = DifficultyDegree.Moderate; break;
+					case 1: tier = DifficultyDegree.High; break;
+					case 2: tier = DifficultyDegree.High; break;
 					case 3: tier = DifficultyDegree.High; break;
 					default: return;
 				}

@@ -73,7 +73,7 @@ namespace RoboCup.AtHome.GPSRCmdGen
 		static void SaveGrammarFile (string name, string header, string formatSpec, string content)
 		{
 			string fileName = String.Format ("{0}.txt", name);
-			fileName = Loader.GetPath("grammars", fileName);
+			fileName = Loader.GetPath("gpsr_grammars", fileName);
 			if (!Overwrite (fileName))
 				return;
 			string Name = name.Substring (0, 1).ToUpper () + name.Substring (1);
@@ -92,7 +92,7 @@ namespace RoboCup.AtHome.GPSRCmdGen
 		/// </summary>
 		private static void SaveGrammars()
 		{
-			string path = Loader.GetPath("grammars");
+			string path = Loader.GetPath("gpsr_grammars");
 			if(!Directory.Exists(path))
 				Directory.CreateDirectory(path);
 

@@ -32,6 +32,17 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 		#region Load Methods
 
 		/// <summary>
+		/// Randomly generates a task with the given grammar
+		/// </summary>
+		/// <param name="grammarName">The name of the grammar to generate the task</param>
+		/// <param name="tier">The maximum difficulty degree allowed to produce the task</param>
+		/// <returns></returns>
+		public Task GenerateTask(string grammarName)
+		{
+			return base.GenerateTask(grammarName, DifficultyDegree.High);
+		}
+
+		/// <summary>
 		/// Loads the set of gestures from disk. If no gestures file is found, 
 		/// the default set is loaded from Factory
 		/// </summary>
@@ -53,7 +64,7 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 		public override void LoadGrammars()
 		{
 			try {
-				this.allGrammars = Loader.LoadGrammars ();
+				this.allGrammars = Loader.LoadGrammars("eegpsr_grammars");
 				Green("Done!");
 			} catch {
 

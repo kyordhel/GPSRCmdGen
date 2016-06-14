@@ -70,7 +70,37 @@ namespace RoboCup.AtHome.CommandGenerator.GUI
 
 		private void QRDialog_FormClosed(object sender, FormClosedEventArgs e)
 		{
+			this.Hide();
+			this.Dispose();
 			Application.Exit();
+		}
+
+		private void QRDialog_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			this.Hide();
+		}
+
+		private void QRDialog_KeyDown(object sender, KeyEventArgs e)
+		{
+			switch (e.KeyCode)
+			{
+				case Keys.Escape:
+					this.Hide();
+					this.Close();
+					return;
+
+				case Keys.F:
+					if(e.Control){
+						this.WindowState = this.WindowState == FormWindowState.Maximized? FormWindowState.Normal : FormWindowState.Maximized;
+					}
+					return;
+			}
+		}
+
+		private void QRDialog_Load(object sender, EventArgs e)
+		{
+			this.Focus();
+			this.BringToFront();
 		}
 	}
 }

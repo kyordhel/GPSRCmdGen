@@ -67,13 +67,15 @@
 			this.Controls.Add(this.lblQRText);
 			this.Controls.Add(this.pbQRCode);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-			this.MaximizeBox = false;
-			this.MinimizeBox = false;
+			this.KeyPreview = true;
 			this.Name = "QRDialog";
 			this.ShowIcon = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "QRDialog";
+			this.Load += new System.EventHandler(this.QRDialog_Load);
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.QRDialog_FormClosed);
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.QRDialog_FormClosing);
+			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.QRDialog_KeyDown);
 			((System.ComponentModel.ISupportInitialize)(this.pbQRCode)).EndInit();
 			this.ResumeLayout(false);
 

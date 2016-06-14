@@ -134,6 +134,21 @@ namespace RoboCup.AtHome.CommandGenerator
 		}
 
 		/// <summary>
+		/// Randomly generates a task with the given grammar
+		/// </summary>
+		/// <param name="grammarName">The name of the grammar to generate the task</param>
+		/// <param name="tier">The maximum difficulty degree allowed to produce the task</param>
+		/// <returns></returns>
+		public Task GenerateTask (string grammarName, DifficultyDegree tier)
+		{
+			string taskPrototype = GetTaskPrototype (grammarName);
+			WildcardReplacer replacer = new WildcardReplacer (this, tier);
+			if (String.IsNullOrEmpty (taskPrototype))
+				return null;
+			return replacer.GetTask (taskPrototype);
+		}
+
+		/// <summary>
 		/// Obtains a random grammar with the highest difficulty degree possible
 		/// </summary>
 		/// <param name="tier">The maximum difficulty degree allowed</param>
@@ -161,7 +176,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// </summary>
 		/// <param name="tier">The maximum difficulty degree allowed</param>
 		/// <returns>A task sentence prototype with unsolved constructs</returns>
-		private string GetTaskPrototype (DifficultyDegree tier)
+		protected string GetTaskPrototype (DifficultyDegree tier)
 		{	
 			Grammar g;
 
@@ -184,7 +199,34 @@ namespace RoboCup.AtHome.CommandGenerator
 				Err ("Can't generate grammar. Unexpected error");
 				return null;
 			}
-		}	
+		}
+
+		/// <summary>
+		/// Produces a random task sentece prototype from the grammar with the given name.
+		///  The prototype contains several tokens to be replaced by random values
+		/// </summary>
+		/// <param name="grammarName">The name of the grammar to generate the task</param>
+		/// <returns>A task sentence prototype with unsolved constructs</returns>
+		protected string GetTaskPrototype (string grammarName)
+		{	
+			Grammar g = this.allGrammars.FirstOrDefault( o => o.Name == grammarName );
+			if (g == null)
+			{
+				Err("Grammar " + grammarName + "does not exist. Aborting.");
+				return String.Empty;
+			}
+			Console.WriteLine ("Selected {0} grammar.", grammarName);
+
+			try {
+				return g.GenerateSentence (rnd);
+			} catch (StackOverflowException) {
+				Err ("Can't generate grammar. Grammar is recursive");
+				return null;
+			} catch {
+				Err ("Can't generate grammar. Unexpected error");
+				return null;
+			}
+		}
 
 		/// <summary>
 		/// Gets a random element from the provided list with the specified difficulty degree.

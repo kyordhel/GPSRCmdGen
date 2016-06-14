@@ -53,7 +53,7 @@ namespace RoboCup.AtHome.GPSRCmdGen
 		public override void LoadGrammars()
 		{
 			try {
-				this.allGrammars = Loader.LoadGrammars ();
+				this.allGrammars = Loader.LoadGrammars("gpsr_grammars");
 				Green("Done!");
 			} catch {
 

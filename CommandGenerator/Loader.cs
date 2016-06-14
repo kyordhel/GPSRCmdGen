@@ -138,10 +138,19 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// Loads a list of Grammar objects from the grammars subdirectory.
 		/// </summary>
 		/// <returns>A list of Grammar objects</returns>
-		public static List<Grammar> LoadGrammars ()
+		public static List<Grammar> LoadGrammars()
+		{
+			return LoadGrammars("grammars");
+		}
+
+		/// <summary>
+		/// Loads a list of Grammar objects from the grammars subdirectory.
+		/// </summary>
+		/// <returns>A list of Grammar objects</returns>
+		public static List<Grammar> LoadGrammars (string grammarsDirectoryName)
 		{
 			Grammar grammar;
-			string grammarsPath = GetPath ("grammars");
+			string grammarsPath = GetPath(grammarsDirectoryName);
 			string[] gfs = Directory.GetFiles (grammarsPath, "*.txt", SearchOption.TopDirectoryOnly);
 			List<Grammar> grammars = new List<Grammar> (gfs.Length);
 			foreach (string gf in gfs) {

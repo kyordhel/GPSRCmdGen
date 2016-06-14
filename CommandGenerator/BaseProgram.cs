@@ -9,15 +9,12 @@ namespace RoboCup.AtHome.CommandGenerator
 	/// </summary>
 	public abstract class BaseProgram
 	{
-		/// <summary>
-		/// Random Task generator
-		/// </summary>
-		protected Generator gen;
+		protected abstract Generator Gen { get; }
 
 		/// <summary>
 		/// Gets user text from console input and displays it in a QR code
 		/// </summary>
-		private void DisplayQRText()
+		protected void DisplayQRText()
 		{
 			Console.WriteLine("Write text for QR code and press INTRO.");
 			Console.Write("QR Text: ");
@@ -28,15 +25,15 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// Request the user to choose an option for random task generation.
 		/// </summary>
 		/// <returns>The user's option.</returns>
-		protected virtual char GetOption()
+		protected virtual char GetOption(int opcMin, int opcMax)
 		{
 			ConsoleKeyInfo k;
 			Console.WriteLine("Press Esc to quit, q for QR Code, t for type in a QR, c to clear.");
-			Console.Write("Enter category 1, 2, or 3: ");
+			Console.Write("Enter category {0} to {1}: ", opcMin, opcMax);
 			do
 			{
 				k = Console.ReadKey(true);
-			} while ((k.Key != ConsoleKey.Escape) && (k.KeyChar != 'q') && (k.KeyChar != 't') && (k.KeyChar != 'c') && ((k.KeyChar < '1') || (k.KeyChar > '3')));
+			} while ((k.Key != ConsoleKey.Escape) && (k.KeyChar != 'q') && (k.KeyChar != 't') && (k.KeyChar != 'c') && ((k.KeyChar < ('0' + opcMin)) || (k.KeyChar > ('0' + opcMax) )));
 			if (k.Key == ConsoleKey.Escape)
 				return '\0';
 			Console.WriteLine(k.KeyChar);
@@ -44,23 +41,29 @@ namespace RoboCup.AtHome.CommandGenerator
 		}
 
 		/// <summary>
+		/// Request the user to choose an option for random task generation.
+		/// </summary>
+		/// <returns>The user's option.</returns>
+		protected abstract char GetOption();
+
+		/// <summary>
 		/// Loads data from lists and storage
 		/// </summary>
 		protected void LoadData()
 		{
 			Console.Write("Loading objects...");
-			gen.LoadObjects();
+			Gen.LoadObjects();
 			Console.Write("Loading names...");
-			gen.LoadNames();
+			Gen.LoadNames();
 			Console.Write("Loading locations...");
-			gen.LoadLocations();
+			Gen.LoadLocations();
 			Console.Write("Loading gestures...");
-			gen.LoadGestures();
+			Gen.LoadGestures();
 			Console.Write("Loading predefined questions...");
-			gen.LoadQuestions();
+			Gen.LoadQuestions();
 			Console.Write("Loading grammars...");
-			gen.LoadGrammars();
-			gen.ValidateLocations();
+			Gen.LoadGrammars();
+			Gen.ValidateLocations();
 		}
 
 		/// <summary>
@@ -141,7 +144,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <summary>
 		/// Starts the user input loop
 		/// </summary>
-		public void Run()
+		public virtual void Run()
 		{
 			Task task = null;
 			char opc = '\0';
@@ -150,8 +153,6 @@ namespace RoboCup.AtHome.CommandGenerator
 			{
 				opc = GetOption();
 				RunOption(opc, ref task);
-				
-				
 			}
 			while (opc != '\0');
 		}
@@ -160,38 +161,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// Executes the user's option
 		/// </summary>
 		/// <param name="opc">User option (category).</param>
-		protected void RunOption(char opc, ref Task task)
-		{
-			DifficultyDegree tier = DifficultyDegree.Unknown;
-			switch (opc)
-			{
-				case '1': tier = DifficultyDegree.Easy;
-					break;
-				case '2': tier = DifficultyDegree.Moderate;
-					break;
-				case '3': tier = DifficultyDegree.High;
-					break;
-
-				case 'c':
-					Console.Clear();
-					return;
-
-				case 't':
-					DisplayQRText();
-					return;
-
-				case 'q':
-					if (task == null)
-						Generator.Warn("Generate a task first");
-					else
-						ShowQRDialog(task.ToString());
-					return;
-			}
-
-			Console.WriteLine("Choosen category {0}", opc);
-			task = gen.GenerateTask(tier);
-			PrintTask(task);
-		}
+		protected abstract void RunOption(char opc, ref Task task);
 
 		/// <summary>
 		/// When overriden in a derived class initializes the random task Generator and loads data from lists and storage
