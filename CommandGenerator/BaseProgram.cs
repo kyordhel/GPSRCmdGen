@@ -83,7 +83,17 @@ namespace RoboCup.AtHome.CommandGenerator
 			Console.WriteLine(pad);
 			Console.WriteLine();
 			// Prints task string and metadata
-			Console.WriteLine(task.ToString().PadRight(4));
+			string sTask = task.ToString().Trim();
+			sTask = sTask.Substring(0, 1).ToUpper() + sTask.Substring(1);
+			do
+			{
+				// sTask = sTask.PadRight(4);
+				int cut = sTask.Length;
+				if (cut >= Console.BufferWidth)
+					cut = sTask.LastIndexOf(' ', Console.BufferWidth);
+				Console.WriteLine(sTask.Substring(0, cut));
+				sTask = sTask.Substring(cut).Trim();
+			} while (!String.IsNullOrEmpty(sTask));
 			PrintTaskMetadata(task);
 			Console.WriteLine();
 			// Prints another line

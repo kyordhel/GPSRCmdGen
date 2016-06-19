@@ -50,7 +50,6 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 		/// <param name="opc">User option (category).</param>
 		protected override void RunOption(char opc, ref Task task)
 		{
-			DifficultyDegree tier = DifficultyDegree.Unknown;
 			switch (opc)
 			{
 				case '1': task = gen.GenerateTask("Cat1 - Advanced Manipulation");
@@ -83,10 +82,12 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 
 					ShowQRDialog(task.ToString());
 					return;
+
+				default:
+					break;
 			}
 
 			Console.WriteLine("Choosen category {0}", opc);
-			task = gen.GenerateTask(tier);
 			PrintTask(task);
 		}
 
