@@ -1,0 +1,129 @@
+; grammar name Cat5 - People Recognition and Navigation
+; grammar tier High
+ 
+$Main = $advprn
+
+##############################################################################
+#
+# Greet person matching description
+#
+##############################################################################
+$advprn	= $polite greet the $gwho
+$advprn	= $polite kill the $gwho
+
+$gwho	= $person in the $room
+
+##############################################################################
+#
+# Bring to person matching description
+#
+##############################################################################
+$advprn	= $polite bring a $bwhat to the $bwho
+
+$bwhat  = {kobject}
+$bwhat  = {category meta:{kobject} placed at {placement}}
+$bwho	= $person in the $room
+
+##############################################################################
+#
+# Meet and greet person
+#
+##############################################################################
+$advprn	= $mgreet {void meta:There is only one person at {beacon 1}}
+
+$mgreet = Meet {male} at the {beacon 1}, then (greet | find) him in the $room
+$mgreet	= Meet {female} at the {beacon 1}, then (greet | find) her in the $room
+
+
+##############################################################################
+#
+# Count
+#
+##############################################################################
+$advprn	= $polite tell me how many $people are in the $room.
+$advprn	= offer something to (eat | drink) to all the $people in the $room
+
+
+##############################################################################
+#
+# Follow & guide
+#
+##############################################################################
+$advprn	= $polite find the $fgwho and follow them
+$advprn	= $polite find the $fgwho and guide them to the (exit | {room 2})
+$fgwho	= $person in the $room
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##############################################################################
+#
+# People
+#
+##############################################################################
+$people = $ppl
+$people = $posture $ppl
+$people = {gesture} $ppl
+$people = $ppl wearing $outfit
+$people = $color-dressed $ppl
+
+$posture= standing | sitting | lying
+$ppl    = people | children | elders | men | women
+
+##############################################################################
+#
+# Person
+#
+##############################################################################
+$person = child
+$person = $lpdesc (man | woman | person)
+$person = (man | woman | person) $rpdesc
+$lpdesc = {gesture} | tallest | smallest | oldest | youngest | slimmest | fattest
+$rpdesc = dressed with $color $outfit
+$rpdesc = wearing ($apparel | $color $outfit) 
+
+$color	= blue | yellow | black | white | red | orange | gray
+$outfit = (T-shirt) | shirt | blouse | shoes | sweater | pants | coat | jacket
+$apparel = hat | glasses | necklace | tie | earrings
+
+
+##############################################################################
+#
+# Room
+#
+##############################################################################
+$room   = {room 1 meta:At least three people must be in the {room 1}}
+
+##############################################################################
+#
+# Polite
+#
+##############################################################################
+$polite = {void} | Please
+$polite = Could you
+$polite = Robot please
+$polite = Could you please
+
+
+
+
+
+

@@ -53,29 +53,29 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 			List<PersonName> names = new List<PersonName> ();
 
 			string[] male = new string[] {
-				"Alfred",
-				"Charles",
+				"Parker",
+				"Taylor",
+				"Angel",
+				"Ariel",
 				"Daniel",
-				"James",
-				"John",
-				"Luis",
-				"Paul",
-				"Richard",
-				"Robert",
-				"Steve"
+				"Louis",
+				"Manny",
+				"Wayne",
+				"Albert",
+				"Alfred"
 			};
 
 			string[] female = new string[] {
-				"Anna",
-				"Beth",
-				"Carmen",
-				"Jennifer",
-				"Jessica",
-				"Kimberly",
-				"Kristina",
-				"Laura",
-				"Mary",
-				"Sarah"
+				"Parker",
+				"Taylor",
+				"Angel",
+				"Ariel",
+				"Rachel",
+				"Louise",
+				"Fanny",
+				"Jane",
+				"Annie",
+				"Elaine"
 			};
 			foreach(string s in female)
 				names.Add(new PersonName(s, Gender.Female));

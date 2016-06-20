@@ -68,11 +68,9 @@
 *
 * Defining grammar name and tier
 * The grammar name and tier may be set as a comment with the lines:
-* ; grammar name Count
-* ; grammar tier Easy
+* ; grammar name MyGrammar
+* ; grammar tier High
 * Accepted values for the tier are Easy, Moderate, and High
 *
 *
 *****************************************************************************/
-
-

@@ -1,0 +1,23 @@
+; grammar name Cat4 - Memory and Awareness
+; grammar tier High
+
+$Main = $disclaimer
+
+
+##############################################################################
+#
+# Polite
+#
+##############################################################################
+$polite = $disclaimer 
+$polite = $disclaimer Please
+$polite = $disclaimer Could you
+$polite = $disclaimer Robot please
+$polite = $disclaimer Could you please
+
+##############################################################################
+#
+# Disclaimer
+#
+##############################################################################
+$disclaimer = {void meta: Questions of this category will be made by the TC regarding previous command execution}

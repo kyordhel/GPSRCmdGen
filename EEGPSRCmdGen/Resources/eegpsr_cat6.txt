@@ -1,0 +1,137 @@
+; grammar name Cat6 - Simple Tasks
+; grammar tier Moderate
+
+$Main     = $polite $complex.
+
+
+##############################################################################
+#
+# Complex commands
+#
+##############################################################################
+$complex  = $triple
+$complex  = $single, $single, and $single
+$complex  = $doublel, and $single
+$complex  = $single, $doubler
+
+##############################################################################
+#
+# Triple task commands
+#
+##############################################################################
+$triple   = $findor, and ($place | $deliver)
+$triple   = $findmp, and $guidem
+$triple   = $findfp, and $guidef
+$triple   = $vbtake the knife from the {placement} $vbfind {female} and kill her
+
+##############################################################################
+#
+# Double task commands
+#
+##############################################################################
+; go get it
+$doublel  = $take, and ($place | $deliver)
+$doubler  = $take, ($place | $deliver)
+
+; move object to target
+$doublel  = $vbplace {object} on the {placement}
+
+; find and follow
+$doubler  = $findmpr, and $followm
+$doubler  = $findfpr, and $followf
+$doublel  = $findmpr, $followm
+$doublel  = $findfpr, $followf
+
+; find and guide
+$doubler  = $findmp, and $guidem
+$doubler  = $findfp, and $guidef
+$doublel  = $findmp, $guidem
+$doublel  = $findfp, $guidef
+
+##############################################################################
+#
+# Single task commands
+#
+##############################################################################
+$single   = $vbspeak $whattosay
+$single   = $findfp | $findmp
+$single   = $take
+$single   = answer a {question}
+$single   = join the dark side
+
+##############################################################################
+#
+# Tasks
+#
+##############################################################################
+; Find object in room
+$findor   = $vbgor to the {room}, $vbfind the {object}
+$findor   = $vbfind a {object} in the {room}
+
+; Take an object
+$take     = $vbtake the {aobject} from the {placement}
+
+; Place an object
+$place    = $vbplace it on the {placement}
+
+; Deliver an object
+$deliver  = $vbdeliver it to (me | {name} in the {beacon})
+
+; Find people in location
+$findmp   = $vbgopl to the {beacon}, $vbfind {male}
+$findmp   = $vbfind {male} in the {beacon}
+$findfp   = $vbgopl to the {beacon}, $vbfind {female}
+$findfp   = $vbfind {female} in the {beacon}
+
+; Find people in room
+$findmpr  = $vbgor to the {room}, $vbfind {male}
+$findmpr  = $vbfind {male} in the {room}
+$findfpr  = $vbgor to the {room}, $vbfind {female}
+$findfpr  = $vbfind {female} in the {room}
+
+; Follow people
+$followm  = $vbfollow him
+$followf  = $vbfollow her
+
+; Guide people
+$guidem   = $vbguide him to the ( {room} | {beacon} | exit )
+$guidef   = $vbguide her to the ( {room} | {beacon} | exit )
+
+
+##############################################################################
+#
+# What to say
+#
+##############################################################################
+$whattosay = something about yourself
+$whattosay = the time
+$whattosay = what day is (today | tomorrow)
+$whattosay = your team's (name | country | affiliation)
+$whattosay = the day of the (week | month)
+$whattosay = a joke
+
+##############################################################################
+#
+# Verbs
+#
+##############################################################################
+$vbtake   = get | grasp | take | pick up
+$vbplace  = deliver | put | place
+$vbspeak  = tell | say
+$vbgopl   = go | navigate
+$vbgor    = $vbgopl | enter
+$vbfind   = find | locate | look for
+$vbguide  = guide | escort | take
+$vbfollow = follow
+$vbdeliver = bring | deliver | give | hand
+
+##############################################################################
+#
+# Polite
+#
+##############################################################################
+$polite   = {void} | Please
+$polite   = Could you
+$polite   = Robot please
+$polite   = Could you please
+

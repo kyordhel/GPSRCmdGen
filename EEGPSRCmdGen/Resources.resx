@@ -124,28 +124,22 @@
   <data name="FormatSpecification" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources/FormatSpecification.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="CountGrammar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources/CountGrammar.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="EEGPSR_Category1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\eegpsr_cat1.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="Category1Grammar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources/Category1Grammar.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="EEGPSR_Category2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\eegpsr_cat2.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="Category2Grammar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources/Category2Grammar.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="EEGPSR_Category3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\eegpsr_cat3.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="IncompleteCommandsGrammar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources/IncompleteCommandsGrammar.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="EEGPSR_Category4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\eegpsr_cat4.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="IncongruentCommandsGrammar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources/IncongruentCommandsGrammar.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="EEGPSR_Category5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\eegpsr_cat5.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="BreakfastGrammar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\BreakfastGrammar.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="DescribeGrammar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\DescribeGrammar.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="Category3Grammar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\Category3Grammar.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="EEGPSR_Category6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\eegpsr_cat6.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>
