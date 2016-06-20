@@ -56,7 +56,7 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 					break;
 				case '2': task = gen.GenerateTask("Cat2 - Advanced Object Recognition");
 					break;
-				case '3': task = gen.GenerateTask("Cat3 - HRI");
+				case '3': task = gen.GenerateTask("Cat3 - HRI and Incomplete Commands");
 					break;
 				case '4': task = gen.GenerateTask("Cat4 - Memory and Awareness");
 					break;

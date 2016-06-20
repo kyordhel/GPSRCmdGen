@@ -415,6 +415,24 @@ namespace RoboCup.AtHome.CommandGenerator
 				case "kobject":
 					obfuscated = ((GPSRObject)inam).Category;
 					break;
+
+				case "name":
+				case "male":
+				case "female":
+					obfuscated = new Obfuscator("a person");
+					break;
+
+				case "category":
+					obfuscated = new Obfuscator("objects");
+					break;
+
+				case "location":
+					obfuscated = new Obfuscator("somewhere");
+					break;
+
+				case "room":
+					obfuscated = new Obfuscator("apartment");
+					break;
 			}
 			if(obfuscated == null)
 				return new Token(w.Value, inam, FetchMetadata(w));

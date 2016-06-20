@@ -74,6 +74,10 @@ namespace RoboCup.AtHome.CommandGenerator
 		{
 			if (task == null)
 				return;
+			string sTask = task.ToString().Trim();
+			if (sTask.Length < 1)
+				return;
+
 			// switch Console color to white, backuping the previous one
 			ConsoleColor pc = Console.ForegroundColor;
 			Console.ForegroundColor = ConsoleColor.White;
@@ -82,15 +86,15 @@ namespace RoboCup.AtHome.CommandGenerator
 			string pad = String.Empty.PadRight(Console.BufferWidth - 1, '=');
 			Console.WriteLine(pad);
 			Console.WriteLine();
+
 			// Prints task string and metadata
-			string sTask = task.ToString().Trim();
 			sTask = sTask.Substring(0, 1).ToUpper() + sTask.Substring(1);
 			do
 			{
 				// sTask = sTask.PadRight(4);
 				int cut = sTask.Length;
 				if (cut >= Console.BufferWidth)
-					cut = sTask.LastIndexOf(' ', Console.BufferWidth);
+					cut = sTask.LastIndexOf(' ', Console.BufferWidth-1);
 				Console.WriteLine(sTask.Substring(0, cut));
 				sTask = sTask.Substring(cut).Trim();
 			} while (!String.IsNullOrEmpty(sTask));

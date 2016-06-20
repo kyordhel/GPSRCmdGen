@@ -1,2 +1,105 @@
-; grammar name Cat3 - HRI
+; grammar name Cat3 - HRI and Incomplete Commands
 ; grammar tier High
+
+$Main     = $polite $command
+
+##############################################################################
+#
+# Complex commands
+#
+##############################################################################
+$command  = $followob
+$command  = $guideob
+$command  = $findorob
+$command  = $findmpob and $guidem
+$command  = $findfpob and $guidef
+
+$command  = $takeob and ($place | $deliver)
+$command  = $take and ($placeob | $deliverob)
+$command  = $takeob and ($placeob | $deliverob)
+
+$command  = $vbplace {object?} on the {placement?}
+$command  = $vbspeak something {void meta:$whattosay}
+
+##############################################################################
+#
+# Tasks
+#
+##############################################################################
+; Find object in room
+$findor   = $vbgor to the {room}, $vbfind the {object}
+$findor   = $vbfind a {object} in the {room}
+$findorob = $vbfind a {object meta:Place it in the {room}}
+$findorob = $vbfind a {category meta:A object} in the {room}
+
+; Take an object
+$take     = $vbtake the {aobject} from the {placement}
+$takeob   = $vbtake the {aobject?} from the {placement?}
+
+; Place an object
+$place    = $vbplace it on the {placement}
+$placeob  = $vbplace it on the {placement?}
+
+; Deliver an object
+$deliver  = $vbdeliver it to (me | {name} in the {beacon})
+$deliverob= $vbdeliver it to {name? meta:Is at the {beacon} }
+
+; Find people in location
+$findmpob = $vbfind {male? meta:Is at the {beacon} }
+$findfpob = $vbfind {female? meta:Is at the {beacon} }
+
+; Find people in room
+$findmpr  = $vbgor to the {room}, $vbfind {male}
+$findmpr  = $vbfind {male} in the {room}
+$findfpr  = $vbgor to the {room}, $vbfind {female}
+$findfpr  = $vbfind {female} in the {room}
+
+; Follow people
+$followob = ($followm | $followf) {void meta:Person, {name}, is in the {beacon}}
+$followm  = $vbfollow him
+$followf  = $vbfollow her
+
+; Guide people
+$guideob  = $vbguide {name meta:Destination is {room}}
+$guideob  = $vbguide {name?} to the ( {room} | {beacon} | exit )
+$guidem   = $vbguide him to the ( {room} | {beacon} | exit )
+$guidef   = $vbguide her to the ( {room} | {beacon} | exit )
+
+
+##############################################################################
+#
+# What to say
+#
+##############################################################################
+$whattosay = something about yourself
+$whattosay = the time
+$whattosay = what day is (today | tomorrow)
+$whattosay = your team's (name | country | affiliation)
+$whattosay = the day of the (week | month)
+$whattosay = a joke
+
+##############################################################################
+#
+# Verbs
+#
+##############################################################################
+$vbtake   = get | grasp | take | pick up
+$vbplace  = deliver | put | place
+$vbspeak  = tell | say
+$vbgopl   = go | navigate
+$vbgor    = $vbgopl | enter
+$vbfind   = find | locate | look for
+$vbguide  = guide | escort | take
+$vbfollow = follow
+$vbdeliver = bring | deliver | give | hand
+
+##############################################################################
+#
+# Polite
+#
+##############################################################################
+$polite   = {void} | Please
+$polite   = Could you
+$polite   = Robot please
+$polite   = Could you please
+

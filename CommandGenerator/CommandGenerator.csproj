@@ -75,6 +75,7 @@
     <Compile Include="Loader.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="LocationManager.cs" />
+    <Compile Include="Obfuscator.cs" />
     <Compile Include="PersonName.cs" />
     <Compile Include="PredefindedQuestion.cs" />
     <Compile Include="ProductionRule.cs" />
