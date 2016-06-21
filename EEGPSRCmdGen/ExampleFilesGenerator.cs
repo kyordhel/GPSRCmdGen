@@ -73,7 +73,7 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 		static void SaveGrammarFile (string name, string header, string formatSpec, string content)
 		{
 			string fileName = String.Format ("{0}.txt", name);
-			fileName = Loader.GetPath("grammars", fileName);
+			fileName = Loader.GetPath("eegpsr_grammars", fileName);
 			if (!Overwrite (fileName))
 				return;
 			string Name = name.Substring (0, 1).ToUpper () + name.Substring (1);
@@ -92,7 +92,7 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 		/// </summary>
 		private static void SaveGrammars()
 		{
-			string path = Loader.GetPath("grammars");
+			string path = Loader.GetPath("eegpsr_grammars");
 			if(!Directory.Exists(path))
 				Directory.CreateDirectory(path);
 
@@ -100,14 +100,12 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 			string authoring = Resources.GrammarHeader;
 
 			Dictionary<string, string> grammars = new Dictionary<string, string> ();
-			grammars.Add ("count", Resources.CountGrammar);
-			grammars.Add("incomplete", Resources.IncompleteCommandsGrammar);
-			grammars.Add("incongruent", Resources.IncongruentCommandsGrammar);
-			grammars.Add("category1", Resources.Category1Grammar);
-			grammars.Add("category2", Resources.Category2Grammar);
-			grammars.Add("category3", Resources.Category3Grammar);
-			grammars.Add("breakfast", Resources.BreakfastGrammar);
-			grammars.Add("describe", Resources.DescribeGrammar);
+			grammars.Add("eegpsr_cat1", Resources.EEGPSR_Category1);
+			grammars.Add("eegpsr_cat2", Resources.EEGPSR_Category2);
+			grammars.Add("eegpsr_cat3", Resources.EEGPSR_Category3);
+			grammars.Add("eegpsr_cat4", Resources.EEGPSR_Category4);
+			grammars.Add("eegpsr_cat5", Resources.EEGPSR_Category5);
+			grammars.Add("eegpsr_cat6", Resources.EEGPSR_Category6);
 
 			foreach (KeyValuePair<string, string> g in grammars) {
 				try{

@@ -61,156 +61,154 @@ namespace RoboCup.AtHome.EEGPSRCmdGen {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ; grammar name Breakfast
+        ///   Looks up a localized string similar to ; grammar name Cat1 - Advanced Manipulation
         ///; grammar tier High
         ///
-        ///$Main		= $breakfast
+        ///$Main     = $advman
         ///
         ///##############################################################################
         ///#
-        ///# Breakfast: 
-        ///# 
+        ///# Serving breakfast
+        ///#
         ///##############################################################################
-        ///$breakfast	= $servetray, and $deliver
         ///
-        ///$servetray	= $vbput a {kobject} and a {aobject} onto the tray
-        ///$servetray	= $vbpour some $cereals into the bowl, put the bowl onto the tray
+        ///$advman   = $polite bring me something for breakfast; Up to the team to solve
+        ///$advman   = $polite serve the breakfast; Up to the team how to solve
+        ///$advman   = $polite bring me some $cereal, $fuit and $drink in a tray
         ///
-        ///$deliver	= $vbdeliver it to $target
         ///
-        ///################################### [rest of string was truncated]&quot;;.
+        ///######## [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string BreakfastGrammar {
+        internal static string EEGPSR_Category1 {
             get {
-                return ResourceManager.GetString("BreakfastGrammar", resourceCulture);
+                return ResourceManager.GetString("EEGPSR_Category1", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ; grammar name Category I
-        ///; grammar tier Easy
+        ///   Looks up a localized string similar to ; grammar name Cat2 - Advanced Object Recognition
+        ///; grammar tier High
         ///
-        ///$Main		= $complex 
-        ///; $complex	= $findprs and ($talk | $follow)
-        ///; $follow	= $vbfollow her to the {room}
-        ///; $findprs	= $vbfind a person
+        ///$Main = $advor
         ///
         ///##############################################################################
         ///#
-        ///# Complex Command: Get an object and deliver it
-        ///# 
+        ///# Bring from description
+        ///#
         ///##############################################################################
-        ///$complex	= $getobj and $deliver
-        ///
-        ///$getobj		= $vbtake the {kobject} from the {placement 1}
-        ///
-        ///$deliver	= $vbdel [rest of string was truncated]&quot;;.
+        ///$advor	= $polite bring me the $bwhat from the {placement 1}.
+        ///$advor	= $polite take the $bwhat from the {placement 1} to the {placement 2}.
+        ///$advor	= $polite bring me the {category} at the $rpos {placement 1}.
+        ///$advor	= Take the [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string Category1Grammar {
+        internal static string EEGPSR_Category2 {
             get {
-                return ResourceManager.GetString("Category1Grammar", resourceCulture);
+                return ResourceManager.GetString("EEGPSR_Category2", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ; grammar name Category II
+        ///   Looks up a localized string similar to ; grammar name Cat3 - HRI and Incomplete Commands
+        ///; grammar tier High
+        ///
+        ///$Main     = $polite $command
+        ///
+        ///##############################################################################
+        ///#
+        ///# Complex commands
+        ///#
+        ///##############################################################################
+        ///$command  = $followob
+        ///$command  = $guideob
+        ///$command  = $findorob
+        ///$command  = $findmpob and $guidem
+        ///$command  = $findfpob and $guidef
+        ///
+        ///$command  = $takeob and ($place | $deliver)
+        ///$command  = $take and ($placeob | $ [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string EEGPSR_Category3 {
+            get {
+                return ResourceManager.GetString("EEGPSR_Category3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ; grammar name Cat4 - Memory and Awareness
+        ///; grammar tier High
+        ///
+        ///$Main = $disclaimer
+        ///
+        ///
+        ///##############################################################################
+        ///#
+        ///# Polite
+        ///#
+        ///##############################################################################
+        ///$polite = $disclaimer 
+        ///$polite = $disclaimer Please
+        ///$polite = $disclaimer Could you
+        ///$polite = $disclaimer Robot please
+        ///$polite = $disclaimer Could you please
+        ///
+        ///##############################################################################        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string EEGPSR_Category4 {
+            get {
+                return ResourceManager.GetString("EEGPSR_Category4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ; grammar name Cat5 - People Recognition and Navigation
+        ///; grammar tier High
+        /// 
+        ///$Main = $advprn
+        ///
+        ///##############################################################################
+        ///#
+        ///# Greet person matching description
+        ///#
+        ///##############################################################################
+        ///$advprn	= $polite greet the $gwho
+        ///$advprn	= $polite kill the $gwho
+        ///
+        ///$gwho	= $person in the $room
+        ///
+        ///##############################################################################
+        ///#
+        ///# Bring to person match [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string EEGPSR_Category5 {
+            get {
+                return ResourceManager.GetString("EEGPSR_Category5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ; grammar name Cat6 - Simple Tasks
         ///; grammar tier Moderate
         ///
-        ///$Main		= $complex
+        ///$Main     = $polite $complex.
+        ///
         ///
         ///##############################################################################
         ///#
-        ///# Complex Command: Get an object and deliver it
-        ///# 
+        ///# Complex commands
+        ///#
         ///##############################################################################
-        ///$complex	= $getobj and $deliver
-        ///
-        ///$getobj		= $vbtake the {aobject} from the {placement 1}
-        ///
-        ///$deliver	= $vbdeliver it to $target
-        ///$target		= me
-        ///$target		= {name} (at | in | which is in) the {room}
-        ///$target		= the {plac [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string Category2Grammar {
-            get {
-                return ResourceManager.GetString("Category2Grammar", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ; grammar name Category III
-        ///; grammar tier High
-        ///
-        ///$Main		= $complex
+        ///$complex  = $triple
+        ///$complex  = $single, $single, and $single
+        ///$complex  = $doublel, and $single
+        ///$complex  = $single, $doubler
         ///
         ///##############################################################################
         ///#
-        ///# Complex Command: Get a special object and deliver it
-        ///# 
-        ///##############################################################################
-        ///$complex	= $getobj and $deliver
-        ///
-        ///$getobj		= $vbtake the $spobj in the {placement 1}
-        ///$deliver	= $vbdeliver it to $target
-        ///$target		= me
-        ///$target		= {name} (at | in | which is in) the {room}
-        ///$target		= the {placeme [rest of string was truncated]&quot;;.
+        ///# Triple task [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string Category3Grammar {
+        internal static string EEGPSR_Category6 {
             get {
-                return ResourceManager.GetString("Category3Grammar", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ; grammar name Count
-        ///; grammar tier High
-        ///
-        ///$Main   = $count
-        ///$count  = $count1 | $count2 | $count3
-        ///
-        ///$count1 = count the $cntxat $report
-        ///$cntxat = $cntoat | $cntpat
-        ///$cntoat = $object at the {placement 1}
-        ///$cntpat = $people at the {room 1}
-        ///
-        ///$count2 = $navigt $docntx $report 
-        ///$navigt = $goverb to the 
-        ///$docntx = $docnto | $docntp
-        ///$docnto = {placement 2}, count the $object
-        ///$docntp = {room 2}, count the $people
-        /// 
-        ///$count3 = Tell $target how many $ctable
-        ///$ctable = $objain | $pplain
-        ///$objain = $object [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string CountGrammar {
-            get {
-                return ResourceManager.GetString("CountGrammar", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ; grammar name Describe
-        ///; grammar tier High
-        ///
-        ///$Main		= $describe
-        ///
-        ///##############################################################################
-        ///#
-        ///# Describe: Go with person at place and describe them the objects at place
-        ///# 
-        ///##############################################################################
-        ///$describe	= come (to | with) me and $dodescribe
-        ///$describe	= $vbgo1 $target and $dodescribe
-        ///$describe	= $vbgo2 {room}, $vbfind {name}, and $dodescribe
-        ///
-        ///############################################ [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string DescribeGrammar {
-            get {
-                return ResourceManager.GetString("DescribeGrammar", resourceCulture);
+                return ResourceManager.GetString("EEGPSR_Category6", resourceCulture);
             }
         }
         
@@ -241,7 +239,7 @@ namespace RoboCup.AtHome.EEGPSRCmdGen {
         ///# ${GrammarName} Grammar
         ///# 
         ///# Author:  Mauricio Matamoros
-        ///# Date:    March 2015
+        ///# Date:    June 2016
         ///#
         ///# IMPORTANT: 
         ///# Since this document declares a grammar for generating sentences,
@@ -253,55 +251,6 @@ namespace RoboCup.AtHome.EEGPSRCmdGen {
         internal static string GrammarHeader {
             get {
                 return ResourceManager.GetString("GrammarHeader", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ; grammar name Incomplete Commands
-        ///; grammar tier Easy
-        ///
-        ///$Main = $complex
-        ///
-        ///##############################################################################
-        ///#
-        ///# Complex Command: Get an object and deliver it
-        ///# 
-        ///##############################################################################
-        ///$complex	= $getobjobf and $deliver
-        ///$complex	= $getobj and $deliverobf
-        ///
-        ///$getobj		= $vbtake the {aobject} from the {placement 1}
-        ///$getobjobf	= $vbtake the {aobject?} from the {placement 1}
-        ///
-        ///$deliverobf	= $vbdeliver [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string IncompleteCommandsGrammar {
-            get {
-                return ResourceManager.GetString("IncompleteCommandsGrammar", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ; grammar name Incongruent Commands
-        ///; grammar tier Moderate
-        ///
-        ///$Main		= $complex
-        ///
-        ///##############################################################################
-        ///#
-        ///# Complex Command: Move an object to same place
-        ///# 
-        ///##############################################################################
-        ///$incngrnt	= $getobj and $dlvrsame
-        ///
-        ///$getobj		= $vbtake the {object} from the {placement 1}
-        ///$dlvrsame	= $vbdeliver it to {placement 1 meta: replace with {placement 2}}
-        ///
-        ///####################################### [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string IncongruentCommandsGrammar {
-            get {
-                return ResourceManager.GetString("IncongruentCommandsGrammar", resourceCulture);
             }
         }
     }

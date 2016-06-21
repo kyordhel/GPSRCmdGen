@@ -52,16 +52,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\BreakfastGrammar.txt" />
-    <Content Include="Resources\Category2Grammar.txt" />
-    <Content Include="Resources\Category3Grammar.txt" />
-    <Content Include="Resources\CountGrammar.txt" />
-    <Content Include="Resources\DescribeGrammar.txt" />
+    <None Include="Resources\eegpsr_cat1.txt" />
+    <None Include="Resources\eegpsr_cat2.txt" />
+    <None Include="Resources\eegpsr_cat3.txt" />
+    <None Include="Resources\eegpsr_cat4.txt" />
+    <None Include="Resources\eegpsr_cat5.txt" />
+    <None Include="Resources\eegpsr_cat6.txt" />
     <Content Include="Resources\FormatSpecification.txt" />
     <Content Include="Resources\GrammarHeader.txt" />
-    <Content Include="Resources\Category1Grammar.txt" />
-    <Content Include="Resources\IncompleteCommandsGrammar.txt" />
-    <Content Include="Resources\IncongruentCommandsGrammar.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommandGenerator\CommandGenerator.csproj">

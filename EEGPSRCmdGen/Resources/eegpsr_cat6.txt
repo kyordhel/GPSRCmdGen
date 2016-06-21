@@ -1,4 +1,4 @@
-﻿; grammar name Category II
+; grammar name Cat6 - Simple Tasks
 ; grammar tier Moderate
 
 $Main     = $polite $complex.
@@ -19,14 +19,10 @@ $complex  = $single, $doubler
 # Triple task commands
 #
 ##############################################################################
-
-$triple   = $take, $deliver, and $answer
-$triple   = $take, $deliverf, and ($followf | $guidef)
-$triple   = $take, $deliverm, and ($followm | $guidem)
-$triple   = $moveobj, $findpr, and $answer
 $triple   = $findor, and ($place | $deliver)
 $triple   = $findmp, and $guidem
 $triple   = $findfp, and $guidef
+$triple   = $vbtake the knife from the {placement} $vbfind {female} and kill her
 
 ##############################################################################
 #
@@ -36,43 +32,32 @@ $triple   = $findfp, and $guidef
 ; go get it
 $doubler  = $take, and ($place | $deliver)
 $doublel  = $take, ($place | $deliver)
-$doubler  = $findor, and ($place | $deliver)
-$doublel  = $findor, ($place | $deliver)
 
-; find and answer
-$doubler  = $findp, and $answer
-$doublel  = $findpr, $answer
+; move object to target
+$doublel  = $vbplace {object} on the {placement}
 
 ; find and follow
-$doubler  = $findcp, and $followm
 $doubler  = $findmpr, and $followm
 $doubler  = $findfpr, and $followf
 $doublel  = $findmpr, $followm
 $doublel  = $findfpr, $followf
-$doublel  = $findcp, $followm
 
 ; find and guide
-$doubler  = $findcp, and $guidem
 $doubler  = $findmp, and $guidem
 $doubler  = $findfp, and $guidef
 $doublel  = $findmp, $guidem
 $doublel  = $findfp, $guidef
-$doublel  = $findcp, $guidem
 
 ##############################################################################
 #
 # Single task commands
 #
 ##############################################################################
-$single   = $moveobj
-$single   = $speak
+$single   = $vbspeak $whattosay
+$single   = $findfp | $findmp
 $single   = $take
-$single   = $goplace
-$single   = $findor
-$single   = $findp
-$single   = $findpr
-$single   = $follow
-$single   = $guide
+$single   = answer a {question}
+$single   = join the dark side
 
 ##############################################################################
 #
@@ -80,50 +65,37 @@ $single   = $guide
 #
 ##############################################################################
 ; Find object in room
+$findor   = $vbgor to the {room}, $vbfind the {object}
 $findor   = $vbfind a {object} in the {room}
 
 ; Take an object
-$take     = $vbtake the {object} from the {placement}
+$take     = $vbtake the {aobject} from the {placement}
 
 ; Place an object
 $place    = $vbplace it on the {placement}
 
-; Move object
-$moveobj  = $vbplace a {object} on the {placement}
-
 ; Deliver an object
 $deliver  = $vbdeliver it to (me | {name} in the {beacon})
-$deliverf = $vbdeliver it to {female} in the {beacon}
-$deliverm = $vbdeliver it to {male} in the {beacon}
 
 ; Find people in location
-$findp    = $vbfind {name} in the {beacon}
+$findmp   = $vbgopl to the {beacon}, $vbfind {male}
 $findmp   = $vbfind {male} in the {beacon}
+$findfp   = $vbgopl to the {beacon}, $vbfind {female}
 $findfp   = $vbfind {female} in the {beacon}
 
 ; Find people in room
-$findcp   = $vbfind the {gesture} person in the {room}
-$findpr   = $vbfind {name} in the {room}
+$findmpr  = $vbgor to the {room}, $vbfind {male}
 $findmpr  = $vbfind {male} in the {room}
+$findfpr  = $vbgor to the {room}, $vbfind {female}
 $findfpr  = $vbfind {female} in the {room}
 
 ; Follow people
-$follow   = $vbfollow {name} who is at the {beacon}
 $followm  = $vbfollow him
 $followf  = $vbfollow her
 
 ; Guide people
-$guide    = $vbguide {name} from the {beacon} to the ( {room} | {beacon} | exit )
 $guidem   = $vbguide him to the ( {room} | {beacon} | exit )
 $guidef   = $vbguide her to the ( {room} | {beacon} | exit )
-
-; Speak
-$answer   = answer a {question}
-$speak    = $vbspeak $whattosay
-
-; Navigating
-$goplace  = $vbgopl to the {placement}
-$gobeacon = $vbgopl to the {beacon}
 
 
 ##############################################################################

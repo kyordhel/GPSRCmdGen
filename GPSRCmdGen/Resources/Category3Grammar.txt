@@ -1,71 +1,171 @@
 ﻿; grammar name Category III
 ; grammar tier High
 
-$Main		= $complex
+$Main     = $polite $complex.
+
 
 ##############################################################################
 #
-# Complex Command: Get a special object and deliver it
-# 
+# Complex commands
+#
 ##############################################################################
-$complex	= $getobj and $deliver
-
-$getobj		= $vbtake the $spobj in the {placement 1}
-$deliver	= $vbdeliver it to $target
-$target		= me
-$target		= {name} (at | in | which is in) the {room}
-$target		= the {placement 2}
-$spobj		= cloth | tray | bowl
+$complex  = $triple
+$complex  = $single, $single, and $single
+$complex  = $doublel, and $single
+$complex  = $single, $doubler
 
 ##############################################################################
 #
-# Complex Command: Go to room (impossible)
-# 
+# Triple task commands
+#
 ##############################################################################
-$complex	= $vbgoto the {room 1 meta: Access is blocked on all paths}
+
+$triple   = $take, $deliver, and $answer
+$triple   = $take, $deliverf, and ($followf | $guidef)
+$triple   = $take, $deliverm, and ($followm | $guidem)
+$triple   = $moveobj, $findpr, and $answer
+$triple   = $findor, and ($place | $deliver)
+$triple   = $findmp, and $guidem
+$triple   = $findfp, and $guidef
 
 ##############################################################################
 #
-# Complex Command: Find a person and describe her
-# 
+# Double task commands
+#
 ##############################################################################
-$complex	= $goroom, $findprs and $describe
-$complex	= $findprsat and $describe
+; go get it
+$doubler  = $take, and ($place | $deliver)
+$doublel  = $take, ($place | $deliver)
+$doubler  = $findor, and ($place | $deliver)
+$doublel  = $findor, ($place | $deliver)
+
+; find and answer
+$doubler  = $findp, and $answer
+$doublel  = $findpr, $answer
+
+; find and follow
+$doubler  = $findcp, and $followm
+$doubler  = $findmpr, and $followm
+$doubler  = $findfpr, and $followf
+$doublel  = $findmpr, $followm
+$doublel  = $findfpr, $followf
+$doublel  = $findcp, $followm
+
+; find and guide
+$doubler  = $findcp, and $guidem
+$doubler  = $findmp, and $guidem
+$doubler  = $findfp, and $guidef
+$doublel  = $findmp, $guidem
+$doublel  = $findfp, $guidef
+$doublel  = $findcp, $guidem
 
 ##############################################################################
 #
-# Simple Command: Find a person
-# 
+# Single task commands
+#
 ##############################################################################
-$findprs	= $vbfind a person
-$findprsat	= $vbfind a person in the {room 1}
+$single   = $moveobj
+$single   = $speak
+$single   = $take
+$single   = $goplace
+$single   = $findor
+$single   = $findp
+$single   = $findpr
+$single   = $follow
+$single   = $guide
 
 ##############################################################################
 #
-# Simple Command: Go to room
-# 
+# Tasks
+#
 ##############################################################################
-$goroom		= $vbgoto the {room 1}
+; Find object in room
+$findor   = $vbfind a {object?} in the {room}
+
+; Take an object
+$take     = $vbtake the {object} from the {placement?}
+$take     = $vbtake the {object?} from the {placement}
+$take     = $vbtake the {object} from the {placement meta:The object is not there}
+$take     = $vbtake the {object meta:Replace with {aobject}} from the {placement}
+
+; Place an object
+$place    = $vbplace it on the {placement meta:Access to destination is blocked}
+
+; Move object
+$moveobj  = $vbplace a {object?} on the {placement}
+$moveobj  = $vbplace a {object} on the {placement?}
+$moveobj  = $vbplace a {object meta:The object is not there} on the {placement}
+$moveobj  = $vbplace a {object} on the {placement meta:Access to destination is blocked}
+
+; Deliver an object
+$deliver  = $vbdeliver it to (me | {name} in the {beacon})
+$deliverf = $vbdeliver it to {female} in the {beacon?}
+$deliverm = $vbdeliver it to {male} in the {beacon?}
+
+; Find people in location
+$findp    = $vbfind {name?} in the {beacon}
+$findmp   = $vbfind {male} in the {beacon}
+$findfp   = $vbfind {female} in the {beacon meta:Place male person instead.}
+
+; Find people in room
+$findcp   = $vbfind the {gesture} person in the {room}
+$findpr   = $vbfind {name} in the {room}
+$findmpr  = $vbfind {male} in the {room}
+$findfpr  = $vbfind {female} in the {room}
+
+; Follow people
+$follow   = $vbfollow {name} who is at the {beacon meta:All paths are blocked}
+$followm  = $vbfollow him
+$followf  = $vbfollow her
+
+; Guide people
+$guide    = $vbguide {name} from the {beacon?} to the ( {room?} | {beacon meta:All paths are blocked})
+$guidem   = $vbguide him to the ( {room?} | {beacon meta:All paths are blocked})
+$guidef   = $vbguide her to the ( {room?} | {beacon meta:All paths are blocked})
+
+; Speak
+$answer   = answer a {question}
+$speak    = $vbspeak $whattosay
+
+; Navigating
+$goplace  = $vbgopl to the {placement}
+$gobeacon = $vbgopl to the {beacon}
+
 
 ##############################################################################
 #
-# Simple Command:  Describe a person
-# 
+# What to say
+#
 ##############################################################################
-$describe	= $vbspeak ($pgender | $pgesture)
-$pgender	= if the person is $pgenderopt
-$pgender	= the (sex | gender) of that person
-$pgenderopt	= (male or female) | (man or woman) | (boy or girl)
-$pgesture	= (what | which) gesture is (doing | performing) that person
-$pgesture	= the gesture of that person
+$whattosay = something about yourself
+$whattosay = the time
+$whattosay = what day is (today | tomorrow)
+$whattosay = your team's (name | country | affiliation)
+$whattosay = the day of the (week | month)
+$whattosay = a joke
 
 ##############################################################################
 #
 # Verbs
-# 
+#
 ##############################################################################
-$vbdeliver	= bring | carry | deliver | take
-$vbfind		= find | look for
-$vbgoto		= go to | navigate to | reach | get into
-$vbtake		= take | grasp | get
-$vbspeak	= tell | say | speak
+$vbtake   = get | grasp | take | pick up
+$vbplace  = deliver | put | place
+$vbspeak  = tell | say
+$vbgopl   = go | navigate
+$vbgor    = $vbgopl | enter
+$vbfind   = find | locate | look for
+$vbguide  = guide | escort | take
+$vbfollow = follow
+$vbdeliver = bring | deliver | give | hand
+
+##############################################################################
+#
+# Polite
+#
+##############################################################################
+$polite   = {void} | Please
+$polite   = Could you
+$polite   = Robot please
+$polite   = Could you please
+

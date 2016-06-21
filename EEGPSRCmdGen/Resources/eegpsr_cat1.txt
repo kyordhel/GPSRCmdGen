@@ -1,0 +1,107 @@
+; grammar name Cat1 - Advanced Manipulation
+; grammar tier High
+
+$Main     = $advman
+
+##############################################################################
+#
+# Serving breakfast
+#
+##############################################################################
+
+$advman   = $polite bring me something for breakfast; Up to the team to solve
+$advman   = $polite serve the breakfast; Up to the team how to solve
+$advman   = $polite bring me some $cereal, $fuit and $drink in a tray
+
+
+##############################################################################
+#
+# Pouring
+#
+##############################################################################
+$advman   = {void meta: If asked, serve at {placement}} $pour
+$pour     = $polite $vbpour some $cereal in a bowl
+$pour     = $polite $vbpour some $drink in a bowl
+
+
+##############################################################################
+#
+# Opening
+#
+##############################################################################
+$advman   = $polite open the (entrance | exit | corridor) door
+
+
+##############################################################################
+#
+# Bringing
+#
+##############################################################################
+$advman   = $polite bring me the (tray | bowl)
+$advman   = $polite pick up the (tray | bowl) and put it onto the {placement}
+$advman   = $polite bring the $object to the {placement}
+$advman   = $polite bring me the $object
+$advman   = put all the {category} on the {placement}
+
+
+##############################################################################
+#
+# Pick and place
+#
+##############################################################################
+$advman   = $takeadv, and ($place | $deliver)
+$advman   = $take, and $placeadv
+
+$take     = $vbtake the {aobject} from the {placement}
+$place    = $vbplace it to the {placement}
+$deliver  = $vbdeliver it to (me | {name} in the {beacon})
+$takeadv  = $vbtake the {aobject} from the $enclosed
+$placeadv = $vbplace it into the $enclosed
+$enclosed = fridge | microwave | oven | box
+
+
+
+
+
+
+
+
+
+
+
+
+##############################################################################
+#
+# Polite
+#
+##############################################################################
+$polite = {void} | Please
+$polite = Could you
+$polite = Robot please
+$polite = Could you please
+
+##############################################################################
+#
+# Breakfast elements
+#
+##############################################################################
+$cereal	= oat | cereal | (choco flakes) | muesli
+$fruit	= banana | orange | apple
+$drink	= milk | (hot chocolate) | orange juice | coffee
+
+##############################################################################
+#
+# Hard to manipulate objects
+#
+##############################################################################
+$object = phone | book | pencil | egg | salt | hair brush
+
+##############################################################################
+#
+# Verbs
+#
+##############################################################################
+$vbpour = pour | serve
+$vbtake  = get | grasp | take | pick up
+$vbplace = deliver | put | place
+$vbdeliver = bring | deliver | give | hand

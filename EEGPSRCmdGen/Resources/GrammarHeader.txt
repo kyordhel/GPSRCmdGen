@@ -3,7 +3,7 @@
 # ${GrammarName} Grammar
 # 
 # Author:  Mauricio Matamoros
-# Date:    March 2015
+# Date:    June 2016
 #
 # IMPORTANT: 
 # Since this document declares a grammar for generating sentences,

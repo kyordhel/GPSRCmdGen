@@ -9,6 +9,20 @@ namespace RoboCup.AtHome.GPSRCmdGen
 	/// </summary>
 	public class Program : BaseProgram
 	{
+		/// <summary>
+		/// Random Task generator
+		/// </summary>
+		protected GPSRGenerator gen;
+
+		protected override Generator Gen
+		{
+			get { return this.gen; }
+		}
+
+		public Program()
+		{
+			gen = new GPSRGenerator();
+		}
 
 		/// <summary>
 		/// Checks if at least one of the required files are present. If not, initializes the 
@@ -17,8 +31,57 @@ namespace RoboCup.AtHome.GPSRCmdGen
 		public static void InitializePath()
 		{
 			int xmlFilesCnt = System.IO.Directory.GetFiles (Loader.ExePath, "*.xml", System.IO.SearchOption.TopDirectoryOnly).Length;
-			if ((xmlFilesCnt < 1) && !System.IO.Directory.Exists (Loader.GetPath("grammars")))
+			if ((xmlFilesCnt < 4) || !System.IO.Directory.Exists (Loader.GetPath("gpsr_grammars")))
 				ExampleFilesGenerator.GenerateExampleFiles ();
+		}
+
+		/// <summary>
+		/// Request the user to choose an option for random task generation.
+		/// </summary>
+		/// <returns>The user's option.</returns>
+		protected override char GetOption()
+		{
+			return base.GetOption(1, 3);
+		}
+
+		/// <summary>
+		/// Executes the user's option
+		/// </summary>
+		/// <param name="opc">User option (category).</param>
+		protected override void RunOption(char opc, ref Task task)
+		{
+			DifficultyDegree tier = DifficultyDegree.Unknown;
+			switch (opc)
+			{
+				case '1': tier = DifficultyDegree.Easy;
+					break;
+				case '2': tier = DifficultyDegree.Moderate;
+					break;
+				case '3': tier = DifficultyDegree.High;
+					break;
+
+				case 'c':
+					Console.Clear();
+					return;
+
+				case 't':
+					DisplayQRText();
+					return;
+
+				case 'q':
+					if (task == null)
+					{
+						Generator.Warn("Generate a task first");
+						return;
+					}
+
+					ShowQRDialog(task.ToString());
+					return;
+			}
+
+			Console.WriteLine("Choosen category {0}", opc);
+			task = gen.GenerateTask(tier);
+			PrintTask(task);
 		}
 
 		/// <summary>
