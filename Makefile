@@ -14,7 +14,7 @@ PATH_RELEASE = bin/Release
 PATH_INTERM  = obj/
 BIN_DEBUG    = $(PATH_DEBUG)/
 BIN_RELEASE  = $(PATH_RELEASE)/
-XBUILDFLAGS  = /p:Platform="x86"
+XBUILDFLAGS  = /p:Platform="x86" /verbosity:quiet /p:Warn=0 /p:WarningLevel=0
 DEBUG        = $(XBUILDFLAGS) /p:Configuration=Debug
 RELEASE      = $(XBUILDFLAGS) /p:Configuration=Release
 
