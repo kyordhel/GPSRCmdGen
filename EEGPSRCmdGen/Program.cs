@@ -31,7 +31,7 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 		public static void InitializePath()
 		{
 			int xmlFilesCnt = System.IO.Directory.GetFiles (Loader.ExePath, "*.xml", System.IO.SearchOption.TopDirectoryOnly).Length;
-			if ((xmlFilesCnt < 1) && !System.IO.Directory.Exists (Loader.GetPath("grammars")))
+			if ((xmlFilesCnt < 4) || !System.IO.Directory.Exists (Loader.GetPath("eegpsr_grammars")))
 				ExampleFilesGenerator.GenerateExampleFiles ();
 		}
 

@@ -30,8 +30,8 @@ $triple   = $vbtake the knife from the {placement} $vbfind {female} and kill her
 #
 ##############################################################################
 ; go get it
-$doublel  = $take, and ($place | $deliver)
-$doubler  = $take, ($place | $deliver)
+$doubler  = $take, and ($place | $deliver)
+$doublel  = $take, ($place | $deliver)
 
 ; move object to target
 $doublel  = $vbplace {object} on the {placement}

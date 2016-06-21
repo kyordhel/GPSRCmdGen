@@ -31,7 +31,7 @@ namespace RoboCup.AtHome.GPSRCmdGen
 		public static void InitializePath()
 		{
 			int xmlFilesCnt = System.IO.Directory.GetFiles (Loader.ExePath, "*.xml", System.IO.SearchOption.TopDirectoryOnly).Length;
-			if ((xmlFilesCnt < 1) && !System.IO.Directory.Exists (Loader.GetPath("grammars")))
+			if ((xmlFilesCnt < 4) || !System.IO.Directory.Exists (Loader.GetPath("gpsr_grammars")))
 				ExampleFilesGenerator.GenerateExampleFiles ();
 		}
 
@@ -41,7 +41,7 @@ namespace RoboCup.AtHome.GPSRCmdGen
 		/// <returns>The user's option.</returns>
 		protected override char GetOption()
 		{
-			return base.GetOption(1, 6);
+			return base.GetOption(1, 3);
 		}
 
 		/// <summary>
