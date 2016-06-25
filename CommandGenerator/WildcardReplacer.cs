@@ -117,6 +117,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		private INameable EvaluateCategory (Wildcard w)
 		{
 			string keycode = w.Name.ToLower ();
+			if(w.Id == -1) return GetCategory();
 			string key = keycode + w.Id;
 			if(this.categories.ContainsKey(key))
 				return this.categories[key];
@@ -134,6 +135,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		private INameable EvaluateGesture(Wildcard w)
 		{
 			string keycode = w.Name.ToLower ();
+			if (w.Id == -1) return GetGesture();
 			string key = keycode + w.Id;
 			if(this.gestures.ContainsKey(key))
 				return this.gestures[key];
@@ -165,7 +167,9 @@ namespace RoboCup.AtHome.CommandGenerator
 						keycode = "placement"; break;
 				}
 			}
+		
 			string key = keycode + w.Id;
+			if (w.Id == -1) return GetLocation(keycode);
 			if(this.locations.ContainsKey(key))
 				return this.locations[key];
 			Location loc = GetLocation (keycode);
@@ -189,6 +193,7 @@ namespace RoboCup.AtHome.CommandGenerator
 				else if (type == "female")
 					keycode = "female";
 			}
+			if (w.Id == -1) return GetName(keycode);
 			string key = keycode + w.Id;
 			if(this.names.ContainsKey(key))
 				return this.names[key];
@@ -213,6 +218,7 @@ namespace RoboCup.AtHome.CommandGenerator
 				else if (type == "known")
 					keycode = "kobject";
 			}
+			if (w.Id == -1) return GetObject(keycode);
 			string key = keycode + w.Id;
 			if(this.objects.ContainsKey(key))
 				return this.objects[key];
@@ -230,6 +236,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		private INameable EvaluateQuestion(Wildcard w)
 		{
 			string keycode = w.Name;
+			if (w.Id == -1) return GetQuestion();
 			string key = keycode + w.Id;
 			if (this.questions.ContainsKey(key))
 				return this.questions[key];

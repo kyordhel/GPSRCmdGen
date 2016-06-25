@@ -91,7 +91,6 @@ namespace RoboCup.AtHome.GPSRCmdGen
 			}
 
 			Console.WriteLine("Choosen category {0}", opc);
-			task = gen.GenerateTask(tier);
 			PrintTask(task);
 		}
 
