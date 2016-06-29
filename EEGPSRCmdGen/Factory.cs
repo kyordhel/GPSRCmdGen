@@ -32,43 +32,33 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 		{
 			List<Room> tmp = new List<Room>();
 			Room bedroom = new Room("bedroom");
-			bedroom.AddBeacon("chair");
-			bedroom.AddBeacon("mirror");
-			bedroom.AddPlacement("bin");
-			bedroom.AddPlacement("night table");
-			bedroom.AddLocation("bed", true, true);
-			bedroom.AddLocation("desk", true, true);
-			bedroom.AddLocation("wardrobe", true, true);
-			bedroom.AddLocation("stool", true, true);
+			bedroom.AddBeacon("bed");
+			bedroom.AddPlacement("bedside");
 			tmp.Add(bedroom);
-			
+
 			Room livingroom = new Room("living room");
-			livingroom.AddBeacon("armchair");
-			livingroom.AddPlacement("coffee table");
-			livingroom.AddBeacon("sofa");
-			livingroom.AddBeacon("tv");
-			livingroom.AddLocation("bookcase", true, true);
-			livingroom.AddLocation("magazine rack", true, true);
+			livingroom.AddPlacement("living shelf");
+			livingroom.AddLocation("TV stand", true, true);
+			livingroom.AddLocation("living table", true, true);
 			tmp.Add(livingroom);
 
-			Room diningroom = new Room("dining room");
-			diningroom.AddLocation("table", true, true);
-			diningroom.AddBeacon("chair");
-			diningroom.AddLocation("shelf", true, true);
-			diningroom.AddLocation("buffette", true, true);
-			tmp.Add(diningroom);
+			Room office = new Room("office");
+			office.AddPlacement("drawer");
+			office.AddLocation("desk", true, true);
+			tmp.Add(office);
 
 			Room kitchen = new Room("kitchen");
-			kitchen.AddPlacement("kitchen table");
-			kitchen.AddPlacement("stove");
-			kitchen.AddPlacement("microwave");
-			kitchen.AddBeacon("plant");
-			kitchen.AddPlacement("dishwasher");
-			kitchen.AddLocation("fridge", true, true);
-			kitchen.AddLocation("wine shelf", true, true);
+			kitchen.AddPlacement("bar");
+			kitchen.AddPlacement("cupboard");
+			kitchen.AddLocation("sink", true, true);
+			kitchen.AddPlacement("sideshelf");
+			kitchen.AddPlacement("bookcase");
+			kitchen.AddLocation("dining table", true, true);
 			tmp.Add(kitchen);
-			
-			tmp.Add(new Room("corridor"));
+
+			Room corridor = new Room("corridor");
+			corridor.AddLocation("cabinet", true, true);
+			tmp.Add(corridor);
 			return tmp;
 		}
 
@@ -122,41 +112,48 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 		{
 			List<Category> tmp = new List<Category>();
 
-			SpecificLocation shelf = SpecificLocation.Placement("shelf");
-			shelf.Room = new Room("dining room");
-			Category beverages = new Category("beverages", shelf);
-			beverages.AddObject("milk", GPSRObjectType.Known);
-			beverages.AddObject("coke", GPSRObjectType.Known);
-			beverages.AddObject("orange juice", GPSRObjectType.Known);
-			beverages.AddObject("beer", GPSRObjectType.Known, DifficultyDegree.High);
-			tmp.Add(beverages);
-
-			SpecificLocation kitchenTable = SpecificLocation.Placement("kitchen table");
-			kitchenTable.Room = new Room("kitchen");
-			Category fruits = new Category("fruits", kitchenTable);
-			fruits.AddObject("apple", GPSRObjectType.Alike);
-			fruits.AddObject("banana", GPSRObjectType.Alike);
-			fruits.AddObject("orange", GPSRObjectType.Alike);
-			fruits.AddObject("pear", GPSRObjectType.Alike);
-			tmp.Add(fruits);
-
-			SpecificLocation dinnerTable = SpecificLocation.Placement("dinner table");
-			dinnerTable.Room = new Room("dining room");
-			Category snacks = new Category("snacks", dinnerTable);
-			snacks.AddObject("lays", GPSRObjectType.Known, DifficultyDegree.Moderate);
-			snacks.AddObject("crackers", GPSRObjectType.Known);
+			SpecificLocation desk = SpecificLocation.Placement("desk");
+			desk.Room = new Room("office");
+			Category snacks = new Category("snacks", desk);
+			snacks.AddObject("chips", GPSRObjectType.Known, DifficultyDegree.Moderate);
+			snacks.AddObject("pretzels", GPSRObjectType.Known, DifficultyDegree.Moderate);
 			snacks.AddObject("pringles", GPSRObjectType.Known);
-			snacks.AddObject("chocolate", GPSRObjectType.Known);
 			tmp.Add(snacks);
 
-			SpecificLocation bathroomLocker = SpecificLocation.Placement("bathroom locker");
-			bathroomLocker.Room = new Room("bathroom");
-			Category cleaningStuff = new Category("cleaning stuff", bathroomLocker);
-			cleaningStuff.AddObject("cloth", GPSRObjectType.Alike, DifficultyDegree.High);
-			cleaningStuff.AddObject("detergent", GPSRObjectType.Known, DifficultyDegree.High);
-			cleaningStuff.AddObject("sponge", GPSRObjectType.Known);
-			cleaningStuff.AddObject("brush", GPSRObjectType.Known, DifficultyDegree.High);
-			tmp.Add(cleaningStuff);
+			SpecificLocation bedside = SpecificLocation.Placement("bedside");
+			bedside.Room = new Room("bedroom");
+			Category candies = new Category("candies", bedside);
+			candies.AddObject("choco syrup", GPSRObjectType.Known, DifficultyDegree.Moderate);
+			candies.AddObject("bisquits", GPSRObjectType.Known, DifficultyDegree.Easy);
+			candies.AddObject("baby sweets", GPSRObjectType.Alike, DifficultyDegree.Moderate);
+			candies.AddObject("egg", GPSRObjectType.Known, DifficultyDegree.High);
+			tmp.Add(candies);
+
+			SpecificLocation sideshelf = SpecificLocation.Placement("sideshelf");
+			sideshelf.Room = new Room("dining room");
+			Category food = new Category("food", sideshelf);
+			food.AddObject("apple", GPSRObjectType.Alike);
+			food.AddObject("paprika", GPSRObjectType.Alike);
+			food.AddObject("pumper nickel", GPSRObjectType.Known, DifficultyDegree.Moderate);
+			tmp.Add(food);
+
+			SpecificLocation bookcase = SpecificLocation.Placement("bookcase");
+			bookcase.Room = new Room("Kitchen");
+			Category drinks = new Category("drinks", bookcase);
+			drinks.AddObject("tea", GPSRObjectType.Known);
+			drinks.AddObject("beer", GPSRObjectType.Known);
+			drinks.AddObject("coke", GPSRObjectType.Known);
+			drinks.AddObject("coconut milk", GPSRObjectType.Known, DifficultyDegree.Moderate);
+			tmp.Add(drinks);
+
+			SpecificLocation livingshelf = SpecificLocation.Placement("living shelf");
+			livingshelf.Room = new Room("living room");
+			Category toiletries = new Category("toiletries", livingshelf);
+			toiletries.AddObject("shampoo", GPSRObjectType.Known, DifficultyDegree.Moderate);
+			toiletries.AddObject("soap", GPSRObjectType.Known);
+			toiletries.AddObject("cloth", GPSRObjectType.Alike, DifficultyDegree.High);
+			toiletries.AddObject("spponge", GPSRObjectType.Known, DifficultyDegree.High);
+			tmp.Add(toiletries);
 
 			return tmp;
 
