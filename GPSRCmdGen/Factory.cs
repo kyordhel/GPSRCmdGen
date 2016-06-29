@@ -13,14 +13,14 @@ namespace RoboCup.AtHome.GPSRCmdGen
 		/// Gets a list with predefined gestures.
 		/// </summary>
 		/// <returns>A list with predefined gestures.</returns>
-		public static List<Gesture> GetDefaultGestures ()
+		public static List<Gesture> GetDefaultGestures()
 		{
-			List<Gesture> gestures = new List<Gesture> ();
-			gestures.Add (new Gesture("waving", DifficultyDegree.Easy));
-			gestures.Add (new Gesture("rising left arm", DifficultyDegree.Easy));
-			gestures.Add (new Gesture("rising right arm", DifficultyDegree.Easy));
-			gestures.Add (new Gesture("pointing left", DifficultyDegree.Easy));
-			gestures.Add (new Gesture("pointing right", DifficultyDegree.Easy));
+			List<Gesture> gestures = new List<Gesture>();
+			gestures.Add(new Gesture("waving", DifficultyDegree.Easy));
+			gestures.Add(new Gesture("rising left arm", DifficultyDegree.Easy));
+			gestures.Add(new Gesture("rising right arm", DifficultyDegree.Easy));
+			gestures.Add(new Gesture("pointing left", DifficultyDegree.Easy));
+			gestures.Add(new Gesture("pointing right", DifficultyDegree.Easy));
 			return gestures;
 		}
 
@@ -28,19 +28,37 @@ namespace RoboCup.AtHome.GPSRCmdGen
 		/// Gets a list with predefined locations.
 		/// </summary>
 		/// <returns>A list with predefined locations.</returns>
-		public static List<Room> GetDefaultLocations ()
+		public static List<Room> GetDefaultLocations()
 		{
 			List<Room> tmp = new List<Room>();
 			Room bedroom = new Room("bedroom");
-			bedroom.AddBeacon("chair");
-			bedroom.AddPlacement("bin");
-			bedroom.AddLocation("bed", true, true);
+			bedroom.AddBeacon("bed");
+			bedroom.AddPlacement("bedside");
 			tmp.Add(bedroom);
-			tmp.Add (new Room ("bathroom"));
-			tmp.Add(new Room("dining room"));
-			tmp.Add(new Room("hall"));
-			tmp.Add(new Room("kitchen"));
-			tmp.Add(new Room("corridor"));
+
+			Room livingroom = new Room("living room");
+			livingroom.AddPlacement("living shelf");
+			livingroom.AddLocation("TV stand", true, true);
+			livingroom.AddLocation("living table", true, true);
+			tmp.Add(livingroom);
+
+			Room office = new Room("office");
+			office.AddPlacement("drawer");
+			office.AddLocation("desk", true, true);
+			tmp.Add(office);
+
+			Room kitchen = new Room("kitchen");
+			kitchen.AddPlacement("bar");
+			kitchen.AddPlacement("cupboard");
+			kitchen.AddLocation("sink", true, true);
+			kitchen.AddPlacement("sideshelf");
+			kitchen.AddPlacement("bookcase");
+			kitchen.AddLocation("dining table", true, true);
+			tmp.Add(kitchen);
+
+			Room corridor = new Room("corridor");
+			corridor.AddLocation("cabinet", true, true);
+			tmp.Add(corridor);
 			return tmp;
 		}
 
@@ -48,21 +66,39 @@ namespace RoboCup.AtHome.GPSRCmdGen
 		/// Gets a list with predefined names.
 		/// </summary>
 		/// <returns>A list with predefined names.</returns>
-		public static List<PersonName> GetDefaultNames ()
+		public static List<PersonName> GetDefaultNames()
 		{
-			List<PersonName> names = new List<PersonName> ();
+			List<PersonName> names = new List<PersonName>();
 
 			string[] male = new string[] {
-				"Noah",				"Liam",				"Mason",				"Jacob",				"William",				"Ethan",				"Michael",				"Alexander",				"James",				"Daniel"
+				"Noah",
+				"Liam",
+				"Mason",
+				"Jacob",
+				"William",
+				"Ethan",
+				"Michael",
+				"Alexander",
+				"James",
+				"Daniel"
 			};
 
 			string[] female = new string[] {
-				"Emma",				"Taylor",				"Sophia",				"Isabella",				"Ava",				"Robin",				"Emily",				"Angel",				"Madison",				"Charlotte"
+				"Emma",
+				"Taylor",
+				"Sophia",
+				"Isabella",
+				"Ava",
+				"Robin",
+				"Emily",
+				"Angel",
+				"Madison",
+				"Charlotte"
 			};
-			foreach(string s in female)
+			foreach (string s in female)
 				names.Add(new PersonName(s, Gender.Female));
 
-			foreach(string s in male)
+			foreach (string s in male)
 				names.Add(new PersonName(s, Gender.Male));
 
 			return names;
@@ -72,45 +108,60 @@ namespace RoboCup.AtHome.GPSRCmdGen
 		/// Gets a GPSRObjectManager which contains example GPSRObjects grouped by category.
 		/// </summary>
 		/// <returns>A GPSRObjectManager with default objects.</returns>
-		public static List<Category> GetDefaultObjects ()
+		public static List<Category> GetDefaultObjects()
 		{
 			List<Category> tmp = new List<Category>();
 
-			SpecificLocation shelf = SpecificLocation.Placement("shelf");
-			shelf.Room = new Room("dining room");
-			Category beverages = new Category ("beverages", shelf);
-			beverages.AddObject ("milk", GPSRObjectType.Known );
-			beverages.AddObject ("coke", GPSRObjectType.Known );
-			beverages.AddObject ("orange juice", GPSRObjectType.Known );
-			beverages.AddObject ("beer", GPSRObjectType.Known, DifficultyDegree.High );
-			tmp.Add (beverages);
+			SpecificLocation desk = SpecificLocation.Placement("desk");
+			desk.Room = new Room("office");
+			Category snacks = new Category("snacks", desk);
+			snacks.AddObject("chips", GPSRObjectType.Known, DifficultyDegree.Moderate);
+			snacks.AddObject("pretzels", GPSRObjectType.Known, DifficultyDegree.Moderate);
+			snacks.AddObject("pringles", GPSRObjectType.Known);
+			tmp.Add(snacks);
 
-			SpecificLocation kitchenTable = SpecificLocation.Placement("kitchen table");
-			kitchenTable.Room = new Room("kitchen");
-			Category fruits = new Category ("fruits", kitchenTable);
-			fruits.AddObject ("apple", GPSRObjectType.Alike );
-			fruits.AddObject ("banana", GPSRObjectType.Alike );
-			fruits.AddObject ("orange", GPSRObjectType.Alike );
-			fruits.AddObject ("pear", GPSRObjectType.Alike );
-			tmp.Add (fruits);
+			SpecificLocation bedside = SpecificLocation.Placement("bedside");
+			bedside.Room = new Room("bedroom");
+			Category candies = new Category("candies", bedside);
+			candies.AddObject("choco syrup", GPSRObjectType.Known, DifficultyDegree.Moderate);
+			candies.AddObject("bisquits", GPSRObjectType.Known, DifficultyDegree.Easy);
+			candies.AddObject("baby sweets", GPSRObjectType.Alike, DifficultyDegree.Moderate);
+			candies.AddObject("egg", GPSRObjectType.Known, DifficultyDegree.High);
+			tmp.Add(candies);
 
-			SpecificLocation dinnerTable = SpecificLocation.Placement("dinner table");
-			dinnerTable.Room = new Room("dining room");
-			Category snacks = new Category ("snacks", dinnerTable);
-			snacks.AddObject ("lays", GPSRObjectType.Known, DifficultyDegree.Moderate );
-			snacks.AddObject ("crackers", GPSRObjectType.Known );
-			snacks.AddObject ("pringles", GPSRObjectType.Known );
-			snacks.AddObject ("chocolate", GPSRObjectType.Known );
-			tmp.Add (snacks);
+			SpecificLocation sideshelf = SpecificLocation.Placement("sideshelf");
+			sideshelf.Room = new Room("dining room");
+			Category food = new Category("food", sideshelf);
+			food.AddObject("apple", GPSRObjectType.Alike);
+			food.AddObject("paprika", GPSRObjectType.Alike);
+			food.AddObject("pumper nickel", GPSRObjectType.Known, DifficultyDegree.Moderate);
+			tmp.Add(food);
 
-			SpecificLocation bathroomLocker = SpecificLocation.Placement("bathroom locker");
-			bathroomLocker.Room = new Room("bathroom");
-			Category cleaningStuff = new Category ("cleaning stuff", bathroomLocker);
-			cleaningStuff.AddObject ("cloth", GPSRObjectType.Alike, DifficultyDegree.High );
-			cleaningStuff.AddObject ("detergent", GPSRObjectType.Known, DifficultyDegree.High);
-			cleaningStuff.AddObject ("sponge", GPSRObjectType.Known );
-			cleaningStuff.AddObject ("brush", GPSRObjectType.Known, DifficultyDegree.High );
-			tmp.Add (cleaningStuff);
+			SpecificLocation bookcase = SpecificLocation.Placement("bookcase");
+			bookcase.Room = new Room("Kitchen");
+			Category drinks = new Category("drinks", bookcase);
+			drinks.AddObject("tea", GPSRObjectType.Known);
+			drinks.AddObject("beer", GPSRObjectType.Known);
+			drinks.AddObject("coke", GPSRObjectType.Known);
+			drinks.AddObject("coconut milk", GPSRObjectType.Known, DifficultyDegree.Moderate);
+			tmp.Add(drinks);
+
+			SpecificLocation livingshelf = SpecificLocation.Placement("living shelf");
+			livingshelf.Room = new Room("living room");
+			Category toiletries = new Category("toiletries", livingshelf);
+			toiletries.AddObject("shampoo", GPSRObjectType.Known, DifficultyDegree.Moderate);
+			toiletries.AddObject("soap", GPSRObjectType.Known);
+			toiletries.AddObject("cloth", GPSRObjectType.Alike, DifficultyDegree.High);
+			toiletries.AddObject("spponge", GPSRObjectType.Known, DifficultyDegree.High);
+			tmp.Add(toiletries);
+
+			SpecificLocation sink = SpecificLocation.Placement("sink");
+			sink.Room = new Room("kitchen");
+			Category containers = new Category("containers", sink);
+			containers.AddObject("bowl", GPSRObjectType.Known, DifficultyDegree.High);
+			containers.AddObject("tray", GPSRObjectType.Known, DifficultyDegree.High);
+			containers.AddObject("plate", GPSRObjectType.Known, DifficultyDegree.High);
+			tmp.Add(containers);
 
 			return tmp;
 

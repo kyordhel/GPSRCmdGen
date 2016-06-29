@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Collections.Generic;
 using RoboCup.AtHome.CommandGenerator;
 
@@ -44,6 +45,17 @@ namespace RoboCup.AtHome.GPSRCmdGen
 			return base.GetOption(1, 3);
 		}
 
+		private Task GetTask(char category)
+		{
+			switch (category)
+			{
+				case '1': return gen.GenerateTask(DifficultyDegree.Easy);
+				case '2': return gen.GenerateTask(DifficultyDegree.Moderate);
+				case '3': return gen.GenerateTask(DifficultyDegree.High);
+				default: return null;
+			}
+		}
+
 		/// <summary>
 		/// Executes the user's option
 		/// </summary>
@@ -53,11 +65,10 @@ namespace RoboCup.AtHome.GPSRCmdGen
 			DifficultyDegree tier = DifficultyDegree.Unknown;
 			switch (opc)
 			{
-				case '1': tier = DifficultyDegree.Easy;
-					break;
-				case '2': tier = DifficultyDegree.Moderate;
-					break;
-				case '3': tier = DifficultyDegree.High;
+				case '1': 
+				case '2': 
+				case '3':
+					task = GetTask(opc);
 					break;
 
 				case 'c':
@@ -80,7 +91,6 @@ namespace RoboCup.AtHome.GPSRCmdGen
 			}
 
 			Console.WriteLine("Choosen category {0}", opc);
-			task = gen.GenerateTask(tier);
 			PrintTask(task);
 		}
 
@@ -125,19 +135,103 @@ namespace RoboCup.AtHome.GPSRCmdGen
 			Program p = new Program ();
 
 			p.Setup ();
-			foreach (string arg in args) {
-				if (!Int32.TryParse (arg, out category) || (category < 1) || (category > 3)) {
-					Console.WriteLine ("Invalid category input {0}", arg);
+			for (int i = 0; i < args.Length; ++i){
+				if (Int32.TryParse(args[i], out category) && (category > 0) && (category < 4))
+				{
+					Task t = null;
+					p.RunOption((char)(category + '0'), ref t);
 					continue;
 				}
-				switch (category) {
-					case 1: tier = DifficultyDegree.Easy; break;
-					case 2: tier = DifficultyDegree.Moderate; break;
-					case 3: tier = DifficultyDegree.High; break;
-					default: return;
-				}
-				p.PrintTask(p.gen.GenerateTask(tier));
+
+				if (args[i] == "--bulk")
+					DoBulk(p, args, ref i);
 			}
+		}
+
+		private static void DoBulk(Program p, string[] args, ref int i)
+		{
+			int dCount;
+			if ((args.Length < (i + 2)) || !Int32.TryParse(args[++i], out dCount) || (dCount < 1))
+			{
+				Console.WriteLine("Invalid input");
+				return;
+			}
+
+			Console.WriteLine("Generating {0} examples in bulk mode for 3 categories", dCount);
+			try
+			{
+				for (char category = '1'; category <= '3'; ++category)
+				{
+					Console.WriteLine("Generating {0} examples for category {1}", dCount, category);
+					BulkExamples(p, category, dCount);
+				}
+			}
+			catch (Exception ex) { Console.WriteLine(ex.Message); }
+		}
+
+		private static void BulkExamples(Program p, char category, int count)
+		{
+			string oDir = String.Format("GPSR Cat{0} Examples", category);
+			if (!Directory.Exists(oDir))
+				Directory.CreateDirectory(oDir);
+			string oFile = Path.Combine(oDir, String.Format("{0}.txt", oDir));
+			using (StreamWriter writer = new StreamWriter(oFile, false, System.Text.Encoding.UTF8))
+			{
+				for (int i = 1; i <= count; ++i)
+				{
+					Task task = p.GetTask(category);
+					if (task == null) continue;
+					string sTask = task.ToString().Trim();
+					if (sTask.Length < 1) continue;
+					sTask = sTask.Substring(0, 1).ToUpper() + sTask.Substring(1);
+
+					WriteTaskToFile(writer, task, sTask, i);
+					GenerateTaskQR(sTask, i, oDir);
+				}
+			}
+		}
+
+		private static void WriteTaskToFile(StreamWriter writer, Task task, string sTask, int i)
+		{
+			string pad = String.Empty.PadRight(79, '#');
+			writer.WriteLine(pad);
+			writer.WriteLine("#");
+			writer.WriteLine("# Example ", i);
+			writer.WriteLine("#");
+			writer.WriteLine(pad);
+			writer.WriteLine();
+			writer.WriteLine(sTask);
+			writer.WriteLine();
+			List<string> remarks = new List<string>();
+			foreach (Token token in task.Tokens)
+			{
+				if (token.Metadata.Count < 1)
+					continue;
+				if (String.IsNullOrEmpty(token.Name))
+					remarks.AddRange(token.Metadata);
+				else
+				{
+					writer.WriteLine("{0}", token.Name);
+					foreach (string md in token.Metadata)
+						writer.WriteLine("\t{0}", md);
+				}
+			}
+			if (remarks.Count > 0)
+			{
+				writer.WriteLine("Remarks");
+				foreach (string r in remarks)
+					writer.WriteLine("\t{0}", r);
+			}
+			writer.WriteLine();
+		}
+
+		private static void GenerateTaskQR(string task, int i, string oDir)
+		{
+			string oFile;
+			System.Drawing.Image qr = CommandGenerator.GUI.QRDialog.GenerateQRBitmap(task, 500);
+			oFile = Path.Combine(oDir, String.Format("Example{0}.png", i.ToString().PadLeft(3, '0')));
+			if (File.Exists(oFile)) File.Delete(oFile);
+			qr.Save(oFile, System.Drawing.Imaging.ImageFormat.Png);
 		}
 	}
 }
