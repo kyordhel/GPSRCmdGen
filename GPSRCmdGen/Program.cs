@@ -196,7 +196,7 @@ namespace RoboCup.AtHome.GPSRCmdGen
 			string pad = String.Empty.PadRight(79, '#');
 			writer.WriteLine(pad);
 			writer.WriteLine("#");
-			writer.WriteLine("# Example ", i);
+			writer.WriteLine("# Example {0}", i);
 			writer.WriteLine("#");
 			writer.WriteLine(pad);
 			writer.WriteLine();
@@ -229,7 +229,7 @@ namespace RoboCup.AtHome.GPSRCmdGen
 		{
 			string oFile;
 			System.Drawing.Image qr = CommandGenerator.GUI.QRDialog.GenerateQRBitmap(task, 500);
-			oFile = Path.Combine(oDir, String.Format("Example{0}.png", i.ToString().PadLeft(3, '0')));
+			oFile = Path.Combine(oDir, String.Format("Example{0} - {1}.png", i.ToString().PadLeft(3, '0'), task));
 			if (File.Exists(oFile)) File.Delete(oFile);
 			qr.Save(oFile, System.Drawing.Imaging.ImageFormat.Png);
 		}

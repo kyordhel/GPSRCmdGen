@@ -9,7 +9,6 @@ $Main = $advprn
 #
 ##############################################################################
 $advprn	= $polite greet the $gwho
-$advprn	= $polite kill the $gwho
 
 $gwho	= $person in the $room
 

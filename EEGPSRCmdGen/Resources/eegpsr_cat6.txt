@@ -22,7 +22,6 @@ $complex  = $single, $doubler
 $triple   = $findor, and ($place | $deliver)
 $triple   = $findmp, and $guidem
 $triple   = $findfp, and $guidef
-$triple   = $vbtake the knife from the {placement} $vbfind {female} and kill her
 
 ##############################################################################
 #
