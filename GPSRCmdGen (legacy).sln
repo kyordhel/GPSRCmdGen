@@ -1,13 +1,11 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-VisualStudioVersion = 12.0.30501.0
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GPSRCmdGen", "GPSRCmdGen\GPSRCmdGen.csproj", "{34FB033E-112E-418F-B815-ADB8EC36027C}"
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GPSRCmdGen", "GPSRCmdGen\GPSRCmdGen (legacy).csproj", "{34FB033E-112E-418F-B815-ADB8EC36027C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandGenerator", "CommandGenerator\CommandGenerator.csproj", "{0C657018-3F18-40D4-836E-2D2D0D529660}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandGenerator", "CommandGenerator\CommandGenerator (legacy).csproj", "{0C657018-3F18-40D4-836E-2D2D0D529660}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EEGPSRCmdGen", "EEGPSRCmdGen\EEGPSRCmdGen.csproj", "{CC113145-1565-4976-8D87-8C2D40471F2E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EEGPSRCmdGen", "EEGPSRCmdGen\EEGPSRCmdGen (legacy).csproj", "{CC113145-1565-4976-8D87-8C2D40471F2E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

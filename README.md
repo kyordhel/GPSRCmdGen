@@ -4,8 +4,7 @@ GPSR Command Generator
 Random command generator for the General Purpose Service Robot test of the RoboCup @Home
 Based on the requirements stated on the rulebook for RoboCup @Home (check tag for specific year). [Go](http://www.robocupathome.org/rules)
 
-[Download compiled GPSR version for current rulebook (Stable)](http://github.com/kyordhel/GPSRCmdGen/blob/master/bin/Release/GPSRCmdGen.exe?raw=true)
-[Download compiled EEGPSR version for current rulebook (Stable)](http://github.com/kyordhel/GPSRCmdGen/blob/master/bin/Release/EEGPSRCmdGen.exe?raw=true)
+[Download compiled version for current rulebook (Stable)](http://github.com/kyordhel/GPSRCmdGen/blob/master/bin/stable/GPSRCmdGen.zip?raw=true)
 
 If you want to compile from source on Ubuntu:
 
