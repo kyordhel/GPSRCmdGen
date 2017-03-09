@@ -64,6 +64,7 @@ namespace RoboCup.AtHome.CommandGenerator
 			this.allGrammars = new List<Grammar> ();
 			this.allQuestions = new List<PredefindedQuestion>();
 			GenerateSortedDifficultyDegreesArray ();
+			this.Quiet = false;
 		}
 
 		#endregion
@@ -104,6 +105,8 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// Gets the list that stores sorted difficulty degrees from the hardes to the easiest
 		/// </summary>
 		internal List<DifficultyDegree> SortedDD{ get{ return this.sdd; } }
+
+		public bool Quiet { get; set; }
 
 		#endregion
 
@@ -164,7 +167,8 @@ namespace RoboCup.AtHome.CommandGenerator
 				g = GetTieredElement (dd, allGrammars);
 				if (g != null)
 					return g;
-				Warn("No grammars were found for {0} difficulty degree. {1}", dd, idd > 1 ? "Grammar tier reduced." : String.Empty);
+				if(!Quiet)
+					Warn("No grammars were found for {0} difficulty degree. {1}", dd, idd > 1 ? "Grammar tier reduced." : String.Empty);
 			}
 			return null;
 		}
@@ -185,10 +189,13 @@ namespace RoboCup.AtHome.CommandGenerator
 				Err ("No grammars could be selected. Aborting.");
 				return String.Empty;
 			}
-			if (String.IsNullOrEmpty (g.Name))
-				Console.WriteLine ("Selected {0} difficulty degree grammar.", g.Tier);
-			else
-				Console.WriteLine ("Selected {0} ({1} difficulty degree grammar).", g.Name, g.Tier);
+
+			if(!Quiet){
+				if (String.IsNullOrEmpty (g.Name))
+					Console.WriteLine ("Selected {0} difficulty degree grammar.", g.Tier);
+				else
+					Console.WriteLine ("Selected {0} ({1} difficulty degree grammar).", g.Name, g.Tier);
+			}
 
 			try {
 				return g.GenerateSentence (rnd);
@@ -215,7 +222,8 @@ namespace RoboCup.AtHome.CommandGenerator
 				Err("Grammar " + grammarName + "does not exist. Aborting.");
 				return String.Empty;
 			}
-			Console.WriteLine ("Selected {0} grammar.", grammarName);
+			if(!Quiet)
+				Console.WriteLine ("Selected {0} grammar.", grammarName);
 
 			try {
 				return g.GenerateSentence (rnd);
