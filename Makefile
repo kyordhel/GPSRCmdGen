@@ -90,6 +90,11 @@ eegpsr:
 	$(SILENT) $(MAKE) release
 	$(SILENT) $(MONO) $(BIN_RELEASE)EEGPSRCmdGen.exe
 
+spr:
+	$(SILENT) $(MAKE) clean
+	$(SILENT) $(MAKE) release
+	$(SILENT) $(MONO) $(BIN_RELEASE)SPRTest.exe	
+
 debug:
 	$(SILENT) $(XBUILD) $(DEBUG) $(SOLUTION)
 

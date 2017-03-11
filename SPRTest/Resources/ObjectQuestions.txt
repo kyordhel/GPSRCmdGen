@@ -1,0 +1,16 @@
+; grammar name ObjectQuestions
+; grammar tier High
+
+$Main = $objq
+$objq = Where can I find a {object}?
+$objq = How many {category} there are?
+$objq = What's the colour of the {kobject}?
+$objq = How many ({category} | objects) are in the {placement}?
+$objq = What objects are stored in the {placement}?
+$objq = Where can I find a ({object} | {category})?
+$objq = To which category belong the {object}?
+$objq = Do the {object 1} and {object 2} belong to the same category?
+$objq = Which is the $adja ({category} | object)?
+$objq = Between the {object 1} and {object 2}, which one is $adjr?
+$adja = heaviest | smallest | biggest | lightest
+$adjr = heavier | smaller | bigger | lighter

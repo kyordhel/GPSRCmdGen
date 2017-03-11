@@ -1,0 +1,10 @@
+; grammar name ArenaQuestions
+; grammar tier High
+
+$Main   = $arenaq
+$arenaq = Where is the {placement}?
+$arenaq = Where is the {beacon}?
+$arenaq = In which room is the {placement}?
+$arenaq = In which room is the {beacon}?
+$arenaq = How many doors has the {room}?
+$arenaq = How many ({placement} | {beacon}) are in the {room}?

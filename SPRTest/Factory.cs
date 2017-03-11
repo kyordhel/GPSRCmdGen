@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using RoboCup.AtHome.CommandGenerator;
 
-namespace RoboCup.AtHome.EEGPSRCmdGen
+namespace RoboCup.AtHome.SPRTest
 {
 	/// <summary>
 	/// Helper class that produces lists and containers with predefined example data
@@ -200,3 +200,4 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 		}
 	}
 }
+
