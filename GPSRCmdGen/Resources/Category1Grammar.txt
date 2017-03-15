@@ -1,9 +1,9 @@
 ﻿; grammar name Category I
 ; grammar tier Easy
 
-$Main     = $tell
-$Main     = $place
 $Main     = $deliver
+$Main     = $fndppl
+$Main     = $fndobj
 
 ##############################################################################
 #
@@ -18,9 +18,9 @@ $deliver  = $vbbtake the {kobject} from the {placement 1} to the {placement 2}
 $deliver  = $vbbring me the {kobject}
 $deliver  = $vbbring (me | to $someoneb) the {kobject} from the {placement}
 $deliver  = $takefrom and ($delivme | $delivat)
-$deliver  = $takefrom and $place it on the {placement 2}
+$deliver  = $takefrom and $place
 $deliver  = $goplace, $vbfind the {kobject}, and ($delivme | $delivat)
-$deliver  = $goplace, $vbfind the {kobject}, and $place it on the {placement 2}
+$deliver  = $goplace, $vbfind the {kobject}, and $place
 
 ##############################################################################
 #
@@ -64,7 +64,7 @@ $take     = $vbtake the {kobject}
 $takefrom = $take from the {placement 1}
 
 ; Place an object
-$place    = $vbplace it on the {placement}
+$place    = $vbplace it on the {placement 2}
 
 ; Deliver an object
 $delivme  = $vbdeliver it to me
