@@ -30,8 +30,8 @@ $deliver  = $goplace, $vbfind the {kobject}, and $place
 $fndppl   = $talk to $someoneb
 $fndppl   = Find $findp in the {room} and $talk
 $fndppl   = $goroom, $findp, and $talk
-$fndppl   = Tell me the (name | gender) of the person at the {beacon}
-$fndppl   = Tell me the (name | gender) of the person in the {room}
+$fndppl   = Tell me the name of the person at the {beacon}
+$fndppl   = Tell me the name of the person in the {room}
 
 ##############################################################################
 #
