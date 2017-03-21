@@ -1,0 +1,109 @@
+#
+# This grammar file has no main, therefore, cannot be loaded
+# standalone. Import using:
+# ; import common.txt
+#
+# The following rules must be defined in the importer
+# ; An object type
+# $object
+# ; Rule for finding a specific (named) person
+# $findp
+# ; A named or described person in the given place
+# $whowhere
+#
+; grammar name Common
+
+##############################################################################
+#
+# Manipulation
+#
+##############################################################################
+$deliver  = $take the $object to the {placement 2}
+$deliver  = $vbplace the $object on the {placement 2}
+$deliver  = $vbbring me the $object
+$deliver  = $vbdeliver the $object to $someone
+$deliver  = $vbbtake the $object from the {placement 1} to the {placement 2}
+$deliver  = $goplace, $vbfind the $object, and ($delivme | $delivat)
+$deliver  = $goplace, $vbfind the $object, and $place
+
+
+
+##############################################################################
+#
+# Find people
+#
+##############################################################################
+$fndppl   = $talk to $whowhere
+$fndppl   = $findp in the {room} and $talk
+$fndppl   = $goroom, $findp, and $talk
+
+
+
+##############################################################################
+#
+# Find objects
+#
+##############################################################################
+$fndobj   = Tell me how many $object there are in the {placement}
+$fndobj   = $vbfind the $object in the {room}
+
+
+##############################################################################
+#
+# Rules
+#
+##############################################################################
+; People
+$someone  = me | $whowhere
+
+; Place an object
+$place    = $vbplace it on the {placement 2}
+
+; Navigating
+$goplace  = $vbgopl to the {placement 1}
+$gobeacon = $vbgopl to the {beacon 1}
+$goroom   = $vbgopl to the {room 1}
+
+; Take an object
+$take     = $vbtake the $object
+$takefrom = $take from the {placement 1}
+
+; Deliver an object
+$delivme  = $vbdeliver it to me
+$delivto  = $vbdeliver it to {name}
+$delivat  = $vbdeliver it to {name} in the {beacon}
+
+; Speak
+$talk     = $answer | $speak
+$answer   = answer a {question}
+$speak    = $vbspeak $whattosay
+
+
+##############################################################################
+#
+# What to say
+#
+##############################################################################
+$whattosay = something about yourself
+$whattosay = the time
+$whattosay = what day is (today | tomorrow)
+$whattosay = your team's (name | country | affiliation)
+$whattosay = the day of the (week | month)
+$whattosay = a joke
+
+##############################################################################
+#
+# Verbs
+#
+##############################################################################
+$vbbtake   = bring | take
+$vbplace   = put | place
+$vbbring   = bring | give
+$vbdeliver = $vbbring | deliver
+$vbtake   = get | grasp | take | pick up
+$vbspeak  = tell | say
+$vbgopl   = go | navigate
+$vbgor    = $vbgopl | enter
+$vbfind   = find | locate | look for
+$vbguide  = guide | escort | take
+$vbfollow = follow

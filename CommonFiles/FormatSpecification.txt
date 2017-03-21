@@ -4,16 +4,58 @@
 *
 ******************************************************************************
 *
+* FILE HEADER
+* ===========================
+* A grammar file must start with the grammar name and tier in the
+* following format:
+*
+* ; grammar name MyGrammar
+* ; grammar tier High
+*
+* Accepted values for the tier are Easy, Moderate, and High.
+*
+* After defining the grammar's name and tier, other grammar files can be
+* imported with the following directives:
+*
+* ; load   path/to/grammar/file.txt
+* ; import path/to/grammar/file.txt
+* ; import path/to/grammar/file.txt as $nonterminal
+*
+* The first directive loads all the non-terminals in the referred grammar
+* file as if they were explicitly in the file being loaded with the same
+* effect of concatenating both files. The second directive acts like the
+* first one but skipping the $Main non-terminal of the second grammar, making
+* non-terminals available for re-use, but not being attached to the
+* production graph. In contrast, the third directive makes accessible only
+* the $Main rule of the imported grammar via $nonterminal (other imported
+* rules are internally renamed).
+ 
+*
+* Remarks:
+*     - $nonterminal can be any valid non-terminal.
+*     - The path to the grammar file may be enclosed within double quotes
+*  and be a relative path. If the file cannot be found, a {void} wildcard
+*  (see below) will be used, specifying the nature of the error as meta-data.
+*
+*
+*
 * ROOT
+* ===========================
 * The root rule S of the grammar is the $Main Non-Terminal. In order for the
 * grammar to be valid, it must contain at least one $Main rule.
 *
+*
+*
 * Non-Terminal identifiers
+* ===========================
 * A valid Non-Terminal identifier is a sequence of one or more letters,
 * digits, or underscore characters (_). Spaces, punctuation marks, and symbols
 * cannot be part of a Non-Terminal identifier.
 *
+*
+*
 * Wildcards
+* ===========================
 * Wilcards are strings within braces which are used during random sentence
 * generation, replacing them by random values. The same random value may be
 * specified for a set of wildcards by specifying an ID. Also, the type may
@@ -51,26 +93,25 @@
 * 	{placement}	Alias for {location placement}
 *	{room}		Alias for {location room}
 *
+*
+*
 * Obfuscating information 
+* ===========================
 * A wildcard ended with a question mark will be replaced by an obfuscated
 * value instead of the random value choosen by that wildcard, which will
 * be included as metadata.
 * The obfuscation is performed as follows (wildcards not shown can not
 * be obfuscated):
-*	{category}	The "objects" literal string
-*	{location}	The "room" literal string for rooms, for placements and
+*	{category?}	The "objects" literal string
+*	{location?}	The "room" literal string for rooms, for placements and
 *				beacons, the room to which the location belongs.
-*	{object}	The category to which the object belongs.
+*	{object?}	The category to which the object belongs.
 *
-* Comments
+*
+*
+* Commenting
+* ===========================
 * C/C++/Java comments are permitted.
 * In addition, any words, spaces, or marks after # or % or ; will be ignored
-*
-* Defining grammar name and tier
-* The grammar name and tier may be set as a comment with the lines:
-* ; grammar name MyGrammar
-* ; grammar tier High
-* Accepted values for the tier are Easy, Moderate, and High
-*
 *
 *****************************************************************************/

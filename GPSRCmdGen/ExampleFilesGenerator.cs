@@ -103,6 +103,7 @@ namespace RoboCup.AtHome.GPSRCmdGen
 			grammars.Add("category1", Resources.Category1Grammar);
 			grammars.Add("category2", Resources.Category2Grammar);
 			grammars.Add("category3", Resources.Category3Grammar);
+			grammars.Add("common", Resources.CommonRules);
 
 			foreach (KeyValuePair<string, string> g in grammars) {
 				try{

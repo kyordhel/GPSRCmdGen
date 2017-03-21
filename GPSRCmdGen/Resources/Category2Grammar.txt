@@ -1,5 +1,6 @@
 ﻿; grammar name Category I
 ; grammar tier Moderate
+; import common.txt
 
 $Main     = $deliver
 $Main     = $fndppl
@@ -7,45 +8,52 @@ $Main     = $fndobj
 
 ##############################################################################
 #
+# Production Rules required by common.txt
+#
+##############################################################################
+; Define an object type
+$object   = {aobject}
+
+; Rule for finding a specific (named) person
+$findp    = $vbfind a $pgenders
+$findp    = $vbfind a {gesture} person
+$findp    = $vbfind a $pose person
+
+; A named or described person in the given place
+$whowhere = the {gesture} person in the {room}
+
+
+
+##############################################################################
+#
 # Manipulation
 #
 ##############################################################################
-
-$deliver  = $vbdeliver the {aobject} to the {placement}
-$deliver  = $place the {aobject} on the {placement}
-$deliver  = $vbdeliver the {aobject} to $someone
-$deliver  = $vbbtake the {aobject} from the {placement 1} to the {placement 2}
 $deliver  = $vbbtake the {aobject} from the {room} to the {placement 2}
-$deliver  = $vbbring me the {aobject}
+
 $deliver  = $vbbring me the {aobject} from the {placement}
 $deliver  = $takefrom and ($delivme | $delivat)
 $deliver  = $takefrom and $place
-$deliver  = $goplace, $vbfind the {aobject}, and ($delivme | $delivat)
-$deliver  = $goplace, $vbfind the {aobject}, and $place
 
 ##############################################################################
 #
 # Find people
 #
 ##############################################################################
-$fndppl   = $talk to the $someoneb
-$fndppl   = tell me how many people in the {room} are ($pgenderp | $pose) 
-$fndppl   = Find $findp in the {room} and $talk
-$fndppl   = $goroom, $findp, and $talk
 $fndppl   = Tell me the (name | gender | pose) of the person at the {beacon}
 $fndppl   = Tell me the (name | gender | pose) of the person in the {room}
+$fndppl   = tell me how many people in the {room} are ($pgenderp | $pose) 
 
 ##############################################################################
 #
 # Find objects
 #
 ##############################################################################
-$fndobj   = Tell me how many {aobject} there are in the {placement}
-$fndobj   = Tell me how many {aobject?} there are in the {placement}
+$fndobj   = $vbfind the {aobject?} in the {room}
+$fndobj   = Tell me how many {category} there are in the {placement}
 $fndobj   = Tell me what's the $oprop object in the {placement}
 $fndobj   = Tell me what's the $oprop {category} in the {placement}
-$fndobj   = $vbfind the {aobject} in the {room}
-$fndobj   = $vbfind the {aobject?} in the {room}
+$fndobj   = $vbfind the {category} in the {room}
 $oprop    = biggest | largest | smallest | heviest | lightest | thinnest
 
 
@@ -54,68 +62,7 @@ $oprop    = biggest | largest | smallest | heviest | lightest | thinnest
 # Rules
 #
 ##############################################################################
-
-; People
-$someone  = me | $someoneb
-$someoneb = {gesture} person in the {room}
-
-; Navigating
-$goplace  = $vbgopl to the {placement 1}
-$gobeacon = $vbgopl to the {beacon 1}
-$goroom   = $vbgopl to the {room 1}
-
-; Take an object
-$take     = $vbtake the {aobject}
-$takefrom = $take from the {placement 1}
-
-; Place an object
-$place    = $vbplace it on the {placement 2}
-
-; Deliver an object
-$delivme  = $vbdeliver it to me
-$delivto  = $vbdeliver it to {name}
-$delivat  = $vbdeliver it to {name} in the {beacon}
-
 ; Find people
-$findp    = $vbfind a $pgenders
-$findp    = $vbfind a {gesture} person
-$findp    = $vbfind a $pose person
 $pgenders = man | woman | boy | girl | (male person) | (female person)
 $pgenderp = men | women | boys | girls | male | female
 $pose     = sitting | standing | lying
-$findpl   = $findp in the {beacon}
-
-; Speak
-$talk     = $answer | $speak
-$answer   = answer a {question}
-$speak    = $vbspeak $whattosay
-
-
-##############################################################################
-#
-# What to say
-#
-##############################################################################
-$whattosay = something about yourself
-$whattosay = the time
-$whattosay = what day is (today | tomorrow)
-$whattosay = your team's (name | country | affiliation)
-$whattosay = the day of the (week | month)
-$whattosay = a joke
-
-##############################################################################
-#
-# Verbs
-#
-##############################################################################
-$vbbtake   = bring | take
-$vbplace   = put | place
-$vbbring   = bring | give
-$vbdeliver = $vbbring | deliver
-$vbtake   = get | grasp | take | pick up
-$vbspeak  = tell | say
-$vbgopl   = go | navigate
-$vbgor    = $vbgopl | enter
-$vbfind   = find | locate | look for
-$vbguide  = guide | escort | take
-$vbfollow = follow
