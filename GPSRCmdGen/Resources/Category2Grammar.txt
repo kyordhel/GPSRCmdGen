@@ -1,165 +1,69 @@
 ﻿; grammar name Category II
 ; grammar tier Moderate
+; import common.txt
 
-$Main     = $polite $complex.
+$Main     = $deliver
+$Main     = $fndppl
+$Main     = $fndobj
+$Main     = $guide
+$Main     = $follow
+
+##############################################################################
+#
+# Production Rules required by common.txt
+#
+##############################################################################
+; Define an object type
+$object   = {aobject}
+
+; Rule for finding a specific (named) person
+$findp    = $vbfind a $pgenders
+$findp    = $vbfind a {gesture} person
+$findp    = $vbfind a $pose person
+
+; A named or described person in the given place
+$whowhere = the {gesture} person in the {room}
+
 
 
 ##############################################################################
 #
-# Complex commands
+# Manipulation
 #
 ##############################################################################
-$complex  = $triple
-$complex  = $single, $single, and $single
-$complex  = $doublel, and $single
-$complex  = $single, $doubler
+$deliver  = $vbbtake the {aobject} from the {room} to the {placement 2}
 
-##############################################################################
-#
-# Triple task commands
-#
-##############################################################################
-
-$triple   = $take, $deliver, and $answer
-$triple   = $take, $deliverf, and ($followf | $guidef)
-$triple   = $take, $deliverm, and ($followm | $guidem)
-$triple   = $moveobj, $findpr, and $answer
-$triple   = $findor, and ($place | $deliver)
-$triple   = $findmp, and $guidem
-$triple   = $findfp, and $guidef
+$deliver  = $vbbring me the {aobject} from the {placement}
+$deliver  = $takefrom and ($delivme | $delivat)
+$deliver  = $takefrom and $place
 
 ##############################################################################
 #
-# Double task commands
+# Find people
 #
 ##############################################################################
-; go get it
-$doubler  = $take, and ($place | $deliver)
-$doublel  = $take, ($place | $deliver)
-$doubler  = $findor, and ($place | $deliver)
-$doublel  = $findor, ($place | $deliver)
-
-; find and answer
-$doubler  = $findp, and $answer
-$doublel  = $findpr, $answer
-
-; find and follow
-$doubler  = $findcp, and $followm
-$doubler  = $findmpr, and $followm
-$doubler  = $findfpr, and $followf
-$doublel  = $findmpr, $followm
-$doublel  = $findfpr, $followf
-$doublel  = $findcp, $followm
-
-; find and guide
-$doubler  = $findcp, and $guidem
-$doubler  = $findmp, and $guidem
-$doubler  = $findfp, and $guidef
-$doublel  = $findmp, $guidem
-$doublel  = $findfp, $guidef
-$doublel  = $findcp, $guidem
+$fndppl   = Tell me the (name | gender | pose) of the person at the {beacon}
+$fndppl   = Tell me the (name | gender | pose) of the person in the {room}
+$fndppl   = tell me how many people in the {room} are ($pgenderp | $pose) 
 
 ##############################################################################
 #
-# Single task commands
+# Find objects
 #
 ##############################################################################
-$single   = $moveobj
-$single   = $speak
-$single   = $take
-$single   = $goplace
-$single   = $findor
-$single   = $findp
-$single   = $findpr
-$single   = $follow
-$single   = $guide
-
-##############################################################################
-#
-# Tasks
-#
-##############################################################################
-; Find object in room
-$findor   = $vbfind a {object} in the {room}
-
-; Take an object
-$take     = $vbtake the {object} from the {placement}
-
-; Place an object
-$place    = $vbplace it on the {placement}
-
-; Move object
-$moveobj  = $vbplace a {object} on the {placement}
-
-; Deliver an object
-$deliver  = $vbdeliver it to (me | {name} in the {beacon})
-$deliverf = $vbdeliver it to {female} in the {beacon}
-$deliverm = $vbdeliver it to {male} in the {beacon}
-
-; Find people in location
-$findp    = $vbfind {name} in the {beacon}
-$findmp   = $vbfind {male} in the {beacon}
-$findfp   = $vbfind {female} in the {beacon}
-
-; Find people in room
-$findcp   = $vbfind the {gesture} person in the {room}
-$findpr   = $vbfind {name} in the {room}
-$findmpr  = $vbfind {male} in the {room}
-$findfpr  = $vbfind {female} in the {room}
-
-; Follow people
-$follow   = $vbfollow {name} who is at the {beacon}
-$followm  = $vbfollow him
-$followf  = $vbfollow her
-
-; Guide people
-$guide    = $vbguide {name} from the {beacon} to the ( {room} | {beacon} | exit )
-$guidem   = $vbguide him to the ( {room} | {beacon} | exit )
-$guidef   = $vbguide her to the ( {room} | {beacon} | exit )
-
-; Speak
-$answer   = answer a {question}
-$speak    = $vbspeak $whattosay
-
-; Navigating
-$goplace  = $vbgopl to the {placement}
-$gobeacon = $vbgopl to the {beacon}
+$fndobj   = $vbfind the {aobject?} in the {room}
+$fndobj   = Tell me how many {category} there are in the {placement}
+$fndobj   = Tell me what's the $oprop object in the {placement}
+$fndobj   = Tell me what's the $oprop {category} in the {placement}
+$fndobj   = $vbfind the {category} in the {room}
 
 
 ##############################################################################
 #
-# What to say
+# Rules
 #
 ##############################################################################
-$whattosay = something about yourself
-$whattosay = the time
-$whattosay = what day is (today | tomorrow)
-$whattosay = your team's (name | country | affiliation)
-$whattosay = the day of the (week | month)
-$whattosay = a joke
-
-##############################################################################
-#
-# Verbs
-#
-##############################################################################
-$vbtake   = get | grasp | take | pick up
-$vbplace  = deliver | put | place
-$vbspeak  = tell | say
-$vbgopl   = go | navigate
-$vbgor    = $vbgopl | enter
-$vbfind   = find | locate | look for
-$vbguide  = guide | escort | take
-$vbfollow = follow
-$vbdeliver = bring | deliver | give | hand
-
-##############################################################################
-#
-# Polite
-#
-##############################################################################
-$polite   = {void} | Please
-$polite   = Could you
-$polite   = Robot please
-$polite   = Could you please
-
+; Find people
+$pgenders = man | woman | boy | girl | (male person) | (female person)
+$pgenderp = men | women | boys | girls | male | female
+$pose     = sitting | standing | lying
