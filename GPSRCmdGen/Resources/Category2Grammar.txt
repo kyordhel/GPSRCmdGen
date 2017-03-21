@@ -1,10 +1,12 @@
-﻿; grammar name Category I
+﻿; grammar name Category II
 ; grammar tier Moderate
 ; import common.txt
 
 $Main     = $deliver
 $Main     = $fndppl
 $Main     = $fndobj
+$Main     = $guide
+$Main     = $follow
 
 ##############################################################################
 #
@@ -54,7 +56,6 @@ $fndobj   = Tell me how many {category} there are in the {placement}
 $fndobj   = Tell me what's the $oprop object in the {placement}
 $fndobj   = Tell me what's the $oprop {category} in the {placement}
 $fndobj   = $vbfind the {category} in the {room}
-$oprop    = biggest | largest | smallest | heviest | lightest | thinnest
 
 
 ##############################################################################
