@@ -131,7 +131,6 @@ namespace RoboCup.AtHome.GPSRCmdGen
 		private static void ParseArgs (string[] args)
 		{
 			int category;
-			DifficultyDegree tier;
 			Program p = new Program ();
 
 			p.Setup ();

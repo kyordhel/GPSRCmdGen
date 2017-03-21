@@ -124,8 +124,8 @@
   <data name="FormatSpecification" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources/FormatSpecification.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="CountGrammar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources/CountGrammar.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="CommonRules" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources/CommonRules.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Category1Grammar" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources/Category1Grammar.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
@@ -135,11 +135,5 @@
   </data>
   <data name="Category3Grammar" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources/Category3Grammar.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="IncompleteCommandsGrammar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources/IncompleteCommandsGrammar.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="IncongruentCommandsGrammar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources/IncongruentCommandsGrammar.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>
