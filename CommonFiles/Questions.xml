@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<questions>
+  <question>
+    <q>Who invented the C programming language?</q>
+    <a>Ken Thompson and Dennis Ritchie.</a>
+  </question>
+  <question>
+    <q>When was invented the C programming language?</q>
+    <a>C was developed after B in 1972 at Bell Labs</a>
+  </question>
+  <question>
+    <q>When was invented the B programming language?</q>
+    <a>B was developed circa 1969 at Bell Labs</a>
+  </question>
+  <question>
+    <q>Where does the term computer bug come from?</q>
+    <a>From a moth trapped in a relay</a>
+  </question>
+  <question>
+    <q>Who invented the first compiler</q>
+    <a>Grace Brewster Murray Hopper invented it</a>
+  </question>
+  <question>
+    <q>Which robot is used in the Open Platform League</q>
+    <a>There is no standard defined for OPL</a>
+  </question>
+  <question>
+    <q>Which robot is used in the Domestic Standard Platform League</q>
+    <a>The Toyota Human Support Robot</a>
+  </question>
+  <question>
+    <q>Which robot is used in the Social Standard Platform League</q>
+    <a>The SoftBank Robotics Pepper</a>
+  </question>
+  <question>
+    <q>How many people live in the Japan?</q>
+    <a>A little over 80 million</a>
+  </question>
+  <question>
+    <q>What are the colours of the Japanese flag?</q>
+    <a>Japanese flag is a red circle centred over white</a>
+  </question>
+  <question>
+    <q>What city is the capital of the Japan?</q>
+    <a>Tokyo</a>
+  </question>
+  <question>
+    <q>What is the highest point in Japan</q>
+    <a>The highest point in Japan is Mount Fuji, which reaches 3776m above sea level</a>
+  </question>
+  <question>
+    <q>What is a Sakura</q>
+    <a>Sakura is the Japanese term for ornamental cherry blossom and its tree</a>
+  </question>
+  <question>
+    <q>Who is the emperor of Japan?</q>
+    <a>His Majesty Akihito sama is the emperor in Japan since January 7, 1989</a>
+  </question>
+  <question>
+    <q>What's the name of your team?</q>
+    <a>...</a>
+  </question>
+  <question>
+    <q>What time is it?</q>
+    <a>...</a>
+  </question>
+  <question>
+    <q>What day is today?</q>
+    <a>...</a>
+  </question>
+  <question>
+    <q>Do you have dreams?</q>
+    <a>I dream of Electric Sheep.</a>
+  </question>
+  <question>
+    <q>In which city will next year's RoboCup be hosted?</q>
+    <a>It hasn't been announced yet.</a>
+  </question>
+</questions>

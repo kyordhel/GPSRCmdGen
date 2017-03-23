@@ -44,7 +44,7 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 
 		/// <summary>
 		/// Loads the set of gestures from disk. If no gestures file is found, 
-		/// the default set is loaded from Factory
+		/// the default set is loaded from Resources
 		/// </summary>
 		public override void LoadGestures()
 		{
@@ -52,7 +52,7 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 				this.allGestures = Loader.Load<GestureContainer> (Loader.GetPath("Gestures.xml")).Gestures;
 				Green("Done!");
 			} catch {
-				this.allGestures = Factory.GetDefaultGestures ();
+				this.allGestures = Loader.LoadXmlString<GestureContainer> (Resources.Gestures).Gestures;
 				Err ("Failed! Default Gestures loaded");
 			}
 		}
@@ -75,7 +75,7 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 
 		/// <summary>
 		/// Loads the set of locations from disk. If no locations file is found, 
-		/// the default set is loaded from Factory
+		/// the default set is loaded from Resources
 		/// </summary>
 		public override void LoadLocations ()
 		{
@@ -83,7 +83,7 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 			this.allLocations = Loader.LoadLocations (Loader.GetPath("Locations.xml"));
 				Green("Done!");
 			} catch {
-				List<Room> defaultRooms = Factory.GetDefaultLocations ();
+				List<Room> defaultRooms = Loader.LoadXmlString<RoomContainer> (Resources.Locations).Rooms;
 				foreach (Room room in defaultRooms)
 					this.allLocations.Add(room); 
 				Err ("Failed! Default Locations loaded");
@@ -92,7 +92,7 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 
 		/// <summary>
 		/// Loads the set of names from disk. If no names file is found, 
-		/// the default set is loaded from Factory
+		/// the default set is loaded from Resources
 		/// </summary>
 		public override void LoadNames()
 		{
@@ -100,14 +100,14 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 				this.allNames = Loader.Load<NameContainer> (Loader.GetPath("Names.xml")).Names;
 				Green("Done!");
 			} catch {
-				this.allNames = Factory.GetDefaultNames ();
+				this.allNames = Loader.LoadXmlString<NameContainer> (Resources.Names).Names;
 				Err ("Failed! Default Names loaded");
 			}
 		}
 
 		/// <summary>
 		/// Loads the set of objects and categories from disk. If no objects file is found, 
-		/// the default set is loaded from Factory
+		/// the default set is loaded from Resources
 		/// </summary>
 		public override void LoadObjects()
 		{
@@ -115,7 +115,7 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 				this.allObjects = Loader.LoadObjects(Loader.GetPath("Objects.xml"));
 				Green("Done!");
 			} catch {
-				List<Category> defaultCategories = Factory.GetDefaultObjects();
+				List<Category> defaultCategories = Loader.LoadXmlString<CategoryContainer> (Resources.Objects).Categories;
 				foreach (Category category in defaultCategories)
 					this.allObjects.Add(category);
 				Err ("Failed! Default Objects loaded");
@@ -124,7 +124,7 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 
 		/// <summary>
 		/// Loads the set of questions from disk. If no questions file is found, 
-		/// the default set is loaded from Factory
+		/// the default set is loaded from Resources
 		/// </summary>
 		public override void LoadQuestions()
 		{
@@ -135,7 +135,7 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 			}
 			catch
 			{
-				this.allQuestions = Factory.GetDefaultQuestions();
+				this.allQuestions = Loader.LoadXmlString<QuestionsContainer> (Resources.Questions).Questions;
 				Err("Failed! Default Objects loaded");
 			}
 		}
