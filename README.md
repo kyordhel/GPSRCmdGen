@@ -40,20 +40,26 @@ If you want to compile from source on:
 
 ### SPR Test
 To build and test Speech and Person Recognition question generator use
+
     make gpsr
 or
+
     mono bin/Release/GPSRCmdGen.exe
 
 ### GPSR
 To build and test GPSR command generator use
+
     make gpsr
 or
+
     mono bin/Release/GPSRCmdGen.exe
 
 ### EEGPSR 
 To build and test EEGPSR command generator use
+
     make eegpsr
 or
+
     mono bin/Release/EEGPSRCmdGen.exe
 
 RoboCup@Home teams and team members are welcome to post GitHub issues for clarifications, questions and also contribute with the project etc.
