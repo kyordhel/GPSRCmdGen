@@ -40,7 +40,6 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Factory.cs" />
     <Compile Include="EEGPSRGenerator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="AssemblyInfo.cs" />
@@ -60,6 +59,11 @@
     <None Include="Resources\eegpsr_cat6.txt" />
     <Content Include="Resources\FormatSpecification.txt" />
     <Content Include="Resources\GrammarHeader.txt" />
+    <None Include="Resources\Gestures.xml" />
+    <None Include="Resources\Locations.xml" />
+    <None Include="Resources\Names.xml" />
+    <None Include="Resources\Objects.xml" />
+    <None Include="Resources\Questions.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommandGenerator\CommandGenerator.csproj">

@@ -40,7 +40,6 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Factory.cs" />
     <Compile Include="QuestionsGenerator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="AssemblyInfo.cs" />
@@ -52,14 +51,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\Category2Grammar.txt" />
-    <Content Include="Resources\Category3Grammar.txt" />
-    <Content Include="Resources\CountGrammar.txt" />
     <Content Include="Resources\FormatSpecification.txt" />
     <Content Include="Resources\GrammarHeader.txt" />
-    <Content Include="Resources\Category1Grammar.txt" />
-    <Content Include="Resources\IncompleteCommandsGrammar.txt" />
-    <Content Include="Resources\IncongruentCommandsGrammar.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommandGenerator\CommandGenerator.csproj">
@@ -74,5 +67,16 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ArenaQuestions.txt" />
+    <None Include="Resources\CrowdQuestions.txt" />
+    <None Include="Resources\Gestures.xml" />
+    <None Include="Resources\Locations.xml" />
+    <None Include="Resources\Names.xml" />
+    <None Include="Resources\ObjectQuestions.txt" />
+    <None Include="Resources\Objects.xml" />
+    <None Include="Resources\PredefinedQuestions.txt" />
+    <None Include="Resources\Questions.xml" />
   </ItemGroup>
 </Project>

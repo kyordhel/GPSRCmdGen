@@ -81,5 +81,35 @@ namespace RoboCup.AtHome.GPSRCmdGen {
                 return ResourceManager.GetString("Category3Grammar", resourceCulture);
             }
         }
+        
+        internal static string Gestures {
+            get {
+                return ResourceManager.GetString("Gestures", resourceCulture);
+            }
+        }
+        
+        internal static string Locations {
+            get {
+                return ResourceManager.GetString("Locations", resourceCulture);
+            }
+        }
+        
+        internal static string Names {
+            get {
+                return ResourceManager.GetString("Names", resourceCulture);
+            }
+        }
+        
+        internal static string Objects {
+            get {
+                return ResourceManager.GetString("Objects", resourceCulture);
+            }
+        }
+        
+        internal static string Questions {
+            get {
+                return ResourceManager.GetString("Questions", resourceCulture);
+            }
+        }
     }
 }

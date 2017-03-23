@@ -40,15 +40,8 @@ namespace RoboCup.AtHome.GPSRCmdGen
 		/// Writes down a set of example data files with information gathered from the Factory
 		/// </summary>
 		public static void GenerateExampleFiles(){
-			GestureContainer gestures = new GestureContainer(Factory.GetDefaultGestures());
-			CategoryContainer categories = new CategoryContainer(Factory.GetDefaultObjects());
-			RoomContainer rooms = new RoomContainer (Factory.GetDefaultLocations ());
-			NameContainer names = new NameContainer (Factory.GetDefaultNames ());
-			QuestionsContainer questions = new QuestionsContainer(Factory.GetDefaultQuestions());
-
-			AddObjectLocations(rooms.Rooms, categories.Categories);
 			SaveGrammars ();
-			WriteDatafiles (gestures, categories, rooms, names, questions);
+			WriteDatafiles ();
 		}
 
 		/// <summary>
@@ -110,6 +103,27 @@ namespace RoboCup.AtHome.GPSRCmdGen
 					SaveGrammarFile (g.Key, authoring, formatSpec, g.Value);
 				}catch{}
 			}
+		}
+
+		/// <summary>
+		/// Writes the default datafiles.
+		/// </summary>
+		private static void WriteDatafiles (){
+			string path = Loader.GetPath ("Gestures.xml");
+			if (Overwrite (path))
+				File.WriteAllText(path, Resources.Gestures);
+			path = Loader.GetPath ("Locations.xml");
+			if (Overwrite (path))
+				File.WriteAllText(path, Resources.Locations);
+			path = Loader.GetPath ("Names.xml");
+			if (Overwrite (path))
+				File.WriteAllText(path, Resources.Names);
+			path = Loader.GetPath ("Objects.xml");
+			if (Overwrite (path))
+				File.WriteAllText(path, Resources.Objects);
+			path = Loader.GetPath ("Questions.xml");
+			if (Overwrite (path))
+				File.WriteAllText(path, Resources.Questions);
 		}
 
 		/// <summary>
