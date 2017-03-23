@@ -18,11 +18,11 @@
 # Manipulation
 #
 ##############################################################################
-$deliver  = $take the $object to the {placement 2}
+$deliver  = $take to the {placement 2}
 $deliver  = $vbplace the $object on the {placement 2}
 $deliver  = $vbbring me the $object
 $deliver  = $vbdeliver the $object to $someone
-$deliver  = $vbbtake the $object from the {placement 1} to the {placement 2}
+$deliver  = $takefrom to the {placement 2}
 $deliver  = $goplace, $vbfind the $object, and ($delivme | $delivat)
 $deliver  = $goplace, $vbfind the $object, and $place
 
@@ -104,7 +104,7 @@ $takefrom = $take from the {placement 1}
 ; Deliver an object
 $delivme  = $vbdeliver it to me
 $delivto  = $vbdeliver it to {name}
-$delivat  = $vbdeliver it to {name} in the {beacon}
+$delivat  = $vbdeliver it to {name} at the {beacon}
 
 ; Speak
 $talk     = $answer | $speak

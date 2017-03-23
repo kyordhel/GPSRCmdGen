@@ -113,6 +113,25 @@ namespace RoboCup.AtHome.CommandGenerator
 		}
 
 		/// <summary>
+		/// Loads an object from a XML string.
+		/// </summary>
+		/// <param name="xml">An XML encoded string</param>
+		/// <typeparam name="T">The type of object to load.</typeparam>
+		/// <returns>The object in the XML string</returns>
+		public static T LoadXmlString<T>(string xml)
+		{
+			T item;
+			using (MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(xml ?? String.Empty)))
+			{
+				XmlSerializer serializer = new XmlSerializer(typeof(T));
+				item = (T)serializer.Deserialize(ms);
+				ms.Close();
+
+			}
+			return item;
+		}
+
+		/// <summary>
 		/// Stores an object into a XML file.
 		/// </summary>
 		/// <param name="filePath">The path of the XML file to store the objectt within.</param>

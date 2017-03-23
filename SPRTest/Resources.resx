@@ -121,6 +121,9 @@
   <data name="GrammarHeader" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources/GrammarHeader.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="FormatSpecification" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources/FormatSpecification.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="ArenaQuestions" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources/ArenaQuestions.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
@@ -132,5 +135,20 @@
   </data>
   <data name="PredefinedQuestions" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources/PredefinedQuestions.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Gestures" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources/Gestures.xml;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Locations" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources/Locations.xml;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Names" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources/Names.xml;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Objects" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources/Objects.xml;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Questions" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources/Questions.xml;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>
