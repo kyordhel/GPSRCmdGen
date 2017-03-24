@@ -21,8 +21,8 @@ $findp    = $vbfind a $pgenders
 $findp    = $vbfind a {gesture} person
 $findp    = $vbfind a $pose person
 
-; A named or described person in the given place
-$whowhere = {name 1 meta: {name 1} is in the {beacon 1}}
+; A named or described person at the given place
+$whowhere = {name 1 meta: {name 1} is at the {beacon 1}}
 $whowhere = the {gesture} person in the {room}
 
 
@@ -36,7 +36,7 @@ $complexman  = $cmanwarn $cmancmd
 
 $cmancmd     = Pour some cereals into the bowl
 $cmancmd     = $goroom {void meta: All access doors to {room 1} bust be closed.}
-$cmancmd     = $take the {kobject} to the {placement 2 meta: Block access to {Placement 2} with a moveable object or furniture}
+$cmancmd     = $take the {kobject} to the {placement 2 meta: Block access to {Placement 2} with a movable object or furniture}
 $cmancmd     = $vbbring me the $abspos object $cmanobjsrc
 $cmancmd     = $vbbring me the object $relpos the {object}  $cmanobjsrc
 $cmancmd     = $vbbring me the $oprop (object | {category}) from the {object} $cmanobjsrc
@@ -51,11 +51,11 @@ $cmanobjsrc  = from the {placement 2 meta: Place at least 5 objects in the {plac
 #
 ##############################################################################
 $followout   = $meet  at the {beacon 1},
-$incomplete  = $vbfollow {name 1 meta: {name 1} is in the {beacon 1}}
+$incomplete  = $vbfollow {name 1 meta: {name 1} is at the {beacon 1}}
 $incomplete  = $cmanwarn $vbbring me a {object?}
 $incomplete  = $vbdeliver {object?} to $someone
-$incomplete  = $vbguide {name 1 meta: {name 1} is in the {beacon 1}} to the {beacon 2}
-$incomplete  = $vbguide {name 1 meta: {name 1} is in the {beacon 1}} to the {beacon 2}
+$incomplete  = $vbguide {name 1 meta: {name 1} is at the {beacon 1}} to the {beacon 2}
+$incomplete  = $vbguide {name 1 meta: {name 1} is at the {beacon 1}} to the {beacon 2}
 $incomplete  = meet $inguidewhoM and $vbguide him
 $incomplete  = meet $inguidewhoF and $vbguide her
 $incomplete  = $gobeacon, meet $inguidewhoM, and $vbguide him
@@ -83,8 +83,8 @@ $erroneous   = $gobeacon, meet {name 1}, and $vbfollow them to the {beacon 1 met
 $erroneous   = $gobeacon, meet $errnoper, and $vbfollow them to the {room 2}
 $erroneous   = $gobeacon, meet the $ernamperobj, and $vbfollow it {void meta: Destination is {room 2}}
 
-$errnoobj    = {object 1 meta: is not in the {placement 1} but somewhere else in the same room}
-$errnoper    = {name 1 meta: is not in {beacon 1} but somewhere else in the same room}
+$errnoobj    = {object 1 meta: is not at the {placement 1} but somewhere else in the same room}
+$errnoper    = {name 1 meta: is not at the {beacon 1} but somewhere else in the same room}
 $ernamperobj = {object 1 meta: Replace {object 1} with {name 1}}
 $ernamperobj = {category 1 meta: Replace {category 1} with {name 1}}
 
@@ -108,7 +108,7 @@ $fllwoutdest = {void meta: Follow the person outside the arena}
 # Find objects
 #
 ##############################################################################
-$fndobj   = Tell me which are the three $oprop (objects | {category}) in the {placement 1 meta: Place at least 5 objects in the {placement 1}}
+$fndobj   = Tell me which are the three $oprop (objects | {category}) on the {placement 1 meta: Place at least 5 objects on the {placement 1}}
 $fndobj   = $vbfind three {category} in the {room meta: Place only 3 objects in the room}
 
 

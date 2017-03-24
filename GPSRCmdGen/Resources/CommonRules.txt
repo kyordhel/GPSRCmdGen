@@ -44,7 +44,7 @@ $fndppl   = $goroom, $findp, and $talk
 # Find objects
 #
 ##############################################################################
-$fndobj   = Tell me how many $object there are in the {placement}
+$fndobj   = Tell me how many $object there are on the {placement}
 $fndobj   = $vbfind the $object in the {room}
 
 
@@ -90,7 +90,7 @@ $someone  = me | $whowhere
 $place    = $vbplace it on the {placement 2}
 
 ; Object properties
-$oprop    = biggest | largest | smallest | heviest | lightest | thinnest
+$oprop    = biggest | largest | smallest | heaviest | lightest | thinnest
 
 ; Navigating
 $goplace  = $vbgopl to the {placement 1}

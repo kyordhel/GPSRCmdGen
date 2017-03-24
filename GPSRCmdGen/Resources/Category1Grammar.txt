@@ -18,7 +18,7 @@ $object   = {kobject}
 $findp    = $vbfind ( {name} | a person | someone )
 
 ; A named or described person in the given place
-$whowhere = {name} in the {beacon 1}
+$whowhere = {name} at the {beacon 1}
 
 ##############################################################################
 #
