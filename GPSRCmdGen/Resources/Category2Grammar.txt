@@ -52,9 +52,9 @@ $fndppl   = tell me how many people in the {room} are ($pgenderp | $pose)
 #
 ##############################################################################
 $fndobj   = $vbfind the {aobject?} in the {room}
-$fndobj   = Tell me how many {category} there are in the {placement}
-$fndobj   = Tell me what's the $oprop object in the {placement}
-$fndobj   = Tell me what's the $oprop {category} in the {placement}
+$fndobj   = Tell me how many {category} there are on the {placement}
+$fndobj   = Tell me what's the $oprop object on the {placement}
+$fndobj   = Tell me what's the $oprop {category} on the {placement}
 $fndobj   = $vbfind the {category} in the {room}
 
 
