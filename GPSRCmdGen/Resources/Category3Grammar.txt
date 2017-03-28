@@ -2,11 +2,15 @@
 ; grammar tier High
 ; import common.txt
 
-$Main     = $polite $cat3
-$Main     = $cat3
+$Main     = $pcat3 | $cat3
+$pcat3    = $polite $cat3
 
 $cat3     = $complexman
 $cat3     = $fndobj
+$cat3     = $incomplete
+$cat3     = $erroneous
+$cat3     = $followout
+
 
 ##############################################################################
 #
@@ -50,7 +54,6 @@ $cmanobjsrc  = from the {placement 2 meta: Place at least 5 objects in the {plac
 # Incomplete commands
 #
 ##############################################################################
-$followout   = $meet  at the {beacon 1},
 $incomplete  = $vbfollow {name 1 meta: {name 1} is at the {beacon 1}}
 $incomplete  = $cmanwarn $vbbring me a {object?}
 $incomplete  = $vbdeliver {object?} to $someone

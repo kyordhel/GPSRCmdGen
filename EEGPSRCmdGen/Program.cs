@@ -42,7 +42,7 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 		/// <returns>The user's option.</returns>
 		protected override char GetOption()
 		{
-			return base.GetOption(1, 6);
+			return base.GetOption(1, 8);
 		}
 
 		private Task GetTask(char category)
@@ -51,10 +51,12 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 			{
 				case '1': return gen.GenerateTask("Cat1 - Advanced Manipulation");
 				case '2': return gen.GenerateTask("Cat2 - Advanced Object Recognition");
-				case '3': return gen.GenerateTask("Cat3 - HRI and Incomplete Commands");
-				case '4': return gen.GenerateTask("Cat4 - Memory and Awareness");
-				case '5': return gen.GenerateTask("Cat5 - People Recognition and Navigation");
-				case '6': return gen.GenerateTask("Cat6 - Simple Tasks");
+				case '3': return gen.GenerateTask("Cat3 - Navigation & People Tracking");
+				case '4': return gen.GenerateTask("Cat4 - People & Activity Recognition");
+				case '5': return gen.GenerateTask("Cat5 - Incomplete Information");
+				case '6': return gen.GenerateTask("Cat6 - Erroneous Information");
+				case '7': return gen.GenerateTask("Cat7 - Memory and Environmental Reasoning");
+				case '8': return gen.GenerateTask("Cat8 - Three at once");
 				default: return null;
 			}
 		}
@@ -73,6 +75,8 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 				case '4': 
 				case '5': 
 				case '6':
+				case '7':
+				case '8':
 					task = GetTask(opc);
 					break;
 
