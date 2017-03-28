@@ -12,7 +12,7 @@ $padvman  = $polite $advman
 $cereal   = {kobject}
 $fruit    = {aobject}
 $drink    = {kobject}
-$storage  = microwave | fridge | oven | box on the $placement
+$storage  = microwave | fridge | oven | box on the {placement}
 
 ##############################################################################
 #

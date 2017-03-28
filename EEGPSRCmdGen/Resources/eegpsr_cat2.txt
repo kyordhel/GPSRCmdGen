@@ -29,7 +29,7 @@ $advor	= count the $dwhat at the {placement 1} and $report.
 
 $dwhat  = ({category} items) | $color ( {object} | {category} objects )
 $report = $vbreport $repwho
-$repwho = (me | {name meta:{name} is in the {beacon}} | {name} in the {beacon})
+$repwho = (me | {name 1 meta:{name 1} is in the {beacon 2}} | {name} in the {beacon 2})
 $vbreport = inform | (report to)
 
 ##############################################################################
