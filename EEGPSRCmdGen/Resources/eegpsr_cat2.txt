@@ -1,16 +1,17 @@
 ; grammar name Cat2 - Advanced Object Recognition
 ; grammar tier High
 
-$Main = $advor
+$Main   = $padvor | $advor
+$padvor = $polite $advor
 
 ##############################################################################
 #
 # Bring from description
 #
 ##############################################################################
-$advor	= $polite bring me the $bwhat from the {placement 1}.
-$advor	= $polite take the $bwhat from the {placement 1} to the {placement 2}.
-$advor	= $polite bring me the {category} at the $rpos {placement 1}.
+$advor	= bring me the $bwhat from the {placement 1}.
+$advor	= take the $bwhat from the {placement 1} to the {placement 2}.
+$advor	= bring me the {category} at the $rpos {placement 1}.
 $advor	= Take the {category} at the {placement 1}'s $rpos to the {placement 2}.
 
 $bwhat  = $desc (object | {category})
@@ -23,12 +24,12 @@ $color	= blue | yellow | black | white | red | orange | gray
 # Count
 #
 ##############################################################################
-$advor	= $polite tell $repwho how many $dwhat are in the {placement 1}.
-$advor	= $polite count the $dwhat at the {placement 1} and $report.
+$advor	= tell $repwho how many $dwhat are in the {placement 1}.
+$advor	= count the $dwhat at the {placement 1} and $report.
 
 $dwhat  = ({category} items) | $color ( {object} | {category} objects )
 $report = $vbreport $repwho
-$repwho = (me | {name meta:{name} is in the {becon}} | {name} in the {beacon})
+$repwho = (me | {name meta:{name} is in the {beacon}} | {name} in the {beacon})
 $vbreport = inform | (report to)
 
 ##############################################################################
@@ -36,7 +37,7 @@ $vbreport = inform | (report to)
 # Describe
 #
 ##############################################################################
-$advor	= $polite describe the objects in the {placement} to $repwho
+$advor	= describe the objects in the {placement} to $repwho
 
 
 

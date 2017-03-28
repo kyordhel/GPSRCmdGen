@@ -1,128 +1,45 @@
-; grammar name Cat5 - People Recognition and Navigation
+; grammar name Cat5 - Incomplete Information
 ; grammar tier High
- 
-$Main = $advprn
+ ; import common.txt
 
-##############################################################################
-#
-# Greet person matching description
-#
-##############################################################################
-$advprn	= $polite greet the $gwho
+$Main     = $perr | $inc
 
-$gwho	= $person in the $room
-
-##############################################################################
-#
-# Bring to person matching description
-#
-##############################################################################
-$advprn	= $polite bring a $bwhat to the $bwho
-
-$bwhat  = {kobject}
-$bwhat  = {category meta:{kobject} placed at {placement}}
-$bwho	= $person in the $room
-
-##############################################################################
-#
-# Meet and greet person
-#
-##############################################################################
-$advprn	= $mgreet {void meta:There is only one person at {beacon 1}}
-
-$mgreet = Meet {male} at the {beacon 1}, then (greet | find) him in the $room
-$mgreet	= Meet {female} at the {beacon 1}, then (greet | find) her in the $room
+$pinc    = $polite $inc
+$inc     = $incomplete
 
 
 ##############################################################################
 #
-# Count
+# Production Rules required by common.txt
 #
 ##############################################################################
-$advprn	= $polite tell me how many $people are in the $room.
-$advprn	= offer something to (eat | drink) to all the $people in the $room
+; Define an object type
+$object   = {object}
 
+; Rule for finding a specific (named) person
+;$findp    = $vbfind a $pgenders
+$findp    = $vbfind a {gesture} person
+;$findp    = $vbfind a $pose person
 
-##############################################################################
-#
-# Follow & guide
-#
-##############################################################################
-$advprn	= $polite find the $fgwho and follow them
-$advprn	= $polite find the $fgwho and guide them to the (exit | {room 2})
-$fgwho	= $person in the $room
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+; A named or described person at the given place
+$whowhere = {name 1 meta: {name 1} is at the {beacon 1}}
+$whowhere = a {gesture 1} person {void meta: The {gesture 1} person is in the {room}}
 
 
 ##############################################################################
 #
-# People
+# Incomplete commands
 #
 ##############################################################################
-$people = $ppl
-$people = $posture $ppl
-$people = {gesture} $ppl
-$people = $ppl wearing $outfit
-$people = $color-dressed $ppl
+$incomplete  = $vbfollow {name 1 meta: {name 1} is at the {beacon 1}}
+$incomplete  = $cmanwarn $vbbring me (a | some) {object?}
+$incomplete  = $cmanwarn $vbdeliver {object?} to $someone
+$incomplete  = $vbguide {name 1 meta: {name 1} is at the {beacon 1}} to the {beacon 2}
+$incomplete  = $vbguide {name 1 meta: {name 1} is at the {beacon 1}} to the {beacon 2}
+$incomplete  = meet $inguidewhoM and $vbguide him
+$incomplete  = meet $inguidewhoF and $vbguide her
+$incomplete  = $gobeacon, meet $inguidewhoM, and $vbguide him
+$incomplete  = $gobeacon, meet $inguidewhoF, and $vbguide her
 
-$posture= standing | sitting | lying
-$ppl    = people | children | elders | men | women
-
-##############################################################################
-#
-# Person
-#
-##############################################################################
-$person = child
-$person = $lpdesc (man | woman | person)
-$person = (man | woman | person) $rpdesc
-$lpdesc = {gesture} | tallest | smallest | oldest | youngest | slimmest | fattest
-$rpdesc = dressed with $color $outfit
-$rpdesc = wearing ($apparel | $color $outfit) 
-
-$color	= blue | yellow | black | white | red | orange | gray
-$outfit = (T-shirt) | shirt | blouse | shoes | sweater | pants | coat | jacket
-$apparel = hat | glasses | necklace | tie | earrings
-
-
-##############################################################################
-#
-# Room
-#
-##############################################################################
-$room   = {room 1 meta:At least three people must be in the {room 1}}
-
-##############################################################################
-#
-# Polite
-#
-##############################################################################
-$polite = {void} | Please
-$polite = Could you
-$polite = Robot please
-$polite = Could you please
-
-
-
-
-
-
+$inguidewhoM = {male 1 meta: {male 1} must be taken from {beacon 1} to {beacon 2}, but he will get lost before reaching it}
+$inguidewhoF = {female 1 meta: {female 1} must be taken from {beacon 1} to {beacon 2}, but she will get lost before reaching it}

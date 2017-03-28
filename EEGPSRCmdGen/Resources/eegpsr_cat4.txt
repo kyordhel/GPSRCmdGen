@@ -1,4 +1,4 @@
-; grammar name Cat4 - Memory and Awareness
+; grammar name Cat4 - People & Activity Recognition
 ; grammar tier High
 
 $Main = $disclaimer

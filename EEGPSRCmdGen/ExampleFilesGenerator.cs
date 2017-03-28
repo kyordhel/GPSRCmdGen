@@ -101,6 +101,7 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 			grammars.Add("eegpsr_cat6", Resources.EEGPSR_Category6);
 			grammars.Add("eegpsr_cat7", Resources.EEGPSR_Category7);
 			grammars.Add("eegpsr_cat8", Resources.EEGPSR_Category8);
+			grammars.Add("common", Resources.CommonRules);
 
 			foreach (KeyValuePair<string, string> g in grammars) {
 				try{

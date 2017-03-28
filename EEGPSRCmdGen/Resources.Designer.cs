@@ -131,153 +131,37 @@ namespace RoboCup.AtHome.EEGPSRCmdGen {
 				return ResourceManager.GetString("Questions", resourceCulture);
 			}
 		}
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ; grammar name Cat1 - Advanced Manipulation
-        ///; grammar tier High
-        ///
-        ///$Main     = $advman
-        ///
-        ///##############################################################################
-        ///#
-        ///# Serving breakfast
-        ///#
-        ///##############################################################################
-        ///
-        ///$advman   = $polite bring me something for breakfast; Up to the team to solve
-        ///$advman   = $polite serve the breakfast; Up to the team how to solve
-        ///$advman   = $polite bring me some $cereal, $fuit and $drink in a tray
-        ///
-        ///
-        ///######## [rest of string was truncated]&quot;;.
-        /// </summary>
+
         internal static string EEGPSR_Category1 {
             get {
                 return ResourceManager.GetString("EEGPSR_Category1", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ; grammar name Cat2 - Advanced Object Recognition
-        ///; grammar tier High
-        ///
-        ///$Main = $advor
-        ///
-        ///##############################################################################
-        ///#
-        ///# Bring from description
-        ///#
-        ///##############################################################################
-        ///$advor	= $polite bring me the $bwhat from the {placement 1}.
-        ///$advor	= $polite take the $bwhat from the {placement 1} to the {placement 2}.
-        ///$advor	= $polite bring me the {category} at the $rpos {placement 1}.
-        ///$advor	= Take the [rest of string was truncated]&quot;;.
-        /// </summary>
+
         internal static string EEGPSR_Category2 {
             get {
                 return ResourceManager.GetString("EEGPSR_Category2", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ; grammar name Cat3 - HRI and Incomplete Commands
-        ///; grammar tier High
-        ///
-        ///$Main     = $polite $command
-        ///
-        ///##############################################################################
-        ///#
-        ///# Complex commands
-        ///#
-        ///##############################################################################
-        ///$command  = $followob
-        ///$command  = $guideob
-        ///$command  = $findorob
-        ///$command  = $findmpob and $guidem
-        ///$command  = $findfpob and $guidef
-        ///
-        ///$command  = $takeob and ($place | $deliver)
-        ///$command  = $take and ($placeob | $ [rest of string was truncated]&quot;;.
-        /// </summary>
+
         internal static string EEGPSR_Category3 {
             get {
                 return ResourceManager.GetString("EEGPSR_Category3", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ; grammar name Cat4 - Memory and Awareness
-        ///; grammar tier High
-        ///
-        ///$Main = $disclaimer
-        ///
-        ///
-        ///##############################################################################
-        ///#
-        ///# Polite
-        ///#
-        ///##############################################################################
-        ///$polite = $disclaimer 
-        ///$polite = $disclaimer Please
-        ///$polite = $disclaimer Could you
-        ///$polite = $disclaimer Robot please
-        ///$polite = $disclaimer Could you please
-        ///
-        ///##############################################################################        /// [rest of string was truncated]&quot;;.
-        /// </summary>
+
         internal static string EEGPSR_Category4 {
             get {
                 return ResourceManager.GetString("EEGPSR_Category4", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ; grammar name Cat5 - People Recognition and Navigation
-        ///; grammar tier High
-        /// 
-        ///$Main = $advprn
-        ///
-        ///##############################################################################
-        ///#
-        ///# Greet person matching description
-        ///#
-        ///##############################################################################
-        ///$advprn	= $polite greet the $gwho
-        ///$advprn	= $polite kill the $gwho
-        ///
-        ///$gwho	= $person in the $room
-        ///
-        ///##############################################################################
-        ///#
-        ///# Bring to person match [rest of string was truncated]&quot;;.
-        /// </summary>
+
         internal static string EEGPSR_Category5 {
             get {
                 return ResourceManager.GetString("EEGPSR_Category5", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ; grammar name Cat6 - Simple Tasks
-        ///; grammar tier Moderate
-        ///
-        ///$Main     = $polite $complex.
-        ///
-        ///
-        ///##############################################################################
-        ///#
-        ///# Complex commands
-        ///#
-        ///##############################################################################
-        ///$complex  = $triple
-        ///$complex  = $single, $single, and $single
-        ///$complex  = $doublel, and $single
-        ///$complex  = $single, $doubler
-        ///
-        ///##############################################################################
-        ///#
-        ///# Triple task [rest of string was truncated]&quot;;.
-        /// </summary>
+
         internal static string EEGPSR_Category6 {
             get {
                 return ResourceManager.GetString("EEGPSR_Category6", resourceCulture);
@@ -293,6 +177,12 @@ namespace RoboCup.AtHome.EEGPSRCmdGen {
 		internal static string EEGPSR_Category8 {
 			get {
 				return ResourceManager.GetString("EEGPSR_Category8", resourceCulture);
+			}
+		}
+
+		internal static string CommonRules {
+			get {
+				return ResourceManager.GetString("CommonRules", resourceCulture);
 			}
 		}
     }

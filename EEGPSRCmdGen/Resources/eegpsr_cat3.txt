@@ -1,4 +1,4 @@
-; grammar name Cat3 - HRI and Incomplete Commands
+; grammar name Cat3 - Navigation & People Tracking
 ; grammar tier High
 
 $Main     = $polite $command

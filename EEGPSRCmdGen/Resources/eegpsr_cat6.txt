@@ -1,136 +1,48 @@
-; grammar name Cat6 - Simple Tasks
-; grammar tier Moderate
+; grammar name Cat6 - Erroneous Information
+; grammar tier High
+; import common.txt
 
-$Main     = $polite $complex.
+$Main     = $perr | $err
+
+$perr    = $polite $err
+$err     = $erroneous
+
+##############################################################################
+#
+# Production Rules required by common.txt
+#
+##############################################################################
+; Define an object type
+$object   = {object}
+
+; Rule for finding a specific (named) person
+$findp    = $vbfind a $pgenders
+; $findp    = $vbfind a {gesture} person
+; $findp    = $vbfind a $pose person
+
+; A named or described person at the given place
+$whowhere = {name 1 meta: {name 1} is at the {beacon 1}}
+$whowhere = {name} at the {beacon 1}
 
 
 ##############################################################################
 #
-# Complex commands
+# Wrong commands
 #
 ##############################################################################
-$complex  = $triple
-$complex  = $single, $single, and $single
-$complex  = $doublel, and $single
-$complex  = $single, $doubler
+$erroneous   = $cmanwarn $take the $errnoobj to the {placement 2}
+$erroneous   = $cmanwarn $vbplace the $errnoobj on the {placement 2}
+$erroneous   = $cmanwarn $vbbring me the $errnoobj
 
-##############################################################################
-#
-# Triple task commands
-#
-##############################################################################
-$triple   = $findor, and ($place | $deliver)
-$triple   = $findmp, and $guidem
-$triple   = $findfp, and $guidef
+$erroneous   = $vbguide $errnoper from the {beacon 1} to the {beacon 2}
+$erroneous   = $vbguide {name 1} from the {beacon 1} to the {beacon 1 meta: Destination is {beacon 2}}
+$erroneous   = $vbguide the $ernamperobj from the {beacon 1} to the {beacon 2}
 
-##############################################################################
-#
-# Double task commands
-#
-##############################################################################
-; go get it
-$doubler  = $take, and ($place | $deliver)
-$doublel  = $take, ($place | $deliver)
+$erroneous   = $gobeacon, meet {name 1}, and $vbfollow them to the {beacon 1 meta: Destination is {room 2}}
+$erroneous   = $gobeacon, meet $errnoper, and $vbfollow them to the {room 2}
+$erroneous   = $gobeacon, meet the $ernamperobj, and $vbfollow it {void meta: Destination is {room 2}}
 
-; move object to target
-$doublel  = $vbplace {object} on the {placement}
-
-; find and follow
-$doubler  = $findmpr, and $followm
-$doubler  = $findfpr, and $followf
-$doublel  = $findmpr, $followm
-$doublel  = $findfpr, $followf
-
-; find and guide
-$doubler  = $findmp, and $guidem
-$doubler  = $findfp, and $guidef
-$doublel  = $findmp, $guidem
-$doublel  = $findfp, $guidef
-
-##############################################################################
-#
-# Single task commands
-#
-##############################################################################
-$single   = $vbspeak $whattosay
-$single   = $findfp | $findmp
-$single   = $take
-$single   = answer a {question}
-$single   = join the dark side
-
-##############################################################################
-#
-# Tasks
-#
-##############################################################################
-; Find object in room
-$findor   = $vbgor to the {room}, $vbfind the {object}
-$findor   = $vbfind a {object} in the {room}
-
-; Take an object
-$take     = $vbtake the {aobject} from the {placement}
-
-; Place an object
-$place    = $vbplace it on the {placement}
-
-; Deliver an object
-$deliver  = $vbdeliver it to (me | {name} in the {beacon})
-
-; Find people in location
-$findmp   = $vbgopl to the {beacon}, $vbfind {male}
-$findmp   = $vbfind {male} in the {beacon}
-$findfp   = $vbgopl to the {beacon}, $vbfind {female}
-$findfp   = $vbfind {female} in the {beacon}
-
-; Find people in room
-$findmpr  = $vbgor to the {room}, $vbfind {male}
-$findmpr  = $vbfind {male} in the {room}
-$findfpr  = $vbgor to the {room}, $vbfind {female}
-$findfpr  = $vbfind {female} in the {room}
-
-; Follow people
-$followm  = $vbfollow him
-$followf  = $vbfollow her
-
-; Guide people
-$guidem   = $vbguide him to the ( {room} | {beacon} | exit )
-$guidef   = $vbguide her to the ( {room} | {beacon} | exit )
-
-
-##############################################################################
-#
-# What to say
-#
-##############################################################################
-$whattosay = something about yourself
-$whattosay = the time
-$whattosay = what day is (today | tomorrow)
-$whattosay = your team's (name | country | affiliation)
-$whattosay = the day of the (week | month)
-$whattosay = a joke
-
-##############################################################################
-#
-# Verbs
-#
-##############################################################################
-$vbtake   = get | grasp | take | pick up
-$vbplace  = deliver | put | place
-$vbspeak  = tell | say
-$vbgopl   = go | navigate
-$vbgor    = $vbgopl | enter
-$vbfind   = find | locate | look for
-$vbguide  = guide | escort | take
-$vbfollow = follow
-$vbdeliver = bring | deliver | give | hand
-
-##############################################################################
-#
-# Polite
-#
-##############################################################################
-$polite   = {void} | Please
-$polite   = Could you
-$polite   = Robot please
-$polite   = Could you please
-
+$errnoobj    = {object 1 meta: is not at the {placement 1} but somewhere else in the same room}
+$errnoper    = {name 1 meta: is not at the {beacon 1} but somewhere else in the same room}
+$ernamperobj = {object 1 meta: Replace {object 1} with {name 1}}
+$ernamperobj = {category 1 meta: Replace {category 1} with {name 1}}
