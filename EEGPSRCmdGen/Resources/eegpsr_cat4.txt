@@ -1,23 +1,101 @@
-; grammar name Cat4 - Memory and Awareness
+; grammar name Cat4 - People & Activity Recognition
 ; grammar tier High
 
-$Main = $disclaimer
+$Main = $ppar | $par
+$ppar = $polite $par
 
+
+
+; Greet person matching description
+$par   	= greet the $person in the $room
+; Bring to person matching description
+$par   	= bring the {object} to the $person in the $room
+; Meet and greet a person
+$par   	= $mgreet {void meta:There is only one person at {beacon 1}}
+; Count people
+$par   	= tell me how many $people are in the $room.
+$par   	= offer something to (eat | drink) to all the $people in the $room
+; Follow & guide
+$par   	= find the $fgwho and follow them
+$par   	= find the $fgwho and guide them to the (exit | {room 2})
+
+
+
+$mgreet = Meet {male} at the {beacon 1}, then (greet | find) him in the $room
+$mgreet	= Meet {female} at the {beacon 1}, then (greet | find) her in the $room
+$fgwho	= $person in the $room
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##############################################################################
+#
+# People
+#
+##############################################################################
+$people = $ppl
+$people = $posture $ppl
+$people = {gesture} $ppl
+$people = $ppl wearing $outfit
+$people = $color-dressed $ppl
+
+$posture= standing | sitting | lying
+$ppl    = people | children | elders | men | women
+
+##############################################################################
+#
+# Person
+#
+##############################################################################
+$person = child
+$person = $lpdesc (man | woman | person)
+$person = (man | woman | person) $rpdesc
+$lpdesc = {gesture} | tallest | smallest | oldest | youngest | slimmest | fattest
+$rpdesc = dressed with $color $outfit
+$rpdesc = wearing ($apparel | $color $outfit) 
+
+$color	= blue | yellow | black | white | red | orange | gray
+$outfit = (T-shirt) | shirt | blouse | shoes | sweater | pants | coat | jacket
+$apparel = hat | glasses | necklace | tie | earrings
+
+
+##############################################################################
+#
+# Room
+#
+##############################################################################
+$room   = {room 1 meta:At least three people must be in the {room 1}}
 
 ##############################################################################
 #
 # Polite
 #
 ##############################################################################
-$polite = $disclaimer 
-$polite = $disclaimer Please
-$polite = $disclaimer Could you
-$polite = $disclaimer Robot please
-$polite = $disclaimer Could you please
+$polite = Please
+$polite = Could you
+$polite = Robot please
+$polite = Could you please
 
-##############################################################################
-#
-# Disclaimer
-#
-##############################################################################
-$disclaimer = {void meta: Questions of this category will be made by the TC regarding previous command execution}
+
+
+
+
+

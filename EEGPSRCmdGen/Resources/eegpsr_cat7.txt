@@ -1,0 +1,4 @@
+; grammar name Cat7 - Memory and Environmental Reasoning
+; grammar tier High
+
+$Main = {void meta: Sorry, this category is unimplemented. Use your referee powers to give a command}
