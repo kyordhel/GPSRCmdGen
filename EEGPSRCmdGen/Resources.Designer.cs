@@ -58,7 +58,79 @@ namespace RoboCup.AtHome.EEGPSRCmdGen {
             set {
                 resourceCulture = value;
             }
-        }
+		}
+
+		/// <summary>
+		///   Looks up a localized string similar to /*****************************************************************************
+		///*
+		///* FORMAT
+		///*
+		///******************************************************************************
+		///*
+		///* ROOT
+		///* The root rule S of the grammar is the $Main Non-Terminal. In order for the
+		///* grammar to be valid, it must contain at least one $Main rule.
+		///*
+		///* Non-Terminal identifiers
+		///* A valid Non-Terminal identifier is a sequence of one or more letters,
+		///* digits, or underscore characters (_). Spaces, punctuation marks, and symbols [rest of string was truncated]&quot;;.
+		/// </summary>
+		internal static string FormatSpecification {
+			get {
+				return ResourceManager.GetString("FormatSpecification", resourceCulture);
+			}
+		}
+
+		/// <summary>
+		///   Looks up a localized string similar to ##############################################################################
+		///#
+		///# ${GrammarName} Grammar
+		///# 
+		///# Author:  Mauricio Matamoros
+		///# Date:    June 2016
+		///#
+		///# IMPORTANT: 
+		///# Since this document declares a grammar for generating sentences,
+		///# NO RECURSIVE rules must be used.
+		///# 
+		///##############################################################################
+		///.
+		/// </summary>
+		internal static string GrammarHeader {
+			get {
+				return ResourceManager.GetString("GrammarHeader", resourceCulture);
+			}
+		}
+
+		internal static string Gestures {
+			get {
+				return ResourceManager.GetString("Gestures", resourceCulture);
+			}
+		}
+
+		internal static string Locations {
+			get {
+				return ResourceManager.GetString("Locations", resourceCulture);
+			}
+		}
+
+		internal static string Names {
+			get {
+				return ResourceManager.GetString("Names", resourceCulture);
+			}
+		}
+
+		internal static string Objects {
+			get {
+				return ResourceManager.GetString("Objects", resourceCulture);
+			}
+		}
+
+		internal static string Questions {
+			get {
+				return ResourceManager.GetString("Questions", resourceCulture);
+			}
+		}
         
         /// <summary>
         ///   Looks up a localized string similar to ; grammar name Cat1 - Advanced Manipulation
@@ -211,76 +283,16 @@ namespace RoboCup.AtHome.EEGPSRCmdGen {
                 return ResourceManager.GetString("EEGPSR_Category6", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to /*****************************************************************************
-        ///*
-        ///* FORMAT
-        ///*
-        ///******************************************************************************
-        ///*
-        ///* ROOT
-        ///* The root rule S of the grammar is the $Main Non-Terminal. In order for the
-        ///* grammar to be valid, it must contain at least one $Main rule.
-        ///*
-        ///* Non-Terminal identifiers
-        ///* A valid Non-Terminal identifier is a sequence of one or more letters,
-        ///* digits, or underscore characters (_). Spaces, punctuation marks, and symbols [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string FormatSpecification {
-            get {
-                return ResourceManager.GetString("FormatSpecification", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ##############################################################################
-        ///#
-        ///# ${GrammarName} Grammar
-        ///# 
-        ///# Author:  Mauricio Matamoros
-        ///# Date:    June 2016
-        ///#
-        ///# IMPORTANT: 
-        ///# Since this document declares a grammar for generating sentences,
-        ///# NO RECURSIVE rules must be used.
-        ///# 
-        ///##############################################################################
-        ///.
-        /// </summary>
-        internal static string GrammarHeader {
-            get {
-                return ResourceManager.GetString("GrammarHeader", resourceCulture);
-            }
-		}
 
-		internal static string Gestures {
+		internal static string EEGPSR_Category7 {
 			get {
-				return ResourceManager.GetString("Gestures", resourceCulture);
+				return ResourceManager.GetString("EEGPSR_Category7", resourceCulture);
 			}
 		}
 
-		internal static string Locations {
+		internal static string EEGPSR_Category8 {
 			get {
-				return ResourceManager.GetString("Locations", resourceCulture);
-			}
-		}
-
-		internal static string Names {
-			get {
-				return ResourceManager.GetString("Names", resourceCulture);
-			}
-		}
-
-		internal static string Objects {
-			get {
-				return ResourceManager.GetString("Objects", resourceCulture);
-			}
-		}
-
-		internal static string Questions {
-			get {
-				return ResourceManager.GetString("Questions", resourceCulture);
+				return ResourceManager.GetString("EEGPSR_Category8", resourceCulture);
 			}
 		}
     }

@@ -99,6 +99,8 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 			grammars.Add("eegpsr_cat4", Resources.EEGPSR_Category4);
 			grammars.Add("eegpsr_cat5", Resources.EEGPSR_Category5);
 			grammars.Add("eegpsr_cat6", Resources.EEGPSR_Category6);
+			grammars.Add("eegpsr_cat7", Resources.EEGPSR_Category7);
+			grammars.Add("eegpsr_cat8", Resources.EEGPSR_Category8);
 
 			foreach (KeyValuePair<string, string> g in grammars) {
 				try{
