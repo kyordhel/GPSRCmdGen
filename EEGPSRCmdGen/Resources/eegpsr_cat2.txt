@@ -52,7 +52,7 @@ $advor	= describe the objects in the {placement} to $repwho
 # Polite
 #
 ##############################################################################
-$polite = {void} | Please
+$polite = Please
 $polite = Could you
 $polite = Robot please
 $polite = Could you please

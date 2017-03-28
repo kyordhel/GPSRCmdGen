@@ -1,105 +1,74 @@
 ; grammar name Cat3 - Navigation & People Tracking
 ; grammar tier High
+; import common.txt
 
-$Main     = $polite $command
+$Main     = $pfollow | $afollow
+$Main     = $pguide | $aguide
+$Main     = $pnavout | $navout
 
-##############################################################################
-#
-# Complex commands
-#
-##############################################################################
-$command  = $followob
-$command  = $guideob
-$command  = $findorob
-$command  = $findmpob and $guidem
-$command  = $findfpob and $guidef
-
-$command  = $takeob and ($place | $deliver)
-$command  = $take and ($placeob | $deliverob)
-$command  = $takeob and ($placeob | $deliverob)
-
-$command  = $vbplace {object?} on the {placement?}
-$command  = $vbspeak something {void meta:$whattosay}
+$pfollow  = $polite $afollow
+$pguide   = $polite $aguide
+$pnavout  = $polite $navout
 
 ##############################################################################
 #
-# Tasks
+# Production Rules required by common.txt
 #
 ##############################################################################
-; Find object in room
-$findor   = $vbgor to the {room}, $vbfind the {object}
-$findor   = $vbfind a {object} in the {room}
-$findorob = $vbfind a {object meta:Place it in the {room}}
-$findorob = $vbfind a {category meta:A object} in the {room}
+; Define an object type
+$object   = {aobject}
 
-; Take an object
-$take     = $vbtake the {aobject} from the {placement}
-$takeob   = $vbtake the {aobject?} from the {placement?}
+; Rule for finding a specific (named) person
+$findp    = $vbfind a person
+$findp    = $vbfind a $pgenders
+$findp    = $vbfind a {gesture} person
+; $findp    = $vbfind a $pose person
 
-; Place an object
-$place    = $vbplace it on the {placement}
-$placeob  = $vbplace it on the {placement?}
+; A named or described person in the given place
+$whowhere = a {gesture} person $outside
 
-; Deliver an object
-$deliver  = $vbdeliver it to (me | {name} in the {beacon})
-$deliverob= $vbdeliver it to {name? meta:Is at the {beacon} }
+##############################################################################
+#
+# Follow & Guide people
+#
+##############################################################################
+$afollow  = {void meta: The Professional Walker must go from {room 1} to outside the arena and walk between a crowd of at least 5 people before heading to {room 2} } $follow
+$afollow  = $gobeacon, $vbfollow the person in front of you {void meta: The Professional Walker must guide the robot outside the arena} and $goplace
 
-; Find people in location
-$findmpob = $vbfind {male? meta:Is at the {beacon} }
-$findfpob = $vbfind {female? meta:Is at the {beacon} }
-
-; Find people in room
-$findmpr  = $vbgor to the {room}, $vbfind {male}
-$findmpr  = $vbfind {male} in the {room}
-$findfpr  = $vbgor to the {room}, $vbfind {female}
-$findfpr  = $vbfind {female} in the {room}
-
-; Follow people
-$followob = ($followm | $followf) {void meta:Person, {name}, is in the {beacon}}
-$followm  = $vbfollow him
-$followf  = $vbfollow her
-
-; Guide people
-$guideob  = $vbguide {name meta:Destination is {room}}
-$guideob  = $vbguide {name?} to the ( {room} | {beacon} | exit )
-$guidem   = $vbguide him to the ( {room} | {beacon} | exit )
-$guidef   = $vbguide her to the ( {room} | {beacon} | exit )
 
 
 ##############################################################################
 #
-# What to say
+# Follow & Guide people
 #
 ##############################################################################
-$whattosay = something about yourself
-$whattosay = the time
-$whattosay = what day is (today | tomorrow)
-$whattosay = your team's (name | country | affiliation)
-$whattosay = the day of the (week | month)
-$whattosay = a joke
+$afollow  = $gobeacon, $vbfollow the person in front of you {void meta: The Professional Walker must guide the robot outside the arena}, $vbguide that person to the {beacon 2} $gdmeta 
+
 
 ##############################################################################
 #
-# Verbs
+# Guide people
 #
 ##############################################################################
-$vbtake   = get | grasp | take | pick up
-$vbplace  = deliver | put | place
-$vbspeak  = tell | say
-$vbgopl   = go | navigate
-$vbgor    = $vbgopl | enter
-$vbfind   = find | locate | look for
-$vbguide  = guide | escort | take
-$vbfollow = follow
-$vbdeliver = bring | deliver | give | hand
+$aguide    = Leave the arena, find a person out there, and $vbguide that person to the {beacon 2}
+
+
 
 ##############################################################################
 #
-# Polite
+# Navigate outside
 #
 ##############################################################################
-$polite   = {void} | Please
-$polite   = Could you
-$polite   = Robot please
-$polite   = Could you please
+$navout   = $vbdeliver the $object to $whowhere
+$navout   = $findp $outside and $talk
+$navout   = Leave the arena, $findp, and $talk
 
+
+
+
+##############################################################################
+#
+# $rules
+#
+##############################################################################
+$outside  =  outside the arena

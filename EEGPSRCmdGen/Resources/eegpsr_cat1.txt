@@ -93,7 +93,7 @@ $placeadv = $vbplace it into the $enclosed
 # Polite
 #
 ##############################################################################
-$polite = {void} | Please
+$polite = Please
 $polite = Could you
 $polite = Robot please
 $polite = Could you please
