@@ -1,4 +1,54 @@
 ; grammar name Cat7 - Memory and Environmental Reasoning
 ; grammar tier High
+; import common.txt
 
-$Main = {void meta: Sorry, this category is unimplemented. Use your referee powers to give a command}
+
+
+$warn = {void meta: Generated commands are provided for example purposes. The referee can give any command suitable for execution}
+
+$Main   = $warn $menvr
+$menvr  = $memory | $envr
+
+
+##############################################################################
+#
+# Production Rules required by common.txt
+#
+##############################################################################
+; Define an object type
+$object   = {object}
+
+; Rule for finding a specific (named) person
+$findp    = $vbfind ( {name} | a person | someone )
+
+; A named or described person in the given place
+$whowhere = a person in the {beacon}
+
+; Polite
+$polite   =
+
+
+##############################################################################
+#
+# To be defined
+#
+##############################################################################
+$food     = $fruit | paprika | chocolate
+$fruit    = apple | peach | pineapple
+$drink    = beer | milk | ($fruit juice)
+
+$envr     = Go to the {room} and offer something to drink to the each person you find there, beer to the adults and milk or juice to the children.
+
+$envr     = $goffer {void meta: The robot must interact with the person at {beacon 1} and offer the proper object}
+$goffer   = Find {female} in the {beacon}. Bring her a $drink if she is thirsty, or a $food if she's hungry.
+$goffer   = Find {male} in the {beacon}. Bring him a $drink if he is thirsty, or a $food if he's hungry.
+
+$envr     = $toffer
+$toffer   = People drink juice before noon, coffee in the afternoon, and tea after six o'clock in the evening. Offer something to drink to the person at the {beacon}.
+$toffer   = People have flakes for breakfast, eat noodles in the afternoon, and sushi the evening. Offer something to eat to the person at the {beacon}.
+
+$memory   = $polite $findp in the {beacon} and $manswer
+$manswer  = answer a $question
+$question = question {void meta: Question: What is the last command you received?}
+$question = question {void meta: Question: What is the name of the last object you moved?}
+$question = question {void meta: Question: What is the name of the last person you talked to?}
