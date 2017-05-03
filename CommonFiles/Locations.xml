@@ -1,34 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rooms>
-  <room name="bedroom">
-    <location name="bed" isBeacon="true" />
-    <location name="bedside" isPlacement="true" />
+
+  <room name="dining room">
+    <location name="dinner table" isBeacon="true" isPlacement="true" />
+    <location name="cabinet" isPlacement="true" />
+    <location name="bookshelf" isPlacement="true" />
   </room>
+
   <room name="living room">
-    <location name="living shelf" isPlacement="true" />
-    <location name="TV stand" isBeacon="true" isPlacement="true" />
-    <location name="living table" isBeacon="true" isPlacement="true" />
-    <location name="center table" isPlacement="true" />
-    <location name="bar" isPlacement="true" />
+    <location name="Sofa" isBeacon="true" />
+    <location name="Couch table" isPlacement="true" />
   </room>
-  <room name="office">
-    <location name="drawer" isPlacement="true" />
-    <location name="desk" isBeacon="true" isPlacement="true" />
-  </room>
+
   <room name="kitchen">
-    <location name="bar" isPlacement="true" />
-    <location name="cupboard" isPlacement="true" />
-    <location name="sink" isBeacon="true" isPlacement="true" />
-    <location name="sideshelf" isPlacement="true" />
-    <location name="bookcase" isPlacement="true" />
-    <location name="dining table" isBeacon="true" isPlacement="true" />
-    <location name="fridge" isPlacement="true" />
-    <location name="counter" isPlacement="true" />
+    <location name="Kitchencounter" isPlacement="true" />
+    <location name="Side table" isPlacement="true" />
+    <location name="Stove" isPlacement="true" />
+    <location name="Desk" isBeacon="true" isPlacement="true" />
+    <location name="Bar" isBeacon="true" isPlacement="true" />
+    <location name="TV" isBeacon="true" />
   </room>
-  <room name="corridor">
-    <location name="cabinet" isBeacon="true" isPlacement="true" />
+
+  <room name="bedroom">
+    <location name="Bed" isBeacon="true" />
+    <location name="Closet" isPlacement="true" />
   </room>
-  <room name="bathroom">
-    <location name="cupboard" isPlacement="true" />
-  </room>
+  
 </rooms>

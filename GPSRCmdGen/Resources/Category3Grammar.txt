@@ -38,7 +38,9 @@ $whowhere = the {gesture} person in the {room}
 ##############################################################################
 $complexman  = $cmanwarn $cmancmd
 
-$cmancmd     = Pour some cereals into the bowl
+$cmancmd     = Pour some cereals into the $bowl
+$cmancmd     = Put the {kobject} on the $container
+$cmancmd     = Put a $cutlery on the {placement 2}
 $cmancmd     = $goroom {void meta: All access doors to {room 1} bust be closed.}
 $cmancmd     = $take the {kobject} to the {placement 2 meta: Block access to {Placement 2} with a movable object or furniture}
 $cmancmd     = $vbbring me the $abspos object $cmanobjsrc
@@ -46,6 +48,9 @@ $cmancmd     = $vbbring me the object $relpos the {object}  $cmanobjsrc
 $cmancmd     = $vbbring me the $oprop (object | {category}) from the {object} $cmanobjsrc
 $cmanwarn    = {void meta: This command is for DSPL and OPL only}
 $cmanobjsrc  = from the {placement 2 meta: Place at least 5 objects in the {placement 2}}
+$bowl        = (red | white) bowl | plate
+$cutlery     = fork | spoon | knife
+$container   = basket | $bowl
 
 
 
@@ -97,12 +102,12 @@ $ernamperobj = {category 1 meta: Replace {category 1} with {name 1}}
 # Follow [& guide]
 #
 ##############################################################################
-$followout   = $meet {female 1} at the {beacon 1}, $vbfollow her $fllwoutdest, and $goroom
-$followout   = $meet {male 1} at the {beacon 1}, $vbfollow him $fllwoutdest, and $goroom
-$followout   = $meet {female 1} at the {beacon 1}, $vbfollow her $fllwoutdest, and $vbguide her back
-$followout   = $meet {male 1} at the {beacon 1}, $vbfollow him $fllwoutdest, and $vbguide him back
+$followout   = $vbmeet {female 1} at the {beacon 1}, $vbfollow her $fllwoutdest, and $goroom
+$followout   = $vbmeet {male 1} at the {beacon 1}, $vbfollow him $fllwoutdest, and $goroom
+$followout   = $vbmeet {female 1} at the {beacon 1}, $vbfollow her $fllwoutdest, and $vbguide her back
+$followout   = $vbmeet {male 1} at the {beacon 1}, $vbfollow him $fllwoutdest, and $vbguide him back
 
-$fllwoutdest = {void meta: Follow the person outside the arena}
+$fllwoutdest = to the car {void meta: Follow the person outside the arena}
 
 
 

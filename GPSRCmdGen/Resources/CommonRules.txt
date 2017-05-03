@@ -141,6 +141,7 @@ $vbfind    = find | locate | look for
 $vbguide   = guide | escort | take | lead | accompany
 $vbfollow  = follow
 $vbfollow  = (go | come) after
+$vbmeet    = find | meet | greet
 
 ##############################################################################
 #

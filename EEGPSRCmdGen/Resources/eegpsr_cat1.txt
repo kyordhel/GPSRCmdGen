@@ -9,17 +9,23 @@ $padvman  = $polite $advman
 # To be defined
 #
 ##############################################################################
-$cereal   = {kobject}
-$fruit    = {aobject}
-$drink    = {kobject}
-$storage  = microwave | fridge | oven | box on the {placement}
+$object   = $containr | $cutlery
+$cereal   = cornflakes | cereals
+$fruit    = apple | lemon | pear
+$drink    = (banana milk) | cappucino | coke | (orange drink) | water
+$bowl     = (red | white) bowl
+$tray     = basket
+$containr = plate | $tray | $bowl
+$storage  = $containr on the {placement 2}
+$cutlery  = fork | spoon | knife
+$enclosed = {placement 1}
 
 ##############################################################################
 #
 # Three in a tray
 #
 ##############################################################################
-$advman   = bring me some $cereal, a $fruit and a $drink in a tray
+$advman   = bring me some $cereal, a $fruit, and a $drink in a $tray
 
 
 
@@ -39,8 +45,8 @@ $advman   = pick up a {category} from the {placement} and put it into the $stora
 #
 ##############################################################################
 $advman   = $pour
-$pour     = bring me some $cereal in a bowl
-$pour     = $vbpour some $drink in a bowl
+$pour     = bring me some $cereal in the $bowl
+$pour     = $vbpour some $drink in the ( $bowl | coffeecup )
 
 
 ##############################################################################
@@ -56,8 +62,8 @@ $advman   = open the (entrance | exit | corridor) door
 # Bringing
 #
 ##############################################################################
-$advman   = bring me the (tray | bowl)
-$advman   = pick up the (tray | bowl) and put it onto the {placement}
+$advman   = bring me the $containr
+$advman   = pick up the $containr and put it onto the {placement}
 $advman   = bring the $object to the {placement}
 $advman   = bring me the $object
 $advman   = put all the {category} on the {placement}

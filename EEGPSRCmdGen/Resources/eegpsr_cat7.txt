@@ -33,9 +33,9 @@ $polite   =
 # To be defined
 #
 ##############################################################################
-$food     = $fruit | paprika | chocolate
-$fruit    = apple | peach | pineapple
-$drink    = beer | milk | ($fruit juice)
+$food     = $fruit | bread | crackers | noodles | egg | (chocolate cookies) | (party cracker) | pringles
+$fruit    = apple | lemon | pear
+$drink    = (banana milk) | cappucino | coke | (orange drink) | water
 
 $envr     = Go to the {room} and offer something to drink to the each person you find there, beer to the adults and milk or juice to the children.
 
