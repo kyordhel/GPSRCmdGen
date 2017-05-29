@@ -111,7 +111,6 @@ namespace RoboCup.AtHome.SPRTest
 		protected override void RunOption(char opc, ref Task task)
 		{
 			Task t = null;
-			DifficultyDegree tier = DifficultyDegree.Unknown;
 			switch (opc)
 			{
 				case '\r': 
