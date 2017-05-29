@@ -3,9 +3,9 @@
 
 $Main   = $crowdq
 $crowdq = How many $people are in the crowd?
-$crowdq = How many people in the crowd are $posppl | {gesture}?
+$crowdq = How many people in the crowd are ($posppl | {gesture})?
 $crowdq = Tell me the number of $people in the crowd
-$crowdq = The $posprs person was $gprsng?
+$crowdq = Was the $posprs person $gprsng?
 $crowdq = Tell me if the ($posprs | {gesture}) person was a $gprsn?
 $crowdq = Tell me how many people were wearing $color
 
