@@ -25,6 +25,18 @@ namespace RoboCup.AtHome.CommandGenerator
 				list[n] = value;  
 			}  
 		}
+
+		/// <summary>
+		/// Retrieves and removes the last element in the list 
+		/// </summary>
+		/// <param name="list">The list from which the last element will be extracted</param>\
+		/// <typeparam name="T">The data type of the list.</typeparam>
+		public static T PopLast<T>(this IList<T> list)
+		{
+			T item = list [list.Count - 1];
+			list.RemoveAt (list.Count - 1);
+			return item;
+		}
 	}
 }
 
