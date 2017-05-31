@@ -234,9 +234,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <returns>A category</returns>
 		private Category GetCategory ()
 		{
-			Category item = this.avCategories [this.avCategories.Count - 1];
-			this.avCategories.RemoveAt (this.avCategories.Count - 1);
-			return item;
+			return this.avCategories.PopLast();
 		}
 
 		/// <summary>
@@ -246,9 +244,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <returns>A category</returns>
 		private Gesture GetGesture ()
 		{
-			Gesture item = this.avGestures [this.avGestures.Count - 1];
-			this.avGestures.RemoveAt (this.avGestures.Count - 1);
-			return item;
+			return this.avGestures.PopLast();
 		}
 
 		/// <summary>
@@ -366,9 +362,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <returns>A question</returns>
 		private PredefindedQuestion GetQuestion()
 		{
-			PredefindedQuestion item = this.avQuestions[this.avQuestions.Count - 1];
-			this.avQuestions.RemoveAt(this.avQuestions.Count - 1);
-			return item;
+			return this.avQuestions.PopLast ();
 		}
 
 		/// <summary>
