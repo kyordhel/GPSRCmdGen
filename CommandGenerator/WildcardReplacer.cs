@@ -14,6 +14,21 @@ namespace RoboCup.AtHome.CommandGenerator
 		#region Variables
 
 		/// <summary>
+		/// Stores all found wildcards contained the working task
+		/// </summary>
+		private List<Wildcard> wildcards;
+
+		/// <summary>
+		/// Stores the index of the wildcard being processed in the wildcards list
+		/// </summary>
+		private int currentWildcardIx;
+
+		/// <summary>
+		/// Stores tokens produced after wildcard replacement
+		/// </summary>
+		private List<Token> tokens;
+
+		/// <summary>
 		/// The random generator that contains all required data
 		/// </summary>
 		private readonly Generator generator;
@@ -166,7 +181,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		private INameable EvaluateName(Wildcard w)
 		{
 			string keycode = w.Name.ToLower ();
-			if (keycode == "name") {
+			if (keycode == "name"){
 				string type = w.Type.ToLower ();
 				if (type == "male")
 					keycode = "male";
@@ -195,6 +210,42 @@ namespace RoboCup.AtHome.CommandGenerator
 			}
 
 			return GetFromList (keycode, w.Id, GetObject, objects);
+		}
+
+		/// <summary>
+		/// Evaluates a <c>pron</c> wildcard, replacing the string with the adequate pronoun
+		/// regarding the last token found. 
+		/// </summary>
+		/// <param name="w">The wilcard to find a replacement for</param>
+		/// <returns>An appropiate replacement for the wildcard.</returns>
+		private INameable EvaluatePronoun(Wildcard w){
+			Wildcard prev = null;
+
+			for (int i = currentWildcardIx - 1; i >= 0; --i) {
+				string name = wildcards[i].Name;
+				if ((name == "void") || (name == "pron"))
+					continue;
+				prev = wildcards[i];
+				break;
+			}
+			if (prev == null)
+				return new NamedTaskElement ("them");
+
+			switch (prev.Name) {
+				case "name":
+				case "male":
+				return new NamedTaskElement ("him");
+
+				case "female":
+					return new NamedTaskElement ("her");
+
+			case "object": case "kobject": case "aobject":
+			case "beacon": case "room": case "placement": case "location":
+					return new NamedTaskElement ("it");
+
+				default:
+					return new NamedTaskElement ("them");
+			}
 		}
 
 		/// <summary>
@@ -403,6 +454,11 @@ namespace RoboCup.AtHome.CommandGenerator
 				case "room":
 					obfuscated = new Obfuscator("apartment");
 					break;
+
+				// Pronouns shouldn't be obfuscated.
+				case "pron":
+					inam = FindReplacement(w);
+					return new Token(w.Value, inam, FetchMetadata(w));
 			}
 			if(obfuscated == null)
 				return new Token(w.Value, inam, FetchMetadata(w));
@@ -494,6 +550,9 @@ namespace RoboCup.AtHome.CommandGenerator
 				case "void":
 					return EvaluateVoid(w);
 
+				case "pron":
+					return EvaluatePronoun(w);
+
 				default:
 					return null;
 			}
@@ -557,14 +616,15 @@ namespace RoboCup.AtHome.CommandGenerator
 			int bcc = 0;
 			Token token;
 			// Find all wildcards in the task prototype
-			List<Wildcard> wildcards = FindWildcards(taskPrototype);
+			this.wildcards = FindWildcards(taskPrototype);
 			// Having n wildcards interlaced with literal strings and starting with a
 			// literal string there will be n+1 literal strings. Therefore, the worst
 			// number of tokens will never be greater than 2n+1
 			// Since the list may be reallocated, 2n+2 is used for performance
-			List<Token> tokens = new List<Token>(2 * wildcards.Count + 2);
+			tokens = new List<Token>(2 * wildcards.Count + 2);
 			// For each wildcard found
-			foreach (Wildcard w in wildcards) {
+			for (currentWildcardIx = 0; currentWildcardIx < wildcards.Count; ++currentWildcardIx) {
+				Wildcard w = wildcards [currentWildcardIx];
 				// Add the string on the left (if any) as a token
 				token = TokenizeLeftLiteralString (taskPrototype, ref bcc, w);
 				if(token != null) tokens.Add (token);

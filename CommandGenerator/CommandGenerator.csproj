@@ -84,6 +84,7 @@
     <Compile Include="Wildcard.cs" />
     <Compile Include="WildcardReplacer.cs" />
     <Compile Include="GrammarLoader.cs" />
+    <Compile Include="NamedTaskElement.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="GUI\QRDialog.resx">
