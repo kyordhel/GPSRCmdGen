@@ -116,14 +116,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <returns>An appropiate replacement for the wildcard.</returns>
 		private INameable EvaluateCategory (Wildcard w)
 		{
-			string keycode = w.Name.ToLower ();
-			if(w.Id == -1) return GetCategory();
-			string key = keycode + w.Id;
-			if(this.categories.ContainsKey(key))
-				return this.categories[key];
-			Category cat = GetCategory ();
-			categories.Add (key, cat);
-			return cat;
+			return GetFromList (w.Name.ToLower(), w.Id, GetCategory, categories);
 		}
 
 		/// <summary>
@@ -134,14 +127,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <returns>An appropiate replacement for the wildcard.</returns>
 		private INameable EvaluateGesture(Wildcard w)
 		{
-			string keycode = w.Name.ToLower ();
-			if (w.Id == -1) return GetGesture();
-			string key = keycode + w.Id;
-			if(this.gestures.ContainsKey(key))
-				return this.gestures[key];
-			Gesture ges = GetGesture ();
-			gestures.Add (key, ges);
-			return ges;
+			return GetFromList (w.Name.ToLower(), w.Id, GetGesture, gestures);
 		}
 
 		/// <summary>
@@ -168,13 +154,7 @@ namespace RoboCup.AtHome.CommandGenerator
 				}
 			}
 		
-			string key = keycode + w.Id;
-			if (w.Id == -1) return GetLocation(keycode);
-			if(this.locations.ContainsKey(key))
-				return this.locations[key];
-			Location loc = GetLocation (keycode);
-			locations.Add (key, loc);
-			return loc;
+			return GetFromList (keycode, w.Id, GetLocation, locations);
 		}
 
 		/// <summary>
@@ -218,13 +198,8 @@ namespace RoboCup.AtHome.CommandGenerator
 				else if (type == "known")
 					keycode = "kobject";
 			}
-			if (w.Id == -1) return GetObject(keycode);
-			string key = keycode + w.Id;
-			if(this.objects.ContainsKey(key))
-				return this.objects[key];
-			GPSRObject obj = GetObject (keycode);
-			objects.Add (key, obj);
-			return obj;
+
+			return GetFromList (keycode, w.Id, GetObject, objects);
 		}
 
 		/// <summary>
@@ -235,14 +210,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <returns>An appropiate replacement for the wildcard.</returns>
 		private INameable EvaluateQuestion(Wildcard w)
 		{
-			string keycode = w.Name;
-			if (w.Id == -1) return GetQuestion();
-			string key = keycode + w.Id;
-			if (this.questions.ContainsKey(key))
-				return this.questions[key];
-			PredefindedQuestion qst = GetQuestion();
-			questions.Add(key, qst);
-			return qst;
+			return GetFromList (w.Name, w.Id, GetQuestion, questions);
 		}
 
 		/// <summary>
@@ -367,6 +335,28 @@ namespace RoboCup.AtHome.CommandGenerator
 			}
 			this.avObjects.Remove (item);
 			return item;
+		}
+
+		private T GetFromList<T>(string keycode, int id, Func<T> fetcher, Dictionary<string, T> assigned){
+			if (id == -1)
+				return fetcher();
+			string key = keycode + id;
+			if(assigned.ContainsKey(key))
+				return assigned[key];
+			T t = fetcher();
+			assigned.Add (key, t);
+			return t;
+		}
+
+		private T GetFromList<T>(string keycode, int id, Func<string, T> fetcher, Dictionary<string, T> assigned){
+			if (id == -1)
+				return fetcher(keycode);
+			string key = keycode + id;
+			if(assigned.ContainsKey(key))
+				return assigned[key];
+			T t = fetcher(keycode);
+			assigned.Add (key, t);
+			return t;
 		}
 
 		/// <summary>
