@@ -73,7 +73,11 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <param name="others">The set of strings to compare, or null.</param>
 		public static bool IsAnyOf(this string source, params string[] others){
 			foreach (string o in others)
+<<<<<<< c5276dab489b25422713f7eb8487acc2826e9733
 				if (String.Equals (source, o))
+=======
+				if (String.Equals (s, o))
+>>>>>>> More extension methods
 					return true;
 			return false;
 		}
@@ -87,7 +91,11 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <param name="others">The set of strings to compare, or null.</param>
 		public static bool IsAnyOf(this string source, StringComparison comparisonType, params string[] others){
 			foreach (string o in others)
+<<<<<<< c5276dab489b25422713f7eb8487acc2826e9733
 				if (String.Equals (source, o, comparisonType))
+=======
+				if (String.Equals (s, o, comparisonType))
+>>>>>>> More extension methods
 					return true;
 			return false;
 		}
