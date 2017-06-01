@@ -31,11 +31,31 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// </summary>
 		/// <param name="list">The list from which the last element will be extracted</param>\
 		/// <typeparam name="T">The data type of the list.</typeparam>
-		public static T PopLast<T>(this IList<T> list)
+		public static TSource PopLast<TSource>(this IList<TSource> source)
 		{
-			T item = list [list.Count - 1];
-			list.RemoveAt (list.Count - 1);
+			if ((source == null) || (predicate == null))
+				throw new ArgumentNullException ("Source is null.");
+			if (source.Count < 1)
+				InvalidOperationException ("The source sequence is empty.");
+			TSource item = source[source.Count - 1];
+			source.RemoveAt (source.Count - 1);
 			return item;
+		}
+
+		public static TSource PopFirst<TSource>(this IList<TSource> source, Func<TSource, bool> predicate)
+		{
+			if ((source == null) || (predicate == null))
+				throw new ArgumentNullException ("Source or predicate is null.");
+			if (source.Count < 1)
+				InvalidOperationException ("The source sequence is empty.");
+			for (int i = 0; i < source.Count; ++i) {
+				if (predicate (source [i])) {
+					TSource item = source [i];
+					source.RemoveAt [i];
+					return item;
+				}
+			}
+			throw new InvalidOperationException ("No element satisfies the condition in predicate");
 		}
 	}
 }

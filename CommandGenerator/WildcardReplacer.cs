@@ -254,23 +254,17 @@ namespace RoboCup.AtHome.CommandGenerator
 			switch (keycode)
 			{
 				case "beacon":
-					item = this.avLocations.First(l => l.IsBeacon);
-					break;
+					return this.avLocations.PopFirst(l => l.IsBeacon);
 
 				case "room":
-					item = this.avLocations.First(l => l is Room);
-					break;
+					return this.avLocations.PopFirst(l => l is Room);
 
 				case "placement":
-					item = this.avLocations.First(l => l.IsPlacement);
-					break;
+					return this.avLocations.PopFirst(l => l.IsPlacement);
 
 				default:
-					item = this.avLocations[this.avLocations.Count - 1];
-					break;
+					return this.avLocations.PopLast();
 			}
-			this.avLocations.Remove(item);
-			return item;
 		}
 
 		/// <summary>
@@ -284,19 +278,14 @@ namespace RoboCup.AtHome.CommandGenerator
 			PersonName item;
 			switch(keycode){
 				case "male":
-				item = this.avNames.First(n => n.Gender == Gender.Male);
-				break;
+					return this.avNames.PopFirst(n => n.Gender == Gender.Male);
 
 				case "female":
-				item = this.avNames.First(n => n.Gender == Gender.Female);
-				break;
+					return this.avNames.PopFirst(n => n.Gender == Gender.Female);
 
 				default:
-				item = this.avNames [this.avNames.Count - 1];
-				break;
+					return this.avNames.PopLast();
 			}
-			this.avNames.Remove (item);
-			return item;
 		}
 
 		/// <summary>
@@ -310,22 +299,17 @@ namespace RoboCup.AtHome.CommandGenerator
 			GPSRObject item;
 			switch(keycode){
 				case "aobject":
-				item = this.avObjects.First(o => o.Type == GPSRObjectType.Alike);
-				break;
+					return this.avObjects.PopFirst(o => o.Type == GPSRObjectType.Alike);
 
 				case "kobject":
-				item = this.avObjects.First(o => o.Type == GPSRObjectType.Known);
-				break;
+					return this.avObjects.PopFirst(o => o.Type == GPSRObjectType.Known);
 
 				// case "uobject":
 				// return GPSRObject.Unknown;
 
 				default:
-				item = this.avObjects [this.avObjects.Count - 1];
-				break;
+					return this.avObjects.PopLast();
 			}
-			this.avObjects.Remove (item);
-			return item;
 		}
 
 		private T GetFromList<T>(string keycode, int id, Func<T> fetcher, Dictionary<string, T> assigned){
