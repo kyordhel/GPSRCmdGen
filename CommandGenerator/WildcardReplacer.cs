@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace RoboCup.AtHome.CommandGenerator
@@ -188,16 +189,14 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <returns>An appropiate replacement for the wildcard.</returns>
 		private INameable EvaluateObject(Wildcard w)
 		{
-			string keycode = w.Name;
-			if (keycode == "object") {
-				string type = w.Type;
-				if (type == "alike")
-					keycode = "aobject";
-				else if (type == "known")
-					keycode = "kobject";
+			if (w.Name == "object") {
+				if (w.Type.IsAnyOf ("alike", "known"))
+					w.Keyword = String.Format("{0}object", w.Type[0]);
+				else if (String.IsNullOrEmpty (w.Type))
+					w.Keyword = generator.RandomPick ("kobject", "aobject");
 			}
 
-			return GetFromList (keycode, w.Id, GetObject, objects);
+			return GetFromList (w.Keycode, w.Id, GetObject, objects);
 		}
 
 		/// <summary>
@@ -210,12 +209,18 @@ namespace RoboCup.AtHome.CommandGenerator
 			Wildcard prev = null;
 
 			for (int i = currentWildcardIx - 1; i >= 0; --i) {
-				string name = wildcards[i].Keyword;
-				if ((name == "void") || (name == "pron"))
-					continue;
-				prev = wildcards[i];
-				break;
+				if (wildcards [i].Keyword.IsAnyOf ("name", "male", "female")) {
+					prev = wildcards [i];
+					break;
+				}
 			}
+			for (int i = currentWildcardIx - 1; (prev == null) && (i >= 0); --i) {
+				if (wildcards [i].Keyword.IsAnyOf ("void", "pron"))
+					continue;
+					prev = wildcards [i];
+					break;
+			}
+
 			if (prev == null)
 				return new NamedTaskElement ("them");
 
@@ -475,6 +480,8 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// wildcard.</param>
 		private Token TokenizeLeftLiteralString(string taskPrototype, ref int cc, Wildcard w)
 		{
+			if (cc > w.Index)
+				return null;
 			string ss = taskPrototype.Substring (cc, w.Index - cc);
 			cc = w.Index + w.Value.Length;
 			return String.IsNullOrEmpty (ss) ? null : new Token (ss);
@@ -586,7 +593,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		private string[] FetchMetadata(Wildcard w){
 			string sMeta = w.Metadata;
 			if(String.IsNullOrEmpty(sMeta)) return null;
-			sMeta = ReplaceWildcards(sMeta);
+			sMeta = ReplaceNestedWildcards(sMeta);
 			return sMeta.Split (new string[]{"\r", "\n", @"\\", @"\\r", @"\\n"}, StringSplitOptions.None);
 		}
 
@@ -624,6 +631,8 @@ namespace RoboCup.AtHome.CommandGenerator
 			return task;
 		}
 
+		/*
+
 		/// <summary>
 		/// Replaces all wildcards in the input string with random values.
 		/// </summary>
@@ -632,6 +641,31 @@ namespace RoboCup.AtHome.CommandGenerator
 		public string ReplaceWildcards(string taskPrototype)
 		{
 			return GetTask(taskPrototype).ToString();
+		}
+		*/
+
+		/// <summary>
+		/// Replaces all wildcards in the input string with random values.
+		/// </summary>
+		/// <returns>The input string with all wildcards replaced.</returns>
+		/// <param name="s">The input string</param>
+		public string ReplaceNestedWildcards(string s)
+		{
+			int bcc = 0;
+			int cc= 0;
+			StringBuilder sb = new StringBuilder (s.Length);
+			// Read the string from left to right till the next open brace (wildcard delimiter).
+			while(cc < s.Length) {
+				if (s [cc] == '{') {
+					Wildcard w = Wildcard.XtractWildcard(s, ref cc);
+					if(w == null) continue;
+					this.wildcards.Add (w);
+					sb.Append(FindReplacement (w).Name);
+				}
+				else
+					sb.Append( s[cc++] );
+			}
+			return sb.ToString ();
 		}
 
 		#endregion
