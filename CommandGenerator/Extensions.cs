@@ -42,6 +42,13 @@ namespace RoboCup.AtHome.CommandGenerator
 			return item;
 		}
 
+		/// <summary>
+		/// Returns and removes the first element in a sequence that satisfies a specified condition.
+		/// </summary>
+		/// <returns>The first element in the sequence that passes the test in the specified predicate function.</returns>
+		/// <param name="source">An IList<T> to return and remove an element from.</param>
+		/// <param name="predicate">A function to test each element for a condition.</param>
+		/// <typeparam name="TSource">The type of the elements of source.</typeparam>
 		public static TSource PopFirst<TSource>(this IList<TSource> source, Func<TSource, bool> predicate)
 		{
 			if ((source == null) || (predicate == null))
@@ -56,6 +63,33 @@ namespace RoboCup.AtHome.CommandGenerator
 				}
 			}
 			throw new InvalidOperationException ("No element satisfies the condition in predicate");
+		}
+
+		/// <summary>
+		/// Determines whether the specified String object has the same value of any of an array of other string objects.
+		/// </summary>
+		/// <returns><c>true</c> if the value of the source parameter is equal to the value of any of the strings contained in the others parameter; otherwise, <c>false</c>.</returns>
+		/// <param name="source">The first string to compare, or null</param>
+		/// <param name="others">The set of strings to compare, or null.</param>
+		public static bool IsAnyOf(this string source, params string[] others){
+			foreach (string o in others)
+				if (String.Equals (source, o))
+					return true;
+			return false;
+		}
+
+		/// <summary>
+		/// Determines whether the specified String object has the same value of any of an array of other string objects. A parameter specifies the culture, case, and sort rules used in the comparison.
+		/// </summary>
+		/// <returns><c>true</c> if the value of the source parameter is equal to the value of any of the strings contained in the others parameter; otherwise, <c>false</c>.</returns>
+		/// <param name="source">The first string to compare, or null</param>
+		/// <param name="comparisonType">One of the enumeration values that specifies the rules for the comparison. </param>
+		/// <param name="others">The set of strings to compare, or null.</param>
+		public static bool IsAnyOf(this string source, StringComparison comparisonType, params string[] others){
+			foreach (string o in others)
+				if (String.Equals (source, o, comparisonType))
+					return true;
+			return false;
 		}
 	}
 }
