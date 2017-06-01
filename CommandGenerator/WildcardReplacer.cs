@@ -116,14 +116,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <returns>An appropiate replacement for the wildcard.</returns>
 		private INameable EvaluateCategory (Wildcard w)
 		{
-			string keycode = w.Name.ToLower ();
-			if(w.Id == -1) return GetCategory();
-			string key = keycode + w.Id;
-			if(this.categories.ContainsKey(key))
-				return this.categories[key];
-			Category cat = GetCategory ();
-			categories.Add (key, cat);
-			return cat;
+			return GetFromList (w.Name.ToLower(), w.Id, GetCategory, categories);
 		}
 
 		/// <summary>
@@ -134,14 +127,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <returns>An appropiate replacement for the wildcard.</returns>
 		private INameable EvaluateGesture(Wildcard w)
 		{
-			string keycode = w.Name.ToLower ();
-			if (w.Id == -1) return GetGesture();
-			string key = keycode + w.Id;
-			if(this.gestures.ContainsKey(key))
-				return this.gestures[key];
-			Gesture ges = GetGesture ();
-			gestures.Add (key, ges);
-			return ges;
+			return GetFromList (w.Name.ToLower(), w.Id, GetGesture, gestures);
 		}
 
 		/// <summary>
@@ -168,13 +154,7 @@ namespace RoboCup.AtHome.CommandGenerator
 				}
 			}
 		
-			string key = keycode + w.Id;
-			if (w.Id == -1) return GetLocation(keycode);
-			if(this.locations.ContainsKey(key))
-				return this.locations[key];
-			Location loc = GetLocation (keycode);
-			locations.Add (key, loc);
-			return loc;
+			return GetFromList (keycode, w.Id, GetLocation, locations);
 		}
 
 		/// <summary>
@@ -193,13 +173,8 @@ namespace RoboCup.AtHome.CommandGenerator
 				else if (type == "female")
 					keycode = "female";
 			}
-			if (w.Id == -1) return GetName(keycode);
-			string key = keycode + w.Id;
-			if(this.names.ContainsKey(key))
-				return this.names[key];
-			PersonName nam = GetName (keycode);
-			names.Add (key, nam);
-			return nam;
+
+			return GetFromList (keycode, w.Id, GetName, names);
 		}
 
 		/// <summary>
@@ -218,13 +193,8 @@ namespace RoboCup.AtHome.CommandGenerator
 				else if (type == "known")
 					keycode = "kobject";
 			}
-			if (w.Id == -1) return GetObject(keycode);
-			string key = keycode + w.Id;
-			if(this.objects.ContainsKey(key))
-				return this.objects[key];
-			GPSRObject obj = GetObject (keycode);
-			objects.Add (key, obj);
-			return obj;
+
+			return GetFromList (keycode, w.Id, GetObject, objects);
 		}
 
 		/// <summary>
@@ -235,14 +205,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <returns>An appropiate replacement for the wildcard.</returns>
 		private INameable EvaluateQuestion(Wildcard w)
 		{
-			string keycode = w.Name;
-			if (w.Id == -1) return GetQuestion();
-			string key = keycode + w.Id;
-			if (this.questions.ContainsKey(key))
-				return this.questions[key];
-			PredefindedQuestion qst = GetQuestion();
-			questions.Add(key, qst);
-			return qst;
+			return GetFromList (w.Name, w.Id, GetQuestion, questions);
 		}
 
 		/// <summary>
@@ -266,9 +229,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <returns>A category</returns>
 		private Category GetCategory ()
 		{
-			Category item = this.avCategories [this.avCategories.Count - 1];
-			this.avCategories.RemoveAt (this.avCategories.Count - 1);
-			return item;
+			return this.avCategories.PopLast();
 		}
 
 		/// <summary>
@@ -278,9 +239,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <returns>A category</returns>
 		private Gesture GetGesture ()
 		{
-			Gesture item = this.avGestures [this.avGestures.Count - 1];
-			this.avGestures.RemoveAt (this.avGestures.Count - 1);
-			return item;
+			return this.avGestures.PopLast();
 		}
 
 		/// <summary>
@@ -295,23 +254,17 @@ namespace RoboCup.AtHome.CommandGenerator
 			switch (keycode)
 			{
 				case "beacon":
-					item = this.avLocations.First(l => l.IsBeacon);
-					break;
+					return this.avLocations.PopFirst(l => l.IsBeacon);
 
 				case "room":
-					item = this.avLocations.First(l => l is Room);
-					break;
+					return this.avLocations.PopFirst(l => l is Room);
 
 				case "placement":
-					item = this.avLocations.First(l => l.IsPlacement);
-					break;
+					return this.avLocations.PopFirst(l => l.IsPlacement);
 
 				default:
-					item = this.avLocations[this.avLocations.Count - 1];
-					break;
+					return this.avLocations.PopLast();
 			}
-			this.avLocations.Remove(item);
-			return item;
 		}
 
 		/// <summary>
@@ -325,19 +278,14 @@ namespace RoboCup.AtHome.CommandGenerator
 			PersonName item;
 			switch(keycode){
 				case "male":
-				item = this.avNames.First(n => n.Gender == Gender.Male);
-				break;
+					return this.avNames.PopFirst(n => n.Gender == Gender.Male);
 
 				case "female":
-				item = this.avNames.First(n => n.Gender == Gender.Female);
-				break;
+					return this.avNames.PopFirst(n => n.Gender == Gender.Female);
 
 				default:
-				item = this.avNames [this.avNames.Count - 1];
-				break;
+					return this.avNames.PopLast();
 			}
-			this.avNames.Remove (item);
-			return item;
 		}
 
 		/// <summary>
@@ -351,22 +299,39 @@ namespace RoboCup.AtHome.CommandGenerator
 			GPSRObject item;
 			switch(keycode){
 				case "aobject":
-				item = this.avObjects.First(o => o.Type == GPSRObjectType.Alike);
-				break;
+					return this.avObjects.PopFirst(o => o.Type == GPSRObjectType.Alike);
 
 				case "kobject":
-				item = this.avObjects.First(o => o.Type == GPSRObjectType.Known);
-				break;
+					return this.avObjects.PopFirst(o => o.Type == GPSRObjectType.Known);
 
 				// case "uobject":
 				// return GPSRObject.Unknown;
 
 				default:
-				item = this.avObjects [this.avObjects.Count - 1];
-				break;
+					return this.avObjects.PopLast();
 			}
-			this.avObjects.Remove (item);
-			return item;
+		}
+
+		private T GetFromList<T>(string keycode, int id, Func<T> fetcher, Dictionary<string, T> assigned){
+			if (id == -1)
+				return fetcher();
+			string key = keycode + id;
+			if(assigned.ContainsKey(key))
+				return assigned[key];
+			T t = fetcher();
+			assigned.Add (key, t);
+			return t;
+		}
+
+		private T GetFromList<T>(string keycode, int id, Func<string, T> fetcher, Dictionary<string, T> assigned){
+			if (id == -1)
+				return fetcher(keycode);
+			string key = keycode + id;
+			if(assigned.ContainsKey(key))
+				return assigned[key];
+			T t = fetcher(keycode);
+			assigned.Add (key, t);
+			return t;
 		}
 
 		/// <summary>
@@ -376,9 +341,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <returns>A question</returns>
 		private PredefindedQuestion GetQuestion()
 		{
-			PredefindedQuestion item = this.avQuestions[this.avQuestions.Count - 1];
-			this.avQuestions.RemoveAt(this.avQuestions.Count - 1);
-			return item;
+			return this.avQuestions.PopLast ();
 		}
 
 		/// <summary>
