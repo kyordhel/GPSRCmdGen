@@ -2,9 +2,9 @@
 ; grammar tier Moderate
 ; import common.txt
 
-$Main     = $deliver
-$Main     = $fndppl
-$Main     = $fndobj
+;$Main     = $deliver
+;$Main     = $fndppl
+;$Main     = $fndobj
 $Main     = $guide
 $Main     = $follow
 

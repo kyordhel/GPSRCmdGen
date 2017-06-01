@@ -5,10 +5,10 @@
 $Main     = $pcat3 | $cat3
 $pcat3    = $polite $cat3
 
-$cat3     = $complexman
-$cat3     = $fndobj
-$cat3     = $incomplete
-$cat3     = $erroneous
+;$cat3     = $complexman
+;$cat3     = $fndobj
+;$cat3     = $incomplete
+;$cat3     = $erroneous
 $cat3     = $followout
 
 
