@@ -40,34 +40,9 @@ namespace RoboCup.AtHome.CommandGenerator
 		private DifficultyDegree tier;
 
 		/// <summary>
-		/// Dicctionary of used categories
+		/// Stores all replacements
 		/// </summary>
-		private Dictionary<string, Category> categories; 
-
-		/// <summary>
-		/// Dicctionary of used gestures
-		/// </summary>
-		private Dictionary<string, Gesture> gestures;
-
-		/// <summary>
-		/// Dicctionary of used locations
-		/// </summary>
-		private Dictionary<string, Location> locations;
-
-		/// <summary>
-		/// Dicctionary of used names
-		/// </summary>
-		private Dictionary<string, PersonName> names;
-
-		/// <summary>
-		/// Dicctionary of used objects
-		/// </summary>
-		private Dictionary<string, GPSRObject> objects;
-
-		/// <summary>
-		/// Dicctionary of used questions
-		/// </summary>
-		private Dictionary<string, PredefindedQuestion> questions;
+		private Dictionary<string, INameable> replacements; 
 
 		/// <summary>
 		/// List of available categories
@@ -111,12 +86,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		public WildcardReplacer(Generator g, DifficultyDegree tier){
 			this.generator = g;
 			this.tier = tier;
-			this.categories = new Dictionary<string, Category> (); 
-			this.gestures = new Dictionary<string, Gesture> ();
-			this.locations = new Dictionary<string, Location> ();
-			this.names = new Dictionary<string, PersonName> ();
-			this.objects = new Dictionary<string, GPSRObject> ();
-			this.questions = new Dictionary<string, PredefindedQuestion>();
+			this.replacements = new Dictionary<string, INameable> ();
 			FillAvailabilityLists ();
 		}
 
@@ -132,7 +102,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <returns>An appropiate replacement for the wildcard.</returns>
 		private INameable EvaluateCategory (Wildcard w)
 		{
-			return GetFromList (w.Keyword, w.Id, GetCategory, categories);
+			return GetFromList (w, GetCategory);
 		}
 
 		/// <summary>
@@ -143,7 +113,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <returns>An appropiate replacement for the wildcard.</returns>
 		private INameable EvaluateGesture(Wildcard w)
 		{
-			return GetFromList (w.Keyword, w.Id, GetGesture, gestures);
+			return GetFromList (w, GetGesture);
 		}
 
 		/// <summary>
@@ -160,7 +130,7 @@ namespace RoboCup.AtHome.CommandGenerator
 				else if (String.IsNullOrEmpty (w.Type))
 					w.Keyword = generator.RandomPick ("beacon", "room", "placement");
 			}
-			return GetFromList (w.Keyword, w.Id, GetLocation, locations);
+			return GetFromList (w, GetLocation);
 		}
 
 		/// <summary>
@@ -178,7 +148,7 @@ namespace RoboCup.AtHome.CommandGenerator
 					w.Keyword = generator.RandomPick ("male", "female");
 			}
 
-			return GetFromList (w.Keyword, w.Id, GetName, names);
+			return GetFromList (w, GetName);
 		}
 
 		/// <summary>
@@ -196,7 +166,7 @@ namespace RoboCup.AtHome.CommandGenerator
 					w.Keyword = generator.RandomPick ("kobject", "aobject");
 			}
 
-			return GetFromList (w.Keycode, w.Id, GetObject, objects);
+			return GetFromList (w, GetObject);
 		}
 
 		/// <summary>
@@ -249,7 +219,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <returns>An appropiate replacement for the wildcard.</returns>
 		private INameable EvaluateQuestion(Wildcard w)
 		{
-			return GetFromList (w.Keyword, w.Id, GetQuestion, questions);
+			return GetFromList (w, GetQuestion);
 		}
 
 		/// <summary>
@@ -353,25 +323,23 @@ namespace RoboCup.AtHome.CommandGenerator
 			}
 		}
 
-		private T GetFromList<T>(string keycode, int id, Func<T> fetcher, Dictionary<string, T> assigned){
-			if (id == -1)
+		private T GetFromList<T>(Wildcard w, Func<T> fetcher) where T: INameable{
+			if (w.Id >= 1000)
 				return fetcher();
-			string key = keycode + id;
-			if(assigned.ContainsKey(key))
-				return assigned[key];
+			if(replacements.ContainsKey(w.Keycode))
+				return (T) replacements[w.Keycode];
 			T t = fetcher();
-			assigned.Add (key, t);
+			replacements.Add (w.Keycode, t);
 			return t;
 		}
 
-		private T GetFromList<T>(string keycode, int id, Func<string, T> fetcher, Dictionary<string, T> assigned){
-			if (id == -1)
-				return fetcher(keycode);
-			string key = keycode + id;
-			if(assigned.ContainsKey(key))
-				return assigned[key];
-			T t = fetcher(keycode);
-			assigned.Add (key, t);
+		private T GetFromList<T>(Wildcard w, Func<string, T> fetcher) where T: INameable{
+			if (w.Id >= 1000)
+				return fetcher(w.Keyword);
+			if(replacements.ContainsKey(w.Keycode))
+				return (T) replacements[w.Keycode];
+			T t = fetcher(w.Keycode);
+			replacements.Add (w.Keycode, t);
 			return t;
 		}
 
@@ -651,7 +619,6 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <param name="s">The input string</param>
 		public string ReplaceNestedWildcards(string s)
 		{
-			int bcc = 0;
 			int cc= 0;
 			StringBuilder sb = new StringBuilder (s.Length);
 			// Read the string from left to right till the next open brace (wildcard delimiter).

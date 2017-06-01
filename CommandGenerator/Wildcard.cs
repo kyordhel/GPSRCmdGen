@@ -10,11 +10,6 @@ namespace RoboCup.AtHome.CommandGenerator
 		#region Variables
 
 		/// <summary>
-		/// Stores the keycode associated to each wildcard group unique replacements
-		/// </summary>
-		private string keycode;
-
-		/// <summary>
 		/// Stores the keyword associated to this wildcard
 		/// </summary>
 		private string keyword;
@@ -70,7 +65,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		#region Properties
 
 		/// <summary>
-		/// Gets or sets the keyword associated to this wildcard
+		/// Gets or sets the keycode associated to each wildcard group unique replacements
 		/// </summary>
 		public string Keycode
 		{
