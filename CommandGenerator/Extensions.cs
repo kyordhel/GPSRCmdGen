@@ -33,10 +33,10 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <typeparam name="T">The data type of the list.</typeparam>
 		public static TSource PopLast<TSource>(this IList<TSource> source)
 		{
-			if ((source == null) || (predicate == null))
+			if (source == null)
 				throw new ArgumentNullException ("Source is null.");
 			if (source.Count < 1)
-				InvalidOperationException ("The source sequence is empty.");
+				throw new InvalidOperationException ("The source sequence is empty.");
 			TSource item = source[source.Count - 1];
 			source.RemoveAt (source.Count - 1);
 			return item;
@@ -47,11 +47,11 @@ namespace RoboCup.AtHome.CommandGenerator
 			if ((source == null) || (predicate == null))
 				throw new ArgumentNullException ("Source or predicate is null.");
 			if (source.Count < 1)
-				InvalidOperationException ("The source sequence is empty.");
+				throw new InvalidOperationException ("The source sequence is empty.");
 			for (int i = 0; i < source.Count; ++i) {
 				if (predicate (source [i])) {
 					TSource item = source [i];
-					source.RemoveAt [i];
+					source.RemoveAt(i);
 					return item;
 				}
 			}
