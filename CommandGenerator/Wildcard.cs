@@ -10,6 +10,11 @@ namespace RoboCup.AtHome.CommandGenerator
 		#region Variables
 
 		/// <summary>
+		/// Stores the keyword associated to this wildcard
+		/// </summary>
+		private string keyword;
+
+		/// <summary>
 		/// Stores the Wildcard id
 		/// </summary>
 		private int id;
@@ -55,6 +60,15 @@ namespace RoboCup.AtHome.CommandGenerator
 		#region Properties
 
 		/// <summary>
+		/// Gets or sets the keyword associated to this wildcard
+		/// </summary>
+		public string Keyword
+		{
+			get{ return String.IsNullOrEmpty (this.keyword) ? this.name : this.keyword; }
+			set{ this.keyword = String.IsNullOrEmpty (value) ? null : value.ToLower (); }
+		}
+
+		/// <summary>
 		/// Gets the Wildcard id
 		/// </summary>
 		public int Id { get { return this.id; } }
@@ -72,7 +86,11 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <summary>
 		/// Gets the name of the wildcard
 		/// </summary>
-		public string Name { get { return this.name; } }
+		public string Name
+		{
+			get { return this.name; }
+			protected set{ this.name = String.IsNullOrEmpty (value) ? null : value.ToLower (); }
+		}
 
 		/// <summary>
 		/// Gets a value indicating if the wildcard is obfuscated
@@ -87,7 +105,11 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <summary>
 		/// Gets the type of the wildcard
 		/// </summary>
-		public string Type { get { return this.type; } }
+		public string Type 
+		{
+			get { return this.type; }
+			protected set{ this.type = String.IsNullOrEmpty (value) ? null : value.ToLower (); }
+		}
 
 		/// <summary>
 		/// Gets the 
@@ -127,14 +149,14 @@ namespace RoboCup.AtHome.CommandGenerator
 			wildcard.index = cc;
 			// Read wildcard name
 			++cc;
-			wildcard.name = ReadWildcardName(s, ref cc);
+			wildcard.Name = ReadWildcardName(s, ref cc);
 			if (String.IsNullOrEmpty(wildcard.Name)) return null;
 
 			// Read obfuscator
 			wildcard.obfuscated = Scanner.ReadChar('?', s, ref cc);
 
 			// Read wildcard type
-			wildcard.type = ReadWildcardType(s, ref cc);
+			wildcard.Type = ReadWildcardType(s, ref cc);
 
 			// Read wildcard id
 			wildcard.id = ReadWildcardId(s, ref cc);

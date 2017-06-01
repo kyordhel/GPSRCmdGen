@@ -257,6 +257,34 @@ namespace RoboCup.AtHome.CommandGenerator
 			return tieredList[rnd.Next(tieredList.Count)];
 		}
 
+		/// <summary>
+		/// Returns a randomly chosen element from the source set using the generator seed.
+		/// </summary>
+		/// <returns>An element from source chosen randomly</returns>
+		/// <param name="source">The source array</param>
+		/// <typeparam name="T">The type of the elements of source.</typeparam>
+		public T RandomPick<T>(IList <T> source){
+			if (source == null)
+				throw new ArgumentNullException ("Source is null.");
+			if (source.Count < 1)
+				throw new InvalidOperationException ("The source sequence is empty.");
+			return source [rnd.Next (0, source.Count)];
+		}
+
+		/// <summary>
+		/// Returns a randomly chosen element from the source set using the generator seed.
+		/// </summary>
+		/// <returns>An element from source chosen randomly</returns>
+		/// <param name="source">The source array</param>
+		/// <typeparam name="T">The type of the elements of source.</typeparam>
+		public T RandomPick<T>(params T [] source){
+			if (source == null)
+				throw new ArgumentNullException ("Source is null.");
+			if (source.Length < 1)
+				throw new InvalidOperationException ("The source sequence is empty.");
+			return source [rnd.Next (0, source.Length)];
+		}
+
 		#region Load Methods
 
 		/// <summary>

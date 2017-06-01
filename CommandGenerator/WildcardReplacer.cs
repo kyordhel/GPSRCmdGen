@@ -131,7 +131,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <returns>An appropiate replacement for the wildcard.</returns>
 		private INameable EvaluateCategory (Wildcard w)
 		{
-			return GetFromList (w.Name.ToLower(), w.Id, GetCategory, categories);
+			return GetFromList (w.Keyword, w.Id, GetCategory, categories);
 		}
 
 		/// <summary>
@@ -142,7 +142,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <returns>An appropiate replacement for the wildcard.</returns>
 		private INameable EvaluateGesture(Wildcard w)
 		{
-			return GetFromList (w.Name.ToLower(), w.Id, GetGesture, gestures);
+			return GetFromList (w.Keyword, w.Id, GetGesture, gestures);
 		}
 
 		/// <summary>
@@ -153,23 +153,13 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <returns>An appropiate replacement for the wildcard.</returns>
 		private INameable EvaluateLocation(Wildcard w)
 		{
-			string keycode = w.Name.ToLower ();
-			if (keycode == "location")
-			{
-				switch (w.Type.ToLower())
-				{
-					case "beacon":
-						keycode = "beacon"; break;
-
-					case "room":
-						keycode = "room"; break;
-
-					case "placement":
-						keycode = "placement"; break;
-				}
+			if (w.Name == "location") {
+				if (w.Type.IsAnyOf ("beacon", "room", "placement"))
+					w.Keyword = w.Type;
+				else if (String.IsNullOrEmpty (w.Type))
+					w.Keyword = generator.RandomPick ("beacon", "room", "placement");
 			}
-		
-			return GetFromList (keycode, w.Id, GetLocation, locations);
+			return GetFromList (w.Keyword, w.Id, GetLocation, locations);
 		}
 
 		/// <summary>
@@ -180,16 +170,14 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <returns>An appropiate replacement for the wildcard.</returns>
 		private INameable EvaluateName(Wildcard w)
 		{
-			string keycode = w.Name.ToLower ();
-			if (keycode == "name"){
-				string type = w.Type.ToLower ();
-				if (type == "male")
-					keycode = "male";
-				else if (type == "female")
-					keycode = "female";
+			if (w.Name == "name") {
+				if (w.Type.IsAnyOf ("male", "female"))
+					w.Keyword = w.Type;
+				else if (String.IsNullOrEmpty (w.Type))
+					w.Keyword = generator.RandomPick ("male", "female");
 			}
 
-			return GetFromList (keycode, w.Id, GetName, names);
+			return GetFromList (w.Keyword, w.Id, GetName, names);
 		}
 
 		/// <summary>
@@ -200,9 +188,9 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <returns>An appropiate replacement for the wildcard.</returns>
 		private INameable EvaluateObject(Wildcard w)
 		{
-			string keycode = w.Name.ToLower ();
+			string keycode = w.Name;
 			if (keycode == "object") {
-				string type = w.Type.ToLower ();
+				string type = w.Type;
 				if (type == "alike")
 					keycode = "aobject";
 				else if (type == "known")
@@ -222,7 +210,7 @@ namespace RoboCup.AtHome.CommandGenerator
 			Wildcard prev = null;
 
 			for (int i = currentWildcardIx - 1; i >= 0; --i) {
-				string name = wildcards[i].Name;
+				string name = wildcards[i].Keyword;
 				if ((name == "void") || (name == "pron"))
 					continue;
 				prev = wildcards[i];
@@ -231,7 +219,7 @@ namespace RoboCup.AtHome.CommandGenerator
 			if (prev == null)
 				return new NamedTaskElement ("them");
 
-			switch (prev.Name) {
+			switch (prev.Keyword) {
 				case "name":
 				case "male":
 				return new NamedTaskElement ("him");
@@ -256,7 +244,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <returns>An appropiate replacement for the wildcard.</returns>
 		private INameable EvaluateQuestion(Wildcard w)
 		{
-			return GetFromList (w.Name, w.Id, GetQuestion, questions);
+			return GetFromList (w.Keyword, w.Id, GetQuestion, questions);
 		}
 
 		/// <summary>
@@ -301,7 +289,6 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <returns>A location</returns>
 		private Location GetLocation(string keycode)
 		{
-			Location item;
 			switch (keycode)
 			{
 				case "beacon":
@@ -326,7 +313,6 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <returns>A name</returns>
 		private PersonName GetName (string keycode)
 		{
-			PersonName item;
 			switch(keycode){
 				case "male":
 					return this.avNames.PopFirst(n => n.Gender == Gender.Male);
@@ -347,7 +333,6 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <returns>An object</returns>
 		private GPSRObject GetObject (string keycode)
 		{
-			GPSRObject item;
 			switch(keycode){
 				case "aobject":
 					return this.avObjects.PopFirst(o => o.Type == GPSRObjectType.Alike);
