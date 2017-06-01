@@ -69,7 +69,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// </summary>
 		public string Keycode
 		{
-			get{ return Keyword + this.id.ToString().PadLeft(4, '0'); }
+			get{ return Name + this.id.ToString().PadLeft(4, '0'); }
 		}
 
 		/// <summary>

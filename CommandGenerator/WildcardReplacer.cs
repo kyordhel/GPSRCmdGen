@@ -626,7 +626,7 @@ namespace RoboCup.AtHome.CommandGenerator
 				if (s [cc] == '{') {
 					Wildcard w = Wildcard.XtractWildcard(s, ref cc);
 					if(w == null) continue;
-					this.wildcards.Add (w);
+					// this.wildcards.Add (w);
 					sb.Append(FindReplacement (w).Name);
 				}
 				else
