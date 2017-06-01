@@ -173,13 +173,8 @@ namespace RoboCup.AtHome.CommandGenerator
 				else if (type == "female")
 					keycode = "female";
 			}
-			if (w.Id == -1) return GetName(keycode);
-			string key = keycode + w.Id;
-			if(this.names.ContainsKey(key))
-				return this.names[key];
-			PersonName nam = GetName (keycode);
-			names.Add (key, nam);
-			return nam;
+
+			return GetFromList (keycode, w.Id, GetName, names);
 		}
 
 		/// <summary>
