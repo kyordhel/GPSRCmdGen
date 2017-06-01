@@ -2,10 +2,9 @@
 ; grammar tier Easy
 ; import common.txt
 
-$Main      = Find {name} in the kitchen and follow {pron} {location} {object}
-;$Main     = $deliver
-;$Main     = $fndppl
-;$Main     = $fndobj
+$Main     = $deliver
+$Main     = $fndppl
+$Main     = $fndobj
 
 ##############################################################################
 #
