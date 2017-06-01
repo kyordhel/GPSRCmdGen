@@ -35,6 +35,11 @@ namespace RoboCup.AtHome.CommandGenerator
 		private string name;
 
 		/// <summary>
+		/// Stores the next automatically calculated identifier.
+		/// </summary>
+		private static int nextAutoId = 1000;
+
+		/// <summary>
 		///Indicates if the wildcard is obfuscated
 		/// </summary>
 		private bool obfuscated;
@@ -60,6 +65,14 @@ namespace RoboCup.AtHome.CommandGenerator
 		#region Properties
 
 		/// <summary>
+		/// Gets or sets the keycode associated to each wildcard group unique replacements
+		/// </summary>
+		public string Keycode
+		{
+			get{ return Name + this.id.ToString().PadLeft(4, '0'); }
+		}
+
+		/// <summary>
 		/// Gets or sets the keyword associated to this wildcard
 		/// </summary>
 		public string Keyword
@@ -71,7 +84,11 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <summary>
 		/// Gets the Wildcard id
 		/// </summary>
-		public int Id { get { return this.id; } }
+		public int Id
+		{
+			get { return this.id; }
+			internal set { this.id = (value < 0) ? Wildcard.nextAutoId++ : value; }
+		}
 
 		/// <summary>
 		/// Gets the 
@@ -159,7 +176,7 @@ namespace RoboCup.AtHome.CommandGenerator
 			wildcard.Type = ReadWildcardType(s, ref cc);
 
 			// Read wildcard id
-			wildcard.id = ReadWildcardId(s, ref cc);
+			wildcard.Id = ReadWildcardId(s, ref cc);
 
 			// Read wildcard id
 			wildcard.metadata = ReadWildcardMetadata(s, ref cc);
