@@ -95,28 +95,6 @@ namespace RoboCup.AtHome.CommandGenerator
 		#region Evaluate Methods
 
 		/// <summary>
-		/// Evaluates a <c>category</c> wildcard, creating a new replacement if the wildcard
-		/// has not been defined before, or retrieving the replacement otherwise. 
-		/// </summary>
-		/// <param name="w">The wilcard to find a replacement for</param>
-		/// <returns>An appropiate replacement for the wildcard.</returns>
-		private INameable EvaluateCategory (Wildcard w)
-		{
-			return GetFromList (w, GetCategory);
-		}
-
-		/// <summary>
-		/// Evaluates a <c>gesture</c> wildcard, creating a new replacement if the wildcard
-		/// has not been defined before, or retrieving the replacement otherwise. 
-		/// </summary>
-		/// <param name="w">The wilcard to find a replacement for</param>
-		/// <returns>An appropiate replacement for the wildcard.</returns>
-		private INameable EvaluateGesture(Wildcard w)
-		{
-			return GetFromList (w, GetGesture);
-		}
-
-		/// <summary>
 		/// Evaluates a <c>location</c> wildcard, creating a new replacement if the wildcard
 		/// has not been defined before, or retrieving the replacement otherwise. 
 		/// </summary>
@@ -209,27 +187,6 @@ namespace RoboCup.AtHome.CommandGenerator
 				default:
 					return new NamedTaskElement ("them");
 			}
-		}
-
-		/// <summary>
-		/// Evaluates a <c>question</c> wildcard, creating a new replacement if the wildcard
-		/// has not been defined before, or retrieving the replacement otherwise. 
-		/// </summary>
-		/// <param name="w">The wilcard to find a replacement for</param>
-		/// <returns>An appropiate replacement for the wildcard.</returns>
-		private INameable EvaluateQuestion(Wildcard w)
-		{
-			return GetFromList (w, GetQuestion);
-		}
-
-		/// <summary>
-		/// Evaluates a void wildcard
-		/// </summary>
-		/// <param name="w">The wilcard to find a replacement for</param>
-		/// <returns>An appropiate replacement for the wildcard.</returns>
-		private INameable EvaluateVoid(Wildcard w)
-		{
-			return new HiddenTaskElement();
 		}
 
 		#endregion
@@ -338,7 +295,7 @@ namespace RoboCup.AtHome.CommandGenerator
 				return fetcher(w.Keyword);
 			if(replacements.ContainsKey(w.Keycode))
 				return (T) replacements[w.Keycode];
-			T t = fetcher(w.Keycode);
+			T t = fetcher(w.Keyword);
 			replacements.Add (w.Keycode, t);
 			return t;
 		}
@@ -487,13 +444,16 @@ namespace RoboCup.AtHome.CommandGenerator
 			if (!w.Success)
 				return null;
 
+			if (replacements.ContainsKey (w.Keycode))
+				return replacements [w.Keycode];
+
 			switch (w.Name)
 			{
 				case "category":
-					return EvaluateCategory(w);
+					return GetFromList (w, GetCategory);
 
 				case "gesture":
-					return EvaluateGesture(w);
+					return GetFromList (w, GetGesture);
 
 				case "name": case "female": case "male":
 					return EvaluateName(w);
@@ -505,10 +465,10 @@ namespace RoboCup.AtHome.CommandGenerator
 					return EvaluateObject(w);
 
 				case "question":
-					return EvaluateQuestion(w);
+					return GetFromList (w, GetQuestion);
 
 				case "void":
-					return EvaluateVoid(w);
+					return new HiddenTaskElement();
 
 				case "pron":
 					return EvaluatePronoun(w);
