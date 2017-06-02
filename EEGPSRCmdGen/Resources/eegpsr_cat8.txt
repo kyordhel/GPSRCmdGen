@@ -20,8 +20,7 @@ $complex  = $single, $doubler
 #
 ##############################################################################
 $triple   = $findor, and ($place | $deliver)
-$triple   = $findmp, and $guidem
-$triple   = $findfp, and $guidef
+$triple   = $findp, and $guide
 
 ##############################################################################
 #
@@ -53,7 +52,7 @@ $doublel  = $findp, $guide
 #
 ##############################################################################
 $single   = $vbspeak $whattosay
-$single   = $findfp | $findmp
+$single   = $findp
 $single   = $take
 $single   = answer a {question}
 $single   = join the dark side
