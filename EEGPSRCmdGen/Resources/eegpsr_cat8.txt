@@ -36,16 +36,16 @@ $doublel  = $take, ($place | $deliver)
 $doublel  = $vbplace {object} on the {placement}
 
 ; find and follow
-$doubler  = $findmpr, and $followm
-$doubler  = $findfpr, and $followf
-$doublel  = $findmpr, $followm
-$doublel  = $findfpr, $followf
+$doubler  = $findpr, and $follow
+$doubler  = $findpr, and $follow
+$doublel  = $findpr, $follow
+$doublel  = $findpr, $follow
 
 ; find and guide
-$doubler  = $findmp, and $guidem
-$doubler  = $findfp, and $guidef
-$doublel  = $findmp, $guidem
-$doublel  = $findfp, $guidef
+$doubler  = $findp, and $guide
+$doubler  = $findp, and $guide
+$doublel  = $findp, $guide
+$doublel  = $findp, $guide
 
 ##############################################################################
 #
@@ -77,24 +77,18 @@ $place    = $vbplace it on the {placement}
 $deliver  = $vbdeliver it to (me | {name} in the {beacon})
 
 ; Find people in location
-$findmp   = $vbgopl to the {beacon}, $vbfind {male}
-$findmp   = $vbfind {male} in the {beacon}
-$findfp   = $vbgopl to the {beacon}, $vbfind {female}
-$findfp   = $vbfind {female} in the {beacon}
+$findp   = $vbgopl to the {beacon}, $vbfind {name}
+$findp   = $vbfind {name} in the {beacon}
 
 ; Find people in room
-$findmpr  = $vbgor to the {room}, $vbfind {male}
-$findmpr  = $vbfind {male} in the {room}
-$findfpr  = $vbgor to the {room}, $vbfind {female}
-$findfpr  = $vbfind {female} in the {room}
+$findpr  = $vbgor to the {room}, $vbfind {name}
+$findpr  = $vbfind {name} in the {room}
 
 ; Follow people
-$followm  = $vbfollow him
-$followf  = $vbfollow her
+$follow  = $vbfollow {pron}
 
 ; Guide people
-$guidem   = $vbguide him to the ( {room} | {beacon} | exit )
-$guidef   = $vbguide her to the ( {room} | {beacon} | exit )
+$guide   = $vbguide {pron} to the ( {room} | {beacon} | exit )
 
 
 ##############################################################################

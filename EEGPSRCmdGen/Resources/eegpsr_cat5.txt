@@ -35,11 +35,7 @@ $incomplete  = $vbfollow {name 1 meta: {name 1} is at the {beacon 1}}
 $incomplete  = $cmanwarn $vbbring me (a | some) {object?}
 $incomplete  = $cmanwarn $vbdeliver {object?} to $someone
 $incomplete  = $vbguide {name 1 meta: {name 1} is at the {beacon 1}} to the {beacon 2}
-$incomplete  = $vbguide {name 1 meta: {name 1} is at the {beacon 1}} to the {beacon 2}
-$incomplete  = meet $inguidewhoM and $vbguide him
-$incomplete  = meet $inguidewhoF and $vbguide her
-$incomplete  = $gobeacon, meet $inguidewhoM, and $vbguide him
-$incomplete  = $gobeacon, meet $inguidewhoF, and $vbguide her
+$incomplete  = meet $inguidewho and $vbguide {pron}
+$incomplete  = $gobeacon, meet $inguidewho, and $vbguide {prom}
 
-$inguidewhoM = {male 1 meta: {male 1} must be taken from {beacon 1} to {beacon 2}, but he will get lost before reaching it}
-$inguidewhoF = {female 1 meta: {female 1} must be taken from {beacon 1} to {beacon 2}, but she will get lost before reaching it}
+$inguidewho  = {name 1 meta: {name 1} must be taken from {beacon 1} to {beacon 2}, but he will get lost before reaching it}

@@ -40,8 +40,7 @@ $drink    = beer | milk | ($fruit juice)
 $envr     = Go to the {room} and offer something to drink to the each person you find there, beer to the adults and milk or juice to the children.
 
 $envr     = $goffer {void meta: The robot must interact with the person at {beacon 1} and offer the proper object}
-$goffer   = Find {female} in the {beacon}. Bring her a $drink if she is thirsty, or a $food if she's hungry.
-$goffer   = Find {male} in the {beacon}. Bring him a $drink if he is thirsty, or a $food if he's hungry.
+$goffer   = Find {name} in the {beacon}. Bring {pron} a $drink if {pron sub} is thirsty, or a $food if {pron sub}'s hungry.
 
 $envr     = $toffer
 $toffer   = People drink juice before noon, coffee in the afternoon, and tea after six o'clock in the evening. Offer something to drink to the person at the {beacon}.

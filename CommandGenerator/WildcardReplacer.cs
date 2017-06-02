@@ -20,6 +20,11 @@ namespace RoboCup.AtHome.CommandGenerator
 		private List<Wildcard> wildcards;
 
 		/// <summary>
+		/// Groups all wildcards stored by keycode
+		/// </summary>
+		private Dictionary<string, List<Wildcard>> wildcardsByKeycode;
+
+		/// <summary>
 		/// Stores the index of the wildcard being processed in the wildcards list
 		/// </summary>
 		private int currentWildcardIx;
@@ -84,6 +89,8 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <param name="g">A Generator which contains the databases and the random generator.</param>
 		/// <param name="tier">The maximum difficulty degree for wildcard replacements</param>
 		public WildcardReplacer(Generator g, DifficultyDegree tier){
+			this.wildcards = new List<Wildcard> ();
+			this.wildcardsByKeycode = new Dictionary<string, List<Wildcard>> ();
 			this.generator = g;
 			this.tier = tier;
 			this.replacements = new Dictionary<string, INameable> ();
@@ -104,9 +111,9 @@ namespace RoboCup.AtHome.CommandGenerator
 		{
 			if (w.Name == "location") {
 				if (w.Type.IsAnyOf ("beacon", "room", "placement"))
-					w.Keyword = w.Type;
+					ChangeWildcardKeyword(w.Keycode, w.Type);
 				else if (String.IsNullOrEmpty (w.Type))
-					w.Keyword = generator.RandomPick ("beacon", "room", "placement");
+					ChangeWildcardKeyword(w.Keycode, generator.RandomPick ("beacon", "room", "placement"));
 			}
 			return GetFromList (w, GetLocation);
 		}
@@ -121,9 +128,9 @@ namespace RoboCup.AtHome.CommandGenerator
 		{
 			if (w.Name == "name") {
 				if (w.Type.IsAnyOf ("male", "female"))
-					w.Keyword = w.Type;
+					ChangeWildcardKeyword(w.Keycode, w.Type);
 				else if (String.IsNullOrEmpty (w.Type))
-					w.Keyword = generator.RandomPick ("male", "female");
+					ChangeWildcardKeyword(w.Keycode, generator.RandomPick ("male", "female"));
 			}
 
 			return GetFromList (w, GetName);
@@ -139,9 +146,9 @@ namespace RoboCup.AtHome.CommandGenerator
 		{
 			if (w.Name == "object") {
 				if (w.Type.IsAnyOf ("alike", "known"))
-					w.Keyword = String.Format("{0}object", w.Type[0]);
+					ChangeWildcardKeyword(w.Keycode, String.Format("{0}object", w.Type[0]));
 				else if (String.IsNullOrEmpty (w.Type))
-					w.Keyword = generator.RandomPick ("kobject", "aobject");
+					ChangeWildcardKeyword(w.Keycode, generator.RandomPick ("kobject", "aobject"));
 			}
 
 			return GetFromList (w, GetObject);
@@ -169,6 +176,8 @@ namespace RoboCup.AtHome.CommandGenerator
 					break;
 			}
 
+			return new NamedTaskElement (Pronoun.Personal.FromWildcard (w, prev));
+			/*
 			if (prev == null)
 				return new NamedTaskElement ("them");
 
@@ -187,6 +196,7 @@ namespace RoboCup.AtHome.CommandGenerator
 				default:
 					return new NamedTaskElement ("them");
 			}
+			*/
 		}
 
 		#endregion
@@ -433,6 +443,33 @@ namespace RoboCup.AtHome.CommandGenerator
 		#region Methods
 
 		/// <summary>
+		/// Safely adds a wildcard to the wildcards and wildcardsByKeycode storages
+		/// </summary>
+		/// <param name="w">The wildcard to add.</param>
+		private void AddWildcard(Wildcard w){
+			if ((w == null) || !w.Success)
+				return;
+			if (!wildcardsByKeycode.ContainsKey (w.Keycode))
+				wildcardsByKeycode.Add (w.Keycode, new List<Wildcard> ());
+			wildcards.Add(w);
+			wildcardsByKeycode[w.Keycode].Add(w);
+		}
+
+		/// <summary>
+		/// Changes the keyword for all wildcards with the same Keycode
+		/// </summary>
+		/// <param name="w">The unified wildcard keycode.</param>
+		/// <param name="keyword">The new keyword.</param>
+		private void ChangeWildcardKeyword(string keycode, string keyword){
+			if (String.IsNullOrEmpty (keycode))
+				throw new ArgumentNullException ("keycode is null");
+			if (!wildcardsByKeycode.ContainsKey (keycode))
+				throw new InvalidOperationException ("Unknown keycode. No wildcard has been added with the provided keycode");
+			foreach (Wildcard w in wildcardsByKeycode[keycode])
+				w.Keyword = keyword;
+		}
+
+		/// <summary>
 		/// Evaluates the provided regular expression match object producing
 		/// an INameable replacement object
 		/// </summary>
@@ -513,6 +550,25 @@ namespace RoboCup.AtHome.CommandGenerator
 			this.avQuestions.Shuffle(generator.Rnd);
 		}
 
+		public void FindWildcards(string s)
+		{
+			int cc = 0;
+			this.wildcards.Clear ();
+			this.wildcardsByKeycode.Clear ();
+			Wildcard w;
+
+			while (cc < s.Length)
+			{
+				if (s[cc] == '{')
+				{
+					w = Wildcard.XtractWildcard(s, ref cc);
+					if (w == null) continue;
+					AddWildcard (w);
+				}
+				++cc;
+			}
+		}
+
 		/// <summary>
 		/// Extracts the metadata strings from a regular expression match object that
 		/// contains the wildcard
@@ -536,7 +592,7 @@ namespace RoboCup.AtHome.CommandGenerator
 			int bcc = 0;
 			Token token;
 			// Find all wildcards in the task prototype
-			this.wildcards = FindWildcards(taskPrototype);
+			FindWildcards(taskPrototype);
 			// Having n wildcards interlaced with literal strings and starting with a
 			// literal string there will be n+1 literal strings. Therefore, the worst
 			// number of tokens will never be greater than 2n+1
@@ -599,6 +655,8 @@ namespace RoboCup.AtHome.CommandGenerator
 
 		#region Static Methods
 
+		/*
+		 * 
 		public static List<Wildcard> FindWildcards(string s)
 		{
 			int cc = 0;
@@ -611,12 +669,13 @@ namespace RoboCup.AtHome.CommandGenerator
 				{
 					w = Wildcard.XtractWildcard(s, ref cc);
 					if (w == null) continue;
-					wildcards.Add(w);
+					wildcards.Add (w);
 				}
 				++cc;
 			}
 			return wildcards;
 		}
+		*/
 
 		#endregion
 	}
