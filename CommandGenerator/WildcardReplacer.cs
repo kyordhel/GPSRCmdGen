@@ -590,26 +590,42 @@ namespace RoboCup.AtHome.CommandGenerator
 		public Task GetTask(string taskPrototype)
 		{
 			int bcc = 0;
+			int cc = 0;
 			Token token;
-			// Find all wildcards in the task prototype
-			FindWildcards(taskPrototype);
-			// Having n wildcards interlaced with literal strings and starting with a
-			// literal string there will be n+1 literal strings. Therefore, the worst
-			// number of tokens will never be greater than 2n+1
-			// Since the list may be reallocated, 2n+2 is used for performance
-			tokens = new List<Token>(2 * wildcards.Count + 2);
-			// For each wildcard found
-			for (currentWildcardIx = 0; currentWildcardIx < wildcards.Count; ++currentWildcardIx) {
-				Wildcard w = wildcards [currentWildcardIx];
-				// Add the string on the left (if any) as a token
-				token = TokenizeLeftLiteralString (taskPrototype, ref bcc, w);
-				if(token != null) tokens.Add (token);
-				token = TokenizeWildcard(w);
+			Wildcard wildcard;
+
+			// Initialize lists and clear
+			tokens = new List<Token>(100);
+			wildcards.Clear ();
+			wildcardsByKeycode.Clear ();
+			currentWildcardIx = 0;
+
+			do {
+				// Read the string from left to right till the next open brace (wildcard delimiter).
+				while ((cc < taskPrototype.Length) && (taskPrototype [cc] != '{'))
+					++cc;
+				// Wildcard found. Extract the string to the left
+				string left = taskPrototype.Substring (bcc, cc - bcc);
+				// Store the string at the left of the wildcard as token
+				tokens.Add (new Token (left));
+				// If a wildcard was not found, continue
+				if ((cc >= taskPrototype.Length) || (taskPrototype [cc] != '{'))
+					continue;
+				// Otherwise, extract the wildcard and update the backup read header
+				wildcard = Wildcard.XtractWildcard (taskPrototype, ref cc);
+				bcc = cc;
+				// If the extraction failed, continue
+				if (wildcard == null)
+					continue;
+				// Add the wildcard to the reference lists
+				AddWildcard (wildcard);
+				// Convert the wildcard into a token
+				++currentWildcardIx;
+				token = TokenizeWildcard (wildcard);
+				// Add te token
 				tokens.Add (token);
-			}
-			// If there is more text to the right, add it as last token
-			token = TokenizeSubstring (taskPrototype, bcc);
-			if(token != null) tokens.Add (token);
+			} while(cc < taskPrototype.Length);
+
 			// Build the task, add the tokens, and return it.
 			Task task = new Task () { Tokens = tokens };
 			return task;
@@ -642,7 +658,7 @@ namespace RoboCup.AtHome.CommandGenerator
 				if (s [cc] == '{') {
 					Wildcard w = Wildcard.XtractWildcard(s, ref cc);
 					if(w == null) continue;
-					// this.wildcards.Add (w);
+					wildcards.Add (w);
 					sb.Append(FindReplacement (w).Name);
 				}
 				else
