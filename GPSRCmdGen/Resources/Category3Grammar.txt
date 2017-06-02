@@ -58,14 +58,10 @@ $incomplete  = $vbfollow {name 1 meta: {name 1} is at the {beacon 1}}
 $incomplete  = $cmanwarn $vbbring me a {object?}
 $incomplete  = $vbdeliver {object?} to $someone
 $incomplete  = $vbguide {name 1 meta: {name 1} is at the {beacon 1}} to the {beacon 2}
-$incomplete  = $vbguide {name 1 meta: {name 1} is at the {beacon 1}} to the {beacon 2}
-$incomplete  = meet $inguidewhoM and $vbguide him
-$incomplete  = meet $inguidewhoF and $vbguide her
-$incomplete  = $gobeacon, meet $inguidewhoM, and $vbguide him
-$incomplete  = $gobeacon, meet $inguidewhoF, and $vbguide her
+$incomplete  = meet $inguidewho and $vbguide {pron}
+$incomplete  = $gobeacon, meet $inguidewho, and $vbguide {pron}
 
-$inguidewhoM = {male 1 meta: {male 1} must be taken from {beacon 1} to {beacon 2}, but he will get lost before reaching it}
-$inguidewhoF = {female 1 meta: {female 1} must be taken from {beacon 1} to {beacon 2}, but she will get lost before reaching it}
+$inguidewho  = {name 1 meta: {name 1} must be taken from {beacon 1} to {beacon 2}, but he will get lost before reaching it}
 
 
 
@@ -82,8 +78,8 @@ $erroneous   = $vbguide $errnoper from the {beacon 1} to the {beacon 2}
 $erroneous   = $vbguide {name 1} from the {beacon 1} to the {beacon 1 meta: Destination is {beacon 2}}
 $erroneous   = $vbguide the $ernamperobj from the {beacon 1} to the {beacon 2}
 
-$erroneous   = $gobeacon, meet {name 1}, and $vbfollow them to the {beacon 1 meta: Destination is {room 2}}
-$erroneous   = $gobeacon, meet $errnoper, and $vbfollow them to the {room 2}
+$erroneous   = $gobeacon, meet {name 1}, and $vbfollow {pron} to the {beacon 1 meta: Destination is {room 2}}
+$erroneous   = $gobeacon, meet $errnoper, and $vbfollow {pron} to the {room 2}
 $erroneous   = $gobeacon, meet the $ernamperobj, and $vbfollow it {void meta: Destination is {room 2}}
 
 $errnoobj    = {object 1 meta: is not at the {placement 1} but somewhere else in the same room}
@@ -97,12 +93,10 @@ $ernamperobj = {category 1 meta: Replace {category 1} with {name 1}}
 # Follow [& guide]
 #
 ##############################################################################
-$followout   = $meet {female 1} at the {beacon 1}, $vbfollow her $fllwoutdest, and $goroom
-$followout   = $meet {male 1} at the {beacon 1}, $vbfollow him $fllwoutdest, and $goroom
-$followout   = $meet {female 1} at the {beacon 1}, $vbfollow her $fllwoutdest, and $vbguide her back
-$followout   = $meet {male 1} at the {beacon 1}, $vbfollow him $fllwoutdest, and $vbguide him back
+$followout   = $fllwoutdest meet {name 1} at the {beacon 1}, $vbfollow {pron}, and $goroom
+$followout   = $fllwoutdest meet {name 1} at the {beacon 1}, $vbfollow {pron}, and $vbguide {pron} back
 
-$fllwoutdest = {void meta: Follow the person outside the arena}
+$fllwoutdest = {void meta: The robot must follow {name 1} outside the arena}
 
 
 

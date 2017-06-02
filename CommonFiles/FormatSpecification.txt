@@ -109,6 +109,26 @@
 *
 *
 *
+* Referencing
+* ===========================
+*
+* Pronouns
+* ---------------------------
+* Wildcards can be referenced with the {pron} construct.
+* By default, the {pron} construct refers to the last wilcard found in the following order:
+*   - {name}   wildcards
+*   - {object} wildcards
+*   - last wildcard found
+* By default the {pron} construct is replaced with a Personal Pronoun
+* (OBJECTIVE CASE), namely: he, she, it.
+* Subjective cases of the personal pronoun (he, she, it) are also supported
+* by setting the type of the {pron} construct to the `sub` value. Namely:
+*	{pron}		Reference with pronoun, objective case.
+*	{pron obj}	Reference with pronoun, objective case (explicit).
+*	{pron sub}	Reference with pronoun, subjective case.
+*
+*
+*
 * Commenting
 * ===========================
 * C/C++/Java comments are permitted.

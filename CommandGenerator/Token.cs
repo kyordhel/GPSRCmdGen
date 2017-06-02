@@ -89,7 +89,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <summary>
 		/// Gets the INameable.Name. of the Token.
 		/// When Value property is not null, it returns the name of the Toklen's value.
-		/// When Value property is null, it returns the Toklen's key, 
+		/// When Value property is null, it returns the Token's key, 
 		/// </summary>
 		public string Name { get { return value == null ? this.key : this.value.Name; } }
 

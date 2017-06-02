@@ -41,7 +41,7 @@ If you want to compile from source on:
 ### SPR Test
 To build and test Speech and Person Recognition question generator use
 
-    make gpsr
+    make spr
 or
 
     mono bin/Release/GPSRCmdGen.exe
