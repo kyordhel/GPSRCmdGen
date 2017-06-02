@@ -296,7 +296,7 @@ namespace RoboCup.AtHome.CommandGenerator
 			if(replacements.ContainsKey(w.Keycode))
 				return (T) replacements[w.Keycode];
 			T t = fetcher();
-			replacements.Add (w.Keycode, t);
+			AddReplacement (w, t);
 			return t;
 		}
 
@@ -306,7 +306,7 @@ namespace RoboCup.AtHome.CommandGenerator
 			if(replacements.ContainsKey(w.Keycode))
 				return (T) replacements[w.Keycode];
 			T t = fetcher(w.Keyword);
-			replacements.Add (w.Keycode, t);
+			AddReplacement (w, t);
 			return t;
 		}
 
@@ -453,6 +453,20 @@ namespace RoboCup.AtHome.CommandGenerator
 				wildcardsByKeycode.Add (w.Keycode, new List<Wildcard> ());
 			wildcards.Add(w);
 			wildcardsByKeycode[w.Keycode].Add(w);
+		}
+
+		/// <summary>
+		/// Adds a wildcard to the replacement list. If the wildcard is not in the wildcardsByKeycode dicctionary, is also added.
+		/// </summary>
+		/// <param name="w">The wildcard to be added to the replacement list.</param>
+		/// <param name="replacement">The replacement of the wildcard</param>
+		private void AddReplacement(Wildcard w, INameable replacement){
+			if (!wildcardsByKeycode.ContainsKey (w.Keycode)) {
+				wildcardsByKeycode.Add (w.Keycode, new List<Wildcard> ());
+				wildcardsByKeycode[w.Keycode].Add(w);
+			}
+			if (!replacements.ContainsKey (w.Keycode))
+				replacements.Add (w.Keycode, replacement);
 		}
 
 		/// <summary>
@@ -658,7 +672,7 @@ namespace RoboCup.AtHome.CommandGenerator
 				if (s [cc] == '{') {
 					Wildcard w = Wildcard.XtractWildcard(s, ref cc);
 					if(w == null) continue;
-					wildcards.Add (w);
+					AddWildcard (w);
 					sb.Append(FindReplacement (w).Name);
 				}
 				else
