@@ -16,13 +16,12 @@ $par   	= $mgreet {void meta:There is only one person at {beacon 1}}
 $par   	= tell me how many $people are in the $room.
 $par   	= offer something to (eat | drink) to all the $people in the $room
 ; Follow & guide
-$par   	= find the $fgwho and follow them
-$par   	= find the $fgwho and guide them to the (exit | {room 2})
+$par   	= find the $fgwho and follow {pron}
+$par   	= find the $fgwho and guide {pron} to the (exit | {room 2})
 
 
 
-$mgreet = Meet {male} at the {beacon 1}, then (greet | find) him in the $room
-$mgreet	= Meet {female} at the {beacon 1}, then (greet | find) her in the $room
+$mgreet = Meet {name} at the {beacon 1}, then (greet | find) {pron} in the $room
 $fgwho	= $person in the $room
 
 

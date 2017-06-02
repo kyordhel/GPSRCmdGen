@@ -54,8 +54,8 @@ $fndobj   = $vbfind the $object in the {room}
 #
 ##############################################################################
 $follow   = $vbfollow {name 1} from the {beacon 1} to the {room 2}
-$follow   = meet {name 1} at the {beacon 1} and $vbfollow them $fllwdest
-$follow   = $gobeacon, meet {name 1}, and $vbfollow them $fllwhdst
+$follow   = meet {name 1} at the {beacon 1} and $vbfollow {pron} $fllwdest
+$follow   = $gobeacon, meet {name 1}, and $vbfollow {pron} $fllwhdst
 
 $fllmeet  = meet {name 1} | find a person
 $fllwdest = (to the {room 2}) | $fllwhdst
@@ -74,8 +74,8 @@ $gdcmd    = meet {name 1} at the {beacon 1} and $guideto
 $gdcmd    = $gobeacon, meet {name 1}, and $guideto
 $gdcmd    = $vbguide {name 1} to the {beacon 2}, $gdwhere
 
-$guideto  = $vbguide them to the {beacon 2}
-$gdwhere  = you (may | can | will) find them at the {beacon 1}
+$guideto  = $vbguide {pron} to the {beacon 2}
+$gdwhere  = you (may | can | will) find {pron} at the {beacon 1}
 $gdmeta   = {void meta: The person being guided must deviate when indicated by the referee before reaching the {beacon 2}}
 
 ##############################################################################

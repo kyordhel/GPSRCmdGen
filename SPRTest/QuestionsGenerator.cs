@@ -42,7 +42,7 @@ namespace RoboCup.AtHome.SPRTest
 			*/
 			int aq = rnd.Next(1,3);
 			int cq = rnd.Next(1,3);
-			int oq = 6 - (aq+cq);
+			int oq = 4 - (aq+cq);
 
 			List<Task> tasks = new List<Task>();
 			tasks.Add(GetPredefinedQuestion());

@@ -33,9 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
+    <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -86,14 +84,13 @@
     <Compile Include="Wildcard.cs" />
     <Compile Include="WildcardReplacer.cs" />
     <Compile Include="GrammarLoader.cs" />
+    <Compile Include="NamedTaskElement.cs" />
+    <Compile Include="Pronoun.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="GUI\QRDialog.resx">
       <DependentUpon>QRDialog.cs</DependentUpon>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="NewFolder1\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
