@@ -8,7 +8,7 @@ namespace RoboCup.AtHome.CommandGenerator
 	/// <summary>
 	/// Represents an unified Wildcard that encapsulates all TextWildcards with a common keycode
 	/// </summary>
-	public class Wildcard : IWildcard
+	public class Wildcard : IEnumerable<TextWildcard>, IWildcard
 	{
 		#region Variables
 
@@ -42,6 +42,11 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// </summary>
 		private INameable replacement;
 
+		/// <summary>
+		/// Stores the obfuscated replacement value for the unified wildcard
+		/// </summary>
+		private INameable obfuscated;
+
 		#endregion
 
 		#region Constructors
@@ -60,6 +65,12 @@ namespace RoboCup.AtHome.CommandGenerator
 		#endregion
 
 		#region Properties
+
+		/// <summary>
+		/// Gets the number of TextWildcards contained in the Wildcard.
+		/// </summary>
+		/// <value>The number of elements contained in the Wildcard.</value>
+		public int Count{ get {return this.textWildcards.Count;} }
 
 		/// <summary>
 		/// Gets the keycode associated to each wildcard group unique replacements
@@ -87,9 +98,51 @@ namespace RoboCup.AtHome.CommandGenerator
 		}
 
 		/// <summary>
+		/// Stores the obfuscated replacement value for the unified wildcard
+		/// </summary>
+		public INameable Obfuscated { get { return this.obfuscated; } set { this.obfuscated = value; } }
+
+		/// <summary>
 		/// Gets or sets the replacement for all the unified wildcards
 		/// </summary>
 		public INameable Replacement { get { return this.replacement; } set { this.replacement = value; } }
+
+		/// <summary>
+		/// Gets the dominant type of the TextWildcards in the collection
+		/// </summary>
+		public string Type 
+		{
+			get {
+				Dictionary<string, int> tCount=new Dictionary<string, int>(10);
+				foreach (TextWildcard t in this.textWildcards) {
+					if (!tCount.ContainsKey (t.Type))
+						tCount.Add (t.Type, 0);
+					tCount [t.Type]+=1;
+				}
+				if (tCount [null] == this.textWildcards.Count)
+					return null;
+
+				int max = 0;
+				string key = null;
+				foreach(KeyValuePair<string, int> pair in tCount){
+					if ((pair.Key == null) || (max >= pair.Value)) 
+						continue;
+					max = pair.Value;
+					key = pair.Key;
+				}
+				return key;
+			}
+		}
+
+		#endregion
+
+		#region Indexers
+
+		/// <summary>
+		/// Gets the <see cref="RoboCup.AtHome.CommandGenerator.Wildcard"/> at the specified index.
+		/// </summary>
+		/// <param name="index">Index.</param>
+		public TextWildcard this[int index] { get{ return this.textWildcards [index];} }
 
 		#endregion
 
@@ -121,6 +174,22 @@ namespace RoboCup.AtHome.CommandGenerator
 			StringBuilder sb = new StringBuilder();
 			sb.AppendFormat ("{0} ({1})", this.keycode, textWildcards.Count);
 			return sb.ToString();
+		}
+
+		/// <summary>
+		/// Gets the enumerator.
+		/// </summary>
+		/// <returns>The enumerator.</returns>
+		public IEnumerator<TextWildcard> GetEnumerator (){
+			return this.textWildcards.GetEnumerator ();
+		}
+
+		/// <summary>
+		/// Gets the enumerator.
+		/// </summary>
+		/// <returns>The enumerator.</returns>
+		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator (){
+			return this.GetEnumerator ();
 		}
 
 		#endregion

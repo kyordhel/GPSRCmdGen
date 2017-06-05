@@ -147,7 +147,7 @@ namespace RoboCup.AtHome.CommandGenerator
 			/// <returns>A pronoun to refer the wilcard received as referee.</returns>
 			/// <param name="referral">The refering wildcard.</param>
 			/// <param name="referee">The wildcard being referred.</param>
-			public static string FromWildcard(TextWildcard referral, TextWildcard referee){
+			public static string FromWildcard(Wildcard referral, Wildcard referee){
 				if ((referee == null) || (referral == null))
 					throw new NullReferenceException ("referral or referee is null");
 				if (referral.Name != "pron")
