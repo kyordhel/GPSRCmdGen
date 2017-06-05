@@ -387,8 +387,8 @@ namespace RoboCup.AtHome.CommandGenerator
 			else 
 				wildcards[w.Keycode].Add(w);
 			textWildcards.Add(w);
-			ParseTextWildcardMetadata (w);
 			++this.currentWildcardIx;
+			ParseTextWildcardMetadata (w);
 		}
 
 		/// <summary>
@@ -446,6 +446,8 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// </summary>
 		/// <param name="m">The regular expression match object that contains the wildcard.</param>
 		private string[] FetchMetadata(TextWildcard w){
+			if ((w == null) || String.IsNullOrEmpty (w.Metadata))
+				return null;
 			ReplaceNestedWildcards(w);
 			return w.Metadata.Split (new string[]{"\r", "\n", @"\\", @"\\r", @"\\n"}, StringSplitOptions.None);
 		}
@@ -551,7 +553,7 @@ namespace RoboCup.AtHome.CommandGenerator
 			textWildcards.Clear ();
 			wildcards.Clear ();
 			replacements.Clear ();
-			currentWildcardIx = 0;
+			currentWildcardIx = -1;
 
 			// STEP 1: Assembly the token list, fetching all text wildcards and performing their unification
 			ParseTaskPrototype(taskPrototype);
