@@ -230,7 +230,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		private void SRGSExpandWildcard(string s, ref int cc)
 		{
 			string uri = "#_";
-			Wildcard w = Wildcard.XtractWildcard(s, ref cc);
+			TextWildcard w = TextWildcard.XtractWildcard(s, ref cc);
 			switch (w.Name)
 			{
 				case "category":

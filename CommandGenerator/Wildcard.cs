@@ -5,24 +5,22 @@ using System.Text;
 
 namespace RoboCup.AtHome.CommandGenerator
 {
-	public class Wildcard
+	/// <summary>
+	/// Represents an unified Wildcard that encapsulates all TextWildcards with a common keycode
+	/// </summary>
+	public class Wildcard : IWildcard
 	{
 		#region Variables
+
+		/// <summary>
+		/// Stores the keycode of the Wildcard
+		/// </summary>
+		private string keycode;
 
 		/// <summary>
 		/// Stores the keyword associated to this wildcard
 		/// </summary>
 		private string keyword;
-
-		/// <summary>
-		/// Stores the Wildcard id
-		/// </summary>
-		private int id;
-
-		/// <summary>
-		/// Stores the 
-		/// </summary>
-		private int index;
 
 		/// <summary>
 		/// Stores the Wildcard metadata
@@ -35,41 +33,40 @@ namespace RoboCup.AtHome.CommandGenerator
 		private string name;
 
 		/// <summary>
-		/// Stores the next automatically calculated identifier.
+		/// Stores the list text wildcards this Wildcard unifies
 		/// </summary>
-		private static int nextAutoId = 1000;
+		private List<TextWildcard> textWildcards;
 
 		/// <summary>
-		///Indicates if the wildcard is obfuscated
+		/// Stores the replacement for all the unified wildcards
 		/// </summary>
-		private bool obfuscated;
-
-		/// <summary>
-		/// Stores the type of the wildcard
-		/// </summary>
-		private string type;
-
-		/// <summary>
-		/// Stores the 
-		/// </summary>
-		private string value;
+		private INameable replacement;
 
 		#endregion
 
 		#region Constructors
 
-		private Wildcard() { }
+		/// <summary>
+		/// Initializes a new instance of the <see cref="RoboCup.AtHome.CommandGenerator.Wildcard"/> class from a <see cref="RoboCup.AtHome.CommandGenerator.TextWildcard"/> object
+		/// </summary>
+		/// <param name="tw">The textWildcard to be used to initialize the wildcard</param>
+		public Wildcard(TextWildcard textWildcard) {
+			if (textWildcard == null)
+				throw new ArgumentNullException ("textWildcard cannot be null.");
+			this.keycode = textWildcard.Keycode;
+			Add (textWildcard);
+		}
 
 		#endregion
 
 		#region Properties
 
 		/// <summary>
-		/// Gets or sets the keycode associated to each wildcard group unique replacements
+		/// Gets the keycode associated to each wildcard group unique replacements
 		/// </summary>
 		public string Keycode
 		{
-			get{ return Name + this.id.ToString().PadLeft(4, '0'); }
+			get{ return this.keycode; }
 		}
 
 		/// <summary>
@@ -82,60 +79,32 @@ namespace RoboCup.AtHome.CommandGenerator
 		}
 
 		/// <summary>
-		/// Gets the Wildcard id
-		/// </summary>
-		public int Id
-		{
-			get { return this.id; }
-			internal set { this.id = (value < 0) ? Wildcard.nextAutoId++ : value; }
-		}
-
-		/// <summary>
-		/// Gets the 
-		/// </summary>
-		public int Index { get { return this.index; } }
-
-		/// <summary>
-		/// Gets the Wildcard metadata
-		/// </summary>
-		public string Metadata { get { return this.metadata; } }
-
-		/// <summary>
 		/// Gets the name of the wildcard
 		/// </summary>
 		public string Name
 		{
-			get { return this.name; }
-			protected set{ this.name = String.IsNullOrEmpty (value) ? null : value.ToLower (); }
+			get { return this.textWildcards[0].Name; }
 		}
 
 		/// <summary>
-		/// Gets a value indicating if the wildcard is obfuscated
+		/// Gets or sets the replacement for all the unified wildcards
 		/// </summary>
-		public bool Obfuscated { get { return this.obfuscated; } }
-
-		/// <summary>
-		/// Gets a value indicating if the wildcard is valid
-		/// </summary>
-		public bool Success { get { return !String.IsNullOrEmpty(this.Name); } }
-
-		/// <summary>
-		/// Gets the type of the wildcard
-		/// </summary>
-		public string Type 
-		{
-			get { return this.type; }
-			protected set{ this.type = String.IsNullOrEmpty (value) ? null : value.ToLower (); }
-		}
-
-		/// <summary>
-		/// Gets the 
-		/// </summary>
-		public string Value { get { return this.value; } }
+		public INameable Replacement { get { return this.replacement; } set { this.replacement = value; } }
 
 		#endregion
 
 		#region Methods
+
+		/// <summary>
+		/// Adds the provided TextWildcard to the collection. Wildcards must have the same keycode.
+		/// </summary>
+		/// <param name="w">The TextWildcard to add to the collection.</param>
+		public void Add(TextWildcard w){
+			if(w == null)throw new ArgumentNullException ("w cannot be null.");
+			if (w.Keycode != this.keycode)
+				throw new InvalidOperationException ("Keycode mistmatch. Added wildcards must share the same keycode");
+			this.textWildcards.Add (w);
+		}
 
 		public override string ToString()
 		{
@@ -149,113 +118,14 @@ namespace RoboCup.AtHome.CommandGenerator
 			//if (!String.IsNullOrEmpty(this.Metadata))
 			//    s += " Metadata=" + this.Metadata;
 			//return s.TrimStart();
-			return this.value;
+			StringBuilder sb = new StringBuilder();
+			sb.AppendFormat ("{0} ({1})", this.keycode, textWildcards.Count);
+			return sb.ToString();
 		}
 
 		#endregion
 
 		#region Static Methods
-
-		public static Wildcard XtractWildcard(string s, ref int cc)
-		{
-			if ((cc >= s.Length) || (s[cc] != '{'))
-				return null;
-
-			// Create Wildcard and set index
-			Wildcard wildcard = new Wildcard();
-			wildcard.index = cc;
-			// Read wildcard name
-			++cc;
-			wildcard.Name = ReadWildcardName(s, ref cc);
-			if (String.IsNullOrEmpty(wildcard.Name)) return null;
-
-			// Read obfuscator
-			wildcard.obfuscated = Scanner.ReadChar('?', s, ref cc);
-
-			// Read wildcard type
-			wildcard.Type = ReadWildcardType(s, ref cc);
-
-			// Read wildcard id
-			wildcard.Id = ReadWildcardId(s, ref cc);
-
-			// Read wildcard id
-			wildcard.metadata = ReadWildcardMetadata(s, ref cc);
-
-			// Set wildcard value
-			if (cc < s.Length) ++cc;
-			wildcard.value = s.Substring(wildcard.index, cc - wildcard.index);
-			return wildcard;
-		}
-
-		private static string ReadWildcardName(string s, ref int cc)
-		{
-			Scanner.SkipSpaces(s, ref cc);
-			int bcc = cc;
-			while ((cc < s.Length) && Scanner.IsLAlpha(s[cc])) ++cc;
-			return s.Substring(bcc, cc - bcc);
-		}
-
-		private static string ReadWildcardType(string s, ref int cc)
-		{
-			Scanner.SkipSpaces(s, ref cc);
-			int bcc = cc;
-			while ((cc < s.Length) && Scanner.IsLAlpha(s[cc])) ++cc;
-			string type = s.Substring(bcc, cc - bcc);
-			if (type == "meta")
-			{
-				cc -= 4;
-				return String.Empty;
-			}
-			return type;
-		}
-
-		private static string ReadWildcardMetadata(string s, ref int cc)
-		{
-			Scanner.SkipSpaces(s, ref cc);
-			char[] meta = new char[]{'m','e','t','a'};
-			foreach(char c in meta){
-				if (Scanner.ReadChar(c, s, ref cc)) continue;
-				FindCloseBrace(s, ref cc);
-				return null;
-			}
-			Scanner.SkipSpaces(s, ref cc);
-			if (!Scanner.ReadChar(':', s, ref cc))
-			{
-				FindCloseBrace(s, ref cc);
-				return null;
-			}
-			int bcc = cc;
-			FindCloseBrace(s, ref cc);
-			return s.Substring(bcc, cc - bcc);
-		}
-
-		private static int ReadWildcardId(string s, ref int cc)
-		{
-			ushort usId;
-			Scanner.SkipSpaces(s, ref cc);
-			if (!Scanner.XtractUInt16(s, ref cc, out usId)) return -1;
-			return usId;
-		}
-
-		/// <summary>
-		/// Finds the close brace.
-		/// </summary>
-		/// <param name="s">string to look inside</param>
-		/// <param name="cc">Read header.
-		/// Must be pointing to the next character of an open brace within the string s</param>
-		/// <returns><c>true</c>, if closing brace par was found, <c>false</c> otherwise.</returns>
-		protected internal static bool FindCloseBrace(string s, ref int cc)
-		{
-			int braces = 1;
-			while ((cc < s.Length) && (braces > 0))
-			{
-				if (s[cc] == '{') ++braces;
-				else if (s[cc] == '}') --braces;
-				++cc;
-			}
-			--cc;
-			return braces == 0;
-		}
 
 		#endregion
 	}
