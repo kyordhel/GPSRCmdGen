@@ -40,7 +40,7 @@ $complexman  = $cmanwarn $cmancmd
 
 $cmancmd     = Pour some cereals into the bowl
 $cmancmd     = $goroom {void meta: All access doors to {room 1} bust be closed.}
-$cmancmd     = $take the {kobject} to the {placement 2 meta: Block access to {Placement 2} with a movable object or furniture}
+$cmancmd     = $take the {kobject} to the {placement 2 meta: Block access to {placement 2} with a movable object or furniture}
 $cmancmd     = $vbbring me the $abspos object $cmanobjsrc
 $cmancmd     = $vbbring me the object $relpos the {object}  $cmanobjsrc
 $cmancmd     = $vbbring me the $oprop (object | {category}) from the {object} $cmanobjsrc
