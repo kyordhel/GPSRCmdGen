@@ -166,7 +166,7 @@ namespace RoboCup.AtHome.CommandGenerator
 						break;
 				}
 
-				if (referral.Value.StartsWith ("sub"))
+				if (!String.IsNullOrEmpty(referral.Type) && referral.Type.StartsWith ("sub"))
 					return Subjective (Form.Singular, Person.Third, g);
 				return Objective (Form.Singular, Person.Third, g);
 			}
