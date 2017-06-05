@@ -106,6 +106,7 @@ namespace RoboCup.AtHome.CommandGenerator
 			get {
 				string tNone = String.Empty;
 				Dictionary<string, int> tCount=new Dictionary<string, int>(10);
+				tCount.Add (tNone, 0);
 				foreach (TextWildcard t in this.textWildcards) {
 					if (!tCount.ContainsKey (t.Type ?? tNone))
 						tCount.Add (t.Type ?? tNone, 0);
