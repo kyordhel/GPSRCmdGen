@@ -366,7 +366,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		{
 			return new Token(
 				w.Value,
-				new NamedTaskElement(String.Format("{{0}{1}}", w.Keycode, w.Obfuscated ? "?" : "")),
+				new NamedTaskElement(String.Format("{{{0}{1}}}", w.Keycode, w.Obfuscated ? "?" : "")),
 				new string[]{currentWildcardIx.ToString()}
 			);
 		}
@@ -575,7 +575,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		{
 			int cc = 0;
 			TextWildcard inner;
-			string meta = textWildcard.Metadata;
+			string meta = textWildcard.Metadata ?? String.Empty;
 			
 			do {
 				// Read the string from cc till the next open brace (wildcard delimiter).
@@ -678,6 +678,8 @@ namespace RoboCup.AtHome.CommandGenerator
 			int cc = 0;
 			TextWildcard inner;
 			string meta = textWildcard.Metadata;
+			if (String.IsNullOrEmpty (meta))
+				return;
 			StringBuilder sb = new StringBuilder (meta.Length);
 
 			do {

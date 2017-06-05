@@ -49,7 +49,8 @@ namespace RoboCup.AtHome.CommandGenerator
 			if (textWildcard == null)
 				throw new ArgumentNullException ("textWildcard cannot be null.");
 			this.keycode = textWildcard.Keycode;
-			Add (textWildcard);
+			this.textWildcards = new List<TextWildcard> ();
+			this.textWildcards.Add (textWildcard);
 		}
 
 		#endregion
