@@ -104,24 +104,25 @@ namespace RoboCup.AtHome.CommandGenerator
 		public string Type 
 		{
 			get {
+				string tNone = String.Empty;
 				Dictionary<string, int> tCount=new Dictionary<string, int>(10);
 				foreach (TextWildcard t in this.textWildcards) {
-					if (!tCount.ContainsKey (t.Type))
-						tCount.Add (t.Type, 0);
-					tCount [t.Type]+=1;
+					if (!tCount.ContainsKey (t.Type ?? tNone))
+						tCount.Add (t.Type ?? tNone, 0);
+					tCount [t.Type ?? tNone]+=1;
 				}
-				if (tCount [null] == this.textWildcards.Count)
+				if (tCount [tNone] == this.textWildcards.Count)
 					return null;
 
 				int max = 0;
 				string key = null;
 				foreach(KeyValuePair<string, int> pair in tCount){
-					if ((pair.Key == null) || (max >= pair.Value)) 
+					if (String.IsNullOrEmpty(pair.Key) || (max >= pair.Value)) 
 						continue;
 					max = pair.Value;
 					key = pair.Key;
 				}
-				return key;
+				return String.IsNullOrEmpty(key) ? null : key;
 			}
 		}
 
