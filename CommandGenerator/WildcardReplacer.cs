@@ -387,6 +387,7 @@ namespace RoboCup.AtHome.CommandGenerator
 			else 
 				wildcards[w.Keycode].Add(w);
 			textWildcards.Add(w);
+			ParseTextWildcardMetadata (w);
 			++this.currentWildcardIx;
 		}
 
@@ -445,10 +446,8 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// </summary>
 		/// <param name="m">The regular expression match object that contains the wildcard.</param>
 		private string[] FetchMetadata(TextWildcard w){
-			string sMeta = w.Metadata;
-			if(String.IsNullOrEmpty(sMeta)) return null;
-			sMeta = ReplaceNestedWildcards(sMeta);
-			return sMeta.Split (new string[]{"\r", "\n", @"\\", @"\\r", @"\\n"}, StringSplitOptions.None);
+			ReplaceNestedWildcards(w);
+			return w.Metadata.Split (new string[]{"\r", "\n", @"\\", @"\\r", @"\\n"}, StringSplitOptions.None);
 		}
 
 		/// <summary>
@@ -563,13 +562,34 @@ namespace RoboCup.AtHome.CommandGenerator
 			// STEP 3: Replace all tokenized text wildcards with the appropriate replacement token
 			ReplaceTokens();
 
-			// STEP 4: Replace wildcard metadata
-			ReplaceWildcardsInMetadata();
-
-
 			// Build the task, add the tokens, and return it.
 			Task task = new Task () { Tokens = tokens };
 			return task;
+		}
+
+		/// <summary>
+		/// Parses the metadata in a text wildcard to extract nested metadata.
+		/// </summary>
+		/// <param name="w">The TextWildcard to parse.</param>
+		private void ParseTextWildcardMetadata(TextWildcard textWildcard)
+		{
+			int cc = 0;
+			TextWildcard inner;
+			string meta = textWildcard.Metadata;
+			
+			do {
+				// Read the string from cc till the next open brace (wildcard delimiter).
+				while ((cc < meta.Length) && (meta[cc] != '{'))
+					++cc;
+				// Otherwise, extract the nested text wildcard
+				inner = TextWildcard.XtractWildcard (meta, ref cc);
+				// If the extraction failed, continue
+				if (inner == null)
+					continue;
+				// Add the text wildcard to the reference lists
+				// When a wildcard is added, all nested wildcards are also processed
+				AddWildcard (inner);
+			} while(cc < meta.Length);
 		}
 
 		/// <summary>
@@ -598,6 +618,8 @@ namespace RoboCup.AtHome.CommandGenerator
 			TextWildcard tWildcard;
 
 			do {
+				// Update read header backup
+				bcc = cc;
 				// Read the string from cc till the next open brace (wildcard delimiter).
 				while ((cc < s.Length) && (s [cc] != '{'))
 					++cc;
@@ -605,12 +627,11 @@ namespace RoboCup.AtHome.CommandGenerator
 				string left = s.Substring (bcc, cc - bcc);
 				// Store the string at the left of the wildcard as token
 				tokens.Add (new Token (left));
-				// If no text wildcard was found, continue
-				if ((cc >= s.Length) || (s [cc] != '{'))
-					continue;
-				// Otherwise, extract the text wildcard and update the backup read header
+				// If the end of the string has been reached, quit
+				if (cc >= s.Length)
+					break;
+				// Otherwise, extract the text wildcard
 				tWildcard = TextWildcard.XtractWildcard (s, ref cc);
-				bcc = cc;
 				// If the extraction failed, continue
 				if (tWildcard == null)
 					continue;
@@ -646,35 +667,39 @@ namespace RoboCup.AtHome.CommandGenerator
 					tokens [i] = new Token(tokens[i].Key, wildcards[keycode].Replacement, meta);
 			}
 		}
-		private void ReplaceWildcardsInMetadata()
-		{
-		}
-
-		/*
 
 		/// <summary>
-		/// Replaces all wildcards in the input string with random values.
+		/// Replaces all wildcards contained within the given wildcard metadata.
 		/// </summary>
 		/// <returns>The input string with all wildcards replaced.</returns>
 		/// <param name="s">The input string</param>
-		public string ReplaceNestedWildcards(string s)
+		public void ReplaceNestedWildcards(TextWildcard textWildcard)
 		{
-			int cc= 0;
-			StringBuilder sb = new StringBuilder (s.Length);
-			// Read the string from left to right till the next open brace (wildcard delimiter).
-			while(cc < s.Length) {
-				if (s [cc] == '{') {
-					TextWildcard w = TextWildcard.XtractWildcard(s, ref cc);
-					if(w == null) continue;
-					AddWildcard (w);
-					sb.Append(FindReplacement (w).Name);
-				}
-				else
-					sb.Append( s[cc++] );
-			}
-			return sb.ToString ();
+			int cc = 0;
+			TextWildcard inner;
+			string meta = textWildcard.Metadata;
+			StringBuilder sb = new StringBuilder (meta.Length);
+
+			do {
+				// Fetch the string from cc till the next open brace (wildcard delimiter).
+				while ((cc < meta.Length) && (meta[cc] != '{'))
+					sb.Append(meta[cc++]);
+				// If the end of the string has been reached, quit
+				if (cc >= meta.Length)
+					break;
+				// Otherwise, extract the text wildcard
+				inner = TextWildcard.XtractWildcard (meta, ref cc);
+				// If the extraction failed, continue
+				if (inner == null)
+					continue;
+				// Otherwise, if the wildcard has metadata, it needs to be replaced first.
+				if(!String.IsNullOrEmpty(inner.Metadata)) ReplaceNestedWildcards(inner);
+				// After replacing nested metadata, the inner wildcard value is replaced
+				sb.Append(wildcards[inner.Keycode].Replacement);
+			} while(cc < meta.Length);
+			// Finally, the metadata of the wildcard is updated.
+			textWildcard.Metadata = sb.ToString();
 		}
-		*/
 
 		#endregion
 

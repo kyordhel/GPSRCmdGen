@@ -84,7 +84,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <summary>
 		/// Gets the Wildcard metadata
 		/// </summary>
-		public string Metadata { get { return this.metadata; } }
+		public string Metadata { get { return this.metadata; } internal set { this.metadata = value;} }
 
 		/// <summary>
 		/// Gets the name of the wildcard

@@ -23,16 +23,6 @@ namespace RoboCup.AtHome.CommandGenerator
 		private string keyword;
 
 		/// <summary>
-		/// Stores the Wildcard metadata
-		/// </summary>
-		private string metadata;
-
-		/// <summary>
-		/// Stores the name of the wildcard
-		/// </summary>
-		private string name;
-
-		/// <summary>
 		/// Stores the list text wildcards this Wildcard unifies
 		/// </summary>
 		private List<TextWildcard> textWildcards;
@@ -85,7 +75,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// </summary>
 		public string Keyword
 		{
-			get{ return String.IsNullOrEmpty (this.keyword) ? this.name : this.keyword; }
+			get{ return String.IsNullOrEmpty (this.keyword) ? this.Name : this.keyword; }
 			set{ this.keyword = String.IsNullOrEmpty (value) ? null : value.ToLower (); }
 		}
 
