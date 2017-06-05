@@ -146,48 +146,31 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// </summary>
 		/// <param name="w">The wilcard to find a replacement for</param>
 		/// <returns>An appropiate replacement for the wildcard.</returns>
-		private INameable EvaluatePronoun(Wildcard w){
+		private void EvaluatePronoun(Wildcard w){
 			Wildcard prev = null;
+			string keycode;
 			string keyword;
 
 			for (int i = currentWildcardIx - 1; i >= 0; --i) {
-				keyword = wildcards [textWildcards [i].Keycode].Keyword;
+				keycode = textWildcards [i].Keycode;
+				keyword = wildcards [keycode].Keyword;
 				if ((keyword != null) && keyword.IsAnyOf ("name", "male", "female")) {
 					// prev = textWildcards [i];
-					prev = wildcards [keyword];
+					prev = wildcards [keycode];
 					break;
 				}
 			}
 			for (int i = currentWildcardIx - 1; (prev == null) && (i >= 0); --i) {
-				keyword = wildcards [textWildcards [i].Keycode].Keyword;
+				keycode = textWildcards [i].Keycode;
+				keyword = wildcards [keycode].Keyword;
 				if ((keyword != null) && keyword.IsAnyOf ("void", "pron"))
 					continue;
 				// prev = textWildcards [i];
-				prev = wildcards [keyword];
+				prev = wildcards [keycode];
 				break;
 			}
-
-			return new NamedTaskElement (Pronoun.Personal.FromWildcard (w, prev));
-			/*
-			if (prev == null)
-				return new NamedTaskElement ("them");
-
-			switch (prev.Keyword) {
-				case "name":
-				case "male":
-				return new NamedTaskElement ("him");
-
-				case "female":
-					return new NamedTaskElement ("her");
-
-			case "object": case "kobject": case "aobject":
-			case "beacon": case "room": case "placement": case "location":
-					return new NamedTaskElement ("it");
-
-				default:
-					return new NamedTaskElement ("them");
-			}
-			*/
+				
+			w.Replacement = new NamedTaskElement (Pronoun.Personal.FromWildcard (w, prev));
 		}
 
 		#endregion
