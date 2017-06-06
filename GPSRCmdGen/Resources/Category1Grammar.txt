@@ -2,9 +2,10 @@
 ; grammar tier Easy
 ; import common.txt
 
-$Main     = $deliver
-$Main     = $fndppl
-$Main     = $fndobj
+$Main      = Testing where clauses in wildcard, selecting an {kobject where Category="{category 1}" meta: where Category="{category 1}"} from {category 1}
+;$Main     = $deliver
+;$Main     = $fndppl
+;$Main     = $fndobj
 
 ##############################################################################
 #

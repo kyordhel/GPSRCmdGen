@@ -223,6 +223,148 @@ namespace RoboCup.AtHome.CommandGenerator
 		}
 
 		/// <summary>
+		/// Extracts a C-like valid identifier.
+		/// </summary>
+		/// <param name="input">String from which the identifier will be extracted</param>
+		/// <param name="cc">The search starting position</param>
+		/// <param name="value">When this method returns contains a valid C-like identifier found in s if the extraction succeded, or null if the extraction failed.</param>
+		/// <returns>True if the extraction succeded and a C-like identifier was found in s starting at cc, false otherwise</returns>
+		public static bool XtractIdentifier(string input, ref int cc, out string value)
+		{
+			value = null;
+			if (cc >= input.Length)
+				return false;
+
+			int bcc = cc;
+			if ((input[cc] != '_') && !IsAlpha(input[cc]))
+				return false;
+
+			do {
+				++cc;
+			} while ((cc < input.Length) && (IsAlNum(input[cc]) || (input[cc] == '_')));
+			value = input.Substring(bcc, cc - bcc);
+			return true;
+		}
+
+		/// <summary>
+		/// Extracts a string delimited by double quotes, preserving escaped characters.
+		/// </summary>
+		/// <param name="input">String from which the quoted string will be extracted</param>
+		/// <param name="cc">The search starting position</param>
+		/// <param name="value">When this method returns contains the delimited string found in s if the extraction succeded, or null if the extraction failed.</param>
+		/// <returns>True if the extraction succeded and a string delimited by double quotes was found in s starting at cc, false otherwise</returns>
+		public static bool XtractDoubleQuotedString(string input, ref int cc, out string value)
+		{
+			value = null;
+			if ((cc >= input.Length) || !ReadChar('"', input, ref cc))
+				return false;
+
+			StringBuilder sb = new StringBuilder ();
+			while (cc < input.Length) {
+				if (ReadChar ('"', input, ref cc))
+					break;
+
+				if (cc == '\\') {
+					if ( ++cc >= input.Length )
+						return false;
+					if ((input [cc] != '"') && (input [cc] != '\\'))
+						sb.Append ('\\');
+				}
+				sb.Append (input [cc++]);
+			}
+			value = sb.ToString ();
+			return true;
+		}
+
+		/// <summary>
+		/// Extracts a string delimited by single quotes, preserving escaped characters.
+		/// </summary>
+		/// <param name="input">String from which the quoted string will be extracted</param>
+		/// <param name="cc">The search starting position</param>
+		/// <param name="value">When this method returns contains the delimited string found in s if the extraction succeded, or null if the extraction failed.</param>
+		/// <returns>True if the extraction succeded and a string delimited by single quotes was found in s starting at cc, false otherwise</returns>
+		public static bool XtractSingleQuotedString(string input, ref int cc, out string value)
+		{
+			value = null;
+			if ((cc >= input.Length) || !ReadChar('\'', input, ref cc))
+				return false;
+
+			StringBuilder sb = new StringBuilder ();
+			while (cc < input.Length) {
+				if (ReadChar ('\'', input, ref cc))
+					break;
+
+				if (cc == '\\') {
+					if ( ++cc >= input.Length )
+						return false;
+					if ((input [cc] != '\'') && (input [cc] != '\\'))
+						sb.Append ('\\');
+				}
+				sb.Append (input [cc++]);
+			}
+			value = sb.ToString ();
+			return true;
+		}
+
+		/// <summary>
+		/// Extracts the first double precision floating point number found inside a string
+		/// </summary>
+		/// <param name="input">String from which the double precision float will be extracted</param>
+		/// <param name="cc">The search starting position</param>
+		/// <param name="value">When this method returns contains the first double precision float found in s if the extraction succeded, or zero if the extraction failed.</param>
+		/// <returns>True if the extraction succeded and a valid double precision float was found in s starting at cc, false otherwise</returns>
+		public static bool XtractDouble(string input, ref int cc, out double value)
+		{
+			int bcc = cc;
+			int length;
+			string sValue;
+
+			value = 0;
+			// Sign
+			if ((cc < input.Length) && (input[cc] == '-'))
+				++cc;
+			// Integer part
+			while ((cc < input.Length) && IsNumeric(input[cc]))
+				++cc;
+			// Decimal part
+			if ((cc < input.Length) && (input[cc] == '.'))
+			{
+				++cc;
+				if ((cc >= input.Length) || !IsNumeric(input[cc]))
+					return false;
+				while ((cc < input.Length) && IsNumeric(input[cc]))
+					++cc;
+			}
+			// Exponential part
+			// The Exp e
+			if ((cc < input.Length) && ((input[cc] == 'E') || (input[cc] == 'e')))
+			{
+				++cc;
+				// The Exp sign (if any)
+				if ((cc < input.Length) && ((input[cc] == '+') || (input[cc] == '-')))
+					++cc;
+				// First Exp digit
+				if ((cc >= input.Length) || !IsNumeric(input[cc]))
+					return false;
+				++cc;
+				// Second Exp digit (if any)
+				if ((cc < input.Length) && IsNumeric(input[cc]))
+				{
+					++cc;
+					// Third Exp digit (if any)
+					if ((cc < input.Length) && IsNumeric(input[cc]))
+						++cc;
+				}
+
+			}
+			length = Math.Min(cc - bcc, input.Length - bcc);
+			if ((length < 1) || (length > 11))
+				return false;
+			sValue = input.Substring(bcc, length);
+			return Double.TryParse(sValue, out value);
+		}
+
+		/// <summary>
 		/// Indicates whether a ANSI character is letter or digit.
 		/// </summary>
 		/// <param name="c">A ASNI character</param>

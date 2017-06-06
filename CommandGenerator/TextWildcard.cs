@@ -164,7 +164,10 @@ namespace RoboCup.AtHome.CommandGenerator
 			// Read wildcard id
 			wildcard.Id = ReadWildcardId(s, ref cc);
 
-			// Read wildcard id
+			// Read wildcard where clauses (query)
+			ReadWhereClauses(s, ref cc);
+
+			// Read wildcard metadata
 			wildcard.metadata = ReadWildcardMetadata(s, ref cc);
 
 			// Set wildcard value
@@ -187,12 +190,28 @@ namespace RoboCup.AtHome.CommandGenerator
 			int bcc = cc;
 			while ((cc < s.Length) && Scanner.IsLAlpha(s[cc])) ++cc;
 			string type = s.Substring(bcc, cc - bcc);
-			if (type == "meta")
+			if ((type != null) && type.IsAnyOf("meta", "where"))
 			{
-				cc -= 4;
+				cc -= type.Length;
 				return String.Empty;
 			}
 			return type;
+		}
+
+		private static string ReadWhereClauses(string s, ref int cc)
+		{
+			Scanner.SkipSpaces(s, ref cc);
+			int bcc = cc;
+			// First, read the "where" literal string
+			char[] where = new char[]{'w','h','e','r', 'e'};
+			foreach(char c in where){
+				if (Scanner.ReadChar(c, s, ref cc)) continue;
+				cc = bcc;
+				return null;
+			}
+			// After the "where" literal string, the where clauses come
+			string clauses = WhereParser.Fetch(s, ref cc);
+			return clauses;
 		}
 
 		private static string ReadWildcardMetadata(string s, ref int cc)

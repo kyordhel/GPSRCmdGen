@@ -88,6 +88,7 @@
     <Compile Include="TextWildcard.cs" />
     <Compile Include="Wildcard.cs" />
     <Compile Include="IWildcard.cs" />
+    <Compile Include="WhereParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="GUI\QRDialog.resx">
