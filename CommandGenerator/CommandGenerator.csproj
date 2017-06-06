@@ -81,11 +81,13 @@
     <Compile Include="SpecificLocation.cs" />
     <Compile Include="Task.cs" />
     <Compile Include="Token.cs" />
-    <Compile Include="Wildcard.cs" />
     <Compile Include="WildcardReplacer.cs" />
     <Compile Include="GrammarLoader.cs" />
     <Compile Include="NamedTaskElement.cs" />
     <Compile Include="Pronoun.cs" />
+    <Compile Include="TextWildcard.cs" />
+    <Compile Include="Wildcard.cs" />
+    <Compile Include="IWildcard.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="GUI\QRDialog.resx">
