@@ -45,11 +45,6 @@ namespace RoboCup.AtHome.CommandGenerator
 		private DifficultyDegree tier;
 
 		/// <summary>
-		/// Stores all replacements
-		/// </summary>
-		private Dictionary<string, INameable> replacements; 
-
-		/// <summary>
 		/// List of available categories
 		/// </summary>
 		private List<Category> avCategories; 
@@ -93,7 +88,6 @@ namespace RoboCup.AtHome.CommandGenerator
 			this.wildcards = new Dictionary<string, Wildcard> ();
 			this.generator = g;
 			this.tier = tier;
-			this.replacements = new Dictionary<string, INameable> ();
 			FillAvailabilityLists ();
 		}
 
@@ -102,42 +96,116 @@ namespace RoboCup.AtHome.CommandGenerator
 		#region Evaluate Methods
 
 		/// <summary>
-		/// Evaluates a <c>location</c> wildcard, creating a new replacement if the wildcard
-		/// has not been defined before, or retrieving the replacement otherwise. 
+		/// Evaluates a <c>location</c> wildcard, asigning a replacement.
 		/// </summary>
 		/// <param name="w">The wilcard to find a replacement for</param>
-		/// <returns>An appropiate replacement for the wildcard.</returns>
-		private INameable EvaluateLocation(Wildcard w)
+		private void EvaluateCategory(Wildcard w)
 		{
+			if (w.Replacement != null)
+				return;
+			w.Replacement = this.avCategories.PopLast();
+			w.Obfuscated = new Obfuscator("objects");
+		}
+
+		/// <summary>
+		/// Evaluates a <c>location</c> wildcard, asigning a replacement.
+		/// </summary>
+		/// <param name="w">The wilcard to find a replacement for</param>
+		private void EvaluateGesture(Wildcard w)
+		{
+			if (w.Replacement != null)
+				return;
+			w.Replacement = this.avGestures.PopLast();
+			// w.Obfuscated = ;
+		}
+
+		/// <summary>
+		/// Evaluates a <c>location</c> wildcard, asigning a replacement.
+		/// </summary>
+		/// <param name="w">The wilcard to find a replacement for</param>
+		private void EvaluateLocation(Wildcard w)
+		{
+			if(w.Replacement != null) return;
 			if (w.Name == "location")
 				w.Keyword = w.Type ?? generator.RandomPick ("beacon", "room", "placement");
-			return GetFromList (w, GetLocation);
+			switch (w.Keyword)
+			{
+				case "beacon":
+					w.Replacement = this.avLocations.PopFirst(l => l.IsBeacon);
+					w.Obfuscated = ((SpecificLocation)w.Replacement).Room;
+					break;
+
+				case "room":
+					w.Replacement = this.avLocations.PopFirst(l => l is Room);
+					w.Obfuscated = new Obfuscator("apartment");
+					break;
+
+				case "placement":
+					w.Replacement = this.avLocations.PopFirst(l => l.IsPlacement);
+					w.Obfuscated = ((SpecificLocation)w.Replacement).Room;
+					break;
+
+				default:
+					w.Replacement = this.avLocations.PopLast();
+					w.Obfuscated = new Obfuscator("somewhere");
+					break;
+			}
 		}
 
 		/// <summary>
-		/// Evaluates a <c>name</c> wildcard, creating a new replacement if the wildcard
-		/// has not been defined before, or retrieving the replacement otherwise. 
+		/// Evaluates a <c>name</c> wildcard, asigning a replacement.
 		/// </summary>
 		/// <param name="w">The wilcard to find a replacement for</param>
-		/// <returns>An appropiate replacement for the wildcard.</returns>
-		private INameable EvaluateName(Wildcard w)
+		private void EvaluateName(Wildcard w)
 		{
+			if(w.Replacement != null) return;
 			if (w.Name == "name")
 				w.Keyword = w.Type ?? generator.RandomPick ("male", "female");
-			return GetFromList (w, GetName);
+			switch(w.Keyword)
+			{
+				case "male":
+					w.Replacement = this.avNames.PopFirst(n => n.Gender == Gender.Male);
+					break;
+
+				case "female":
+					w.Replacement = this.avNames.PopFirst(n => n.Gender == Gender.Female);
+					break;
+
+				default:
+					w.Replacement = this.avNames.PopLast();
+					break;
+			}
+			w.Obfuscated = new Obfuscator("a person");
 		}
 
 		/// <summary>
-		/// Evaluates an <c>object</c> wildcard, creating a new replacement if the wildcard
-		/// has not been defined before, or retrieving the replacement otherwise. 
+		/// Evaluates an <c>object</c> wildcard, asigning a replacement.
 		/// </summary>
 		/// <param name="w">The wilcard to find a replacement for</param>
-		/// <returns>An appropiate replacement for the wildcard.</returns>
-		private INameable EvaluateObject(Wildcard w)
+		private void EvaluateObject(Wildcard w)
 		{
+			if(w.Replacement != null) return;
 			if (w.Name == "object") 
 				w.Keyword = (w.Type == null) ? generator.RandomPick ("kobject", "aobject") : String.Format("{0}object", w.Type[0]);
-			return GetFromList (w, GetObject);
+			switch(w.Keyword)
+			{
+				case "aobject":
+					w.Replacement = this.avObjects.PopFirst(o => o.Type == GPSRObjectType.Alike);
+					break;
+
+				case "kobject":
+					w.Replacement = this.avObjects.PopFirst(o => o.Type == GPSRObjectType.Known);
+					break;
+
+				// case "uobject":
+				// 	w.Replacement = GPSRObject.Unknown;
+				// 	break;
+
+				default:
+					w.Replacement = this.avObjects.PopLast();
+					break;
+			}
+			w.Obfuscated = ((GPSRObject)w.Replacement).Category;
 		}
 
 		/// <summary>
@@ -173,122 +241,20 @@ namespace RoboCup.AtHome.CommandGenerator
 			w.Replacement = new NamedTaskElement (Pronoun.Personal.FromWildcard (w, prev));
 		}
 
+		/// <summary>
+		/// Evaluates a <c>location</c> wildcard, asigning a replacement.
+		/// </summary>
+		/// <param name="w">The wilcard to find a replacement for</param>
+		private void EvaluateQuestion(Wildcard w)
+		{
+			if(w.Replacement != null) return;
+			w.Replacement = this.avQuestions.PopLast ();
+			w.Obfuscated = new Obfuscator("question");
+		}
+
 		#endregion
 
 		#region Random Generation Methos
-
-		/// <summary>
-		/// Retrieves a <c>Category</c> object from the corresponding availability
-		/// list, also removing the element to avoid duplicates.
-		/// </summary>
-		/// <returns>A category</returns>
-		private Category GetCategory ()
-		{
-			return this.avCategories.PopLast();
-		}
-
-		/// <summary>
-		/// Retrieves a <c>Category</c> object from the corresponding availability
-		/// list, also removing the element to avoid duplicates.
-		/// </summary>
-		/// <returns>A category</returns>
-		private Gesture GetGesture ()
-		{
-			return this.avGestures.PopLast();
-		}
-
-		/// <summary>
-		/// Retrieves a <c>Location</c> object from the corresponding availability
-		/// list, also removing the element to avoid duplicates.
-		/// </summary>
-		/// <param name="keycode">The specific type of location to fetch<param>
-		/// <returns>A location</returns>
-		private Location GetLocation(string keycode)
-		{
-			switch (keycode)
-			{
-				case "beacon":
-					return this.avLocations.PopFirst(l => l.IsBeacon);
-
-				case "room":
-					return this.avLocations.PopFirst(l => l is Room);
-
-				case "placement":
-					return this.avLocations.PopFirst(l => l.IsPlacement);
-
-				default:
-					return this.avLocations.PopLast();
-			}
-		}
-
-		/// <summary>
-		/// Retrieves a <c>Name</c> object from the corresponding availability
-		/// list, also removing the element to avoid duplicates.
-		/// </summary>
-		/// <param name="keycode">The specific type of name to fetch<param>
-		/// <returns>A name</returns>
-		private PersonName GetName (string keycode)
-		{
-			switch(keycode){
-				case "male":
-					return this.avNames.PopFirst(n => n.Gender == Gender.Male);
-
-				case "female":
-					return this.avNames.PopFirst(n => n.Gender == Gender.Female);
-
-				default:
-					return this.avNames.PopLast();
-			}
-		}
-
-		/// <summary>
-		/// Retrieves a <c>GPSRObject</c> object from the corresponding availability
-		/// list, also removing the element to avoid duplicates.
-		/// </summary>
-		/// <param name="keycode">The specific type of object to fetch<param>
-		/// <returns>An object</returns>
-		private GPSRObject GetObject (string keycode)
-		{
-			switch(keycode){
-				case "aobject":
-					return this.avObjects.PopFirst(o => o.Type == GPSRObjectType.Alike);
-
-				case "kobject":
-					return this.avObjects.PopFirst(o => o.Type == GPSRObjectType.Known);
-
-				// case "uobject":
-				// return GPSRObject.Unknown;
-
-				default:
-					return this.avObjects.PopLast();
-			}
-		}
-
-		private T GetFromList<T>(Wildcard w, Func<T> fetcher) where T: INameable{
-			if(replacements.ContainsKey(w.Keycode))
-				return (T) replacements[w.Keycode];
-			T t = fetcher();
-			SetReplacement (w, t);
-			return t;
-		}
-
-		private T GetFromList<T>(Wildcard w, Func<string, T> fetcher) where T: INameable{
-			if(replacements.ContainsKey(w.Keycode))
-				return (T) replacements[w.Keycode];
-			T t = fetcher(w.Keyword);
-			SetReplacement (w, t);
-			return t;
-		}
-
-		/// <summary>
-		/// Retrieves a <c>Question</c> object from the corresponding availability
-		/// list, also removing the element to avoid duplicates.
-		/// </summary>
-		/// <returns>A question</returns>
-		private PredefindedQuestion GetQuestion()
-		{
-			return this.avQuestions.PopLast ();
-		}
 
 		/// <summary>
 		/// Gets a subset of the provided list on which every element has at most the specified difficulty degree.
@@ -375,19 +341,6 @@ namespace RoboCup.AtHome.CommandGenerator
 		}
 
 		/// <summary>
-		/// Adds a wildcard to the replacement list. If the wildcard is not in the wildcardsByKeycode dicctionary, is also added.
-		/// </summary>
-		/// <param name="w">The wildcard to be added to the replacement list.</param>
-		/// <param name="replacement">The replacement of the wildcard</param>
-		private void SetReplacement(Wildcard w, INameable replacement){
-			if (!wildcards.ContainsKey (w.Keycode))
-				throw new InvalidOperationException ("Provided wildcard does not belong to the wildcards dictionary");
-			wildcards [w.Keycode].Replacement = replacement;
-			if (!replacements.ContainsKey (w.Keycode))
-				replacements.Add (w.Keycode, replacement);
-		}
-
-		/// <summary>
 		/// Changes the keyword for all wildcards with the same Keycode
 		/// </summary>
 		/// <param name="w">The unified wildcard keycode.</param>
@@ -443,48 +396,34 @@ namespace RoboCup.AtHome.CommandGenerator
 			switch (w.Name)
 			{
 				case "category":
-					w.Replacement = GetFromList (w, GetCategory);
-					w.Obfuscated = new Obfuscator("objects");
+					EvaluateCategory(w);
 					break;
 
 				case "gesture":
-					w.Replacement = GetFromList (w, GetGesture);
-					// w.Obfuscated = ;
+					EvaluateGesture(w);
 					break;
 
 				case "name":
 				case "female":
 				case "male":
 					EvaluateName (w);
-					w.Obfuscated = new Obfuscator("a person");
 					break;
 
 				case "beacon":
 				case "placement":
-					EvaluateLocation (w);
-					w.Obfuscated = ((SpecificLocation)w.Replacement).Room;
-					break;
-				
 				case "location":
-					EvaluateLocation (w);
-					w.Obfuscated = new Obfuscator("somewhere");
-					break;
-
 				case "room":
 					EvaluateLocation (w);
-					w.Obfuscated = new Obfuscator("apartment");
 					break;
 
 				case "object":
 				case "aobject":
 				case "kobject": 
 					EvaluateObject (w);
-					w.Obfuscated = ((GPSRObject)w.Replacement).Category;
 					break;
 
 				case "question":
-					w.Replacement = GetFromList (w, GetQuestion);
-					w.Obfuscated = new Obfuscator("question");
+					EvaluateQuestion(w);
 					break;
 
 				case "void":
@@ -535,7 +474,6 @@ namespace RoboCup.AtHome.CommandGenerator
 			tokens = new List<Token>(100);
 			textWildcards.Clear ();
 			wildcards.Clear ();
-			replacements.Clear ();
 			currentWildcardIx = -1;
 
 			// STEP 1: Assembly the token list, fetching all text wildcards and performing their unification
