@@ -62,7 +62,6 @@ namespace RoboCup.AtHome.GPSRCmdGen
 		/// <param name="opc">User option (category).</param>
 		protected override void RunOption(char opc, ref Task task)
 		{
-			DifficultyDegree tier = DifficultyDegree.Unknown;
 			switch (opc)
 			{
 				case '1': 
