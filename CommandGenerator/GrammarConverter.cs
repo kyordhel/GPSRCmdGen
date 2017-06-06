@@ -264,8 +264,6 @@ namespace RoboCup.AtHome.CommandGenerator
 
 		private void SRGSExpandNonTerminal(string replacement, ref int cc)
 		{
-			int bcc;
-			bcc = cc;
 			string nonTerminal = FetchNonTerminal(replacement, ref cc);
 			string uri = "#" + SRGSNonTerminalToRuleName(nonTerminal);
 			SRGSWriteRuleRef(uri);
