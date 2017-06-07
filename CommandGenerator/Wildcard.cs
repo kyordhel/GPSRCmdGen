@@ -127,6 +127,33 @@ namespace RoboCup.AtHome.CommandGenerator
 			}
 		}
 
+        /// <summary>
+        /// Gets the union (AND) of all where clauses in the collection
+        /// </summary>
+        public string Where{ 
+            get{
+                Queue<string> clauses = new Queue<string>(this.textWildcards.Count);
+                foreach (TextWildcard t in this.textWildcards)
+                {
+                    if (!String.IsNullOrEmpty(t.Where))
+                        clauses.Enqueue(t.Where);
+                }
+                if (clauses.Count == 1)
+                    return clauses.Dequeue();
+                StringBuilder sb = new StringBuilder();
+                // ToDo: Add parentheses support
+                // sb.AppendFormat("({0})", clauses.Dequeue());
+                sb.AppendFormat("{0}", clauses.Dequeue());
+                while (clauses.Count > 0)
+                {
+                    // ToDo: Add parentheses support
+                    // sb.AppendFormat("AND ({0})", clauses.Dequeue());
+                    sb.AppendFormat("AND {0}", clauses.Dequeue());
+                }
+                return sb.ToString();
+            }
+        }
+
 		#endregion
 
 		#region Indexers

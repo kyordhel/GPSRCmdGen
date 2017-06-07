@@ -119,6 +119,11 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// </summary>
 		public string Value { get { return this.value; } }
 
+        /// <summary>
+        /// Gets the string of where clauses
+        /// </summary>
+        public string Where{ get; internal set; }
+
 		#endregion
 
 		#region Methods
@@ -165,7 +170,7 @@ namespace RoboCup.AtHome.CommandGenerator
 			wildcard.Id = ReadWildcardId(s, ref cc);
 
 			// Read wildcard where clauses (query)
-			ReadWhereClauses(s, ref cc);
+            wildcard.Where = ReadWhereClauses(s, ref cc);
 
 			// Read wildcard metadata
 			wildcard.metadata = ReadWildcardMetadata(s, ref cc);
