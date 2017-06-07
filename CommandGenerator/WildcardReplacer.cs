@@ -337,7 +337,7 @@ namespace RoboCup.AtHome.CommandGenerator
 				wildcards[w.Keycode].Add(w);
 			textWildcards.Add(w);
 			++this.currentWildcardIx;
-			ParseTextWildcardMetadata (w);
+			ParseNestedWildcards (w);
 		}
 
 		/// <summary>
@@ -439,8 +439,56 @@ namespace RoboCup.AtHome.CommandGenerator
 		}
 
 		private void FindReplacements(){
+			// List<Wildcard> whereless = new List<Wildcard>(this.wildcards.Count);
+			// List<Wildcard> whereSimple = new List<Wildcard>(this.wildcards.Count);
+			Queue<Wildcard> whereNested = new Queue<Wildcard>(this.wildcards.Count);
+			// STEP 1: Wildcards not containing nested wildcards in the WHERE clause
+			//         are replaced on the fly, while others are left for later.
 			foreach (KeyValuePair<string,Wildcard> p in this.wildcards)
-				FindReplacement (p.Value);
+			{
+				if (p.Value.Where.IndexOf('{') != -1)
+					FindReplacement(p.Value);
+				else
+					whereNested.Enqueue(p.Value);
+			}
+
+			// STEP 2: Replace nested wildcards in WHERE clauses
+			//         This will iterate over the list of wildcards with nested ones
+			//         in WHERE clauses until the list is empty or until a loop has
+			//         been done with no changes.
+			int initial = whereNested.Count;
+			while (whereNested.Count > 0)
+			{
+				// Step 2.1: Set the initial counter
+				initial = whereNested.Count;
+				// STEP 2.2: Dequeue the wildcard
+				Wildcard w = whereNested.Dequeue();
+				bool allReplaced = true;
+				// STEP 2.3: Look for TextWildcards with nested elements in WHERE clause
+				foreach (TextWildcard tw in w)
+				{
+					if ((tw.Where == null) || (tw.Where.IndexOf('{') == -1))
+						continue;
+					string twWhere = tw.Where;
+					// STEP 2.4: Attempt to replace nested wildcards in each TextWildcard.
+					if (ReplaceNestedWildcardsHelper(ref twWhere))
+						tw.Where = twWhere;
+					else
+						allReplaced = false;
+				}
+				// STEP 2.5: If all nested wildcards were replaced, look for a replacement
+				//           otherwise, the element is enqueued again.
+				if (allReplaced)
+					FindReplacement(w);
+				else
+					whereNested.Enqueue(w);
+
+				// STEP 2.6: Compare the initial counter with the number of elements in the queue.
+				//           If the number matches, then no replacement was made.
+				//           We quit to prevent infinite loop
+				if (initial == whereNested.Count())
+					break;
+			}
 		}
 
 		public void FindWildcards(string s)
@@ -491,28 +539,37 @@ namespace RoboCup.AtHome.CommandGenerator
 		}
 
 		/// <summary>
-		/// Parses the metadata in a text wildcard to extract nested metadata.
+		/// Parses the where clauses and metadata in a text wildcard to extract nested wildcards.
 		/// </summary>
 		/// <param name="w">The TextWildcard to parse.</param>
-		private void ParseTextWildcardMetadata(TextWildcard textWildcard)
+		private void ParseNestedWildcards(TextWildcard textWildcard)
 		{
+			ParseNestedWildcardsHelper(textWildcard.Metadata);
+			ParseNestedWildcardsHelper(textWildcard.Where);
+		}
+
+		/// <summary>
+		/// Parses the where clauses and metadata in a text wildcard to extract nested wildcards (helper)
+		/// </summary>
+		/// <param name="w">The string containing nested TextWildcards to parse.</param>
+		private void ParseNestedWildcardsHelper(string s){
 			int cc = 0;
 			TextWildcard inner;
-			string meta = textWildcard.Metadata ?? String.Empty;
-			
+			s = s ?? String.Empty;
+
 			do {
 				// Read the string from cc till the next open brace (wildcard delimiter).
-				while ((cc < meta.Length) && (meta[cc] != '{'))
+				while ((cc < s.Length) && (s[cc] != '{'))
 					++cc;
 				// Otherwise, extract the nested text wildcard
-				inner = TextWildcard.XtractWildcard (meta, ref cc);
+				inner = TextWildcard.XtractWildcard (s, ref cc);
 				// If the extraction failed, continue
 				if (inner == null)
 					continue;
 				// Add the text wildcard to the reference lists
 				// When a wildcard is added, all nested wildcards are also processed
 				AddWildcard (inner);
-			} while(cc < meta.Length);
+			} while(cc < s.Length);
 		}
 
 		/// <summary>
@@ -598,32 +655,44 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <param name="s">The input string</param>
 		public void ReplaceNestedWildcards(TextWildcard textWildcard)
 		{
+			string s = textWildcard.Metadata;
+			if(ReplaceNestedWildcardsHelper(ref s))
+				textWildcard.Metadata = s;
+
+			s = textWildcard.Where;
+			if(ReplaceNestedWildcardsHelper(ref s))
+				textWildcard.Where = s;
+		}
+
+		private bool ReplaceNestedWildcardsHelper(ref string s){
 			int cc = 0;
 			TextWildcard inner;
-			string meta = textWildcard.Metadata;
-			if (String.IsNullOrEmpty (meta))
-				return;
-			StringBuilder sb = new StringBuilder (meta.Length);
+			if (String.IsNullOrEmpty (s))
+				return false;
+			StringBuilder sb = new StringBuilder (s.Length);
 
 			do {
 				// Fetch the string from cc till the next open brace (wildcard delimiter).
-				while ((cc < meta.Length) && (meta[cc] != '{'))
-					sb.Append(meta[cc++]);
+				while ((cc < s.Length) && (s[cc] != '{'))
+					sb.Append(s[cc++]);
 				// If the end of the string has been reached, quit
-				if (cc >= meta.Length)
+				if (cc >= s.Length)
 					break;
 				// Otherwise, extract the text wildcard
-				inner = TextWildcard.XtractWildcard (meta, ref cc);
+				inner = TextWildcard.XtractWildcard (s, ref cc);
 				// If the extraction failed, continue
 				if (inner == null)
 					continue;
-				// Otherwise, if the wildcard has metadata, it needs to be replaced first.
-				if(!String.IsNullOrEmpty(inner.Metadata)) ReplaceNestedWildcards(inner);
-				// After replacing nested metadata, the inner wildcard value is replaced
+				// Otherwise, if the wildcard has where clauses or metadata, they need to be replaced first.
+				if(!String.IsNullOrEmpty(inner.Metadata) || !String.IsNullOrEmpty(inner.Where))
+					ReplaceNestedWildcards(inner);
+				// After replacing nested wildcards in where clauses and metadata, the inner wildcard value is replaced
+				if(!wildcards.ContainsKey(inner.Keycode) || (wildcards[inner.Keycode] == null)) return false;
 				sb.Append(wildcards[inner.Keycode].Replacement);
-			} while(cc < meta.Length);
+			} while(cc < s.Length);
 			// Finally, the metadata of the wildcard is updated.
-			textWildcard.Metadata = sb.ToString();
+			s = sb.ToString();
+			return true;
 		}
 
 		#endregion
