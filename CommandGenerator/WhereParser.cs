@@ -40,6 +40,10 @@ namespace RoboCup.AtHome.CommandGenerator
 		}
 		*/
 
+		/// <summary>
+		/// Parse the input string s and extracts the conditional statement contained within
+		/// </summary>
+		/// <param name="s">The string to evaluate or null if the parsing failed.</param>
 		public static ConditionalStatement Parse(string s){
 			// This far, unary operators and parentheses are not supported
 

@@ -8,18 +8,31 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// </summary>
 		public class ConditionalStatement : IEvaluable
         {
-            public ConditionalStatement()
-            {
-				
-            }
 
+			/// <summary>
+			/// Gets the default value (left value in a binary statement)
+			/// </summary>
+			/// <value>A.</value>
 			public IEvaluable A{ get; internal set; }
 
+			/// <summary>
+			/// Gets the operator for the conditional statement
+			/// </summary>
+			/// <value>The operator.</value>
 			public string Operator{ get; internal set; }
 
+			/// <summary>
+			/// Gets the right value in a binary statement
+			/// </summary>
+			/// <value>A.</value>
 			public IEvaluable B{ get; internal set; }
 
-
+			/// <summary>
+			/// Evaluate the conditional statement.
+			/// If there is no operator returns A. If the operator is NOT returns !A.
+			/// Otherwise returns the result of evaluating A op B.
+			/// </summary>
+			/// <param name="obj">A boolean result of evaluating the conditional statement</param>
             public bool Evaluate(object obj){
 				if (String.IsNullOrEmpty(this.Operator))
 					return A != null ? A.Evaluate(obj) : false;
