@@ -30,13 +30,15 @@ namespace RoboCup.AtHome.CommandGenerator
 			// Other clauses might exist preceded by a boolean operator
 		}
 
-        public static T Select<T>(List<T> available, string query){
+		/*
+		public static T First<T>(this List<T> available, string query){
 			ConditionalStatement statement = Parse(query);
 			if (statement == null)
 				return available.PopLast();
 			List<T> candidates = new List<T>(available.Where(o => statement.Evaluate(o)));
 			return (candidates.Count > 0) ? candidates.PopLast() : available.PopLast();
-        }
+		}
+		*/
 
 		public static ConditionalStatement Parse(string s){
 			// This far, unary operators and parentheses are not supported

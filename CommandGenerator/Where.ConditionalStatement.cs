@@ -42,6 +42,15 @@ namespace RoboCup.AtHome.CommandGenerator
 				throw new NotSupportedException(String.Format("Operator '{0}' is not supported"));
 				//return false;
             }
+
+			public override string ToString()
+			{
+				if (String.IsNullOrEmpty(Operator))
+					return A.ToString();
+				else if(Operator.ToLower() == "not")
+					return string.Format("NOT(B)]", A);
+				return string.Format("{0} {1} {2}", A, Operator, B);
+			}
         }
     }
 }

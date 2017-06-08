@@ -138,6 +138,8 @@ namespace RoboCup.AtHome.CommandGenerator
                     if (!String.IsNullOrEmpty(t.Where))
                         clauses.Enqueue(t.Where);
                 }
+				if (clauses.Count < 1)
+					return String.Empty;
                 if (clauses.Count == 1)
                     return clauses.Dequeue();
                 StringBuilder sb = new StringBuilder();

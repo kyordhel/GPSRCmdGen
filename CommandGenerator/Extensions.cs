@@ -91,6 +91,15 @@ namespace RoboCup.AtHome.CommandGenerator
 					return true;
 			return false;
 		}
+
+
+
+		public static T PopFirst<T>(this List<T> available, string query){
+			WhereParser.ConditionalStatement statement = WhereParser.Parse(query);
+			if (statement == null)
+				throw new InvalidOperationException("query is null or is not in an acceptable format");
+			return available.PopFirst(o => statement.Evaluate(o));
+		}
 	}
 }
 

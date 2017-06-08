@@ -185,6 +185,12 @@ namespace RoboCup.AtHome.CommandGenerator
 		private void EvaluateObject(Wildcard w)
 		{
 			if(w.Replacement != null) return;
+			if (!String.IsNullOrEmpty(w.Where))
+			{
+				w.Replacement = this.avObjects.PopFirst(w.Where);
+				return;
+			}
+
 			if (w.Name == "object") 
 				w.Keyword = (w.Type == null) ? generator.RandomPick ("kobject", "aobject") : String.Format("{0}object", w.Type[0]);
 			switch(w.Keyword)
@@ -316,7 +322,8 @@ namespace RoboCup.AtHome.CommandGenerator
 			return new Token(
 				w.Value,
 				new NamedTaskElement(String.Format("{{{0}{1}}}", w.Keycode, w.Obfuscated ? "?" : "")),
-				new string[]{currentWildcardIx.ToString()}
+				// The wildcard has not been added (will be the next one) so this counter needs to be incremented
+				new string[]{(currentWildcardIx+1).ToString()}
 			);
 		}
 
@@ -446,7 +453,7 @@ namespace RoboCup.AtHome.CommandGenerator
 			//         are replaced on the fly, while others are left for later.
 			foreach (KeyValuePair<string,Wildcard> p in this.wildcards)
 			{
-				if (p.Value.Where.IndexOf('{') != -1)
+				if (p.Value.Where.IndexOf('{') == -1)
 					FindReplacement(p.Value);
 				else
 					whereNested.Enqueue(p.Value);
@@ -615,11 +622,11 @@ namespace RoboCup.AtHome.CommandGenerator
 				// If the extraction failed, continue
 				if (tWildcard == null)
 					continue;
+				// Convert the text wildcard into a token
+				token = TokenizeTextWildcard (tWildcard);
 				// Add the text wildcard to the reference lists
 				// When a wildcard is added, all nested wildcards are also processed
 				AddWildcard (tWildcard);
-				// Convert the text wildcard into a token
-				token = TokenizeTextWildcard (tWildcard);
 				// Add the token
 				tokens.Add (token);
 			} while(cc < s.Length);
@@ -688,7 +695,7 @@ namespace RoboCup.AtHome.CommandGenerator
 					ReplaceNestedWildcards(inner);
 				// After replacing nested wildcards in where clauses and metadata, the inner wildcard value is replaced
 				if(!wildcards.ContainsKey(inner.Keycode) || (wildcards[inner.Keycode] == null)) return false;
-				sb.Append(wildcards[inner.Keycode].Replacement);
+				sb.Append(wildcards[inner.Keycode].Replacement.Name);
 			} while(cc < s.Length);
 			// Finally, the metadata of the wildcard is updated.
 			s = sb.ToString();

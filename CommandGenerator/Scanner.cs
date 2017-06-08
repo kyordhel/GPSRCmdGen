@@ -75,7 +75,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		{
 			if ((cc < 0) || (cc >= s.Length))
 				return;
-			while (Scanner.IsSpace(s[cc])) ++cc;
+			while ((cc < s.Length) && Scanner.IsSpace(s[cc])) ++cc;
 		}
 
 		/// <summary>

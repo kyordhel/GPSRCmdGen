@@ -129,11 +129,22 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <returns></returns>
 		public Task GenerateTask (DifficultyDegree tier)
 		{
-			string taskPrototype = GetTaskPrototype (tier);
-			WildcardReplacer replacer = new WildcardReplacer (this, tier);
-			if (String.IsNullOrEmpty (taskPrototype))
-				return null;
-			return replacer.GetTask (taskPrototype);
+			for (int i = 0; i < 3; ++i)
+			{
+				try
+				{
+					string taskPrototype = GetTaskPrototype(tier);
+					WildcardReplacer replacer = new WildcardReplacer(this, tier);
+					if (String.IsNullOrEmpty(taskPrototype))
+						return null;
+					return replacer.GetTask(taskPrototype);
+				}
+				catch
+				{
+					continue;
+				}
+			}
+			return null;
 		}
 
 		/// <summary>
@@ -144,11 +155,22 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <returns></returns>
 		public Task GenerateTask (string grammarName, DifficultyDegree tier)
 		{
-			string taskPrototype = GetTaskPrototype (grammarName);
-			WildcardReplacer replacer = new WildcardReplacer (this, tier);
-			if (String.IsNullOrEmpty (taskPrototype))
-				return null;
-			return replacer.GetTask (taskPrototype);
+			for (int i = 0; i < 3; ++i)
+			{
+				try
+				{
+					string taskPrototype = GetTaskPrototype(grammarName);
+					WildcardReplacer replacer = new WildcardReplacer(this, tier);
+					if (String.IsNullOrEmpty(taskPrototype))
+						return null;
+					return replacer.GetTask(taskPrototype);
+				}
+				catch
+				{
+					continue;
+				}
+			}
+			return null;
 		}
 
 		/// <summary>

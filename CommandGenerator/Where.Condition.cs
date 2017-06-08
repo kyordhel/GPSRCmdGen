@@ -31,7 +31,7 @@ namespace RoboCup.AtHome.CommandGenerator
 
 				try{
 					if(ValueType == 's')
-						return Compare(this.Value, Convert.ToString(pi.GetValue(obj)));
+						return Compare(this.Value, pi.GetValue(obj));
 					else if(ValueType == 'n')
 						return Compare(Double.Parse(this.Value), (double)pi.GetValue(obj));
 				}
@@ -39,7 +39,13 @@ namespace RoboCup.AtHome.CommandGenerator
 					return false;
 				}
 				return false;
-            }
+			}
+
+			private bool Compare(string a, object b){
+				if (b is INameable)
+					return Compare(a, ((INameable)b).Name);
+				return Compare(a, Convert.ToString(b));
+			}
 
 			private bool Compare(string a, string b){
 				switch(this.Operator)
@@ -81,6 +87,11 @@ namespace RoboCup.AtHome.CommandGenerator
 				if ((type != 's') && (type != 'n'))
 					return null;
 				return condition;
+			}
+
+			public override string ToString()
+			{
+				return string.Format("{0} {1} {2}", PropertyName, Operator, Value);
 			}
         }
     }
