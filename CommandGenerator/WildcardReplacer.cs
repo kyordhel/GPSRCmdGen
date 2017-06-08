@@ -103,7 +103,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		{
 			if (w.Replacement != null)
 				return;
-			w.Replacement = this.avCategories.PopLast();
+			w.Replacement = !String.IsNullOrEmpty(w.Where) ? this.avCategories.PopFirst(w.Where) : this.avCategories.PopLast();
 			w.Obfuscated = new Obfuscator("objects");
 		}
 
@@ -115,7 +115,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		{
 			if (w.Replacement != null)
 				return;
-			w.Replacement = this.avGestures.PopLast();
+			w.Replacement = !String.IsNullOrEmpty(w.Where) ? this.avGestures.PopFirst(w.Where) : this.avGestures.PopLast();
 			// w.Obfuscated = ;
 		}
 
@@ -131,22 +131,22 @@ namespace RoboCup.AtHome.CommandGenerator
 			switch (w.Keyword)
 			{
 				case "beacon":
-					w.Replacement = this.avLocations.PopFirst(l => l.IsBeacon);
+					w.Replacement = this.avLocations.PopFirst(l => l.IsBeacon, w.Where);
 					w.Obfuscated = ((SpecificLocation)w.Replacement).Room;
 					break;
 
 				case "room":
-					w.Replacement = this.avLocations.PopFirst(l => l is Room);
+					w.Replacement = this.avLocations.PopFirst(l => l is Room, w.Where);
 					w.Obfuscated = new Obfuscator("apartment");
 					break;
 
 				case "placement":
-					w.Replacement = this.avLocations.PopFirst(l => l.IsPlacement);
+					w.Replacement = this.avLocations.PopFirst(l => l.IsPlacement, w.Where);
 					w.Obfuscated = ((SpecificLocation)w.Replacement).Room;
 					break;
 
 				default:
-					w.Replacement = this.avLocations.PopLast();
+					w.Replacement = !String.IsNullOrEmpty(w.Where) ? this.avLocations.PopFirst(w.Where) : this.avLocations.PopLast();
 					w.Obfuscated = new Obfuscator("somewhere");
 					break;
 			}
@@ -161,18 +161,21 @@ namespace RoboCup.AtHome.CommandGenerator
 			if(w.Replacement != null) return;
 			if (w.Name == "name")
 				w.Keyword = w.Type ?? generator.RandomPick ("male", "female");
+
+
+
 			switch(w.Keyword)
 			{
 				case "male":
-					w.Replacement = this.avNames.PopFirst(n => n.Gender == Gender.Male);
+					w.Replacement = this.avNames.PopFirst(n => n.Gender == Gender.Male, w.Where);
 					break;
 
 				case "female":
-					w.Replacement = this.avNames.PopFirst(n => n.Gender == Gender.Female);
+					w.Replacement = this.avNames.PopFirst(n => n.Gender == Gender.Female, w.Where);
 					break;
 
 				default:
-					w.Replacement = this.avNames.PopLast();
+					w.Replacement = !String.IsNullOrEmpty(w.Where) ? this.avNames.PopFirst(w.Where) : this.avNames.PopLast();
 					break;
 			}
 			w.Obfuscated = new Obfuscator("a person");
@@ -185,22 +188,18 @@ namespace RoboCup.AtHome.CommandGenerator
 		private void EvaluateObject(Wildcard w)
 		{
 			if(w.Replacement != null) return;
-			if (!String.IsNullOrEmpty(w.Where))
-			{
-				w.Replacement = this.avObjects.PopFirst(w.Where);
-				return;
-			}
 
 			if (w.Name == "object") 
 				w.Keyword = (w.Type == null) ? generator.RandomPick ("kobject", "aobject") : String.Format("{0}object", w.Type[0]);
+
 			switch(w.Keyword)
 			{
 				case "aobject":
-					w.Replacement = this.avObjects.PopFirst(o => o.Type == GPSRObjectType.Alike);
+					w.Replacement = this.avObjects.PopFirst(o => o.Type == GPSRObjectType.Alike, w.Where);
 					break;
 
 				case "kobject":
-					w.Replacement = this.avObjects.PopFirst(o => o.Type == GPSRObjectType.Known);
+					w.Replacement = this.avObjects.PopFirst(o => o.Type == GPSRObjectType.Known, w.Where);
 					break;
 
 				// case "uobject":
@@ -208,7 +207,7 @@ namespace RoboCup.AtHome.CommandGenerator
 				// 	break;
 
 				default:
-					w.Replacement = this.avObjects.PopLast();
+					w.Replacement = !String.IsNullOrEmpty(w.Where) ? this.avObjects.PopFirst(w.Where) : this.avObjects.PopLast();
 					break;
 			}
 			w.Obfuscated = ((GPSRObject)w.Replacement).Category;
@@ -254,7 +253,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		private void EvaluateQuestion(Wildcard w)
 		{
 			if(w.Replacement != null) return;
-			w.Replacement = this.avQuestions.PopLast ();
+			w.Replacement = !String.IsNullOrEmpty(w.Where) ? this.avQuestions.PopFirst(w.Where) : this.avQuestions.PopLast ();
 			w.Obfuscated = new Obfuscator("question");
 		}
 

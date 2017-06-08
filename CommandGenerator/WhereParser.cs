@@ -81,6 +81,7 @@ namespace RoboCup.AtHome.CommandGenerator
 				next = ReadNext(s, ref cc, out type);
 				if (type != 'b')
 					return  statement;
+				statement.Operator = next;
 
 				// STEP 3: Read second element.
 				bcc = cc;

@@ -92,13 +92,26 @@ namespace RoboCup.AtHome.CommandGenerator
 			return false;
 		}
 
-
-
-		public static T PopFirst<T>(this List<T> available, string query){
+		public static TSource PopFirst<TSource>(this List<TSource> source, string query){
 			WhereParser.ConditionalStatement statement = WhereParser.Parse(query);
 			if (statement == null)
 				throw new InvalidOperationException("query is null or is not in an acceptable format");
-			return available.PopFirst(o => statement.Evaluate(o));
+			return source.PopFirst(o => statement.Evaluate(o));
+		}
+
+		public static TSource PopFirst<TSource>(this List<TSource> source,  Func<TSource, bool> predicate, string query){
+			if ((source == null) || ((predicate == null) && String.IsNullOrEmpty(query)))
+				throw new ArgumentNullException ("Source or predicate and source are null.");
+			
+			WhereParser.ConditionalStatement statement = WhereParser.Parse(query);
+			if ((predicate == null) && (statement == null))
+				throw new InvalidOperationException("No predicate was provided and query is null or is not in an acceptable format");
+			else if(predicate == null)
+				return source.PopFirst(o => statement.Evaluate(o));
+			else if(statement == null)
+				return source.PopFirst(predicate);
+			else
+				return source.PopFirst(o => predicate(o) && statement.Evaluate(o));
 		}
 	}
 }
