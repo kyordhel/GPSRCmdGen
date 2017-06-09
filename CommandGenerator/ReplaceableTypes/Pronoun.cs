@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace RoboCup.AtHome.CommandGenerator
+namespace RoboCup.AtHome.CommandGenerator.ReplaceableTypes
 {
 	/// <summary>
 	/// Provides pronouns for English language given the pronoun class and person

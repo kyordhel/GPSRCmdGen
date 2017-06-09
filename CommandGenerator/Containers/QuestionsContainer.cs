@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Xml.Serialization;
+using PredefinedQuestion = RoboCup.AtHome.CommandGenerator.ReplaceableTypes.PredefinedQuestion;
 
 namespace RoboCup.AtHome.CommandGenerator.Containers
 {
@@ -21,13 +22,13 @@ namespace RoboCup.AtHome.CommandGenerator.Containers
 		/// Initializes a new instance of the <see cref="RoboCup.AtHome.CommandGenerator.QuestionsContainer"/> class.
 		/// </summary>
 		/// <param name="questions">List of questions.</param>
-		public QuestionsContainer(List<PredefindedQuestion> questions) { this.Questions = questions; }
+		public QuestionsContainer(List<PredefinedQuestion> questions) { this.Questions = questions; }
 
 		/// <summary>
 		/// Gets or sets the list of questions.
 		/// </summary>
 		/// <value>The questions.</value>
 		[XmlElement("question")]
-		public List<PredefindedQuestion> Questions { get; set; }
+		public List<PredefinedQuestion> Questions { get; set; }
 	}
 }

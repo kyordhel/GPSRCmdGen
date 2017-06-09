@@ -12,6 +12,8 @@ $padvor = $polite $advor
 $advor	= bring me the $bwhat from the {placement 1}.
 $advor	= take the $bwhat from the {placement 1} to the {placement 2}.
 $advor	= bring me the {category} at the $rpos {placement 1}.
+$advor  = bring me something you can pour into a {object where canPourIn=true}
+$advor  = bring me an object in which you can pour {object where canPour=true}
 $advor	= Take the {category} at the {placement 1}'s $rpos to the {placement 2}.
 
 $bwhat  = $desc (object | {category})

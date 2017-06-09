@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using RoboCup.AtHome.CommandGenerator.ReplaceableTypes;
+using Object = RoboCup.AtHome.CommandGenerator.ReplaceableTypes.Object;
 
 namespace RoboCup.AtHome.CommandGenerator
 {
@@ -17,12 +19,12 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <summary>
 		/// Stores all found wildcards contained the working task
 		/// </summary>
-		private List<Wildcard> wildcards;
+		private List<TextWildcard> textWildcards;
 
 		/// <summary>
 		/// Groups all wildcards stored by keycode
 		/// </summary>
-		private Dictionary<string, List<Wildcard>> wildcardsByKeycode;
+		private Dictionary<string, Wildcard> wildcards;
 
 		/// <summary>
 		/// Stores the index of the wildcard being processed in the wildcards list
@@ -43,11 +45,6 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// The maximum difficulty degree to be used during the replacement
 		/// </summary>
 		private DifficultyDegree tier;
-
-		/// <summary>
-		/// Stores all replacements
-		/// </summary>
-		private Dictionary<string, INameable> replacements; 
 
 		/// <summary>
 		/// List of available categories
@@ -72,12 +69,12 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <summary>
 		/// List of available objects
 		/// </summary>
-		private List<GPSRObject> avObjects;
+		private List<Object> avObjects;
 
 		/// <summary>
 		/// List of available objects
 		/// </summary>
-		private List<PredefindedQuestion> avQuestions;
+		private List<PredefinedQuestion> avQuestions;
 
 		#endregion
 
@@ -89,11 +86,10 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <param name="g">A Generator which contains the databases and the random generator.</param>
 		/// <param name="tier">The maximum difficulty degree for wildcard replacements</param>
 		public WildcardReplacer(Generator g, DifficultyDegree tier){
-			this.wildcards = new List<Wildcard> ();
-			this.wildcardsByKeycode = new Dictionary<string, List<Wildcard>> ();
+			this.textWildcards = new List<TextWildcard> ();
+			this.wildcards = new Dictionary<string, Wildcard> ();
 			this.generator = g;
 			this.tier = tier;
-			this.replacements = new Dictionary<string, INameable> ();
 			FillAvailabilityLists ();
 		}
 
@@ -102,56 +98,125 @@ namespace RoboCup.AtHome.CommandGenerator
 		#region Evaluate Methods
 
 		/// <summary>
-		/// Evaluates a <c>location</c> wildcard, creating a new replacement if the wildcard
-		/// has not been defined before, or retrieving the replacement otherwise. 
+		/// Evaluates a <c>location</c> wildcard, asigning a replacement.
 		/// </summary>
 		/// <param name="w">The wilcard to find a replacement for</param>
-		/// <returns>An appropiate replacement for the wildcard.</returns>
-		private INameable EvaluateLocation(Wildcard w)
+		private void EvaluateCategory(Wildcard w)
 		{
-			if (w.Name == "location") {
-				if (w.Type.IsAnyOf ("beacon", "room", "placement"))
-					ChangeWildcardKeyword(w.Keycode, w.Type);
-				else if (String.IsNullOrEmpty (w.Type))
-					ChangeWildcardKeyword(w.Keycode, generator.RandomPick ("beacon", "room", "placement"));
-			}
-			return GetFromList (w, GetLocation);
+			if (w.Replacement != null)
+				return;
+			w.Replacement = !String.IsNullOrEmpty(w.Where) ? this.avCategories.PopFirst(w.Where) : this.avCategories.PopLast();
+			w.Obfuscated = new Obfuscator("objects");
 		}
 
 		/// <summary>
-		/// Evaluates a <c>name</c> wildcard, creating a new replacement if the wildcard
-		/// has not been defined before, or retrieving the replacement otherwise. 
+		/// Evaluates a <c>location</c> wildcard, asigning a replacement.
 		/// </summary>
 		/// <param name="w">The wilcard to find a replacement for</param>
-		/// <returns>An appropiate replacement for the wildcard.</returns>
-		private INameable EvaluateName(Wildcard w)
+		private void EvaluateGesture(Wildcard w)
 		{
-			if (w.Name == "name") {
-				if (w.Type.IsAnyOf ("male", "female"))
-					ChangeWildcardKeyword(w.Keycode, w.Type);
-				else if (String.IsNullOrEmpty (w.Type))
-					ChangeWildcardKeyword(w.Keycode, generator.RandomPick ("male", "female"));
-			}
-
-			return GetFromList (w, GetName);
+			if (w.Replacement != null)
+				return;
+			w.Replacement = !String.IsNullOrEmpty(w.Where) ? this.avGestures.PopFirst(w.Where) : this.avGestures.PopLast();
+			// w.Obfuscated = ;
 		}
 
 		/// <summary>
-		/// Evaluates an <c>object</c> wildcard, creating a new replacement if the wildcard
-		/// has not been defined before, or retrieving the replacement otherwise. 
+		/// Evaluates a <c>location</c> wildcard, asigning a replacement.
 		/// </summary>
 		/// <param name="w">The wilcard to find a replacement for</param>
-		/// <returns>An appropiate replacement for the wildcard.</returns>
-		private INameable EvaluateObject(Wildcard w)
+		private void EvaluateLocation(Wildcard w)
 		{
-			if (w.Name == "object") {
-				if (w.Type.IsAnyOf ("alike", "known"))
-					ChangeWildcardKeyword(w.Keycode, String.Format("{0}object", w.Type[0]));
-				else if (String.IsNullOrEmpty (w.Type))
-					ChangeWildcardKeyword(w.Keycode, generator.RandomPick ("kobject", "aobject"));
-			}
+			if(w.Replacement != null) return;
+			if ((w.Name == "location") && String.IsNullOrEmpty(w.Where))
+				w.Keyword = w.Type ?? generator.RandomPick ("beacon", "room", "placement");
+			switch (w.Keyword)
+			{
+				case "beacon":
+					w.Replacement = this.avLocations.PopFirst(l => l.IsBeacon, w.Where);
+					w.Obfuscated = ((SpecificLocation)w.Replacement).Room;
+					break;
 
-			return GetFromList (w, GetObject);
+				case "room":
+					w.Replacement = this.avLocations.PopFirst(l => l is Room, w.Where);
+					w.Obfuscated = new Obfuscator("apartment");
+					break;
+
+				case "placement":
+					w.Replacement = this.avLocations.PopFirst(l => l.IsPlacement, w.Where);
+					w.Obfuscated = ((SpecificLocation)w.Replacement).Room;
+					break;
+
+				default:
+					w.Replacement = !String.IsNullOrEmpty(w.Where) ? this.avLocations.PopFirst(w.Where) : this.avLocations.PopLast();
+					w.Obfuscated = new Obfuscator("somewhere");
+					break;
+			}
+		}
+
+		/// <summary>
+		/// Evaluates a <c>name</c> wildcard, asigning a replacement.
+		/// </summary>
+		/// <param name="w">The wilcard to find a replacement for</param>
+		private void EvaluateName(Wildcard w)
+		{
+			if(w.Replacement != null) return;
+			if ((w.Name == "name") && String.IsNullOrEmpty(w.Where))
+				w.Keyword = w.Type ?? generator.RandomPick ("male", "female");
+
+
+
+			switch(w.Keyword)
+			{
+				case "male":
+					w.Replacement = this.avNames.PopFirst(n => n.Gender == Gender.Male, w.Where);
+					break;
+
+				case "female":
+					w.Replacement = this.avNames.PopFirst(n => n.Gender == Gender.Female, w.Where);
+					break;
+
+				default:
+					w.Replacement = !String.IsNullOrEmpty(w.Where) ? this.avNames.PopFirst(w.Where) : this.avNames.PopLast();
+					break;
+			}
+			w.Obfuscated = new Obfuscator("a person");
+		}
+
+		/// <summary>
+		/// Evaluates an <c>object</c> wildcard, asigning a replacement.
+		/// </summary>
+		/// <param name="w">The wilcard to find a replacement for</param>
+		private void EvaluateObject(Wildcard w)
+		{
+			if(w.Replacement != null) return;
+
+			if ((w.Name == "object") && String.IsNullOrEmpty(w.Where))
+				w.Keyword = (w.Type == null) ? generator.RandomPick ("kobject", "aobject") : String.Format("{0}object", w.Type[0]);
+
+			switch(w.Keyword)
+			{
+				case "aobject":
+					w.Replacement = this.avObjects.PopFirst(o => o.Type == ObjectType.Alike, w.Where);
+					break;
+
+				case "kobject":
+					w.Replacement = this.avObjects.PopFirst(o => o.Type == ObjectType.Known, w.Where);
+					break;
+
+				// case "uobject":
+				// 	w.Replacement = GPSRObject.Unknown;
+				// 	break;
+
+				case "sobject":
+					w.Replacement = this.avObjects.PopFirst(o => o.Type == ObjectType.Special, w.Where);
+					break;
+
+				default:
+					w.Replacement = !String.IsNullOrEmpty(w.Where) ? this.avObjects.PopFirst(w.Where) : this.avObjects.PopLast();
+					break;
+			}
+			w.Obfuscated = ((Object)w.Replacement).Category;
 		}
 
 		/// <summary>
@@ -160,165 +225,47 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// </summary>
 		/// <param name="w">The wilcard to find a replacement for</param>
 		/// <returns>An appropiate replacement for the wildcard.</returns>
-		private INameable EvaluatePronoun(Wildcard w){
+		private void EvaluatePronoun(Wildcard w){
 			Wildcard prev = null;
+			string keycode;
+			string keyword;
 
 			for (int i = currentWildcardIx - 1; i >= 0; --i) {
-				if (wildcards [i].Keyword.IsAnyOf ("name", "male", "female")) {
-					prev = wildcards [i];
+				keycode = textWildcards [i].Keycode;
+				keyword = wildcards [keycode].Keyword;
+				if ((keyword != null) && keyword.IsAnyOf ("name", "male", "female")) {
+					// prev = textWildcards [i];
+					prev = wildcards [keycode];
 					break;
 				}
 			}
 			for (int i = currentWildcardIx - 1; (prev == null) && (i >= 0); --i) {
-				if (wildcards [i].Keyword.IsAnyOf ("void", "pron"))
+				keycode = textWildcards [i].Keycode;
+				keyword = wildcards [keycode].Keyword;
+				if ((keyword != null) && keyword.IsAnyOf ("void", "pron"))
 					continue;
-					prev = wildcards [i];
-					break;
+				// prev = textWildcards [i];
+				prev = wildcards [keycode];
+				break;
 			}
+				
+			w.Replacement = new NamedTaskElement (Pronoun.Personal.FromWildcard (w, prev));
+		}
 
-			return new NamedTaskElement (Pronoun.Personal.FromWildcard (w, prev));
-			/*
-			if (prev == null)
-				return new NamedTaskElement ("them");
-
-			switch (prev.Keyword) {
-				case "name":
-				case "male":
-				return new NamedTaskElement ("him");
-
-				case "female":
-					return new NamedTaskElement ("her");
-
-			case "object": case "kobject": case "aobject":
-			case "beacon": case "room": case "placement": case "location":
-					return new NamedTaskElement ("it");
-
-				default:
-					return new NamedTaskElement ("them");
-			}
-			*/
+		/// <summary>
+		/// Evaluates a <c>location</c> wildcard, asigning a replacement.
+		/// </summary>
+		/// <param name="w">The wilcard to find a replacement for</param>
+		private void EvaluateQuestion(Wildcard w)
+		{
+			if(w.Replacement != null) return;
+			w.Replacement = !String.IsNullOrEmpty(w.Where) ? this.avQuestions.PopFirst(w.Where) : this.avQuestions.PopLast ();
+			w.Obfuscated = new Obfuscator("question");
 		}
 
 		#endregion
 
 		#region Random Generation Methos
-
-		/// <summary>
-		/// Retrieves a <c>Category</c> object from the corresponding availability
-		/// list, also removing the element to avoid duplicates.
-		/// </summary>
-		/// <returns>A category</returns>
-		private Category GetCategory ()
-		{
-			return this.avCategories.PopLast();
-		}
-
-		/// <summary>
-		/// Retrieves a <c>Category</c> object from the corresponding availability
-		/// list, also removing the element to avoid duplicates.
-		/// </summary>
-		/// <returns>A category</returns>
-		private Gesture GetGesture ()
-		{
-			return this.avGestures.PopLast();
-		}
-
-		/// <summary>
-		/// Retrieves a <c>Location</c> object from the corresponding availability
-		/// list, also removing the element to avoid duplicates.
-		/// </summary>
-		/// <param name="keycode">The specific type of location to fetch<param>
-		/// <returns>A location</returns>
-		private Location GetLocation(string keycode)
-		{
-			switch (keycode)
-			{
-				case "beacon":
-					return this.avLocations.PopFirst(l => l.IsBeacon);
-
-				case "room":
-					return this.avLocations.PopFirst(l => l is Room);
-
-				case "placement":
-					return this.avLocations.PopFirst(l => l.IsPlacement);
-
-				default:
-					return this.avLocations.PopLast();
-			}
-		}
-
-		/// <summary>
-		/// Retrieves a <c>Name</c> object from the corresponding availability
-		/// list, also removing the element to avoid duplicates.
-		/// </summary>
-		/// <param name="keycode">The specific type of name to fetch<param>
-		/// <returns>A name</returns>
-		private PersonName GetName (string keycode)
-		{
-			switch(keycode){
-				case "male":
-					return this.avNames.PopFirst(n => n.Gender == Gender.Male);
-
-				case "female":
-					return this.avNames.PopFirst(n => n.Gender == Gender.Female);
-
-				default:
-					return this.avNames.PopLast();
-			}
-		}
-
-		/// <summary>
-		/// Retrieves a <c>GPSRObject</c> object from the corresponding availability
-		/// list, also removing the element to avoid duplicates.
-		/// </summary>
-		/// <param name="keycode">The specific type of object to fetch<param>
-		/// <returns>An object</returns>
-		private GPSRObject GetObject (string keycode)
-		{
-			switch(keycode){
-				case "aobject":
-					return this.avObjects.PopFirst(o => o.Type == GPSRObjectType.Alike);
-
-				case "kobject":
-					return this.avObjects.PopFirst(o => o.Type == GPSRObjectType.Known);
-
-				// case "uobject":
-				// return GPSRObject.Unknown;
-
-				default:
-					return this.avObjects.PopLast();
-			}
-		}
-
-		private T GetFromList<T>(Wildcard w, Func<T> fetcher) where T: INameable{
-			if (w.Id >= 1000)
-				return fetcher();
-			if(replacements.ContainsKey(w.Keycode))
-				return (T) replacements[w.Keycode];
-			T t = fetcher();
-			AddReplacement (w, t);
-			return t;
-		}
-
-		private T GetFromList<T>(Wildcard w, Func<string, T> fetcher) where T: INameable{
-			if (w.Id >= 1000)
-				return fetcher(w.Keyword);
-			if(replacements.ContainsKey(w.Keycode))
-				return (T) replacements[w.Keycode];
-			T t = fetcher(w.Keyword);
-			AddReplacement (w, t);
-			return t;
-		}
-
-		/// <summary>
-		/// Retrieves a <c>Question</c> object from the corresponding availability
-		/// list, also removing the element to avoid duplicates.
-		/// </summary>
-		/// <returns>A question</returns>
-		private PredefindedQuestion GetQuestion()
-		{
-			return this.avQuestions.PopLast ();
-		}
 
 		/// <summary>
 		/// Gets a subset of the provided list on which every element has at most the specified difficulty degree.
@@ -341,58 +288,6 @@ namespace RoboCup.AtHome.CommandGenerator
 		#region Tokenize Methods
 
 		/// <summary>
-		/// Converts the wildcard contained within the provided regular expression
-		/// match object into a Token object, considering obfuscation
-		/// </summary>
-		/// <param name="w">The regular expression match object that contains the wildcard.</param>
-		private Token TokenizeObfuscatedWildcard(Wildcard w)
-		{
-			INameable obfuscated = null;
-			INameable inam = FindReplacement(w);
-			switch (w.Name)
-			{
-				case "beacon":
-				case "placement":
-					obfuscated = ((SpecificLocation)inam).Room;
-					break;
-
-				case "object":
-				case "aobject":
-				case "kobject":
-					obfuscated = ((GPSRObject)inam).Category;
-					break;
-
-				case "name":
-				case "male":
-				case "female":
-					obfuscated = new Obfuscator("a person");
-					break;
-
-				case "category":
-					obfuscated = new Obfuscator("objects");
-					break;
-
-				case "location":
-					obfuscated = new Obfuscator("somewhere");
-					break;
-
-				case "room":
-					obfuscated = new Obfuscator("apartment");
-					break;
-
-				// Pronouns shouldn't be obfuscated.
-				case "pron":
-					inam = FindReplacement(w);
-					return new Token(w.Value, inam, FetchMetadata(w));
-			}
-			if(obfuscated == null)
-				return new Token(w.Value, inam, FetchMetadata(w));
-			Token token = new Token(w.Value, obfuscated, FetchMetadata(w));
-			token.Metadata.Add(inam.Name);
-			return token;
-		}
-
-		/// <summary>
 		/// Converts the literal substring string, starting at the given position,
 		/// into a Token object.
 		/// </summary>
@@ -413,7 +308,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// the start of the literal string</param>
 		/// <param name="m">The regular expression match object that contains the next
 		/// wildcard.</param>
-		private Token TokenizeLeftLiteralString(string taskPrototype, ref int cc, Wildcard w)
+		private Token TokenizeLeftLiteralString(string taskPrototype, ref int cc, TextWildcard w)
 		{
 			if (cc > w.Index)
 				return null;
@@ -427,15 +322,14 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// match object into a Token object.
 		/// </summary>
 		/// <param name="m">The regular expression match object that contains the wildcard.</param>
-		private Token TokenizeWildcard(Wildcard w)
+		private Token TokenizeTextWildcard(TextWildcard w)
 		{
-			// Handle obfuscated wildcards
-			if (w.Obfuscated)
-				return TokenizeObfuscatedWildcard(w);
-			// Get a replacement for the wildcard
-			INameable inam = FindReplacement(w);
-			// Create the token
-			return new Token(w.Value, inam, FetchMetadata(w));
+			return new Token(
+				w.Value,
+				new NamedTaskElement(String.Format("{{{0}{1}}}", w.Keycode, w.Obfuscated ? "?" : "")),
+				// The wildcard has not been added (will be the next one) so this counter needs to be incremented
+				new string[]{(currentWildcardIx+1).ToString()}
+			);
 		}
 
 		#endregion
@@ -446,27 +340,16 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// Safely adds a wildcard to the wildcards and wildcardsByKeycode storages
 		/// </summary>
 		/// <param name="w">The wildcard to add.</param>
-		private void AddWildcard(Wildcard w){
+		private void AddWildcard(TextWildcard w){
 			if ((w == null) || !w.Success)
 				return;
-			if (!wildcardsByKeycode.ContainsKey (w.Keycode))
-				wildcardsByKeycode.Add (w.Keycode, new List<Wildcard> ());
-			wildcards.Add(w);
-			wildcardsByKeycode[w.Keycode].Add(w);
-		}
-
-		/// <summary>
-		/// Adds a wildcard to the replacement list. If the wildcard is not in the wildcardsByKeycode dicctionary, is also added.
-		/// </summary>
-		/// <param name="w">The wildcard to be added to the replacement list.</param>
-		/// <param name="replacement">The replacement of the wildcard</param>
-		private void AddReplacement(Wildcard w, INameable replacement){
-			if (!wildcardsByKeycode.ContainsKey (w.Keycode)) {
-				wildcardsByKeycode.Add (w.Keycode, new List<Wildcard> ());
-				wildcardsByKeycode[w.Keycode].Add(w);
-			}
-			if (!replacements.ContainsKey (w.Keycode))
-				replacements.Add (w.Keycode, replacement);
+			if (!wildcards.ContainsKey (w.Keycode))
+				wildcards.Add (w.Keycode, new Wildcard(w));
+			else 
+				wildcards[w.Keycode].Add(w);
+			textWildcards.Add(w);
+			++this.currentWildcardIx;
+			ParseNestedWildcards (w);
 		}
 
 		/// <summary>
@@ -477,68 +360,9 @@ namespace RoboCup.AtHome.CommandGenerator
 		private void ChangeWildcardKeyword(string keycode, string keyword){
 			if (String.IsNullOrEmpty (keycode))
 				throw new ArgumentNullException ("keycode is null");
-			if (!wildcardsByKeycode.ContainsKey (keycode))
+			if (!wildcards.ContainsKey (keycode))
 				throw new InvalidOperationException ("Unknown keycode. No wildcard has been added with the provided keycode");
-			foreach (Wildcard w in wildcardsByKeycode[keycode])
-				w.Keyword = keyword;
-		}
-
-		/// <summary>
-		/// Evaluates the provided regular expression match object producing
-		/// an INameable replacement object
-		/// </summary>
-		/// <param name="m">The regular expression match object to evaluate.</param>
-		/// <returns>An INameable replacement object if an adequate replacement
-		/// could be found or produced, null otherwise.</returns>
-		private INameable FindReplacement(Wildcard w)
-		{
-			if (!w.Success)
-				return null;
-
-			if (replacements.ContainsKey (w.Keycode))
-				return replacements [w.Keycode];
-
-			switch (w.Name)
-			{
-				case "category":
-					return GetFromList (w, GetCategory);
-
-				case "gesture":
-					return GetFromList (w, GetGesture);
-
-				case "name": case "female": case "male":
-					return EvaluateName(w);
-
-				case "location": case "beacon": case "placement": case "room":
-					return EvaluateLocation(w);
-
-				case "object": case "aobject": case "kobject": 
-					return EvaluateObject(w);
-
-				case "question":
-					return GetFromList (w, GetQuestion);
-
-				case "void":
-					return new HiddenTaskElement();
-
-				case "pron":
-					return EvaluatePronoun(w);
-
-				default:
-					return null;
-			}
-		}
-
-		/// <summary>
-		/// Evaluates the provided regular expression match object producing
-		/// an replacement string
-		private string Evaluator(Wildcard w)
-		{
-			INameable inam = FindReplacement(w);
-
-			if (inam != null)
-				return inam.Name;
-			return w.Value;
+			wildcards[keycode].Keyword = keyword;
 		}
 
 		/// <summary>
@@ -564,35 +388,139 @@ namespace RoboCup.AtHome.CommandGenerator
 			this.avQuestions.Shuffle(generator.Rnd);
 		}
 
-		public void FindWildcards(string s)
-		{
-			int cc = 0;
-			this.wildcards.Clear ();
-			this.wildcardsByKeycode.Clear ();
-			Wildcard w;
-
-			while (cc < s.Length)
-			{
-				if (s[cc] == '{')
-				{
-					w = Wildcard.XtractWildcard(s, ref cc);
-					if (w == null) continue;
-					AddWildcard (w);
-				}
-				++cc;
-			}
-		}
-
 		/// <summary>
 		/// Extracts the metadata strings from a regular expression match object that
 		/// contains the wildcard
 		/// </summary>
 		/// <param name="m">The regular expression match object that contains the wildcard.</param>
-		private string[] FetchMetadata(Wildcard w){
-			string sMeta = w.Metadata;
-			if(String.IsNullOrEmpty(sMeta)) return null;
-			sMeta = ReplaceNestedWildcards(sMeta);
-			return sMeta.Split (new string[]{"\r", "\n", @"\\", @"\\r", @"\\n"}, StringSplitOptions.None);
+		private string[] FetchMetadata(TextWildcard w){
+			if ((w == null) || String.IsNullOrEmpty (w.Metadata))
+				return null;
+			ReplaceNestedWildcards(w);
+			return w.Metadata.Split (new string[]{"\r", "\n", @"\\", @"\\r", @"\\n"}, StringSplitOptions.None);
+		}
+
+		/// <summary>
+		/// Evaluates a Wildcards and assignd a replacement to it.
+		/// </summary>
+		private void FindReplacement(Wildcard w)
+		{
+			switch (w.Name)
+			{
+				case "category":
+					EvaluateCategory(w);
+					break;
+
+				case "gesture":
+					EvaluateGesture(w);
+					break;
+
+				case "name":
+				case "female":
+				case "male":
+					EvaluateName (w);
+					break;
+
+				case "beacon":
+				case "placement":
+				case "location":
+				case "room":
+					EvaluateLocation (w);
+					break;
+
+				case "object":
+				case "aobject":
+				case "kobject": 
+				case "sobject":
+					EvaluateObject (w);
+					break;
+
+				case "question":
+					EvaluateQuestion(w);
+					break;
+
+				case "void":
+				default:
+					w.Replacement = new HiddenTaskElement ();
+					w.Obfuscated = new HiddenTaskElement ();
+					break;
+
+				case "pron":
+					EvaluatePronoun (w);
+					break;
+			}
+		}
+
+		private void FindReplacements(){
+			// List<Wildcard> whereless = new List<Wildcard>(this.wildcards.Count);
+			// List<Wildcard> whereSimple = new List<Wildcard>(this.wildcards.Count);
+			Queue<Wildcard> whereNested = new Queue<Wildcard>(this.wildcards.Count);
+			// STEP 1: Wildcards not containing nested wildcards in the WHERE clause
+			//         are replaced on the fly, while others are left for later.
+			foreach (KeyValuePair<string,Wildcard> p in this.wildcards)
+			{
+				if (p.Value.Where.IndexOf('{') == -1)
+					FindReplacement(p.Value);
+				else
+					whereNested.Enqueue(p.Value);
+			}
+
+			// STEP 2: Replace nested wildcards in WHERE clauses
+			//         This will iterate over the list of wildcards with nested ones
+			//         in WHERE clauses until the list is empty or until a loop has
+			//         been done with no changes.
+			int initial = whereNested.Count;
+			while (whereNested.Count > 0)
+			{
+				// Step 2.1: Set the initial counter
+				initial = whereNested.Count;
+				// STEP 2.2: Dequeue the wildcard
+				Wildcard w = whereNested.Dequeue();
+				bool allReplaced = true;
+				// STEP 2.3: Look for TextWildcards with nested elements in WHERE clause
+				foreach (TextWildcard tw in w)
+				{
+					if ((tw.Where == null) || (tw.Where.IndexOf('{') == -1))
+						continue;
+					string twWhere = tw.Where;
+					// STEP 2.4: Attempt to replace nested wildcards in each TextWildcard.
+					if (ReplaceNestedWildcardsHelper(ref twWhere))
+						tw.Where = twWhere;
+					else
+						allReplaced = false;
+				}
+				// STEP 2.5: If all nested wildcards were replaced, look for a replacement
+				//           otherwise, the element is enqueued again.
+				if (allReplaced)
+					FindReplacement(w);
+				else
+					whereNested.Enqueue(w);
+
+				// STEP 2.6: Compare the initial counter with the number of elements in the queue.
+				//           If the number matches, then no replacement was made.
+				//           We quit to prevent infinite loop
+				if (initial == whereNested.Count())
+					break;
+			}
+		}
+
+		public void FindWildcards(string s)
+		{
+			int cc = 0;
+			this.textWildcards.Clear ();
+			this.wildcards.Clear ();
+			TextWildcard w;
+
+			while (cc < s.Length)
+			{
+				if (s[cc] == '{')
+				{
+					w = TextWildcard.XtractWildcard(s, ref cc);
+					if (w == null) continue;
+					AddWildcard (w);
+				}
+				++cc;
+			}
 		}
 
 		/// <summary>
@@ -603,109 +531,200 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <returns>A Task based on the provided task prototype.</returns>
 		public Task GetTask(string taskPrototype)
 		{
-			int bcc = 0;
-			int cc = 0;
-			Token token;
-			Wildcard wildcard;
-
 			// Initialize lists and clear
 			tokens = new List<Token>(100);
+			textWildcards.Clear ();
 			wildcards.Clear ();
-			wildcardsByKeycode.Clear ();
-			currentWildcardIx = 0;
+			currentWildcardIx = -1;
 
-			do {
-				// Read the string from left to right till the next open brace (wildcard delimiter).
-				while ((cc < taskPrototype.Length) && (taskPrototype [cc] != '{'))
-					++cc;
-				// Wildcard found. Extract the string to the left
-				string left = taskPrototype.Substring (bcc, cc - bcc);
-				// Store the string at the left of the wildcard as token
-				tokens.Add (new Token (left));
-				// If a wildcard was not found, continue
-				if ((cc >= taskPrototype.Length) || (taskPrototype [cc] != '{'))
-					continue;
-				// Otherwise, extract the wildcard and update the backup read header
-				wildcard = Wildcard.XtractWildcard (taskPrototype, ref cc);
-				bcc = cc;
-				// If the extraction failed, continue
-				if (wildcard == null)
-					continue;
-				// Add the wildcard to the reference lists
-				AddWildcard (wildcard);
-				// Convert the wildcard into a token
-				++currentWildcardIx;
-				token = TokenizeWildcard (wildcard);
-				// Add te token
-				tokens.Add (token);
-			} while(cc < taskPrototype.Length);
+			// STEP 1: Assembly the token list, fetching all text wildcards and performing their unification
+			ParseTaskPrototype(taskPrototype);
+
+			// STEP 2: Find replacements for all wildcards.
+			FindReplacements();
+
+			// STEP 3: Replace all tokenized text wildcards with the appropriate replacement token
+			ReplaceTokens();
 
 			// Build the task, add the tokens, and return it.
 			Task task = new Task () { Tokens = tokens };
 			return task;
 		}
 
-		/*
-
 		/// <summary>
-		/// Replaces all wildcards in the input string with random values.
+		/// Parses the where clauses and metadata in a text wildcard to extract nested wildcards.
 		/// </summary>
-		/// <returns>The input string with all wildcards replaced.</returns>
-		/// <param name="taskPrototype">The input string</param>
-		public string ReplaceWildcards(string taskPrototype)
+		/// <param name="w">The TextWildcard to parse.</param>
+		private void ParseNestedWildcards(TextWildcard textWildcard)
 		{
-			return GetTask(taskPrototype).ToString();
+			string s;
+			if (!String.IsNullOrEmpty(s = textWildcard.Metadata))
+			{
+				ParseNestedWildcardsHelper(ref s);
+				textWildcard.Metadata = s;
+			}
+				
+			if (!String.IsNullOrEmpty(s = textWildcard.Where))
+			{
+				ParseNestedWildcardsHelper(ref s);
+				textWildcard.Where = s;
+			}
 		}
-		*/
 
 		/// <summary>
-		/// Replaces all wildcards in the input string with random values.
+		/// Parses the where clauses and metadata in a text wildcard to extract nested wildcards (helper)
+		/// </summary>
+		/// <param name="w">The string containing nested TextWildcards to parse.</param>
+		private void ParseNestedWildcardsHelper(ref string s){
+			int cc = 0;
+			TextWildcard inner;
+			s = s ?? String.Empty;
+			StringBuilder sb = new StringBuilder(s.Length);
+
+			do {
+				// Read the string from cc till the next open brace (wildcard delimiter).
+				while ((cc < s.Length) && (s[cc] != '{'))
+					sb.Append(s[cc++]);
+				// Otherwise, extract the nested text wildcard
+				inner = TextWildcard.XtractWildcard (s, ref cc);
+				// If the extraction failed, continue
+				if (inner == null)
+					continue;
+				// Replace the wildcard entry with its unique keycode
+				sb.AppendFormat("{{{0}}}", inner.Keycode);
+				// Add the text wildcard to the reference lists
+				// When a wildcard is added, all nested wildcards are also processed
+				AddWildcard (inner);
+			} while(cc < s.Length);
+			s = sb.ToString();
+		}
+
+		/// <summary>
+		/// Parses the task prototype string converting it in a list of tokens.
+		/// All found wildcards are added to the wildcard lists but no replacements are made.
+		/// </summary>
+		/// <param name="taskPrototype">The task prototype to parse.</param>
+		private void ParseTaskPrototype(string taskPrototype)
+		{
+			int cc = 0;
+
+			ParseString (taskPrototype, ref cc, this.tokens);
+		}
+
+		/// <summary>
+		/// Parses the given string, splitting it into tokens whic are added to the provided token list.
+		/// All found wildcards are added to the wildcard lists but no replacements are made.
+		/// </summary>
+		/// <param name="s">The string to parse.</param>
+		/// <param name="cc">The read header where the parse must start</param>
+		/// <param name="tokens">The list where found tokens will be added</param>
+		private void ParseString(string s, ref int cc, List<Token> tokens)
+		{
+			int bcc = 0;
+			Token token;
+			TextWildcard tWildcard;
+
+			do {
+				// Update read header backup
+				bcc = cc;
+				// Read the string from cc till the next open brace (wildcard delimiter).
+				while ((cc < s.Length) && (s [cc] != '{'))
+					++cc;
+				// Wildcard found. Extract the string to the left
+				string left = s.Substring (bcc, cc - bcc);
+				// Store the string at the left of the wildcard as token
+				tokens.Add (new Token (left));
+				// If the end of the string has been reached, quit
+				if (cc >= s.Length)
+					break;
+				// Otherwise, extract the text wildcard
+				tWildcard = TextWildcard.XtractWildcard (s, ref cc);
+				// If the extraction failed, continue
+				if (tWildcard == null)
+					continue;
+				// Convert the text wildcard into a token
+				token = TokenizeTextWildcard (tWildcard);
+				// Add the text wildcard to the reference lists
+				// When a wildcard is added, all nested wildcards are also processed
+				AddWildcard (tWildcard);
+				// Add the token
+				tokens.Add (token);
+			} while(cc < s.Length);
+		}
+
+		private void ReplaceTokens(){
+			for (int i = 0; i < tokens.Count; ++i){
+				string tValue = (tokens [i].Value == null) ? String.Empty : tokens [i].Value.Name;
+				if (!tValue.StartsWith ("{"))
+					continue;
+				bool obfuscated = false;
+				int keyCodeLength = tValue.Length - 2;
+				if (tValue [tValue.Length - 2] == '?') {
+					--keyCodeLength;
+					obfuscated = true;
+				}
+				string keycode = tValue.Substring (1, keyCodeLength);
+
+				string[] meta = FetchMetadata (textWildcards[Int32.Parse(tokens[i].Metadata[0])]);
+				if(obfuscated){
+					tokens [i] = new Token(tokens[i].Key, wildcards[keycode].Obfuscated, meta);
+					tokens [i].Metadata.Add(wildcards[keycode].Replacement.Name);
+				}
+				else
+					tokens [i] = new Token(tokens[i].Key, wildcards[keycode].Replacement, meta);
+			}
+		}
+
+		/// <summary>
+		/// Replaces all wildcards contained within the given wildcard metadata.
 		/// </summary>
 		/// <returns>The input string with all wildcards replaced.</returns>
 		/// <param name="s">The input string</param>
-		public string ReplaceNestedWildcards(string s)
+		public void ReplaceNestedWildcards(TextWildcard textWildcard)
 		{
-			int cc= 0;
+			string s = textWildcard.Metadata;
+			if(ReplaceNestedWildcardsHelper(ref s))
+				textWildcard.Metadata = s;
+
+			s = textWildcard.Where;
+			if(ReplaceNestedWildcardsHelper(ref s))
+				textWildcard.Where = s;
+		}
+
+		private bool ReplaceNestedWildcardsHelper(ref string s){
+			int cc = 0;
+			TextWildcard inner;
+			if (String.IsNullOrEmpty (s))
+				return false;
 			StringBuilder sb = new StringBuilder (s.Length);
-			// Read the string from left to right till the next open brace (wildcard delimiter).
-			while(cc < s.Length) {
-				if (s [cc] == '{') {
-					Wildcard w = Wildcard.XtractWildcard(s, ref cc);
-					if(w == null) continue;
-					AddWildcard (w);
-					sb.Append(FindReplacement (w).Name);
-				}
-				else
-					sb.Append( s[cc++] );
-			}
-			return sb.ToString ();
+
+			do {
+				// Fetch the string from cc till the next open brace (wildcard delimiter).
+				while ((cc < s.Length) && (s[cc] != '{'))
+					sb.Append(s[cc++]);
+				// If the end of the string has been reached, quit
+				if (cc >= s.Length)
+					break;
+				// Otherwise, extract the text wildcard
+				inner = TextWildcard.XtractWildcard (s, ref cc);
+				// If the extraction failed, continue
+				if (inner == null)
+					continue;
+				// Otherwise, if the wildcard has where clauses or metadata, they need to be replaced first.
+				if(!String.IsNullOrEmpty(inner.Metadata) || !String.IsNullOrEmpty(inner.Where))
+					ReplaceNestedWildcards(inner);
+				// After replacing nested wildcards in where clauses and metadata, the inner wildcard value is replaced
+				if(!wildcards.ContainsKey(inner.Keycode) || (wildcards[inner.Keycode] == null)) return false;
+				sb.Append(wildcards[inner.Keycode].Replacement.Name);
+			} while(cc < s.Length);
+			// Finally, the metadata of the wildcard is updated.
+			s = sb.ToString();
+			return true;
 		}
 
 		#endregion
 
 		#region Static Methods
-
-		/*
-		 * 
-		public static List<Wildcard> FindWildcards(string s)
-		{
-			int cc = 0;
-			List<Wildcard> wildcards = new List<Wildcard>(100);
-			Wildcard w;
-
-			while (cc < s.Length)
-			{
-				if (s[cc] == '{')
-				{
-					w = Wildcard.XtractWildcard(s, ref cc);
-					if (w == null) continue;
-					wildcards.Add (w);
-				}
-				++cc;
-			}
-			return wildcards;
-		}
-		*/
 
 		#endregion
 	}

@@ -4,7 +4,7 @@ using System;
 namespace RoboCup.AtHome.CommandGenerator
 {
 	/// <summary>
-	/// Implements a virtual task of custom value for grammatical purposes
+	/// Implements a virtual task of custom value for grammatical and replacement purposes
 	/// </summary>
 	public class NamedTaskElement : INameable
 	{

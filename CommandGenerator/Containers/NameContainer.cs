@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Xml.Serialization;
+using PersonName = RoboCup.AtHome.CommandGenerator.ReplaceableTypes.PersonName;
 
 namespace RoboCup.AtHome.CommandGenerator.Containers
 {
