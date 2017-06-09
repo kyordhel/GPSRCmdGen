@@ -208,6 +208,10 @@ namespace RoboCup.AtHome.CommandGenerator
 				// 	w.Replacement = GPSRObject.Unknown;
 				// 	break;
 
+				case "sobject":
+					w.Replacement = this.avObjects.PopFirst(o => o.Type == ObjectType.Special, w.Where);
+					break;
+
 				default:
 					w.Replacement = !String.IsNullOrEmpty(w.Where) ? this.avObjects.PopFirst(w.Where) : this.avObjects.PopLast();
 					break;
@@ -427,6 +431,7 @@ namespace RoboCup.AtHome.CommandGenerator
 				case "object":
 				case "aobject":
 				case "kobject": 
+				case "sobject":
 					EvaluateObject (w);
 					break;
 

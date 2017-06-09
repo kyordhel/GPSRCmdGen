@@ -9,17 +9,18 @@ $padvman  = $polite $advman
 # To be defined
 #
 ##############################################################################
-$cereal   = {kobject}
-$fruit    = {aobject}
-$drink    = {kobject}
-$storage  = microwave | fridge | oven | box on the {placement}
+$cereal   = {object where Category="food" canPour=true}
+$snack    = {object where Category="snacks"}
+$fruit    = {object where fruit=true}
+$drink    = {object where Category="drinks"}
+$storage  = microwave | fridge | oven | {object special where canPlaceIn=true} on the {placement}
 
 ##############################################################################
 #
 # Three in a tray
 #
 ##############################################################################
-$advman   = bring me some $cereal, a $fruit and a $drink in a tray
+$advman   = bring me some ($cereal | $snack), a $fruit and a $drink in a tray
 
 
 
@@ -28,7 +29,7 @@ $advman   = bring me some $cereal, a $fruit and a $drink in a tray
 # Fetch or deliver into something
 #
 ##############################################################################
-$advman   = bring me a {category} from the $storage
+$advman   = bring me some {category} from the $storage
 $advman   = put the {object} into the $storage
 $advman   = pick up a {category} from the {placement} and put it into the $storage
 
@@ -39,8 +40,8 @@ $advman   = pick up a {category} from the {placement} and put it into the $stora
 #
 ##############################################################################
 $advman   = $pour
-$pour     = bring me some $cereal in a bowl
-$pour     = $vbpour some $drink in a bowl
+$pour     = bring me some {object where canPour=true} in a {object where canPourIn=true}
+$pour     = $vbpour some {object where canPour=true} in a {object where canPourIn=true}
 
 
 ##############################################################################
@@ -56,10 +57,10 @@ $advman   = open the (entrance | exit | corridor) door
 # Bringing
 #
 ##############################################################################
-$advman   = bring me the (tray | bowl)
-$advman   = pick up the (tray | bowl) and put it onto the {placement}
-$advman   = bring the $object to the {placement}
-$advman   = bring me the $object
+$advman   = bring me the {sobject}
+$advman   = pick up the {sobject} and put it onto the {placement}
+$advman   = bring the {sobject} to the {placement}
+$advman   = bring me the {sobject}
 $advman   = put all the {category} on the {placement}
 
 
@@ -74,8 +75,9 @@ $advman   = $take, and $placeadv
 $take     = $vbtake the {aobject} from the {placement}
 $place    = $vbplace it to the {placement}
 $deliver  = $vbdeliver it to (me | {name} in the {beacon})
-$takeadv  = $vbtake the {aobject} from the $enclosed
-$placeadv = $vbplace it into the $enclosed
+$takeadv  = $vbtake the {aobject} from the $storage
+$placeadv = $vbplace it into the $storage
+$placeadv = $vbplace it into the {object where canPlaceOn=true}
 
 
 

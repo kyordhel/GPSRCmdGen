@@ -14,18 +14,18 @@
   </category>
   <category name="food" defaultLocation="fridge" room="kitchen">
     <object name="noodles"       difficulty="easy"                                   />
-    <object name="apple"         difficulty="moderate" type="alike"                  />
+    <object name="apple"         difficulty="moderate" type="alike"   fruit="true"   />
     <object name="paprika"       difficulty="moderate" type="alike"                  />
-    <object name="melon"         difficulty="high"     type="alike"                  />
+    <object name="melon"         difficulty="high"     type="alike"   fruit="true"   />
     <object name="sushi"         difficulty="high"     type="alike"                  />
     <object name="flakes"        difficulty="high"     type="known"   canPour="true" />
     <object name="oat"           difficulty="high"     type="known"   canPour="true" />
   </category>
   <category name="drinks" defaultLocation="bar" room="living room">
     <object name="tea"           difficulty="easy"                    canPour="true" />
-    <object name="beer"          difficulty="easy"                                   />
+    <object name="beer"          difficulty="easy"                                      alcoholic="true" />
     <object name="coke"          difficulty="easy"                    canPour="true" />
-    <object name="sake"          difficulty="moderate"                canPour="true" />
+    <object name="sake"          difficulty="moderate"                canPour="true"    alcoholic="true" />
   </category>
   <category name="toiletries" defaultLocation="cupboard" room="bathroom">
     <object name="shampoo"       difficulty="moderate"                               />

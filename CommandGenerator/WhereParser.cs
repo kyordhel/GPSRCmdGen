@@ -175,16 +175,8 @@ namespace RoboCup.AtHome.CommandGenerator
 					return null;			
 
 				case '\'':
-					if (!Scanner.XtractSingleQuotedString(s, ref cc, out next))
-						return null;
-					type = 's';
-					return next;
-
 				case '"':
-					if (!Scanner.XtractDoubleQuotedString(s, ref cc, out next))
-						return null;
-					type = 's';
-					return next;
+					return XtractString(s, ref cc, ref type);
 
 				case '=':
 					++cc;
@@ -270,6 +262,21 @@ namespace RoboCup.AtHome.CommandGenerator
 			}
 
 			type = 'i';
+		}
+
+		private static string XtractString(string s, ref int cc, ref char type)
+		{
+			string next;
+			if (!Scanner.XtractDoubleQuotedString(s, ref cc, out next) && !Scanner.XtractSingleQuotedString(s, ref cc, out next))
+				return null;
+			if (next.IsAnyOf("true", "false", "TRUE", "FALSE"))
+			{
+				type = 'B';
+				next = next.ToLower();
+			}
+			else
+				type = 's';
+			return next;
 		}
 	}
 }

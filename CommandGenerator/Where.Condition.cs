@@ -31,6 +31,11 @@ namespace RoboCup.AtHome.CommandGenerator
 					return false;
 
 				object value = this.GetPropertyValue(obj);
+				if (value == null)
+				{
+					if(this.ValueType == '0') return CompareNull(value);
+					return false;
+				}
 
 				try{
 					switch(this.ValueType){

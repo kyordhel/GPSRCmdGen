@@ -104,6 +104,7 @@
 *	{male}		Alias for {name male}
 * 	{placement}	Alias for {location placement}
 *	{room}		Alias for {location room}
+*   {sobject}	Alias for {object special}
 *
 *
 *
