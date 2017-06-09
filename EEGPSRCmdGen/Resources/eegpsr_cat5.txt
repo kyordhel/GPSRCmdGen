@@ -1,8 +1,8 @@
 ; grammar name Cat5 - Incomplete Information
 ; grammar tier High
- ; import common.txt
+; import common.txt
 
-$Main     = $perr | $inc
+$Main     = $pinc | $inc
 
 $pinc    = $polite $inc
 $inc     = $incomplete

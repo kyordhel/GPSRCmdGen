@@ -49,13 +49,17 @@ namespace RoboCup.AtHome.CommandGenerator
 		public override string ToString()
 		{
 			StringBuilder sb = new StringBuilder();
-			if(tokens.Count > 0)
-			sb.Append(tokens[0].Name);
-			for (int i = 1; i < tokens.Count; ++i)
-			{
-				sb.Append(tokens[i].Name);
-			}
-			return sb.ToString();
+			for (int i = 0; i < tokens.Count; ++i)
+				sb.Append (tokens [i].Name);
+			string s = sb.ToString ();
+			while(s.Contains("  "))
+				s = s.Replace ("  ", " ");
+			s = s.Replace (" ,", ",");
+			s = s.Replace (" ;", ";");
+			s = s.Replace (" .", ".");
+			s = s.Replace (" :", ":");
+			s = s.Replace (" ?", "?");
+			return s;
 		}
 
 		

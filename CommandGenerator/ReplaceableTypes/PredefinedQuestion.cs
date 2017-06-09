@@ -2,14 +2,14 @@
 using System.ComponentModel;
 using System.Xml.Serialization;
 
-namespace RoboCup.AtHome.CommandGenerator
+namespace RoboCup.AtHome.CommandGenerator.ReplaceableTypes
 {
 	/// <summary>
 	/// Represents a Question from the set of Predefined Questions
 	/// according to the RoboCup@Home Rulebook 2015
 	/// </summary>
 	[Serializable]
-	public class PredefindedQuestion : INameable, ITiered, IMetadatable
+	public class PredefinedQuestion : INameable, ITiered, IMetadatable
 	{
 		#region Constructors
 
@@ -17,20 +17,20 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// Initializes a new instance of the <see cref="RoboCup.AtHome.CommandGenerator.PredefindedQuestion"/> class.
 		/// </summary>
 		/// <remarks>Intended for serialization purposes</remarks>
-		public PredefindedQuestion() : this("tell your name", "[varies]", DifficultyDegree.Easy) { }
+		public PredefinedQuestion() : this("tell your name", "[varies]", DifficultyDegree.Easy) { }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RoboCup.AtHome.CommandGenerator.PredefindedQuestion"/> class.
 		/// </summary>
 		/// <param name="question">The question for which there is no an unique answer</param>
-		public PredefindedQuestion(string question) : this(question, "[varies]", DifficultyDegree.Easy) { }
+		public PredefinedQuestion(string question) : this(question, "[varies]", DifficultyDegree.Easy) { }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RoboCup.AtHome.CommandGenerator.PredefindedQuestion"/> class.
 		/// </summary>
 		/// <param name="question">The question</param>
 		/// <param name="answer">The answer for the question</param>
-		public PredefindedQuestion(string question, string answer) : this(question, answer, DifficultyDegree.Easy) { }
+		public PredefinedQuestion(string question, string answer) : this(question, answer, DifficultyDegree.Easy) { }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RoboCup.AtHome.CommandGenerator.PredefindedQuestion"/> class.
@@ -38,7 +38,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <param name="question">The question</param>
 		/// <param name="answer">The answer for the question</param>
 		/// <param name="tier">The  difficulty degree (tier) for UNDERSTANDING the question</param>
-		public PredefindedQuestion(string question, string answer, DifficultyDegree tier)
+		public PredefinedQuestion(string question, string answer, DifficultyDegree tier)
 		{
 			this.Question = question;
 			this.Answer = answer;

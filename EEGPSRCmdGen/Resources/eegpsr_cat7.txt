@@ -33,18 +33,21 @@ $polite   =
 # To be defined
 #
 ##############################################################################
-$food     = $fruit | paprika | chocolate
-$fruit    = apple | peach | pineapple
-$drink    = beer | milk | ($fruit juice)
+$snacks   = {object where Category="snacks"};
+$food     = {object where Category="food" and fruit=null};
+$fruit    = {object where fruit=true}
+$drink    = {object where Category="drinks"};
+$drnkalc  = {object where Category="drinks" and alcoholic=true};
+$drnknalc = {object where Category="drinks" and alcoholic=null};
 
-$envr     = Go to the {room} and offer something to drink to the each person you find there, beer to the adults and milk or juice to the children.
+$envr     = Go to the {room} and offer something to drink to the each person you find there, $drnkalc to the adults and $drnknalc to the children.
 
 $envr     = $goffer {void meta: The robot must interact with the person at {beacon 1} and offer the proper object}
 $goffer   = Find {name} in the {beacon}. Bring {pron} a $drink if {pron sub} is thirsty, or a $food if {pron sub}'s hungry.
 
 $envr     = $toffer
-$toffer   = People drink juice before noon, coffee in the afternoon, and tea after six o'clock in the evening. Offer something to drink to the person at the {beacon}.
-$toffer   = People have flakes for breakfast, eat noodles in the afternoon, and sushi the evening. Offer something to eat to the person at the {beacon}.
+$toffer   = People drink $drnkalc before noon, $drnkalc in the afternoon, and $drnknalc after six o'clock in the evening. Offer something to drink to the person at the {beacon}.
+$toffer   = People have $fruit for breakfast, eat $snacks in the afternoon, and $food the evening. Offer something to eat to the person at the {beacon}.
 
 $memory   = $polite $findp in the {beacon} and $manswer
 $manswer  = answer a $question

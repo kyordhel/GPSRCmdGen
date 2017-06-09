@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Xml.Serialization;
 
-namespace RoboCup.AtHome.CommandGenerator
+namespace RoboCup.AtHome.CommandGenerator.ReplaceableTypes
 {
 	/// <summary>
 	/// Represents a gesture performed by a human such as pointing, waving or rising arms

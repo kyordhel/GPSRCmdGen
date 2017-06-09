@@ -2,14 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+using RoboCup.AtHome.CommandGenerator.ReplaceableTypes;
+using Object = RoboCup.AtHome.CommandGenerator.ReplaceableTypes.Object;
 
 namespace RoboCup.AtHome.CommandGenerator
 {
-	public class GPSRObjectManager : IEnumerable<Category>
+	public class ObjectManager : IEnumerable<Category>
 	{
 		private Dictionary<string, Category> categories;
 
-		private GPSRObjectManager ()
+		private ObjectManager ()
 		{
 			this.categories = new Dictionary<string, Category>();
 		}
@@ -26,14 +28,14 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <summary>
 		/// Gets a lists with all the objects in the container. This is an O(n) operation
 		/// </summary>
-		public List<GPSRObject> Objects
+		public List<Object> Objects
 		{
 			get
 			{
-				List<GPSRObject> objects = new List<GPSRObject>(100);
+				List<Object> objects = new List<Object>(100);
 				foreach (Category c in this.categories.Values)
 				{
-					foreach (GPSRObject o in c.Objects)
+					foreach (Object o in c.Objects)
 						objects.Add(o);
 				}
 				return objects;
@@ -56,7 +58,7 @@ namespace RoboCup.AtHome.CommandGenerator
 				return;
 			}
 			Category category = this.categories[item.Name];
-			foreach (GPSRObject o in item.Objects) {
+			foreach (Object o in item.Objects) {
 				if (category.Contains (o.Name))
 					continue;
 				o.Category = item;
@@ -64,7 +66,7 @@ namespace RoboCup.AtHome.CommandGenerator
 			}
 		}
 
-		public void Add (GPSRObject item)
+		public void Add (Object item)
 		{
 			if (item == null)
 				return;
@@ -97,7 +99,7 @@ namespace RoboCup.AtHome.CommandGenerator
 			return false;
 		}
 
-		public bool Contains (GPSRObject item)
+		public bool Contains (Object item)
 		{
 			foreach (Category c in this.categories.Values)
 			{
@@ -158,10 +160,10 @@ namespace RoboCup.AtHome.CommandGenerator
 
 		#region Singleton
 
-		private static GPSRObjectManager instance;
-		static GPSRObjectManager() { instance = new GPSRObjectManager(); }
+		private static ObjectManager instance;
+		static ObjectManager() { instance = new ObjectManager(); }
 
-		public static GPSRObjectManager Instance { get { return instance; } }
+		public static ObjectManager Instance { get { return instance; } }
 
 		#endregion
 	}

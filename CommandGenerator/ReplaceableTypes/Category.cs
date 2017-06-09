@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Xml.Serialization;
 
-namespace RoboCup.AtHome.CommandGenerator
+namespace RoboCup.AtHome.CommandGenerator.ReplaceableTypes
 {
 	/// <summary>
 	/// Represents a real-wolrd object category
@@ -21,7 +21,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <summary>
 		/// Stores the list of objects in the category
 		/// </summary>
-		protected Dictionary<string, GPSRObject> objects;
+		protected Dictionary<string, Object> objects;
 
 		#endregion
 
@@ -42,7 +42,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		public Category(string name, SpecificLocation defaultLocation){
 			this.Name = name;
 			this.defaultLocation = defaultLocation;
-			this.objects = new Dictionary<string, GPSRObject>();
+			this.objects = new Dictionary<string, Object>();
 		}
 
 		#endregion
@@ -116,12 +116,12 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// </summary>
 		/// <remarks>Use for (de)serialization purposes only</remarks>
 		[XmlElement("object")]
-		public GPSRObject[] Objects
+		public Object[] Objects
 		{
-			get { return new List<GPSRObject>(this.objects.Values).ToArray(); }
+			get { return new List<Object>(this.objects.Values).ToArray(); }
 			set {
 				if(value == null) return;
-				foreach (GPSRObject o in value)
+				foreach (Object o in value)
 					AddObject(o);
 			}
 		}
@@ -134,7 +134,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// Adds an object to the category
 		/// </summary>
 		/// <param name="item">The ibject to add to the category</param>
-		public void AddObject(GPSRObject item){
+		public void AddObject(Object item){
 			if (item == null)
 				return;
 			if ((item.Category != null) && (item.Category != this))
@@ -155,19 +155,19 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// Alike -> Moderate /
 		/// Known -> Easy
 		/// Unknown -> Unknown</remarks>
-		public void AddObject(string name, GPSRObjectType type){
+		public void AddObject(string name, ObjectType type){
 			DifficultyDegree tier;
 			switch (type) {
-				case GPSRObjectType.Alike:
+				case ObjectType.Alike:
 					tier = DifficultyDegree.Moderate;
 					break;
 
-				case GPSRObjectType.Known:
+				case ObjectType.Known:
 					tier = DifficultyDegree.Easy;
 					break;
 
 				default:
-				case GPSRObjectType.Unknown:
+				case ObjectType.Unknown:
 					tier = DifficultyDegree.Unknown;
 					break;
 			}
@@ -180,8 +180,8 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <param name="name">The name of the object to add.</param>
 		/// <param name="type">The type of the object to add.</param>
 		/// <param name="type">The difficulty degree of the object to add.</param>
-		public void AddObject(string name, GPSRObjectType type, DifficultyDegree tier){
-			GPSRObject o = new GPSRObject (name, type, tier);
+		public void AddObject(string name, ObjectType type, DifficultyDegree tier){
+			Object o = new Object (name, type, tier);
 			this.AddObject (o);
 		}
 
@@ -208,7 +208,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// </summary>
 		/// <param name="item">The GPSRObject to remove</param>
 		/// <returns>true if the GPSRObject was in the collection, false otherwise</returns>
-		private bool RemoveObject(GPSRObject item)
+		private bool RemoveObject(Object item)
 		{
 			if (item == null)
 				return false;
