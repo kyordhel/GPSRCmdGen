@@ -31,18 +31,12 @@ namespace RoboCup.AtHome.CommandGenerator
 					return false;
 
 				object value = this.GetPropertyValue(obj);
-				if (value == null)
-				{
-					if(this.ValueType == '0') return CompareNull(value);
-					return false;
-				}
-
 				try{
 					switch(this.ValueType){
 						case '0': return CompareNull(value);
-						case 'B': return Compare(Boolean.Parse(this.Value), (bool)value);
-						case 's': return Compare(this.Value, value);
-						case 'n': return Compare(Double.Parse(this.Value), (double)value);
+						case 'B': return CompareBoolean(value);
+						case 's': return (value == null) ? false : Compare(this.Value, value);
+						case 'n': return (value == null) ? false : Compare(Double.Parse(this.Value), (double)value);
 					}
 				}
 				catch{
@@ -74,15 +68,6 @@ namespace RoboCup.AtHome.CommandGenerator
 				}
 			}
 
-			private bool Compare(bool a, bool b){
-				switch(this.Operator)
-				{
-					case "=": return a == b;
-					case "!=": return a != b;
-				}
-				return false;
-			}
-
 			private bool Compare(double a, double b){
 				switch(this.Operator)
 				{
@@ -109,6 +94,17 @@ namespace RoboCup.AtHome.CommandGenerator
 				if (b is INameable)
 					return Compare(a, ((INameable)b).Name);
 				return Compare(a, Convert.ToString(b));
+			}
+
+			private bool CompareBoolean(object value){
+				bool b = (value == null) ? false : (bool)value;
+				bool a = Boolean.Parse(this.Value);
+				switch(this.Operator)
+				{
+					case "=": return a == b;
+					case "!=": return a != b;
+				}
+				return false;
 			}
 
 			private bool CompareNull(object value){

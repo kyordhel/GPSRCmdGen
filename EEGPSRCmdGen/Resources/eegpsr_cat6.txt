@@ -34,7 +34,7 @@ $erroneous   = $cmanwarn $take the $errnoobj to the {placement 2}
 $erroneous   = $cmanwarn $vbplace the $errnoobj on the {placement 2}
 $erroneous   = $cmanwarn $vbbring me the $errnoobj
 $erroneous   = $cmanwarn $vbplace the {kobject 1} ((into the $nocontainer) | (on the $notray))
-$erroneous   = $cmanwarn $vbtake the {kobject 1} to the $noplacement
+$erroneous   = $cmanwarn $vbplace the {kobject 1} to the $noplacement
 
 $erroneous   = $vbguide $errnoper from the {beacon 1} to the {beacon 2}
 $erroneous   = $vbguide {name 1} from the {beacon 1} to the {beacon 1 meta: Destination is {beacon 2}}
@@ -51,4 +51,5 @@ $ernamperobj = {category 1 meta: Replace {category 1} with {name 1}}
 
 $notray      = {object 2 where canPlaceOn=false and canPlaceIn=false meta: Replace {object 2} with {object where canPlaceIn=true}}
 $nocontainer = {object 2 where canPlaceOn=false and canPlaceIn=false meta: Replace {object 2} with {object where canPlaceOn=true}}
-$noplacement = {beacon} | {object 2 where canPlaceOn=false and canPlaceIn=false meta: Replace {object 2} with {placement 2}}
+$noplacement = {object 2 where canPlaceOn=false and canPlaceIn=false meta: Replace {object 2} with {placement 2}}
+$noplacement = {beacon where IsPlacement=false meta: Replace with {placement 2}}

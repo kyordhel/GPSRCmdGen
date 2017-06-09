@@ -128,7 +128,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		private void EvaluateLocation(Wildcard w)
 		{
 			if(w.Replacement != null) return;
-			if (w.Name == "location")
+			if ((w.Name == "location") && String.IsNullOrEmpty(w.Where))
 				w.Keyword = w.Type ?? generator.RandomPick ("beacon", "room", "placement");
 			switch (w.Keyword)
 			{
@@ -161,7 +161,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		private void EvaluateName(Wildcard w)
 		{
 			if(w.Replacement != null) return;
-			if (w.Name == "name")
+			if ((w.Name == "name") && String.IsNullOrEmpty(w.Where))
 				w.Keyword = w.Type ?? generator.RandomPick ("male", "female");
 
 
@@ -191,7 +191,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		{
 			if(w.Replacement != null) return;
 
-			if (w.Name == "object") 
+			if ((w.Name == "object") && String.IsNullOrEmpty(w.Where))
 				w.Keyword = (w.Type == null) ? generator.RandomPick ("kobject", "aobject") : String.Format("{0}object", w.Type[0]);
 
 			switch(w.Keyword)
@@ -557,32 +557,46 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <param name="w">The TextWildcard to parse.</param>
 		private void ParseNestedWildcards(TextWildcard textWildcard)
 		{
-			ParseNestedWildcardsHelper(textWildcard.Metadata);
-			ParseNestedWildcardsHelper(textWildcard.Where);
+			string s;
+			if (!String.IsNullOrEmpty(s = textWildcard.Metadata))
+			{
+				ParseNestedWildcardsHelper(ref s);
+				textWildcard.Metadata = s;
+			}
+				
+			if (!String.IsNullOrEmpty(s = textWildcard.Where))
+			{
+				ParseNestedWildcardsHelper(ref s);
+				textWildcard.Where = s;
+			}
 		}
 
 		/// <summary>
 		/// Parses the where clauses and metadata in a text wildcard to extract nested wildcards (helper)
 		/// </summary>
 		/// <param name="w">The string containing nested TextWildcards to parse.</param>
-		private void ParseNestedWildcardsHelper(string s){
+		private void ParseNestedWildcardsHelper(ref string s){
 			int cc = 0;
 			TextWildcard inner;
 			s = s ?? String.Empty;
+			StringBuilder sb = new StringBuilder(s.Length);
 
 			do {
 				// Read the string from cc till the next open brace (wildcard delimiter).
 				while ((cc < s.Length) && (s[cc] != '{'))
-					++cc;
+					sb.Append(s[cc++]);
 				// Otherwise, extract the nested text wildcard
 				inner = TextWildcard.XtractWildcard (s, ref cc);
 				// If the extraction failed, continue
 				if (inner == null)
 					continue;
+				// Replace the wildcard entry with its unique keycode
+				sb.AppendFormat("{{{0}}}", inner.Keycode);
 				// Add the text wildcard to the reference lists
 				// When a wildcard is added, all nested wildcards are also processed
 				AddWildcard (inner);
 			} while(cc < s.Length);
+			s = sb.ToString();
 		}
 
 		/// <summary>
