@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace RoboCup.AtHome.CommandGenerator
+namespace RoboCup.AtHome.CommandGenerator.ReplaceableTypes
 {
 	/// <summary>
 	/// Represents a place within a room on which an object can lie

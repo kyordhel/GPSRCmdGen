@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 using RoboCup.AtHome.CommandGenerator.Containers;
+using RoboCup.AtHome.CommandGenerator.ReplaceableTypes;
 
 namespace RoboCup.AtHome.CommandGenerator
 {
@@ -85,6 +86,7 @@ namespace RoboCup.AtHome.CommandGenerator
 			using (StreamReader reader = new StreamReader(filePath, ASCIIEncoding.UTF8))
 			{
 				XmlSerializer serializer = new XmlSerializer (typeof(T[]));
+				serializer.UnknownAttribute+= new XmlAttributeEventHandler(serializer_UnknownAttribute);
 				array = (T[])serializer.Deserialize(reader);
 				reader.Close();
 			}
@@ -105,6 +107,7 @@ namespace RoboCup.AtHome.CommandGenerator
 			using (StreamReader reader = new StreamReader(filePath, ASCIIEncoding.UTF8))
 			{
 				XmlSerializer serializer = new XmlSerializer(typeof(T));
+				serializer.UnknownAttribute+= new XmlAttributeEventHandler(serializer_UnknownAttribute);
 				item = (T)serializer.Deserialize(reader);
 				reader.Close();
 
@@ -124,11 +127,19 @@ namespace RoboCup.AtHome.CommandGenerator
 			using (MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(xml ?? String.Empty)))
 			{
 				XmlSerializer serializer = new XmlSerializer(typeof(T));
+				serializer.UnknownAttribute+= new XmlAttributeEventHandler(serializer_UnknownAttribute);
 				item = (T)serializer.Deserialize(ms);
 				ms.Close();
 
 			}
 			return item;
+		}
+
+		private static void serializer_UnknownAttribute(object sender, XmlAttributeEventArgs e){
+			IDescribable desc = e.ObjectBeingDeserialized as IDescribable;
+			if (desc == null)
+				return;
+			desc.Properties.Add(e.Attr.Name, e.Attr.Value);
 		}
 
 		/// <summary>
@@ -201,12 +212,12 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// Loads the set of GPSRObjects and Categories from the Objects.xml file.
 		/// </summary>
 		/// <returns>A GPSRObjectManager that contains the set of objects and categories</returns>
-		public static GPSRObjectManager LoadObjects (string filePath)
+		public static ObjectManager LoadObjects (string filePath)
 		{
 			CategoryContainer container = Load<CategoryContainer> (filePath);
 			if (container == null)
 				throw new Exception ("No objects found");
-			GPSRObjectManager manager = GPSRObjectManager.Instance;
+			ObjectManager manager = ObjectManager.Instance;
 			foreach (Category c in container.Categories)
 				manager.Add (c);
 			return manager;

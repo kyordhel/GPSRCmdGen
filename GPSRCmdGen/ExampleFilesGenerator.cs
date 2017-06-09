@@ -5,6 +5,7 @@ using System.IO;
 using System.Xml.Serialization;
 using RoboCup.AtHome.CommandGenerator;
 using RoboCup.AtHome.CommandGenerator.Containers;
+using RoboCup.AtHome.CommandGenerator.ReplaceableTypes;
 
 namespace RoboCup.AtHome.GPSRCmdGen
 {

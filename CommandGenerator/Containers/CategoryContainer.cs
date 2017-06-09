@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Xml.Serialization;
+using Category = RoboCup.AtHome.CommandGenerator.ReplaceableTypes.Category;
 
 namespace RoboCup.AtHome.CommandGenerator.Containers
 {

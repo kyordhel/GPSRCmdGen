@@ -33,9 +33,10 @@ $polite   =
 # To be defined
 #
 ##############################################################################
-$food     = $fruit | paprika | chocolate
+$food     = {object where Category="food"}; $fruit | paprika | chocolate
+$food     = ; $fruit | paprika | chocolate
 $fruit    = apple | peach | pineapple
-$drink    = beer | milk | ($fruit juice)
+$drink    = {object where Category="drinks"}; beer | milk | ($fruit juice)
 
 $envr     = Go to the {room} and offer something to drink to the each person you find there, beer to the adults and milk or juice to the children.
 

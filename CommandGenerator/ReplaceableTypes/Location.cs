@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace RoboCup.AtHome.CommandGenerator
+namespace RoboCup.AtHome.CommandGenerator.ReplaceableTypes
 {
 	[Serializable, XmlRoot("location")]
 	[XmlInclude(typeof(Room)), XmlInclude(typeof(SpecificLocation)), XmlInclude(typeof(SpecificLocation))]

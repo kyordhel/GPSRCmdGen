@@ -44,7 +44,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseProgram.cs" />
-    <Compile Include="Category.cs" />
     <Compile Include="Containers\CategoryContainer.cs" />
     <Compile Include="Containers\GestureContainer.cs" />
     <Compile Include="Containers\NameContainer.cs" />
@@ -53,9 +52,6 @@
     <Compile Include="DifficultyDegree.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Generator.cs" />
-    <Compile Include="Gesture.cs" />
-    <Compile Include="GPSRObject.cs" />
-    <Compile Include="GPSRObjectManager.cs" />
     <Compile Include="Grammar.cs" />
     <Compile Include="GrammarConverter.cs" />
     <Compile Include="GUI\QRDialog.cs">
@@ -69,28 +65,33 @@
     <Compile Include="INameable.cs" />
     <Compile Include="ITiered.cs" />
     <Compile Include="Loader.cs" />
-    <Compile Include="Location.cs" />
     <Compile Include="LocationManager.cs" />
     <Compile Include="Obfuscator.cs" />
-    <Compile Include="PersonName.cs" />
-    <Compile Include="PredefindedQuestion.cs" />
     <Compile Include="ProductionRule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Room.cs" />
     <Compile Include="Scanner.cs" />
-    <Compile Include="SpecificLocation.cs" />
     <Compile Include="Task.cs" />
     <Compile Include="Token.cs" />
     <Compile Include="WildcardReplacer.cs" />
     <Compile Include="GrammarLoader.cs" />
     <Compile Include="NamedTaskElement.cs" />
-    <Compile Include="Pronoun.cs" />
     <Compile Include="TextWildcard.cs" />
     <Compile Include="Wildcard.cs" />
     <Compile Include="IWildcard.cs" />
     <Compile Include="WhereParser.cs" />
     <Compile Include="Where.Condition.cs" />
     <Compile Include="Where.ConditionalStatement.cs" />
+    <Compile Include="ObjectManager.cs" />
+    <Compile Include="ReplaceableTypes\Category.cs" />
+    <Compile Include="ReplaceableTypes\Gesture.cs" />
+    <Compile Include="ReplaceableTypes\Location.cs" />
+    <Compile Include="ReplaceableTypes\Object.cs" />
+    <Compile Include="ReplaceableTypes\PersonName.cs" />
+    <Compile Include="ReplaceableTypes\Pronoun.cs" />
+    <Compile Include="ReplaceableTypes\SpecificLocation.cs" />
+    <Compile Include="ReplaceableTypes\IDescribable.cs" />
+    <Compile Include="ReplaceableTypes\Room.cs" />
+    <Compile Include="ReplaceableTypes\PredefinedQuestion.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="GUI\QRDialog.resx">
@@ -115,4 +116,7 @@
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>
+  <ItemGroup>
+    <Folder Include="ReplaceableTypes\" />
+  </ItemGroup>
 </Project>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using RoboCup.AtHome.CommandGenerator;
 using RoboCup.AtHome.CommandGenerator.Containers;
+using RoboCup.AtHome.CommandGenerator.ReplaceableTypes;
 
 namespace RoboCup.AtHome.GPSRCmdGen
 {

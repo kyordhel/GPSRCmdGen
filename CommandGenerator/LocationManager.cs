@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+using Room = RoboCup.AtHome.CommandGenerator.ReplaceableTypes.Room;
+using Location = RoboCup.AtHome.CommandGenerator.ReplaceableTypes.Location;
+using SpecificLocation = RoboCup.AtHome.CommandGenerator.ReplaceableTypes.SpecificLocation;
+
 
 namespace RoboCup.AtHome.CommandGenerator
 {

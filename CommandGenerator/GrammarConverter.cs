@@ -4,6 +4,8 @@ using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
+using RoboCup.AtHome.CommandGenerator.ReplaceableTypes;
+using Object = RoboCup.AtHome.CommandGenerator.ReplaceableTypes.Object;
 
 namespace RoboCup.AtHome.CommandGenerator
 {
@@ -17,8 +19,8 @@ namespace RoboCup.AtHome.CommandGenerator
 		private List<Gesture> gestures;
 		private LocationManager locations;
 		private List<PersonName> names;
-		private GPSRObjectManager objects;
-		private List<PredefindedQuestion> questions;
+		private ObjectManager objects;
+		private List<PredefinedQuestion> questions;
 		//private static 
 
 		/// <summary>
@@ -26,7 +28,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// </summary>
 		private GrammarConverter()
 		{
-			this.objects = GPSRObjectManager.Instance;
+			this.objects = ObjectManager.Instance;
 			this.locations = LocationManager.Instance;
 		}
 
@@ -37,13 +39,13 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <param name="gestures">List of gesture names</param>
 		/// <param name="names">List of people name</param>
 		/// <param name="questions">List of known questions</param>
-		public GrammarConverter(Grammar grammar, List<Gesture> gestures, List<PersonName> names, List<PredefindedQuestion> questions) : this()
+		public GrammarConverter(Grammar grammar, List<Gesture> gestures, List<PersonName> names, List<PredefinedQuestion> questions) : this()
 		{
 			if (grammar == null) throw new ArgumentNullException();
 			this.grammar = grammar;
 			this.gestures = (gestures != null)? gestures : new List<Gesture>();
 			this.names = (names != null)?names  : new List<PersonName>();
-			this.questions = (questions != null) ? questions : new List<PredefindedQuestion>();
+			this.questions = (questions != null) ? questions : new List<PredefinedQuestion>();
 		}
 
 		/// <summary>
@@ -55,7 +57,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <param name="gestures">List of gesture names</param>
 		/// <param name="names">List of people name</param>
 		/// <param name="questions">List of known questions</param>
-		public static void SaveToSRGS(Grammar grammar, string filePath, List<Gesture> gestures, List<PersonName> names, List<PredefindedQuestion> questions)
+		public static void SaveToSRGS(Grammar grammar, string filePath, List<Gesture> gestures, List<PersonName> names, List<PredefinedQuestion> questions)
 		{
 			if (grammar == null) throw new ArgumentNullException();
 			GrammarConverter converter = new GrammarConverter();
@@ -507,9 +509,9 @@ namespace RoboCup.AtHome.CommandGenerator
 			writer.WriteAttributeString("id", "_aobjects");
 			writer.WriteAttributeString("scope", "private");
 			writer.WriteStartElement("one-of");
-			foreach (GPSRObject o in objects.Objects)
+			foreach (Object o in objects.Objects)
 			{
-				if (o.Type != GPSRObjectType.Alike)
+				if (o.Type != ObjectType.Alike)
 					continue;
 				SRGSWriteItem(o.Name);
 			}
@@ -523,9 +525,9 @@ namespace RoboCup.AtHome.CommandGenerator
 			writer.WriteAttributeString("id", "_kobjects");
 			writer.WriteAttributeString("scope", "private");
 			writer.WriteStartElement("one-of");
-			foreach (GPSRObject o in objects.Objects)
+			foreach (Object o in objects.Objects)
 			{
-				if (o.Type != GPSRObjectType.Known)
+				if (o.Type != ObjectType.Known)
 					continue;
 				SRGSWriteItem(o.Name);
 			}
@@ -539,7 +541,7 @@ namespace RoboCup.AtHome.CommandGenerator
 			writer.WriteAttributeString("id", "_questions");
 			writer.WriteAttributeString("scope", "private");
 			writer.WriteStartElement("one-of");
-			foreach (PredefindedQuestion question in questions)
+			foreach (PredefinedQuestion question in questions)
 			{
 				SRGSWriteItem(question.Question);
 			}

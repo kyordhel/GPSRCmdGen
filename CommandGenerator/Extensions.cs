@@ -23,6 +23,19 @@ namespace RoboCup.AtHome.CommandGenerator
 		}
 
 		/// <summary>
+		/// Determines whether the specified char has the same value of any of an array of other chars.
+		/// </summary>
+		/// <returns><c>true</c> if the value of the source parameter is equal to the value of any of the chars contained in the others parameter; otherwise, <c>false</c>.</returns>
+		/// <param name="source">The first char to compare, or null</param>
+		/// <param name="others">The set of chars to compare, or null.</param>
+		public static bool IsAnyOf(this char source, params char[] others){
+			foreach (char c in others)
+				if (source == c)
+					return true;
+			return false;
+		}
+
+		/// <summary>
 		/// Determines whether the specified String object has the same value of any of an array of other string objects. A parameter specifies the culture, case, and sort rules used in the comparison.
 		/// </summary>
 		/// <returns><c>true</c> if the value of the source parameter is equal to the value of any of the strings contained in the others parameter; otherwise, <c>false</c>.</returns>

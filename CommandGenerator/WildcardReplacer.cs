@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using RoboCup.AtHome.CommandGenerator.ReplaceableTypes;
+using Object = RoboCup.AtHome.CommandGenerator.ReplaceableTypes.Object;
 
 namespace RoboCup.AtHome.CommandGenerator
 {
@@ -67,12 +69,12 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <summary>
 		/// List of available objects
 		/// </summary>
-		private List<GPSRObject> avObjects;
+		private List<Object> avObjects;
 
 		/// <summary>
 		/// List of available objects
 		/// </summary>
-		private List<PredefindedQuestion> avQuestions;
+		private List<PredefinedQuestion> avQuestions;
 
 		#endregion
 
@@ -195,11 +197,11 @@ namespace RoboCup.AtHome.CommandGenerator
 			switch(w.Keyword)
 			{
 				case "aobject":
-					w.Replacement = this.avObjects.PopFirst(o => o.Type == GPSRObjectType.Alike, w.Where);
+					w.Replacement = this.avObjects.PopFirst(o => o.Type == ObjectType.Alike, w.Where);
 					break;
 
 				case "kobject":
-					w.Replacement = this.avObjects.PopFirst(o => o.Type == GPSRObjectType.Known, w.Where);
+					w.Replacement = this.avObjects.PopFirst(o => o.Type == ObjectType.Known, w.Where);
 					break;
 
 				// case "uobject":
@@ -210,7 +212,7 @@ namespace RoboCup.AtHome.CommandGenerator
 					w.Replacement = !String.IsNullOrEmpty(w.Where) ? this.avObjects.PopFirst(w.Where) : this.avObjects.PopLast();
 					break;
 			}
-			w.Obfuscated = ((GPSRObject)w.Replacement).Category;
+			w.Obfuscated = ((Object)w.Replacement).Category;
 		}
 
 		/// <summary>

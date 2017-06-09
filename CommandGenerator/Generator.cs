@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using RoboCup.AtHome.CommandGenerator.Containers;
+using RoboCup.AtHome.CommandGenerator.ReplaceableTypes;
 
 namespace RoboCup.AtHome.CommandGenerator
 {
@@ -36,11 +37,11 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <summary>
 		/// Stores all known objects
 		/// </summary>
-		protected GPSRObjectManager allObjects;
+		protected ObjectManager allObjects;
 		/// <summary>
 		/// Stores all known questions
 		/// </summary>
-		protected List<PredefindedQuestion> allQuestions;
+		protected List<PredefinedQuestion> allQuestions;
 		/// <summary>
 		/// Stores all generation grammars
 		/// </summary>
@@ -60,9 +61,9 @@ namespace RoboCup.AtHome.CommandGenerator
 			this.allGestures = new List<Gesture> ();
 			this.allLocations = LocationManager.Instance;
 			this.allNames = new List<PersonName> ();
-			this.allObjects = GPSRObjectManager.Instance;
+			this.allObjects = ObjectManager.Instance;
 			this.allGrammars = new List<Grammar> ();
-			this.allQuestions = new List<PredefindedQuestion>();
+			this.allQuestions = new List<PredefinedQuestion>();
 			GenerateSortedDifficultyDegreesArray ();
 			this.Quiet = false;
 		}
@@ -89,12 +90,12 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <summary>
 		/// Stores all known objects
 		/// </summary>
-		internal GPSRObjectManager AllObjects { get { return this.allObjects; } }
+		internal ObjectManager AllObjects { get { return this.allObjects; } }
 
 		/// <summary>
 		/// Stores all known questions
 		/// </summary>
-		internal List<PredefindedQuestion> AllQuestions { get { return this.allQuestions; } }
+		internal List<PredefinedQuestion> AllQuestions { get { return this.allQuestions; } }
 
 		/// <summary>
 		/// Gets the random numbers generator

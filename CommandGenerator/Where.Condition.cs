@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using IDescribable = RoboCup.AtHome.CommandGenerator.ReplaceableTypes.IDescribable;
 
 namespace RoboCup.AtHome.CommandGenerator
 {
@@ -10,9 +11,8 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// </summary>
 		public class Condition : IEvaluable
         {
-            public Condition()
-            {
-            }
+
+			#region Properties
 
             public string PropertyName{ get; internal set; }
 
@@ -22,18 +22,23 @@ namespace RoboCup.AtHome.CommandGenerator
 
 			public char ValueType{ get; internal set; }
 
+			#endregion
+
+			#region Methods
+
             public bool Evaluate(object obj){
 				if (obj == null)
 					return false;
-				PropertyInfo pi = obj.GetType().GetProperty(this.PropertyName);
-				if (pi == null)
-					return false;
+
+				object value = this.GetPropertyValue(obj);
 
 				try{
-					if(ValueType == 's')
-						return Compare(this.Value, pi.GetValue(obj));
-					else if(ValueType == 'n')
-						return Compare(Double.Parse(this.Value), (double)pi.GetValue(obj));
+					switch(this.ValueType){
+						case '0': return CompareNull(value);
+						case 'B': return Compare(Boolean.Parse(this.Value), (bool)value);
+						case 's': return Compare(this.Value, value);
+						case 'n': return Compare(Double.Parse(this.Value), (double)value);
+					}
 				}
 				catch{
 					return false;
@@ -41,13 +46,30 @@ namespace RoboCup.AtHome.CommandGenerator
 				return false;
 			}
 
-			private bool Compare(string a, object b){
-				if (b is INameable)
-					return Compare(a, ((INameable)b).Name);
-				return Compare(a, Convert.ToString(b));
+			private object GetPropertyValue(object obj)
+			{
+				if (obj == null)
+					return false;
+				IDescribable dObj = obj as IDescribable;
+				PropertyInfo pi = obj.GetType().GetProperty(this.PropertyName);
+
+				return (pi != null) ? pi.GetValue(obj) : GetPropertyValue(dObj);
 			}
 
-			private bool Compare(string a, string b){
+			private object GetPropertyValue(IDescribable obj){
+				if ((obj == null) || !obj.HasProperty(this.PropertyName))
+					return null;
+
+				switch (this.ValueType)
+				{
+					case 'n': return Double.Parse(obj.Properties[this.PropertyName]);
+					case 'B': return Boolean.Parse(obj.Properties[this.PropertyName]);
+					case 's':
+					default: return obj.Properties[this.PropertyName];
+				}
+			}
+
+			private bool Compare(bool a, bool b){
 				switch(this.Operator)
 				{
 					case "=": return a == b;
@@ -69,6 +91,39 @@ namespace RoboCup.AtHome.CommandGenerator
 				return false;
 			}
 
+			private bool Compare(string a, string b){
+				switch(this.Operator)
+				{
+					case "=": return a == b;
+					case "!=": return a != b;
+				}
+				return false;
+			}
+
+			private bool Compare(string a, object b){
+				if (b is INameable)
+					return Compare(a, ((INameable)b).Name);
+				return Compare(a, Convert.ToString(b));
+			}
+
+			private bool CompareNull(object value){
+				switch(this.Operator)
+				{
+					case "=": return value == null;
+					case "!=": return value != null;
+				}
+				return false;
+			}
+
+			public override string ToString()
+			{
+				return string.Format("{0} {1} {2}", PropertyName, Operator, Value);
+			}
+
+			#endregion
+
+			#region Static members
+
 			internal static Condition Parse(string s, ref int cc){
 				// A where clause starts with an identifier followed by a binary operator
 				// and ends with a value. The type pattern is: io[sn]
@@ -84,15 +139,12 @@ namespace RoboCup.AtHome.CommandGenerator
 					return null;
 				condition.Value = WhereParser.ReadNext(s, ref cc, out type);
 				condition.ValueType = type;
-				if ((type != 's') && (type != 'n'))
-					return null;
-				return condition;
+				if(type.IsAnyOf('0', 'B', 'n', 's'))
+					return condition;
+				return null;
 			}
 
-			public override string ToString()
-			{
-				return string.Format("{0} {1} {2}", PropertyName, Operator, Value);
-			}
+			#endregion
         }
     }
 }

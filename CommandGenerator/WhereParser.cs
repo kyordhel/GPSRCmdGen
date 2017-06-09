@@ -13,6 +13,8 @@ namespace RoboCup.AtHome.CommandGenerator
 
 		/**
 		 * Characterr code table
+		 * 0    null
+		 * B    binary values: either true or false
 		 * o	binary operator (non comparison)
 		 * u	unary operator
 		 * b	binary boolean operator (comparison)
@@ -248,6 +250,16 @@ namespace RoboCup.AtHome.CommandGenerator
 			}
 			if (next.ToLower().IsAnyOf("and", "or", "xor")) {
 				type = 'b';
+				next = next.ToLower();
+				return;
+			}
+			if (next.IsAnyOf("true", "false", "TRUE", "FALSE")) {
+				type = 'B';
+				next = next.ToLower();
+				return;
+			}
+			if (next.IsAnyOf("null", "NULL")) {
+				type = '0';
 				next = next.ToLower();
 				return;
 			}

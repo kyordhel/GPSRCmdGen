@@ -126,7 +126,12 @@
 *	{category 1 where Name!="Cleaning Stuff"}
 *
 * In cases when the query returns no results, the condition can't
-* be met and another rule will be attempted.
+* be met and another rule will be attempted. This is the case when
+* a property is not present, so it can't be evaluated. Exceptions to
+* this rule are evaluating a property against literal "null"
+* (without quotes), which is evaluated as true when the property is
+* absent.
+* 
 *
 *
 *
