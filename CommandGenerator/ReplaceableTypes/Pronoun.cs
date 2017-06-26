@@ -125,6 +125,48 @@ namespace RoboCup.AtHome.CommandGenerator.ReplaceableTypes
 		/// </summary>
 		public static class Personal
 		{
+			public static string[] AllObjective
+			{
+				get
+				{
+					List<string> all = new List<string>(9);
+					foreach (Pronoun.Person p in Enum.GetValues(typeof(Pronoun.Person)))
+					{
+						foreach (Pronoun.Form f in Enum.GetValues(typeof(Pronoun.Form)))
+						{
+							foreach (Pronoun.Gender g in Enum.GetValues(typeof(Pronoun.Gender)))
+							{
+								string pron = Objective(f, p, g);
+								if(all.Contains(pron)) continue;
+								all.Add(pron);
+							}
+						}
+					}
+					return all.ToArray();
+				}
+			}
+
+			public static string[] AllSubjective
+			{
+				get
+				{
+					List<string> all = new List<string>(9);
+					foreach (Pronoun.Person p in Enum.GetValues(typeof(Pronoun.Person)))
+					{
+						foreach (Pronoun.Form f in Enum.GetValues(typeof(Pronoun.Form)))
+						{
+							foreach (Pronoun.Gender g in Enum.GetValues(typeof(Pronoun.Gender)))
+							{
+								string pron = Subjective(f, p, g);
+								if(all.Contains(pron)) continue;
+								all.Add(pron);
+							}
+						}
+					}
+					return all.ToArray();
+				}
+			}
+
 			public static string Objective(Pronoun.Form form, Pronoun.Person person, Pronoun.Gender gender = Pronoun.Gender.Neutral)
 			{
 				int key = (int)Class.PersonalObjective | (int)person | (int)form;

@@ -140,6 +140,41 @@ namespace RoboCup.AtHome.CommandGenerator
 
 		}
 
+		private string ComputeKeyword(TextWildcard w)
+		{
+			if (w.Type == null)
+				return w.Name;
+
+			switch (w.Name)
+			{
+				case "location":
+					switch(w.Type) { case "beacon": case "placement": case "room": return w.Type; }
+					break;
+
+				case "name":
+					switch (w.Type) { case "male": case "female": return w.Type; }
+					break;
+
+				case "object":
+					switch (w.Type)
+					{
+						case "aobject": case "kobject": case "special":
+							return w.Type[0].ToString() + w.Name;
+					}
+					break;
+
+				case "pron":
+					switch (w.Type)
+					{
+						case "obj": return "pronobj";
+						case "sub": return "pronsub";
+					}
+					break;
+			}
+
+			return w.Name;
+		}
+
 		private void SRGSWriteMainRule()
 		{
 			ProductionRule main = grammar.ProductionRules["$Main"];
@@ -176,6 +211,7 @@ namespace RoboCup.AtHome.CommandGenerator
 			SRGSWriteLocationsRules();
 			SRGSWriteNamesRules();
 			SRGSWriteObjectsRules();
+			SRGSWritePronounsRules();
 		}
 
 		private void SRGSWriteReplacements(ProductionRule productionRule)
@@ -229,14 +265,35 @@ namespace RoboCup.AtHome.CommandGenerator
 			writer.WriteEndElement();
 		}
 
+		/*
+		private void SRGSExpandWhereWildcard(TextWildcard w)
+		{
+			string keyword = ComputeKeyword(w);
+			string uri = "#_";
+			SRGSWriteRuleRef(uri);
+		}
+		*/
+
 		private void SRGSExpandWildcard(string s, ref int cc)
 		{
 			string uri = "#_";
 			TextWildcard w = TextWildcard.XtractWildcard(s, ref cc);
-			switch (w.Name)
+			/*
+			if (!String.IsNullOrEmpty(w.Where))
+			{
+				SRGSExpandWhereWildcard(w);
+				return;
+			}
+			*/
+			string keyword = ComputeKeyword(w);
+			switch (keyword)
 			{
 				case "category":
 					uri += "categories";
+					break;
+
+				case "pron":
+					uri += "pronobj";
 					break;
 
 				case "gesture":
@@ -250,6 +307,9 @@ namespace RoboCup.AtHome.CommandGenerator
 				case "object":
 				case "aobject":
 				case "kobject":
+				case "sobject":
+				case "pronobj":
+				case "pronsub":
 					uri += w.Name + "s";
 					break;
 
@@ -481,12 +541,17 @@ namespace RoboCup.AtHome.CommandGenerator
 			SRGSWriteRuleRef("#_kobjects");
 			writer.WriteEndElement();
 
+			writer.WriteStartElement("item");
+			SRGSWriteRuleRef("#_sobjects");
+			writer.WriteEndElement();
+
 			writer.WriteEndElement(); // </one-of>
 			writer.WriteEndElement(); // </rule>
 
 			SRGSWriteCategoriesRule();
 			SRGSWriteAObjectsRule();
 			SRGSWriteKObjectsRule();
+			SRGSWriteSObjectsRule();
 		}
 
 		private void SRGSWriteCategoriesRule()
@@ -531,6 +596,51 @@ namespace RoboCup.AtHome.CommandGenerator
 					continue;
 				SRGSWriteItem(o.Name);
 			}
+			writer.WriteEndElement(); // </one-of>
+			writer.WriteEndElement(); // </rule>
+		}
+
+		private void SRGSWriteSObjectsRule()
+		{
+			writer.WriteStartElement("rule");
+			writer.WriteAttributeString("id", "_sobjects");
+			writer.WriteAttributeString("scope", "private");
+			writer.WriteStartElement("one-of");
+			foreach (Object o in objects.Objects)
+			{
+				if (o.Type != ObjectType.Special)
+					continue;
+				SRGSWriteItem(o.Name);
+			}
+			writer.WriteEndElement(); // </one-of>
+			writer.WriteEndElement(); // </rule>
+		}
+
+		private void SRGSWritePronounsRules(){
+			SRGSWritePronouns_Obj_Rule();
+			SRGSWritePronouns_Sub_Rule();
+		}
+
+		private void SRGSWritePronouns_Obj_Rule()
+		{
+			writer.WriteStartElement("rule");
+			writer.WriteAttributeString("id", "_pronobjs");
+			writer.WriteAttributeString("scope", "private");
+			writer.WriteStartElement("one-of");
+			foreach (string s in Pronoun.Personal.AllObjective)
+				SRGSWriteItem(s);
+			writer.WriteEndElement(); // </one-of>
+			writer.WriteEndElement(); // </rule>
+		}
+
+		private void SRGSWritePronouns_Sub_Rule()
+		{
+			writer.WriteStartElement("rule");
+			writer.WriteAttributeString("id", "_pronsubs");
+			writer.WriteAttributeString("scope", "private");
+			writer.WriteStartElement("one-of");
+			foreach (string s in Pronoun.Personal.AllSubjective)
+				SRGSWriteItem(s);
 			writer.WriteEndElement(); // </one-of>
 			writer.WriteEndElement(); // </rule>
 		}
