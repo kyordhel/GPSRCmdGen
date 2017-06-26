@@ -166,7 +166,7 @@
 *   - last wildcard found
 *
 * By default the {pron} construct is replaced with a Personal Pronoun
-* (OBJECTIVE CASE), namely: he, she, it. Subjective cases of the
+* (OBJECTIVE CASE), namely: him, her, it. Subjective cases of the
 * personal pronoun (he, she, it) are also supported by setting the
 * type of the {pron} construct to the `sub` value. Namely:
 *
