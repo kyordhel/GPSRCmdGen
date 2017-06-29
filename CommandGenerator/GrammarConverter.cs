@@ -195,13 +195,42 @@ namespace RoboCup.AtHome.CommandGenerator
 
 		private void SRGSWriteProductionRule(ProductionRule productionRule)
 		{
+			List<string> validReplacements = GetValidReplacements(productionRule);
+			
 			writer.WriteStartElement("rule");
 			writer.WriteAttributeString("id", SRGSNonTerminalToRuleName(productionRule.NonTerminal));
 			writer.WriteAttributeString("scope", "private");
 			
-			SRGSWriteReplacements(productionRule);
+			SRGSWriteReplacements(validReplacements);
 			
 			writer.WriteEndElement();
+		}
+
+		private List<string> GetValidReplacements(ProductionRule productionRule)
+		{
+			List<string> vr = new List<string>(productionRule.Replacements.Count);
+
+			for (int i = 0; i < productionRule.Replacements.Count; ++i){
+				string replacement = (productionRule.Replacements[i] ?? String.Empty).Trim();
+
+				for (int cc = 0; cc < replacement.Length; ++cc)
+				{
+					cc = replacement.IndexOf('{', cc);
+					if (cc == -1) break;
+					int bcc = cc;
+					TextWildcard w = TextWildcard.XtractWildcard(replacement, ref cc);
+					if (w.Name != "void")
+						continue;
+					replacement = replacement.Remove(bcc) + replacement.Substring(cc);
+					cc = bcc;
+				}
+
+				if(String.IsNullOrEmpty(replacement))
+					continue;
+
+				vr.Add(replacement);
+			}
+			return vr;
 		}
 
 		private void SRGSWriteWildcardRules()
@@ -214,14 +243,19 @@ namespace RoboCup.AtHome.CommandGenerator
 			SRGSWritePronounsRules();
 		}
 
-		private void SRGSWriteReplacements(ProductionRule productionRule)
+		private void SRGSWriteReplacements(List<string> replacements)
 		{
-			if (productionRule.Replacements.Count == 1)
-				SRGSWriteReplacement(productionRule.Replacements[0]);
+			if (replacements.Count == 0)
+			{
+				writer.WriteStartElement("item");
+				writer.WriteEndElement();
+			}
+			else if (replacements.Count == 1)
+				SRGSWriteReplacement(replacements[0]);
 			else
 			{
 				writer.WriteStartElement("one-of");
-				foreach (string replacement in productionRule.Replacements)
+				foreach (string replacement in replacements)
 					SRGSWriteReplacement(replacement);
 				writer.WriteEndElement();
 			}
@@ -293,7 +327,7 @@ namespace RoboCup.AtHome.CommandGenerator
 					break;
 
 				case "pron":
-					uri += "pronobj";
+					uri += "pronobjs";
 					break;
 
 				case "gesture":
