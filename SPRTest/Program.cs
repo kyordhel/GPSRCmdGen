@@ -83,14 +83,9 @@ namespace RoboCup.AtHome.SPRTest
 				if (task == null) continue;
 				string sTask = task.ToString().Trim();
 				if (sTask.Length < 1) continue;
-				if(String.Equals(sTask, "question", StringComparison.OrdinalIgnoreCase) &&
-					(task.Tokens.Count > 0) && (task.Tokens[0].Metadata.Count > 1))
-					sTask = task.Tokens[0].Metadata[0].Trim() +
-					Environment.NewLine + "\t\t" + task.Tokens[0].Metadata[1].Trim();
-				// {
-				//	foreach (Token token in task.Tokens)
-				//	
-				// }
+
+				if (String.Equals(sTask, "question", StringComparison.OrdinalIgnoreCase) && (task.Tokens.Count > 0))
+					sTask = ExpandPredefinedQuestion(task);
 				sTask = sTask.Substring(0, 1).ToUpper() + sTask.Substring(1);
 				Console.WriteLine("\t{0}. {1}", i.ToString().PadLeft(2, '0'), sTask);
 				++i;
@@ -102,6 +97,22 @@ namespace RoboCup.AtHome.SPRTest
 			// Restores Console color
 			Console.ForegroundColor = pc;
 			Console.WriteLine();
+		}
+
+		private string ExpandPredefinedQuestion(Task task){
+			
+			// 1. Find the question wildcard token
+			Token tq = null;
+			for(int i = 0; (i < task.Tokens.Count) && (tq == null); ++i){
+				// if(task.Tokens[i].IsWildcard && String.Equals(task.Tokens[i].Key, "question", StringComparison.OrdinalIgnoreCase) && (task.Tokens[i].Metadata.Count > 1))
+				if(task.Tokens[i].IsWildcard && (task.Tokens[i].Metadata.Count > 1))
+					tq = task.Tokens[i];
+			}
+
+			// Change how it will be printed
+			if(tq == null) return task.ToString().Trim();
+			return tq.Metadata[0].Trim() +
+				Environment.NewLine + "\t\t" + tq.Metadata[1].Trim();
 		}
 
 		/// <summary>
