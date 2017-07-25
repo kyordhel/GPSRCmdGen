@@ -1,79 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <questions>
-  <question>
-    <q>Who invented the C programming language?</q>
-    <a>Ken Thompson and Dennis Ritchie.</a>
-  </question>
-  <question>
-    <q>When was invented the C programming language?</q>
-    <a>C was developed after B in 1972 at Bell Labs</a>
-  </question>
-  <question>
-    <q>When was invented the B programming language?</q>
-    <a>B was developed circa 1969 at Bell Labs</a>
-  </question>
-  <question>
-    <q>Where does the term computer bug come from?</q>
-    <a>From a moth trapped in a relay</a>
-  </question>
-  <question>
-    <q>Who invented the first compiler</q>
-    <a>Grace Brewster Murray Hopper invented it</a>
-  </question>
-  <question>
-    <q>Which robot is used in the Open Platform League</q>
-    <a>There is no standard defined for OPL</a>
-  </question>
-  <question>
-    <q>Which robot is used in the Domestic Standard Platform League</q>
-    <a>The Toyota Human Support Robot</a>
-  </question>
-  <question>
-    <q>Which robot is used in the Social Standard Platform League</q>
-    <a>The SoftBank Robotics Pepper</a>
-  </question>
-  <question>
-    <q>How many people live in the Japan?</q>
-    <a>A little over 80 million</a>
-  </question>
-  <question>
-    <q>What are the colours of the Japanese flag?</q>
-    <a>Japanese flag is a red circle centred over white</a>
-  </question>
-  <question>
-    <q>What city is the capital of the Japan?</q>
-    <a>Tokyo</a>
-  </question>
-  <question>
-    <q>What is the highest point in Japan</q>
-    <a>The highest point in Japan is Mount Fuji, which reaches 3776m above sea level</a>
-  </question>
-  <question>
-    <q>What is a Sakura</q>
-    <a>Sakura is the Japanese term for ornamental cherry blossom and its tree</a>
-  </question>
-  <question>
-    <q>Who is the emperor of Japan?</q>
-    <a>His Majesty Akihito sama is the emperor in Japan since January 7, 1989</a>
-  </question>
-  <question>
-    <q>What's the name of your team?</q>
-    <a>...</a>
-  </question>
-  <question>
-    <q>What time is it?</q>
-    <a>...</a>
-  </question>
-  <question>
-    <q>What day is today?</q>
-    <a>...</a>
-  </question>
-  <question>
-    <q>Do you have dreams?</q>
-    <a>I dream of Electric Sheep.</a>
-  </question>
-  <question>
-    <q>In which city will next year's RoboCup be hosted?</q>
-    <a>It hasn't been announced yet.</a>
-  </question>
+	<question>
+		<q>In which city are we in?</q>
+		<a>We are in Nagoya, Japan</a>
+	</question>
+
+	<question>
+		<q>What is the name of your team?</q>
+		<a>...</a>
+	</question>
+
+	<question>
+		<q>How many teams participate in RoboCup@Home this year</q>
+		<a>There were 31 last time I counted them.</a>
+	</question>
+
+	<question>
+		<q>Who won the popular vote in the US Election?</q>
+		<a>Hillary Clinton was the popular vote in the US</a>
+	</question>
+
+	<question>
+		<q>What is the highest mountain in Japan?</q>
+		<a>The highest mountain in Japan is Fuji-san</a>
+	</question>
+
+	<question>
+		<q>Name the two RoboCup@Home standard platforms.</q>
+		<a>Domestic Standard Platform League and Social Standard Platform League</a>
+	</question>
+
+	<question>
+		<q>What does DSPL stand for?</q>
+		<a>Domestic Service Platform League.</a>
+	</question>
+
+	<question>
+		<q>What does SSPL stand for?</q>
+		<a>Service Robotics Standford Platform League.</a>
+	</question>
+
+	<question>
+		<q>Who did Alphabet sell Boston Dynamics to?</q>
+		<a>SoftBank Robotics</a>
+	</question>
+
+	<question>
+		<q>Nagoya has one of the largest train stations in the world how large is it?</q>
+		<a>Over 410 thousand square meters.</a>
+	</question>
+
+	<question>
+		<q>What's your team's home city ?</q>
+		<a>...</a>
+	</question>
+
+	<question>
+		<q>Who created Star Wars?</q>
+		<a>George Lucas created Star Wars</a>
+	</question>
+
+	<question>
+		<q>Who lives in a pineapple under the sea?</q>
+		<a>Sponge Bob Square Pants</a>
+	</question>
+
+	<question>
+		<q>What invented Grace Hopper?</q>
+		<a>Grace Hopper invented the first compiler.</a>
+	</question>
 </questions>

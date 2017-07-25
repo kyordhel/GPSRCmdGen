@@ -1,45 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <categories>
-  <category name="snacks" defaultLocation="desk" room="office">
-    <object name="chips"         difficulty="moderate" />
-    <object name="senbei"        difficulty="moderate" />
-    <object name="pringles"      difficulty="easy" />
-    <object name="peanuts"       difficulty="easy" />
-  </category>
-  <category name="candies" defaultLocation="center table" room="living room">
-    <object name="chocolate bar" difficulty="moderate"                               />
-    <object name="manju"         difficulty="easy"                                   />
-    <object name="mints"         difficulty="moderate" type="alike"                  />
-    <object name="chocolate egg" difficulty="high"                                   />
-  </category>
-  <category name="food" defaultLocation="fridge" room="kitchen">
-    <object name="noodles"       difficulty="easy"                                   />
-    <object name="apple"         difficulty="moderate" type="alike"   fruit="true"   />
-    <object name="paprika"       difficulty="moderate" type="alike"                  />
-    <object name="melon"         difficulty="high"     type="alike"   fruit="true"   />
-    <object name="sushi"         difficulty="high"     type="alike"                  />
-    <object name="flakes"        difficulty="high"     type="known"   canPour="true" />
-    <object name="oat"           difficulty="high"     type="known"   canPour="true" />
-  </category>
-  <category name="drinks" defaultLocation="bar" room="living room">
-    <object name="tea"           difficulty="easy"                    canPour="true" />
-    <object name="beer"          difficulty="easy"                                      alcoholic="true" />
-    <object name="coke"          difficulty="easy"                    canPour="true" />
-    <object name="sake"          difficulty="moderate"                canPour="true"    alcoholic="true" />
-  </category>
-  <category name="toiletries" defaultLocation="cupboard" room="bathroom">
-    <object name="shampoo"       difficulty="moderate"                               />
-    <object name="soap"          difficulty="easy"                                   />
-    <object name="cloth"         difficulty="high"     type="alike"                  />
-    <object name="sponge"        difficulty="high"                                   />
-  </category>
-  <category name="containers" defaultLocation="counter" room="kitchen">
-    <object name="bowl"          difficulty="high"                    canPourIn="true"                  />
-    <object name="mug"           difficulty="high"                    canPourIn="true"                  />
-    <object name="glass"         difficulty="moderate"                canPourIn="true"                  />
-    <object name="tray"          difficulty="high"     type="special" canPlaceOn="true" twoHands="true" />
-    <object name="plate"         difficulty="moderate" type="special" canPlaceOn="true"                 />
-    <object name="box"           difficulty="high"     type="special" canPlaceIn="true" twoHands="true" />
-    <object name="bag"           difficulty="easy"     type="special" canPlaceIn="true"                 />
-  </category>
+	<category name="container" defaultlocation="left rack" room="living room">
+		<object name="bowl" difficulty="high" type="known" canpourin="true" />
+		<object name="plate" difficulty="high" type="special" canplaceon="true" />
+		<object name="soup container" difficulty="high" type="known" canpourin="true" />
+	</category>
+
+	<category name="cleaning stuff" defaultlocation="right rack" room="living room">
+		<object name="asience" difficulty="moderate" type="known" />
+		<object name="hair spray" difficulty="easy" type="known" />
+		<object name="moisturizer" difficulty="moderate" type="known" />
+		<object name="shampoo" difficulty="moderate" type="known" />
+	</category>
+
+	<category name="cutlery" defaultlocation="sideboard" room="kitchen">
+		<object name="chopsticks" difficulty="high" type="alike" />
+		<object name="fork" difficulty="high" type="known" />
+		<object name="spoon" difficulty="high" type="known" />
+	</category>
+
+	<category name="drink" defaultlocation="kitchen counter" room="kitchen">
+		<object name="aquarius" difficulty="moderate" type="known" />
+		<object name="coke" difficulty="easy" type="known" />
+		<object name="cold brew" difficulty="easy" type="known" />
+		<object name="green tea" difficulty="moderate" type="known" />
+	</category>
+
+	<category name="fruit" defaultlocation="bistro table" room="balcony">
+		<object name="apple" difficulty="moderate" type="alike" />
+		<object name="orange  fruit" difficulty="moderate" type="alike" />
+	</category>
+
+	<category name="food" defaultlocation="kitchen shelf" room="kitchen">
+		<object name="bread" difficulty="moderate" type="known" />
+		<object name="corn" difficulty="high" type="alike" />
+		<object name="onion" difficulty="moderate" type="alike" />
+		<object name="radish" difficulty="high" type="alike" />
+	</category>
+
+	<category name="snack" defaultlocation="kitchen rack" room="kitchen">
+		<object name="candy" difficulty="easy" type="known" />
+		<object name="chewing gum" difficulty="easy" type="known" />
+		<object name="cup star" difficulty="easy" type="known" />
+		<object name="curry" difficulty="easy" type="known" />
+		<object name="fries" difficulty="easy" type="known" />
+		<object name="jelly" difficulty="easy" type="known" />
+	</category>
 </categories>
