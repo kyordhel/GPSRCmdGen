@@ -10,8 +10,8 @@
 
 namespace RoboCup.AtHome.EEGPSRCmdGen {
     using System;
-    
-    
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -23,15 +23,15 @@ namespace RoboCup.AtHome.EEGPSRCmdGen {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
-        
+
         private static global::System.Resources.ResourceManager resourceMan;
-        
+
         private static global::System.Globalization.CultureInfo resourceCulture;
-        
+
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         internal Resources() {
         }
-        
+
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
@@ -45,7 +45,7 @@ namespace RoboCup.AtHome.EEGPSRCmdGen {
                 return resourceMan;
             }
         }
-        
+
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
@@ -85,14 +85,14 @@ namespace RoboCup.AtHome.EEGPSRCmdGen {
 		///   Looks up a localized string similar to ##############################################################################
 		///#
 		///# ${GrammarName} Grammar
-		///# 
+		///#
 		///# Author:  Mauricio Matamoros
 		///# Date:    June 2016
 		///#
-		///# IMPORTANT: 
+		///# IMPORTANT:
 		///# Since this document declares a grammar for generating sentences,
 		///# NO RECURSIVE rules must be used.
-		///# 
+		///#
 		///##############################################################################
 		///.
 		/// </summary>
@@ -150,35 +150,41 @@ namespace RoboCup.AtHome.EEGPSRCmdGen {
             }
         }
 
-        internal static string EEGPSR_Category4 {
+        internal static string EEGPSR_Category1e {
             get {
-                return ResourceManager.GetString("EEGPSR_Category4", resourceCulture);
+                return ResourceManager.GetString("EEGPSR_Category1e", resourceCulture);
             }
         }
 
-        internal static string EEGPSR_Category5 {
+        internal static string EEGPSR_Category2e {
             get {
-                return ResourceManager.GetString("EEGPSR_Category5", resourceCulture);
+                return ResourceManager.GetString("EEGPSR_Category2e", resourceCulture);
             }
         }
 
-        internal static string EEGPSR_Category6 {
+        internal static string EEGPSR_Category3e {
             get {
-                return ResourceManager.GetString("EEGPSR_Category6", resourceCulture);
+                return ResourceManager.GetString("EEGPSR_Category3e", resourceCulture);
             }
         }
 
-		internal static string EEGPSR_Category7 {
-			get {
-				return ResourceManager.GetString("EEGPSR_Category7", resourceCulture);
-			}
-		}
+        internal static string EEGPSR_Category1i {
+            get {
+                return ResourceManager.GetString("EEGPSR_Category1i", resourceCulture);
+            }
+        }
 
-		internal static string EEGPSR_Category8 {
-			get {
-				return ResourceManager.GetString("EEGPSR_Category8", resourceCulture);
-			}
-		}
+        internal static string EEGPSR_Category2i {
+            get {
+                return ResourceManager.GetString("EEGPSR_Category2i", resourceCulture);
+            }
+        }
+
+        internal static string EEGPSR_Category3i {
+            get {
+                return ResourceManager.GetString("EEGPSR_Category3i", resourceCulture);
+            }
+        }
 
 		internal static string CommonRules {
 			get {

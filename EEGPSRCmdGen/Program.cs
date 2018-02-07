@@ -26,7 +26,7 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 		}
 
 		/// <summary>
-		/// Checks if at least one of the required files are present. If not, initializes the 
+		/// Checks if at least one of the required files are present. If not, initializes the
 		/// directory with example files
 		/// </summary>
 		public static void InitializePath()
@@ -37,28 +37,84 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 		}
 
 		/// <summary>
+		/// Displays the list of available options
+		/// </summary>
+		protected void DisplayMenu()
+		{
+			ConsoleColor c = Console.ForegroundColor;
+			Console.ForegroundColor = ConsoleColor.White;
+			Console.WriteLine("EEGPSR Command Generator 2018 Beta");
+			Console.WriteLine("====================================");
+			Console.Out.Flush();
+			Console.ForegroundColor = c;
+			Console.WriteLine();
+			Console.WriteLine("Normal commands");
+			Console.WriteLine("    1.  Category I   - Three at once");
+			Console.WriteLine("    2.  Category II  - People");
+			Console.WriteLine("    3.  Category III - Objects");
+			Console.WriteLine();
+			Console.WriteLine("Commands with Incomplete information");
+			Console.WriteLine("    4.  Category I   - Three at once");
+			Console.WriteLine("    5.  Category II  - People");
+			Console.WriteLine("    6.  Category III - Objects");
+			Console.WriteLine();
+			Console.WriteLine("Commands with Erroneous information");
+			Console.WriteLine("    7.  Category I   - Three at once");
+			Console.WriteLine("    8.  Category II  - People");
+			Console.WriteLine("    9.  Category III - Objects");
+			Console.WriteLine();
+		}
+
+		/// <summary>
 		/// Request the user to choose an option for random task generation.
 		/// </summary>
 		/// <returns>The user's option.</returns>
 		protected override char GetOption()
 		{
-			return base.GetOption(1, 8);
+			int opcMin = 1;
+			int opcMax = 9;
+			ConsoleKeyInfo k;
+			Console.WriteLine("Press Esc to quit, q for QR Code, t for type in a QR, c to clear.");
+			Console.Write("Choose an option: ");
+			k = Console.ReadKey(true);
+			if (k.Key == ConsoleKey.Escape)
+				return '\0';
+			Console.WriteLine(k.KeyChar);
+			return k.KeyChar;
 		}
 
 		private Task GetTask(char category)
 		{
 			switch (category)
 			{
-				case '1': return gen.GenerateTask("Cat1 - Advanced Manipulation");
-				case '2': return gen.GenerateTask("Cat2 - Advanced Object Recognition");
-				case '3': return gen.GenerateTask("Cat3 - Navigation & People Tracking");
-				case '4': return gen.GenerateTask("Cat4 - People & Activity Recognition");
-				case '5': return gen.GenerateTask("Cat5 - Incomplete Information");
-				case '6': return gen.GenerateTask("Cat6 - Erroneous Information");
-				case '7': return gen.GenerateTask("Cat7 - Memory and Environmental Reasoning");
-				case '8': return gen.GenerateTask("Cat8 - Three at once");
+				case '1': return gen.GenerateTask("Category I - Three at once");
+				case '2': return gen.GenerateTask("Category II - People");
+				case '3': return gen.GenerateTask("Category III - Objects");
+				case '4': return gen.GenerateTask("Category I - Three at once (with incomplete information)");
+				case '5': return gen.GenerateTask("Category II - People (with incomplete information)");
+				case '6': return gen.GenerateTask("Category III - Objects (with incomplete information)");
+				case '7': return gen.GenerateTask("Category I - Three at once (with erroneous information)");
+				case '8': return gen.GenerateTask("Category II - People (with erroneous information)");
+				case '9': return gen.GenerateTask("Category III - Objects (with erroneous information)");
 				default: return null;
 			}
+		}
+
+		/// <summary>
+		/// Starts the user input loop
+		/// </summary>
+		public override void Run()
+		{
+			Task task = null;
+			char opc = '\0';
+			Setup();
+			DisplayMenu();
+			do
+			{
+				opc = GetOption();
+				RunOption(opc, ref task);
+			}
+			while (opc != '\0');
 		}
 
 		/// <summary>
@@ -69,14 +125,15 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 		{
 			switch (opc)
 			{
-				case '1': 
-				case '2': 
-				case '3': 
-				case '4': 
-				case '5': 
+				case '1':
+				case '2':
+				case '3':
+				case '4':
+				case '5':
 				case '6':
 				case '7':
 				case '8':
+				case '9':
 					task = GetTask(opc);
 					break;
 
@@ -99,10 +156,13 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 					return;
 
 				default:
+					Console.Clear();
+					DisplayMenu();
 					break;
 			}
 
-			Console.WriteLine("Choosen category {0}", opc);
+			if(task == null) return;
+			Console.WriteLine("Choosen option {0}", opc);
 			PrintTask(task);
 		}
 
@@ -114,7 +174,7 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 			this.gen = new EEGPSRGenerator();
 
 			Console.ForegroundColor = ConsoleColor.Gray;
-			Console.WriteLine("EEGPSR Generator 2016 Beta");
+			Console.WriteLine("EEGPSR Command Generator 2018 Beta");
 			Console.WriteLine();
 			base.LoadData();
 			Console.WriteLine();
@@ -167,15 +227,12 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 		{
 			int dCount;
 			if ((args.Length < (i + 2)) || !Int32.TryParse(args[++i], out dCount) || (dCount < 1))
-			{
-				Console.WriteLine("Invalid input");
-				return;
-			}
+				dCount = 100;
 
-			Console.WriteLine("Generating {0} examples in bulk mode for 6 categories", dCount);
+			Console.WriteLine("Generating {0} examples in bulk mode for 9 categories", dCount);
 			try
 			{
-				for (char category = '1'; category <= '6'; ++category)
+				for (char category = '1'; category <= '9'; ++category)
 				{
 					Console.WriteLine("Generating {0} examples for category {1}", dCount, category);
 					BulkExamples(p, category, dCount);

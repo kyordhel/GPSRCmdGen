@@ -97,11 +97,12 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 			grammars.Add("eegpsr_cat1", Resources.EEGPSR_Category1);
 			grammars.Add("eegpsr_cat2", Resources.EEGPSR_Category2);
 			grammars.Add("eegpsr_cat3", Resources.EEGPSR_Category3);
-			grammars.Add("eegpsr_cat4", Resources.EEGPSR_Category4);
-			grammars.Add("eegpsr_cat5", Resources.EEGPSR_Category5);
-			grammars.Add("eegpsr_cat6", Resources.EEGPSR_Category6);
-			grammars.Add("eegpsr_cat7", Resources.EEGPSR_Category7);
-			grammars.Add("eegpsr_cat8", Resources.EEGPSR_Category8);
+			grammars.Add("eegpsr_cat1e", Resources.EEGPSR_Category1e);
+			grammars.Add("eegpsr_cat2e", Resources.EEGPSR_Category2e);
+			grammars.Add("eegpsr_cat3e", Resources.EEGPSR_Category3e);
+			grammars.Add("eegpsr_cat1i", Resources.EEGPSR_Category1i);
+			grammars.Add("eegpsr_cat2i", Resources.EEGPSR_Category2i);
+			grammars.Add("eegpsr_cat3i", Resources.EEGPSR_Category3i);
 			grammars.Add("common", Resources.CommonRules);
 
 			foreach (KeyValuePair<string, string> g in grammars) {
