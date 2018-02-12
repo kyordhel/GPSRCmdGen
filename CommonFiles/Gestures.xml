@@ -3,6 +3,6 @@
   <gesture name="waving" difficulty="easy" />
   <gesture name="rising left arm" difficulty="easy" />
   <gesture name="rising right arm" difficulty="easy" />
-  <gesture name="pointing left" difficulty="easy" />
-  <gesture name="pointing right" difficulty="easy" />
+  <gesture name="pointing to the left" difficulty="easy" />
+  <gesture name="pointing to the right" difficulty="easy" />
 </gestures>
