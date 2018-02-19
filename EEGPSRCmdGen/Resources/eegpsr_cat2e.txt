@@ -1,0 +1,170 @@
+; grammar name Category II - People (with erroneous information)
+; grammar tier High
+
+$Main      = $task | ($polite $task)
+
+
+##############################################################################
+#
+# Tasks
+#
+##############################################################################
+; Greet person matching description
+$tgreet    = $greet the $person in the $roomE
+
+; Count people
+$task  	   = tell me how many $people there are in the $roomE
+$task  	   = tell me how many $peopleR in the $roomE
+$task  	   = tell me how many $ppl in the $roomE are $peopleDsc
+
+; Host
+$task  	   = offer something to (eat | drink) to all the $people in the $roomE
+
+; Bring to person matching description
+; $task  	= bring the {object} to the $person in the $room
+
+; Meet and greet a person
+$task  	   = $mgreetE
+$task  	   = $mgreet $beaconE
+
+; Follow & guide
+$task  	   = $followE | $guideE
+
+; Describe
+$task      = $describeE
+
+
+##############################################################################
+#
+# Describe
+#
+##############################################################################
+$describeE = tell me how the person $posture at the $beaconE looks like
+$describeE = describe the person $posture at the $beaconE to me
+$describeE = describe the person $posture at the $beaconE to the person at the {beacon}
+$describeE = describe me the person $posture at the $beaconE
+
+
+
+##############################################################################
+#
+# Follow & guide
+#
+##############################################################################
+; Hard to find a person, easy to follow/guide
+$followE   = $vbfollow the $fgwhor ($fgrefuse | $fgabort)
+$followE   = $vbfollow the $fgwhorE
+$guideE    = $vbguide the $fgwhor $dest ($fgrefuse | $fgabort)
+$guideE    = $vbguide the $fgwhorE $dest
+$guideE    = $vbguide the $fgwhorE $destE
+
+; Easy-to-find person, but hard to follow/guide
+$followE   = $vbfollow the $fgwho $fgrefuse
+$followE   = $vbfollow the $fgwho $fbriefing $abort
+$followE   = $vbfollow the $fgwhoE $fbriefing
+$guideE    = $vbguide the $fgwho $dest $fgrefuse
+$guideE    = $vbguide the $fgwho $dest $gbriefing $abort
+$guideE    = $vbguide the $fgwhoE $dest $gbriefing
+$guideE    = $vbguide the $fgwho $destE $gbriefing
+
+; Helpers
+$fgwho     = person at the {beacon 1}
+$fgwhor    = $person in the $room
+$fgwhoE    = person at the $beaconE
+$fgwhorE   = $person in the $roomE
+$fgdest    = to the (exit | {beacon 2})
+$fgdestE   = to the {beacon 2 meta: All paths are blocked}
+$fbriefing = {void meta: The Professional Walker must leave the arena and walk through a crowd of at least 5 people who must not let the robot pass. Once the robot has re-encountered its operator, the Professional Walker must lead the robot to {room 2} }
+$gbriefing = {void meta: The Professional Walker must, in any order: a\) stop following the robot and head towards {beacon 3}, b\) stop and wait there, and c\) start walking very slow. }
+$gbriefing = {void meta: All doors between {beacon 1} and the target location are closed, as well as all paths to get there are blocked. }
+$fgabort  = {void meta: At an intermediate point during the guiding/following phase, the Operator will abort the test, and walk away from the robot at their normal speed.}
+$fgrefuse  = {void meta: The operator will actively refuse to follow/guide the robot.}
+
+##############################################################################
+#
+# People
+#
+##############################################################################
+$peopleR   = $ppl are $peopleDsc
+$peopleDsc = $posture | {gesture}
+$peopleDsc = wearing $outfit
+$peopleDsc = wear $color
+
+$people    = $ppl
+$people    = $posture $ppl
+$people    = {gesture} $ppl
+$people    = $ppl wearing $outfit
+$people    = $color-dressed $ppl
+
+$posture   = standing | sitting | lying
+$ppl       = people | children | elders | men | women
+
+
+
+##############################################################################
+#
+# Person
+#
+##############################################################################
+$person    = child
+$person    = $lpdesc (man | woman | person)
+$person    = (man | woman | person) $rpdesc
+$lpdesc    = {gesture} | tallest | smallest | oldest | youngest | slimmest | fattest
+$rpdesc    = dressed with $color $outfit
+$rpdesc    = wearing ($apparel | $color $outfit)
+
+$color	   = blue | yellow | black | white | red | orange | gray
+$outfit    = (T-shirt) | shirt | blouse | shoes | sweater | pants | coat | jacket
+$apparel   = hat | glasses | necklace | tie | earrings
+
+
+
+##############################################################################
+#
+# Room
+#
+##############################################################################
+$room      = {room 1 meta: At least three people must be here}
+$roomE     = {room 1 meta: All paths to {room 1} are blocked. At least three people must be here}
+$roomE     = {room 1 meta: There is nobody in {room 1}}
+$roomE     = {room 1 meta: All people \(at least three\) are sitting and not facing the robot}
+$roomE     = {room 1 meta: All people \(at least three\) are lying and not facing the robot}
+$beaconE   = {beacon 1 meta: The person is not at {beacon 1} but standing nearby within 2m radius}
+$beaconE   = {beacon 1 meta: The person is not at {beacon 1} but in {beacon 2}}
+$beaconE   = {beacon 1 meta: There are two people  matching description at {beacon 1}}
+
+
+##############################################################################
+#
+# Greet
+#
+##############################################################################
+$greet     = $vbgreet
+$greet     = ((say hello) | (introduce yourself)) to
+$mgreet    = $vbmeet {name} at the {beacon 1}, then (greet | find) {pron} in the $room
+$mgreetE   = $vbmeet {name} at the {beacon 1}, then (greet | find) {pron} in the $roomE
+
+
+
+##############################################################################
+#
+# Polite
+#
+##############################################################################
+$polite    = Please
+$polite    = Could you
+$polite    = Robot please
+$polite    = Could you please
+
+
+
+##############################################################################
+#
+# Verbs
+#
+##############################################################################
+$vbgreet   = greet | salute | handshake
+$vbmeet    = meet | contact | (get to know) | (get acquainted with)
+$vbfind    = find | locate | spot | pinpoint | look for
+$vbguide   = guide | escort | take | lead | accompany | conduct
+$vbfollow  = follow | ((come | go) (behind | after)) | accompany
