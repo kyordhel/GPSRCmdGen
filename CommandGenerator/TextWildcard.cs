@@ -15,7 +15,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		private int id;
 
 		/// <summary>
-		/// Stores the 
+		/// Stores the
 		/// </summary>
 		private int index;
 
@@ -77,7 +77,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		}
 
 		/// <summary>
-		/// Gets the 
+		/// Gets the
 		/// </summary>
 		public int Index { get { return this.index; } }
 
@@ -108,7 +108,7 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <summary>
 		/// Gets the type of the wildcard
 		/// </summary>
-		public string Type 
+		public string Type
 		{
 			get { return this.type; }
 			protected set{ this.type = String.IsNullOrEmpty (value) ? null : value.ToLower (); }
@@ -235,8 +235,9 @@ namespace RoboCup.AtHome.CommandGenerator
 				return null;
 			}
 			int bcc = cc;
-			FindCloseBrace(s, ref cc);
-			return s.Substring(bcc, cc - bcc);
+			string metaContent = null;
+			FindCloseBrace(s, ref cc, out metaContent);
+			return metaContent;
 		}
 
 		private static int ReadWildcardId(string s, ref int cc)
@@ -259,11 +260,45 @@ namespace RoboCup.AtHome.CommandGenerator
 			int braces = 1;
 			while ((cc < s.Length) && (braces > 0))
 			{
+				if (s[cc] == '\\'){
+					cc+=2;
+					continue;
+				}
 				if (s[cc] == '{') ++braces;
 				else if (s[cc] == '}') --braces;
 				++cc;
 			}
 			--cc;
+			return braces == 0;
+		}
+
+		/// <summary>
+		/// Finds the close brace.
+		/// </summary>
+		/// <param name="s">string to look inside</param>
+		/// <param name="cc">Read header.
+		/// Must be pointing to the next character of an open brace within the string s</param>
+		/// <returns><c>true</c>, if closing brace par was found, <c>false</c> otherwise.</returns>
+		protected internal static bool FindCloseBrace(string s, ref int cc, out string subs)
+		{
+			int braces = 1;
+			StringBuilder sb = new StringBuilder(s.Length);
+
+			while ((cc < s.Length) && (braces > 0))
+			{
+				if (s[cc] == '\\'){
+					if (++cc < s.Length) sb.Append(s[cc]);
+					++cc;
+					continue;
+				}
+				if (s[cc] == '{') ++braces;
+				else if (s[cc] == '}') --braces;
+				sb.Append(s[cc]);
+				++cc;
+			}
+			--cc;
+			if(sb.Length > 0) --sb.Length;
+			subs = sb.ToString();
 			return braces == 0;
 		}
 
