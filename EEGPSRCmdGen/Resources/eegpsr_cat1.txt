@@ -131,7 +131,7 @@ $vbdeliver = bring | deliver | give | hand | hand over
 # Polite
 #
 ##############################################################################
-$polite    = {void} | Please
+$polite    = Please
 $polite    = Could you
 $polite    = Robot please
 $polite    = Could you please

@@ -1,0 +1,195 @@
+; grammar name Category III - Objects (with erroneous information)
+; grammar tier High
+
+$Main      = $task | ($polite $task)
+
+
+##############################################################################
+#
+# Tasks
+#
+##############################################################################
+
+; Three on a tray
+; $task      = $ontrayE
+
+; Bring from/to storage
+$task      = $storeE
+$task      = $retrieveE
+
+; Pouring
+$task      = $pourE
+
+; Doors
+$task      = $opendoorE
+$task      = $closedoorE
+
+; Serving
+; $task      = $serveE
+
+; Bring from description
+; $task      = $bringdescE
+
+; Count
+$task      = $countobjE
+
+; Describe object
+$task      = $descobjE
+
+; Find object
+; $task      = $vbfind the {sobject} in the {room}
+
+
+
+##############################################################################
+#
+# count
+#
+##############################################################################
+$countobjE = tell $repwhoE how many $countwhat are in the {placement 1}
+$countobjE = tell $repwho how many $countwhat are in the $placementE
+$countobjE = count the $countwhat at the {placement 1} and $reportE
+$countobjE = count the $countwhat at the $placementE and $report
+$countwhat = ({category} items) | $color ( {object} | {category} objects )
+$report    = $vbreport $repwho
+$reportE   = $vbreport $repwhoE
+
+
+
+##############################################################################
+#
+# Open & Close doors
+#
+##############################################################################
+$opendoorE = open the $whichdoor ($dooroE | $doorE)
+$closedoorE= close the $whichdoor ($doorcE | $doorE)
+$whichdoor = entrance | exit | corridor
+$doorE     = {void meta: There is a person standing at the door on the robot's side}
+$dooroE    = {void meta: The door is already open}
+$doorcE    = {void meta: The door is already closed}
+
+
+
+##############################################################################
+#
+# Describe
+#
+##############################################################################
+$descobjE = describe the objects in the {placement} to $repwhoE
+$descobjE = describe the objects in the $placementE to $repwho
+
+
+
+##############################################################################
+#
+# Three on a tray
+#
+##############################################################################
+$ontray    = $vbdeliver me some ($cereal | $snack), a $fruit and a $drink on a tray
+
+
+
+##############################################################################
+#
+# Bring from/to storage
+#
+##############################################################################
+$retrieveE = $vbdeliver me some {category} from the $storageE
+$retrieveE = $vbdeliver me some {category} from the $storage {void meta: The object is not there}
+$storeE    = put the {object} into the $storageE
+$storeE    = pick up a {category 1} from the {placement meta: No {category 1} to be found here} and put it into the $storage
+$storeE    = pick up a {category} from the $placementE and put it into the $storage
+$storeE    = pick up a {category} from the {placement} and put it into the $storageE
+
+
+
+##############################################################################
+#
+# Bring from description
+#
+##############################################################################
+$bringdesc = $vbdeliver me the $bdwhat from the {placement 1}
+$bringdesc = take the $bdwhat from the {placement 1} to the {placement 2}
+$bringdesc = $vbdeliver me the {category} at the $rpos {placement 1}
+$bringdesc = $vbdeliver me something into a $canpourin
+$bringdesc = take the {category} at the {placement 1}'s $rpos to the {placement 2}
+$bdwhat    = $desc (object | {category})
+
+
+
+##############################################################################
+#
+# Pouring
+#
+##############################################################################
+$pour      = $vbdeliver me some $pourable in a $canpourin
+$pourE     = $vbpour some $pourableE in a $canpourin
+$pourE     = $vbpour some $pourable in a $canpourinE
+
+
+
+##############################################################################
+#
+# Serving
+#
+##############################################################################
+$serve     = $vbplace a $tableware on the $placementE and a $cutlery $servewhere
+$servewhere= ( on | in ) it
+$servewhere= on its (left | right)
+
+
+
+##############################################################################
+#
+# Macros
+#
+##############################################################################
+$canpourin = {object where canPourIn=true}
+$pourable  = {object where canPour=true}
+$cereal    = {object where Category="food" canPour=true}
+$snack     = {object where Category="snacks"}
+$fruit     = {object where fruit=true}
+$drink     = {object where Category="drinks"}
+$storage   = microwave | fridge | oven | {object special where canPlaceIn=true} on the {placement}
+$tableware = {object where Category="tableware"}
+$cutlery   = {object where Category="cutlery"}
+$rpos	   = left | right | center | middle bottom | top
+$desc      = $color | biggest | smallest | tallest | (left-most) | (right-most)
+$color     = blue | yellow | black | white | red | orange | gray
+$repwho    = me
+$repwhoE   = {name 1 meta:{name 1} is at the {beacon 3}} at the {beacon 2})
+$repwhoE   = {name 1 meta:{name 1} is not at {beacon 2} but close within 2m radius} at the {beacon 2})
+$placementE= {placement meta: All paths to destination are blocked}
+$placementE= {placement meta: A person is standing there, robot can't reach}
+$storageE  = microwave {void meta: A person is using the microwave, robot can't reach}
+$storageE  = fridge {void meta: A person is using the fridge, robot can't reach}
+$storageE  = oven {void meta: A person is using the oven, robot can't reach}
+$storageE  = {object special where canPlaceIn=true} on the $placementE
+$storageE  = {object special where canPlaceIn=false} on the {placement}
+$canpourinE= {object where canPourIn=false}
+$pourableE = {object where canPlaceOn=true}
+
+
+##############################################################################
+#
+# Polite
+#
+##############################################################################
+$polite = Please
+$polite = Could you
+$polite = Robot please
+$polite = Could you please
+
+##############################################################################
+#
+# Verbs
+#
+##############################################################################
+$vbpour    = pour | serve
+$vbtake    = get | grasp | take | pick up
+$vbplace   = deliver | put | place
+$vbdeliver = bring | deliver | give | hand
+$vbtake    = get | grasp | take | retrieve | pick up
+$vbplace   = put | place | leave | set
+$vbfind    = find | locate | spot | pinpoint | look for
+$vbreport  = inform | report to

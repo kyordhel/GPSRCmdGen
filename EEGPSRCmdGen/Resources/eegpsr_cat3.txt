@@ -1,0 +1,165 @@
+; grammar name Category III - Objects
+; grammar tier High
+
+$Main      = $task | ($polite $task)
+
+
+##############################################################################
+#
+# Tasks
+#
+##############################################################################
+
+; Three on a tray
+$task      = $ontray
+
+; Bring from/to storage
+$task      = $store
+$task      = $retrieve
+
+; Pouring
+$task      = $pour
+
+; Doors
+$task      = open the (entrance | exit | corridor) door
+$task      = close the (entrance | exit | corridor) door
+
+; Serving
+$task      = $serve
+
+; Bring from description
+$task      = $bringdesc
+
+; Count
+$task      = $countobj
+
+; Describe object
+$task      = $descobj
+
+; Find object
+$task      = $vbfind the {sobject} in the {room}
+
+
+
+##############################################################################
+#
+# count
+#
+##############################################################################
+$countobj  = tell $repwho how many $countwhat are in the {placement 1}
+$countobj  = count the $countwhat at the {placement 1} and $report
+$countwhat = ({category} items) | $color ( {object} | {category} objects )
+$report    = $vbreport $repwho
+
+
+
+
+
+
+##############################################################################
+#
+# Describe
+#
+##############################################################################
+$descobj  = describe the objects in the {placement} to $repwho
+
+
+
+##############################################################################
+#
+# Three on a tray
+#
+##############################################################################
+$ontray    = $vbdeliver me some ($cereal | $snack), a $fruit and a $drink on a tray
+
+
+
+##############################################################################
+#
+# Bring from/to storage
+#
+##############################################################################
+$retrieve  = $vbdeliver me some {category} from the $storage
+$store     = put the {object} into the $storage
+$store     = pick up a {category} from the {placement} and put it into the $storage
+
+
+
+##############################################################################
+#
+# Bring from description
+#
+##############################################################################
+$bringdesc = $vbdeliver me the $bdwhat from the {placement 1}
+$bringdesc = take the $bdwhat from the {placement 1} to the {placement 2}
+$bringdesc = $vbdeliver me the {category} at the $rpos {placement 1}
+$bringdesc = $vbdeliver me something into a $canpourin
+$bringdesc = take the {category} at the {placement 1}'s $rpos to the {placement 2}
+$bdwhat    = $desc (object | {category})
+
+
+
+##############################################################################
+#
+# Pouring
+#
+##############################################################################
+$pour      = $vbdeliver me some $pourable in a $canpourin
+$pour      = $vbpour some $pourable in a $canpourin
+
+
+
+##############################################################################
+#
+# Serving
+#
+##############################################################################
+$serve     = $vbplace a $tableware on the {placement} and a $cutlery $servewhere
+$servewhere= ( on | in ) it
+$servewhere= on its (left | right)
+
+
+
+##############################################################################
+#
+# Macros
+#
+##############################################################################
+$canpourin = {object where canPourIn=true}
+$pourable  = {object where canPour=true}
+$cereal    = {object where Category="food" canPour=true}
+$snack     = {object where Category="snacks"}
+$fruit     = {object where fruit=true}
+$drink     = {object where Category="drinks"}
+$storage   = microwave | fridge | oven | {object special where canPlaceIn=true} on the {placement}
+$tableware = {object where Category="tableware"}
+$cutlery   = {object where Category="cutlery"}
+$rpos	   = left | right | center | middle bottom | top
+$desc      = $color | biggest | smallest | tallest | (left-most) | (right-most)
+$color     = blue | yellow | black | white | red | orange | gray
+$repwho    = me
+
+
+
+##############################################################################
+#
+# Polite
+#
+##############################################################################
+$polite = Please
+$polite = Could you
+$polite = Robot please
+$polite = Could you please
+
+##############################################################################
+#
+# Verbs
+#
+##############################################################################
+$vbpour    = pour | serve
+$vbtake    = get | grasp | take | pick up
+$vbplace   = put | place | leave | set
+$vbdeliver = bring | deliver | give | hand
+$vbtake    = get | grasp | take | retrieve | pick up
+$vbfind    = find | locate | spot | pinpoint | look for
+$vbreport  = inform | report to
