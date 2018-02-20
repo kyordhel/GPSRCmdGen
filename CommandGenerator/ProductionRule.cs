@@ -149,7 +149,11 @@ namespace RoboCup.AtHome.CommandGenerator
 			int i;
 			StringBuilder sb = new StringBuilder (s.Length);
 			for (i = 0; i < s.Length -1; ++i) {
-				if ((s [i] == '(') || (s [i] == '|') || (s [i] == ')'))
+				if (s [i] == '\\'){
+					++i;
+					continue;
+				}
+				else if ((s [i] == '(') || (s [i] == '|') || (s [i] == ')'))
 					return;
 				sb.Append(s[i]);
 			}
@@ -170,6 +174,10 @@ namespace RoboCup.AtHome.CommandGenerator
 			string prod;
 
 			while (cc < s.Length) {
+				if (s [cc] == '\\') {
+					cc+= 2;
+					continue;
+				}
 				if (s [cc] == '(') {
 					++cc;
 					if (!FindClosePar (s, ref cc))
@@ -200,7 +208,16 @@ namespace RoboCup.AtHome.CommandGenerator
 		/// <returns><c>true</c> if the provided string is an expandable production; otherwise, <c>false</c>.</returns>
 		internal static bool IsExpandable (string replacement)
 		{
-			return replacement.IndexOf ('(') != -1;
+			if(String.IsNullOrEmpty(replacement)) return false;
+			for(int i = 0; i < replacement.Length; ++i){
+				if (replacement [i] == '\\'){
+					++i;
+					continue;
+				}
+				else if ( replacement[i] == '(')
+					return true;
+			}
+			return false;
 		}
 
 		/// <summary>
@@ -213,6 +230,10 @@ namespace RoboCup.AtHome.CommandGenerator
 		protected internal static bool FindClosePar(string s, ref int cc){
 			int par = 1;
 			while ((cc < s.Length) && (par > 0)) {
+				if (s [cc] == '\\') {
+					cc+= 2;
+					continue;
+				}
 				if (s [cc] == '(') ++par;
 				else if (s [cc] == ')') --par;
 				++cc;

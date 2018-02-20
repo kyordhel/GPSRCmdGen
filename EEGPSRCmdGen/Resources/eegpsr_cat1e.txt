@@ -1,0 +1,192 @@
+; grammar name Category I - Three at once (with erroneous information)
+; grammar tier Moderate
+
+$Main     = $complex.
+$Main     = $polite $complex.
+
+
+##############################################################################
+#
+# Complex commands
+#
+##############################################################################
+$complex  = $triple
+$complex  = $singleE, $single, and ($single | $singleSp)
+$complex  = $single, $singleE, and ($single | $singleSp)
+$complex  = $single, $single, and ($singleE | $singleSpE)
+$complex  = $doublelE, and ($single | $singleSp)
+$complex  = $doublel, and ($singleE | $singleSpE)
+$complex  = $singleE, $doubler
+$complex  = $single, $doublerE
+
+##############################################################################
+#
+# Triple task commands
+#
+##############################################################################
+$triple   = $findordE, and ($place | $deliver)
+$triple   = $findord, and ($placeE | $deliverE)
+$triple   = $findpdE, and ($guide | $follow)
+$triple   = $findprd, and ($guideE | $followE)
+
+##############################################################################
+#
+# Double task commands
+#
+##############################################################################
+; go get it
+$doubler  = $take, and ($place | $deliver)
+$doublel  = $take, ($place | $deliver)
+$doublerE = $take, and ($placeE | $deliverE)
+$doublerE = $takeE, and ($place | $deliver)
+$doublelE = $take, ($placeE | $deliverE)
+$doublelE = $takeE, ($place | $deliver)
+
+;find person or object
+$doublel  = $findord
+$doublel  = $findpd
+$doublel  = $findprd
+$doublelE = $findordE
+$doublelE = $findprdE
+
+; find and follow
+$doubler  = $findprd, and $follow
+$doublel  = $findprd, $follow
+$doublerE = $findprdE, and $follow
+$doublelE = $findprdE, $follow
+
+; find and guide
+$doubler  = $findpd, and $guide
+$doublel  = $findpd, $guide
+$doublerE = $findpd, and $guideE
+$doublerE = $findpdE, and $guide
+$doublelE = $findpd, $guideE
+$doublelE = $findpdE, $guide
+
+##############################################################################
+#
+# Single task commands
+#
+##############################################################################
+$single   = $findps
+$single   = $findprs
+$single   = $findors
+$single   = $take
+$single   = $mvobj
+$singleSp = $vbspeak $whattosay
+$singleSp = answer a {question}
+
+$singleE  = $findpsE
+$singleE  = $findprsE
+$singleE  = $findorsE
+$singleE  = $takeE
+$singleE  = $mvobjE
+$singleSpE= answer a question $questionE
+
+##############################################################################
+#
+# Tasks
+#
+##############################################################################
+; Find object in room
+$findors  = $vbfind a {object} in the {room}
+$findord  = $vbgor to the {room 1}, $vbfind the {object}
+$findorsE = $vbfind a {object meta: Object is in the {room 3}} in the {room 1}
+$findordE = $vbgor to the {room 2}, $vbfind the {object meta: Object is in the {room 3}}
+
+; Take an object
+$take     = $vbtake the {aobject} from the {placement1}
+$takeE    = $vbtake the {object} from the {placement 1 meta: Object is there, out of robot's grasping reach}
+$takeE    = $vbtake the {object} from the {placement 1 meta: Object is at {placement 3}}
+$takeE    = $vbtake the {object1 where Category="{category 1}"} from the {placement1 meta: Instead of {object 1} there are {object where Category="{category 1}"} and {object where Category="{category 1}"}}
+
+; Place an object
+$place    = $vbplace it on the {placement 2}
+$placeE   = $vbplace it on the {placement 2 meta: A person is standing there blocking access}
+
+;move object to target
+$mvobj    = $vbplace {object} on the {placement}
+$mvobjE   = $vbplace {object} on the {placement meta: A person is standing there blocking access}
+$mvobjE   = $vbplace {object meta: The object is not at its predefined location, but at {placement}} on the {placement}
+
+; Deliver an object
+$deliver  = $vbdeliver it to {name} at the {beacon 1}
+$deliverE = $vbdeliver it to {name meta: {pron sub} is at {beacon 2}, nobody is at {beacon 1}} at the {beacon 1}
+$deliverE = $vbdeliver it to {name meta: {pron sub} is at {beacon 2}, {name} is at {beacon 1}} at the {beacon 1}
+
+; Find people in location
+$findpd   = $vbgopl to the {beacon}, $vbfind {name}
+$findps   = $vbfind {name} in the {beacon}
+$findpdE  = $vbgopl to the {beacon}, $vbfind $erNameB
+$findpsE  = $vbfind $erNameB in the {beacon}
+
+; Find people in room
+$findprd  = $vbgor to the {room}, $vbfind {name}
+$findprs  = $vbfind {name} in the {room}
+$findprdE = $vbgor to the {room}, $vbfind $erNameR
+$findprsE = $vbfind $erNameR in the {room}
+
+; Follow people
+$follow   = $vbfollow {pron}
+$followE  = $vbfollow {pron meta: Disabled person. Can't walk}
+
+; Guide people
+$guide    = $vbguide {pron} to the ( {room} | {beacon} | exit )
+$guideE   = $vbguide {pron meta: Person refuses to leave the place} to the ( {room} | {beacon} | exit )
+$guideE   = $vbguide {pron meta: Disabled person. Can't walk} to the ( {room} | {beacon} | exit )
+
+##############################################################################
+#
+# Errors
+#
+##############################################################################
+$erNameB  = {name meta: there's nobody at that place, {pron sub} is at {beacon}}
+$erNameB  = {name meta: instead robot will find {name} at that place}
+$erNameR  = {name meta: there's nobody in the room, {pron sub} is at {room}}
+$erNameR  = {name meta: instead of {pron} there's {name} in the room}
+
+
+##############################################################################
+#
+# What to say
+#
+##############################################################################
+$whattosay = something about yourself
+$whattosay = the time
+$whattosay = what day is (today | tomorrow)
+$whattosay = your team's (name | country | affiliation)
+$whattosay = the day of the (week | month)
+$whattosay = whether you dream or not on electric sheep
+$whattosay = a joke
+
+$questionE = {void meta: Question: Which team is the winner of @Home in 2018? }
+$questionE = {void meta: Question: When am I going to die?  }
+$questionE = {void meta: Question: What is the purpose of death? }
+$questionE = {void meta: Question: Did I ate Muesly for breakfast? }
+$questionE = {void meta: Question: Will you ever find love? }
+
+##############################################################################
+#
+# Verbs
+#
+##############################################################################
+$vbtake    = get | grasp | take | retrieve | pick up
+$vbplace   = put | place | leave | set
+$vbspeak   = tell | say
+$vbgopl    = go | navigate
+$vbgor     = $vbgopl | enter
+$vbfind    = find | locate | spot | pinpoint | look for
+$vbguide   = guide | escort | take | lead | accompany | conduct
+$vbfollow  = follow | ((come | go) (behind | after)) | accompany
+$vbdeliver = bring | deliver | give | hand | hand over
+
+##############################################################################
+#
+# Polite
+#
+##############################################################################
+$polite    = {void} | Please
+$polite    = Could you
+$polite    = Robot please
+$polite    = Could you please
+

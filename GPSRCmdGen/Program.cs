@@ -26,7 +26,7 @@ namespace RoboCup.AtHome.GPSRCmdGen
 		}
 
 		/// <summary>
-		/// Checks if at least one of the required files are present. If not, initializes the 
+		/// Checks if at least one of the required files are present. If not, initializes the
 		/// directory with example files
 		/// </summary>
 		public static void InitializePath()
@@ -64,8 +64,8 @@ namespace RoboCup.AtHome.GPSRCmdGen
 		{
 			switch (opc)
 			{
-				case '1': 
-				case '2': 
+				case '1':
+				case '2':
 				case '3':
 					task = GetTask(opc);
 					break;
@@ -101,7 +101,7 @@ namespace RoboCup.AtHome.GPSRCmdGen
 			this.gen = new GPSRGenerator ();
 
 			Console.ForegroundColor = ConsoleColor.Gray;
-			Console.WriteLine ("GPSR Generator 2016 Beta");
+			Console.WriteLine ("GPSR Generator 2018 Beta");
 			Console.WriteLine ();
 			base.LoadData();
 			Console.WriteLine ();
@@ -150,10 +150,7 @@ namespace RoboCup.AtHome.GPSRCmdGen
 		{
 			int dCount;
 			if ((args.Length < (i + 2)) || !Int32.TryParse(args[++i], out dCount) || (dCount < 1))
-			{
-				Console.WriteLine("Invalid input");
-				return;
-			}
+				dCount = 100;
 
 			Console.WriteLine("Generating {0} examples in bulk mode for 3 categories", dCount);
 			try

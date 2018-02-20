@@ -1,4 +1,4 @@
-; grammar name Category II - People
+; grammar name Category II - People (with incomplete information)
 ; grammar tier High
 
 $Main      = $task | ($polite $task)
@@ -11,26 +11,29 @@ $Main      = $task | ($polite $task)
 ##############################################################################
 ; Greet person matching description
 $task  	   = $greet the $person in the $room
+$task  	   = $greet the $person $roomI
+$task      = $greet {name 1 meta: Provide {name 1}'s description to the robot (e.g. {pron} outfit, tallest, slimmest, oldest, etc.)} in the $room
 
 ; Count people
-$task  	   = tell me how many $people there are in the $room
-$task  	   = tell me how many $peopleR in the $room
-$task  	   = tell me how many $ppl in the $room are $peopleDsc
+$task  	   = tell me how many $people there are $roomI
+$task  	   = tell me how many $peopleR $roomI
 
 ; Host
-$task  	   = offer something to (eat | drink) to all the $people in the $room
+$task  	   = offer something to (eat | drink) to all the $people $roomI
+$task  	   = offer something to (eat | drink) to {name 1 meta: Introduce {name 1} to the robot right after giving the command} in the $room
 
 ; Bring to person matching description
 ; $task  	= bring the {object} to the $person in the $room
 
 ; Meet and greet a person
-$task  	   = $mgreet {void meta:There is only one person at {beacon 1}}
+$task  	   = $mgreet {void meta:There are two people at {beacon 1}, {name 1} is {gesture 1}  and {name 2} is {gesture 2}}
+$task  	   = $mgreetI {void meta:There is only one person at {beacon 1}}
 
 ; Follow & guide
-$task  	   = $follow | $guide
+$task  	   = $followI | $guideI
 
 ; Describe
-$task      = $describe
+$task      = $describeI
 
 
 ##############################################################################
@@ -38,10 +41,10 @@ $task      = $describe
 # Describe
 #
 ##############################################################################
-$describe  = tell me how the person $posture at the {beacon} looks like
-$describe  = describe the person $posture at the {beacon} to me
-$describe  = describe the person $posture at the {beacon} to the person at the {beacon}
-$describe  = describe me the person $posture at the {beacon}
+$describeI = tell me how the person $posture at the {beacon?} looks like
+$describeI = describe the person $posture at the {beacon?} to me
+$describeI = describe the person $posture at the {beacon?} to the person at the {beacon}
+$describeI = describe me the person $posture at the {beacon?}
 
 
 
@@ -51,16 +54,20 @@ $describe  = describe me the person $posture at the {beacon}
 #
 ##############################################################################
 ; Hard to find a person, easy to follow/guide
-$follow    = $vbfollow the $fgwhor
-$guide	   = $vbguide the $fgwhor to the (exit | {room 2})
+$followI   = $vbfollow the $fgwhorI
+$guideI    = $vbguide the $fgwhorI to the (exit | {room 2})
+$guideI    = $vbguide the $fgwhor {void meta: guide {pron} to the {room 2}}
 
 ; Easy-to-find person, but hard to follow/guide
-$follow    = $vbfollow the $fgwho $fbriefing
-$guide	   = $vbguide the person at the {beacon 1} to the (exit | {beacon 2}) $gbriefing
+$followI   = $vbfollow the $fgwhoI $fbriefing
+$guideI    = $vbguide $fgname from the {beacon 1} to the (exit | {beacon 2}) $gbriefing
 
 ; Helpers
 $fgwho    = person at the {beacon}
 $fgwhor   = $person in the $room
+$fgwhoI   = $fgname at the {beacon}
+$fgwhorI  = $fgname in the $room
+$fgname   = {name 1 meta: Introduce or describe (e.g. {pron} outfit, tallest, slimmest, oldest, etc.) {name 1} right after giving the command}
 $fbriefing= {void meta: The Professional Walker must leave the arena and walk through a crowd of at least 5 people who must not let the robot pass. Once the robot has re-encountered its operator, the Professional Walker must lead the robot to {room 2} }
 $gbriefing= {void meta: The Professional Walker must, in any order: a) stop following the robot and head towards {beacon 3}, b) stop and wait there, and c) start walking very slow. }
 $gbriefing= {void meta: All doors between {beacon 1} and the target location are closed, as well as all paths to get there are blocked. }
@@ -110,6 +117,7 @@ $apparel   = hat | glasses | necklace | tie | earrings
 #
 ##############################################################################
 $room      = {room 1 meta: At least three people must be here}
+$roomI     = {void meta: At least three people must be at {room 1}}
 
 
 
@@ -121,6 +129,7 @@ $room      = {room 1 meta: At least three people must be here}
 $greet     = $vbgreet
 $greet     = ((say hello) | (introduce yourself)) to
 $mgreet    = $vbmeet {name} at the {beacon 1}, then (greet | find) {pron} in the $room
+$mgreetI   = $vbmeet {name} in the {beacon? 1}, then (greet | find) {pron} in the $room
 
 
 
