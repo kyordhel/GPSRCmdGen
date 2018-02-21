@@ -2,7 +2,7 @@ Command Generator for @HOME
 ============================
 
 
-Random sentence generators RoboCup @Home tests based on the requirements stated on the rulebook for RoboCup @Home. [Go](http://www.robocupathome.org/rules). Current version is based on 2017 rules.
+Random sentence generators RoboCup @Home tests based on the requirements stated on the [rulebook for RoboCup @HomeGo](http://www.robocupathome.org/rules). Current version is based on 2018 rules.
 
 Following tests are currently supported:
 - Speech and Person Recognition
@@ -35,14 +35,14 @@ If you want to compile from source on:
 
     cd GPSRCmdGen
     make
-    
+
 ## Testing
 
 ### SPR Test
 To build and test Speech and Person Recognition question generator use
 
     make spr
-or
+or, to simply run it execute
 
     mono bin/Release/GPSRCmdGen.exe
 
@@ -50,16 +50,33 @@ or
 To build and test GPSR command generator use
 
     make gpsr
-or
+or, to simply run it execute
 
     mono bin/Release/GPSRCmdGen.exe
 
-### EEGPSR 
+### EEGPSR
 To build and test EEGPSR command generator use
 
     make eegpsr
-or
+or, to simply run it execute
 
     mono bin/Release/EEGPSRCmdGen.exe
 
-RoboCup@Home teams and team members are welcome to post GitHub issues for clarifications, questions and also contribute with the project etc.
+## Training
+Both GPSR and EEGPSR generators support building a large set of randomly generated sentences by means of the --bulk [N] flag where the optional parameter N is an integer number between 10 and 10000 with default value of 100. Simply run either
+
+    mono bin/Release/GPSRCmdGen.exe --bulk 1000
+or
+
+    mono bin/Release/EEGPSRCmdGen.exe --bulk 1000
+Generated sentences will be stored in a text files in a subdirectory named after the grammar used for command generation. QR codes are also generated.
+
+
+## Reuse in other competitions and projects
+Thanks to the MIT license, you can adapt this project to your own needs (acknowledgments are always appreciated). Feel free to use this generator.
+
+The generators use free context grammars that contain wild-cards which are replaced by random values from xml configuration files. The grammar's format specification can be found [here](https://github.com/kyordhel/GPSRCmdGen/wiki/Grammar-Format-Specification) and [here](https://github.com/kyordhel/GPSRCmdGen/blob/master/CommonFiles/FormatSpecification.txt)
+
+
+## Contributing
+Contributions and questions are always welcome
