@@ -18,11 +18,11 @@
 # Manipulation
 #
 ##############################################################################
-$deliver  = $take to the {placement 2}
+$deliver  = $take and $vbplace it on the {placement 2}
 $deliver  = $vbplace the $object on the {placement 2}
 $deliver  = $vbbring me the $object
 $deliver  = $vbdeliver the $object to $someone
-$deliver  = $takefrom to the {placement 2}
+$deliver  = $takefrom and $vbplace it on the {placement 2}
 $deliver  = $goplace, $vbfind the $object, and ($delivme | $delivat)
 $deliver  = $goplace, $vbfind the $object, and $place
 
@@ -140,7 +140,7 @@ $vbgor     = $vbgopl | enter
 $vbfind    = find | locate | look for
 $vbguide   = guide | escort | take | lead | accompany
 $vbfollow  = follow
-$vbfollow  = (go | come) after
+ 
 
 ##############################################################################
 #

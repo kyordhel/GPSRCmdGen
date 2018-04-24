@@ -123,7 +123,7 @@
 * Conditions support wildcard nesting, for which the following
 * example is also valid.
 *
-*	$Main = {object where Category="{category 1}""} belonds to
+*	$Main = {object where Category="{category 1}""} belongs to
 *	{category 1 where Name!="Cleaning Stuff"}
 *
 * In cases when the query returns no results, the condition can't

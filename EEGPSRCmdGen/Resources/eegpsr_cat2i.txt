@@ -16,10 +16,12 @@ $task      = $greet {name 1 meta: Provide {name 1}'s description to the robot (e
 
 ; Count people
 $task  	   = tell me how many $people there are $roomI
+$task  	   = tell me how many $peoplege $roomI
 $task  	   = tell me how many $peopleR $roomI
 
 ; Host
-$task  	   = offer something to (eat | drink) to all the $people $roomI
+$task  	   = offer something to (eat | drink) to all the $peopleg $roomI
+$task  	   = offer something to (eat | drink) to all the $peopleg $roomI
 $task  	   = offer something to (eat | drink) to {name 1 meta: Introduce {name 1} to the robot right after giving the command} in the $room
 
 ; Bring to person matching description
@@ -41,10 +43,10 @@ $task      = $describeI
 # Describe
 #
 ##############################################################################
-$describeI = tell me how the person $posture at the {beacon?} looks like
-$describeI = describe the person $posture at the {beacon?} to me
-$describeI = describe the person $posture at the {beacon?} to the person at the {beacon}
-$describeI = describe me the person $posture at the {beacon?}
+$describeI = tell me how the person $posture in the {beacon?} looks like
+$describeI = describe the person $posture in the {beacon?} to me
+$describeI = describe the person $posture in the {beacon?} to the person at the {beacon}
+$describeI = describe me the person $posture in the {beacon?}
 
 
 
@@ -79,16 +81,17 @@ $gbriefing= {void meta: All doors between {beacon 1} and the target location are
 ##############################################################################
 $peopleR   = $ppl are $peopleDsc
 $peopleDsc = $posture | {gesture}
-$peopleDsc = wearing $outfit
+$peopleDsc = wearing $outfitss
 $peopleDsc = wear $color
 
 $people    = $ppl
-$people    = $posture $ppl
-$people    = {gesture} $ppl
-$people    = $ppl wearing $outfit
-$people    = $color-dressed $ppl
+$people    = $ppl $posture
+$peopleg    = $ppl {gesture}
+$peoplege    = $ppl are {gesture}
+$people    = $ppl wearing $outfitss
+$people    = $ppl dressed in $color
 
-$posture   = standing | sitting | lying
+$posture   = standing | sitting | lying down
 $ppl       = people | children | elders | men | women
 
 
@@ -100,14 +103,21 @@ $ppl       = people | children | elders | men | women
 ##############################################################################
 $person    = child
 $person    = $lpdesc (man | woman | person)
+$person    = (man | woman | person) {gesture}
 $person    = (man | woman | person) $rpdesc
-$lpdesc    = {gesture} | tallest | smallest | oldest | youngest | slimmest | fattest
-$rpdesc    = dressed with $color $outfit
-$rpdesc    = wearing ($apparel | $color $outfit)
+$lpdesc    = tallest | smallest | oldest | youngest | slimmest | fattest
 
-$color	   = blue | yellow | black | white | red | orange | gray
-$outfit    = (T-shirt) | shirt | blouse | shoes | sweater | pants | coat | jacket
-$apparel   = hat | glasses | necklace | tie | earrings
+$rpdesc    = dressed in an $coloran $outfita
+$rpdesc    = dressed in a $colora $outfita
+$rpdesc    = wearing ($apparel | a $colora $outfita | an $coloran $outfitan | ($colora | $coloran) $outfits)
+
+$colora	   = blue | yellow | black | white | red | gray
+$coloran   = orange
+$color     = blue | yellow | black | white | red | gray | orange
+$outfits   = shoes | pants
+$outfita   = (T-shirt) | shirt | blouse | sweater | coat | jacket
+$outfitss  = shoes | pants | (T-shirts) | shirts | blouses | sweaters | coats | jackets
+$apparel   = a hat | glasses | a necklace | a tie | earrings
 
 
 

@@ -23,7 +23,7 @@
     <location name="center table" isPlacement="true" />
     <location name="bar" isPlacement="true" />
     <location name="fireplace" isPlacement="true" />
-    <location name="tv coach" isBeacon="true" />
+    <location name="tv couch" isBeacon="true" />
   </room>
   <room name="kitchen">
     <location name="microwave" isPlacement="true" />
@@ -46,7 +46,7 @@
     <location name="bathtub" isBeacon="true" />
     <location name="toilet" isBeacon="true" />
     <location name="towel rail" isPlacement="true" />
-    <location name="bathroom's cabinet" isPlacement="true" />
+    <location name="bathroom cabinet" isPlacement="true" />
     <location name="washbasin" isBeacon="true" isPlacement="true" />
   </room>
 </rooms>

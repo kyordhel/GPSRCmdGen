@@ -68,8 +68,8 @@ $singleSp = answer a {question}
 #
 ##############################################################################
 ; Find object in room
-$findord  = $vbgor to the {room}, $vbfind the {object}
-$findors  = $vbfind a {object} in the {room}
+$findord  = $vbgor the {room}, $vbfind the {object}
+$findors  = $vbfind the {object} in the {room}
 
 ; Take an object
 $take     = $vbtake the {aobject} from the {placement}
@@ -81,14 +81,14 @@ $place    = $vbplace it on the {placement}
 $mvobj    = $vbplace {object} on the {placement}
 
 ; Deliver an object
-$deliver  = $vbdeliver it to (me | {name} in the {beacon})
+$deliver  = $vbdeliver it to (me | {name} at the {beacon})
 
 ; Find people in location
 $findpd   = $vbgopl to the {beacon}, $vbfind {name}
-$findps   = $vbfind {name} in the {beacon}
+$findps   = $vbfind {name} at the {beacon}
 
 ; Find people in room
-$findprd  = $vbgor to the {room}, $vbfind {name}
+$findprd  = $vbgor the {room}, $vbfind {name}
 $findprs  = $vbfind {name} in the {room}
 
 ; Follow people
@@ -119,7 +119,7 @@ $whattosay = a joke
 $vbtake    = get | grasp | take | retrieve | pick up
 $vbplace   = put | place | leave | set
 $vbspeak   = tell | say
-$vbgopl    = go | navigate
+$vbgopl    = go to | navigate to
 $vbgor     = $vbgopl | enter
 $vbfind    = find | locate | spot | pinpoint | look for
 $vbguide   = guide | escort | take | lead | accompany | conduct

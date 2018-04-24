@@ -108,7 +108,7 @@ $store     = pick up a {category meta: the object is on the {placement}} and put
 $bringdescI= $vbdeliver me the $bdwhatFI
 $bringdescI= take the $bdwhatFI to the {placement 2}
 $bringdesc = $vbdeliver me the {category} at the $rpos {placement 1}
-$bringdescI= $vbdeliver me something into a $canpourinI
+$bringdescI= $vbdeliver me something in a $canpourinI
 $bringdesc = take the {category} at the {placement 1}'s $rpos to the {placement 2}
 $bdwhat    = $desc (object | {category})
 $bdwhatFI  = $desc (object | {category}) $bdfrom
@@ -133,7 +133,7 @@ $pourI     = $vbpour some $pourable in a $canpourinI
 # Serving
 #
 ##############################################################################
-$serveI    = $vbplace a $tableware on the {placement?} and a $cutlery $servewhere
+$serveI    = $vbplace a $tableware in the {placement?} and a $cutlery $servewhere
 $servewhere= ( on | in ) it
 $servewhere= on its (left | right)
 
@@ -185,7 +185,7 @@ $polite = Could you please
 $vbpour    = pour | serve
 $vbtake    = get | grasp | take | pick up
 $vbplace   = put | place | leave | set
-$vbdeliver = bring | deliver | give | hand
+$vbdeliver = bring | deliver to | give | hand
 $vbtake    = get | grasp | take | retrieve | pick up
 $vbfind    = find | locate | spot | pinpoint | look for
 $vbreport  = inform | report to

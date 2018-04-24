@@ -2,9 +2,9 @@
 ; grammar tier High
 
 $Main   = $arenaq
-$arenaq = Where is located the {placement}?
-$arenaq = Where is located the {beacon}?
+$arenaq = Where is the {placement} located?
+$arenaq = Where is the {beacon} located?
 $arenaq = In which room is the {placement}?
 $arenaq = In which room is the {beacon}?
-$arenaq = How many doors has the {room}?
+$arenaq = How many doors does the {room} have?
 $arenaq = How many ({placement} | {beacon}) are in the {room}?
