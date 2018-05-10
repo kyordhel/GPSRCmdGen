@@ -109,7 +109,7 @@ $lpdesc    = tallest | smallest | oldest | youngest | slimmest | fattest
 
 $rpdesc    = dressed in an $coloran $outfita
 $rpdesc    = dressed in a $colora $outfita
-$rpdesc    = wearing ($apparel | a $colora $outfita | an $coloran $outfitan | ($colora | $coloran) $outfits)
+$rpdesc    = wearing ($apparel | a $colora $outfita | an $coloran $outfita | ($colora | $coloran) $outfits)
 
 $colora	   = blue | yellow | black | white | red | gray
 $coloran   = orange

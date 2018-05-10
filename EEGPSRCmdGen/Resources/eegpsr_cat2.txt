@@ -78,7 +78,7 @@ $peopleDsc = wearing $outfitss
 $peopleDsc = wearing $color
 
 $people    = $ppl
-$people    = $ppl $posture
+$people    = $posture $ppl
 $peopleg   = $ppl {gesture}
 $peoplege  = $ppl are {gesture}
 $people    = $ppl wearing $outfitss
@@ -101,7 +101,7 @@ $person    = (man | woman | person) $rpdesc
 $lpdesc    = tallest | smallest | oldest | youngest | slimmest | fattest
 $rpdesc    = dressed in an $coloran $outfita
 $rpdesc    = dressed in a $colora $outfita
-$rpdesc    = wearing ($apparel | a $colora $outfita | an $coloran $outfitan | ($colora | $coloran) $outfits)
+$rpdesc    = wearing ($apparel | a $colora $outfita | an $coloran $outfita | ($colora | $coloran) $outfits)
 
 $colora	   = blue | yellow | black | white | red | gray
 $coloran   = orange
