@@ -18,11 +18,11 @@ $object   = {aobject}
 
 ; Rule for finding a specific (named) person
 $findp    = $vbfind a $pgenders
-$findp    = $vbfind a {gesture} person
-$findp    = $vbfind a $pose person
+$findp    = $vbfind a person {gesture} 
+$findp    = $vbfind a person $pose
 
 ; A named or described person in the given place
-$whowhere = the {gesture} person in the {room}
+$whowhere = the person {gesture} in the {room}
 
 
 
@@ -66,4 +66,4 @@ $fndobj   = $vbfind the {category} in the {room}
 ; Find people
 $pgenders = man | woman | boy | girl | (male person) | (female person)
 $pgenderp = men | women | boys | girls | male | female
-$pose     = sitting | standing | lying
+$pose     = sitting | standing | lying down

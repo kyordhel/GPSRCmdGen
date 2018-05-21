@@ -93,7 +93,7 @@ $store     = pick up a {category} from the {placement} and put it into the $stor
 $bringdesc = $vbdeliver me the $bdwhat from the {placement 1}
 $bringdesc = take the $bdwhat from the {placement 1} to the {placement 2}
 $bringdesc = $vbdeliver me the {category} at the $rpos {placement 1}
-$bringdesc = $vbdeliver me something into a $canpourin
+$bringdesc = $vbdeliver me something in a $canpourin
 $bringdesc = take the {category} at the {placement 1}'s $rpos to the {placement 2}
 $bdwhat    = $desc (object | {category})
 
@@ -159,7 +159,7 @@ $polite = Could you please
 $vbpour    = pour | serve
 $vbtake    = get | grasp | take | pick up
 $vbplace   = put | place | leave | set
-$vbdeliver = bring | deliver | give | hand
+$vbdeliver = bring | deliver to | give | hand
 $vbtake    = get | grasp | take | retrieve | pick up
 $vbfind    = find | locate | spot | pinpoint | look for
 $vbreport  = inform | report to

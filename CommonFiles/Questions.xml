@@ -5,11 +5,11 @@
     <a>Ken Thompson and Dennis Ritchie.</a>
   </question>
   <question>
-    <q>When was invented the C programming language?</q>
+    <q>When was the C programming language invented?</q>
     <a>C was developed after B in 1972 at Bell Labs</a>
   </question>
   <question>
-    <q>When was invented the B programming language?</q>
+    <q>When was the B programming language invented?</q>
     <a>B was developed circa 1969 at Bell Labs</a>
   </question>
   <question>
@@ -33,30 +33,6 @@
     <a>The SoftBank Robotics Pepper</a>
   </question>
   <question>
-    <q>How many people live in the Japan?</q>
-    <a>A little over 80 million</a>
-  </question>
-  <question>
-    <q>What are the colours of the Japanese flag?</q>
-    <a>Japanese flag is a red circle centred over white</a>
-  </question>
-  <question>
-    <q>What city is the capital of the Japan?</q>
-    <a>Tokyo</a>
-  </question>
-  <question>
-    <q>What is the highest point in Japan</q>
-    <a>The highest point in Japan is Mount Fuji, which reaches 3776m above sea level</a>
-  </question>
-  <question>
-    <q>What is a Sakura</q>
-    <a>Sakura is the Japanese term for ornamental cherry blossom and its tree</a>
-  </question>
-  <question>
-    <q>Who is the emperor of Japan?</q>
-    <a>His Majesty Akihito sama is the emperor in Japan since January 7, 1989</a>
-  </question>
-  <question>
     <q>What's the name of your team?</q>
     <a>...</a>
   </question>
@@ -75,5 +51,17 @@
   <question>
     <q>In which city will next year's RoboCup be hosted?</q>
     <a>It hasn't been announced yet.</a>
+  </question>
+  <question>
+  <q>What is the origin of the name Canada?</q>
+  <a>The name Canada comes from the Iroquois word Kanata, meaning village or settlement.</a>
+  </question>
+  <question>
+  <q>What is the capital of Canada?</q>
+  <a>The capital of Canada is Ottawa.</a>
+  </question>
+  <question>
+  <q>What is the national anthem of Canada?</q>
+  <a>O Canada.</a>
   </question>
 </questions>

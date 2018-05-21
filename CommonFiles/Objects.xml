@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <categories>
-  <category name="toiletries" defaultLocation="bathroom's cabinet" room="bathroom">
+  <category name="toiletries" defaultLocation="bathroom cabinet" room="bathroom">
     <object name="shampoo"       difficulty="moderate"                               />
     <object name="soap"          difficulty="easy"                                   />
     <object name="cloth"         difficulty="high"     type="alike"                  />
@@ -9,7 +9,7 @@
   </category>
   <category name="snacks" defaultLocation="center table" room="living room">
     <object name="chips"         difficulty="moderate" />
-    <object name="M and M"       difficulty="moderate" />
+    <object name="M and M's"       difficulty="moderate" />
     <object name="pringles"      difficulty="easy" />
     <object name="cookies"       difficulty="easy" />
   </category>
