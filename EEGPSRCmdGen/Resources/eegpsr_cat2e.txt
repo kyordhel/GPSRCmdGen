@@ -10,7 +10,7 @@ $Main      = $task | ($polite $task)
 #
 ##############################################################################
 ; Greet person matching description
-$tgreet    = $greet the $person in the $roomE
+$task      = $greet the $person in the $roomE
 
 ; Count people
 $task  	   = tell me how many $people there are in the $roomE
@@ -56,18 +56,18 @@ $describeE = describe me the person $posture at the $beaconE
 ; Hard to find a person, easy to follow/guide
 $followE   = $vbfollow the $fgwhor ($fgrefuse | $fgabort)
 $followE   = $vbfollow the $fgwhorE
-$guideE    = $vbguide the $fgwhor $dest ($fgrefuse | $fgabort)
-$guideE    = $vbguide the $fgwhorE $dest
-$guideE    = $vbguide the $fgwhorE $destE
+$guideE    = $vbguide the $fgwhor $fgdest ($fgrefuse | $fgabort)
+$guideE    = $vbguide the $fgwhorE $fgdest
+$guideE    = $vbguide the $fgwhorE $fgdestE
 
 ; Easy-to-find person, but hard to follow/guide
 $followE   = $vbfollow the $fgwho $fgrefuse
-$followE   = $vbfollow the $fgwho $fbriefing $abort
+$followE   = $vbfollow the $fgwho $fbriefing $fgabort
 $followE   = $vbfollow the $fgwhoE $fbriefing
-$guideE    = $vbguide the $fgwho $dest $fgrefuse
-$guideE    = $vbguide the $fgwho $dest $gbriefing $abort
-$guideE    = $vbguide the $fgwhoE $dest $gbriefing
-$guideE    = $vbguide the $fgwho $destE $gbriefing
+$guideE    = $vbguide the $fgwho $fgdest $fgrefuse
+$guideE    = $vbguide the $fgwho $fgdest $gbriefing $fgabort
+$guideE    = $vbguide the $fgwhoE $fgdest $gbriefing
+$guideE    = $vbguide the $fgwho $fgdestE $gbriefing
 
 ; Helpers
 $fgwho     = person at the {beacon 1}
