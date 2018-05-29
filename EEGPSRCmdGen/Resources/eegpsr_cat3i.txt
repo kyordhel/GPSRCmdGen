@@ -121,9 +121,9 @@ $bdfrom    = {void meta: object is in the {placement 1}}
 # Pouring
 #
 ##############################################################################
-$pourI     = $vbdeliver me some $pourableI in a $canpourin
+$pourI     = $vbdeliver me $pourableI in a $canpourin
 $pourI     = $vbdeliver me some $pourable in a $canpourinI
-$pourI     = $vbpour some $pourableI in a $canpourin
+$pourI     = $vbpour $pourableI in a $canpourin
 $pourI     = $vbpour some $pourable in a $canpourinI
 
 
@@ -164,7 +164,7 @@ $foodI     = food {void meta: You want {object where Category="snack"} and a {ob
 $drinkI    = drink {void meta: You want {object where Category="drinks"} as drink}
 $storageI  = {void meta: object is in the (microwave | fridge | oven | ({object special where canPlaceIn=true} on the {placement}))}
 $canpourinI= container {void meta: Container is a {object where canPourIn=true}}
-$pourableI = thing {void meta: You want some {object where canPour=true}}
+$pourableI = something {void meta: You want some {object where canPour=true}}
 
 
 ##############################################################################
