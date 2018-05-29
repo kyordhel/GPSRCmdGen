@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  This is an example file for testing the generators.
+  The real information used in Montreal 2018 will be published
+  and distributed by the Organizing Committee during Setup days
+//-->
 <rooms>
   <room name="bedroom">
     <location name="bed" isBeacon="true" />

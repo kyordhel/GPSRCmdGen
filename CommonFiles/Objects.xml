@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  This is an example file for testing the generators.
+  The real information used in Montreal 2018 will be published
+  and distributed by the Organizing Committee during Setup days
+//-->
 <categories>
   <category name="toiletries" defaultLocation="bathroom cabinet" room="bathroom">
     <object name="shampoo"       difficulty="moderate"                               />
@@ -8,10 +13,10 @@
     <object name="toothpaste"   difficulty="moderate"                               />
   </category>
   <category name="snacks" defaultLocation="center table" room="living room">
-    <object name="chips"         difficulty="moderate" />
-    <object name="M and M's"       difficulty="moderate" />
-    <object name="pringles"      difficulty="easy" />
-    <object name="cookies"       difficulty="easy" />
+    <object name="chips"         difficulty="moderate"                               />
+    <object name="M and M's"     difficulty="moderate"                               />
+    <object name="pringles"      difficulty="easy"                                   />
+    <object name="cookies"       difficulty="easy"                                   />
   </category>
   <category name="fruits" defaultLocation="dining table" room="dining room">
     <object name="apple"         difficulty="moderate" type="alike"   fruit="true"   />
@@ -35,28 +40,26 @@
   <category name="drinks" defaultLocation="fridge" room="kitchen">
     <object name="tea"           difficulty="easy"                    canPour="true" />
     <object name="beer"          difficulty="easy"                                      alcoholic="true" />
-    <object name="coke"          difficulty="easy"                    canPour="true" />
-    <object name="water"         difficulty="easy"                    canPour="true" />
-    <object name="milk"          difficulty="easy"                    canPour="true" />
+    <object name="coke"          difficulty="easy"                    canPour="true"                     />
+    <object name="water"         difficulty="easy"                    canPour="true"                     />
+    <object name="milk"          difficulty="easy"                    canPour="true"                     />
   </category>
   <category name="cutlery" defaultLocation="cutlery drawer" room="dining room">
-    <object name="tea spoon"     difficulty="high"     type="known"                  />
-    <object name="spoon"         difficulty="high"     type="known"                  />
-    <object name="fork"          difficulty="high"     type="known"                  />
-    <object name="knife"         difficulty="high"     type="known"                  />
-    <object name="napkin"        difficulty="high"     type="known"                  />
+    <object name="spoon"         difficulty="high"     type="known"                                      />
+    <object name="fork"          difficulty="high"     type="known"                                      />
+    <object name="knife"         difficulty="high"     type="known"                                      />
   </category>
   <category name="tableware" defaultLocation="sideboard" room="dining room">
-    <object name="big dish"      difficulty="moderate" type="known"   canPlaceOn="true"                 />
-    <object name="small dish"    difficulty="moderate" type="known"   canPlaceOn="true"                 />
-    <object name="bowl"          difficulty="high"                    canPourIn="true"                  />
-    <object name="glass"         difficulty="moderate"                canPourIn="true"                  />
-    <object name="mug"           difficulty="high"                    canPourIn="true"                  />
+    <object name="place mat"     difficulty="high"     type="known"   canPlaceOn="true"                  />
+    <object name="dish"          difficulty="moderate" type="known"   canPlaceOn="true"                  />
+    <object name="bowl"          difficulty="moderate"                canPourIn="true"                   />
+    <object name="glass"         difficulty="moderate"                canPourIn="true"                   />
+    <object name="mug"           difficulty="high"                    canPourIn="true"                   />
   </category>
   <category name="containers" defaultLocation="counter" room="kitchen">
-    <object name="tray"          difficulty="high"     type="special" canPlaceOn="true" twoHands="true" />
-    <object name="box"           difficulty="high"     type="special" canPlaceIn="true" twoHands="true" />
-    <object name="bag"           difficulty="easy"     type="special" canPlaceIn="true"                 />
+    <object name="tray"          difficulty="high"     type="special" canPlaceOn="true" twoHands="true"  />
+    <object name="box"           difficulty="high"     type="special" canPlaceIn="true" twoHands="true"  />
+    <object name="bag"           difficulty="easy"     type="special" canPlaceIn="true"                  />
   </category>
 </categories>
 

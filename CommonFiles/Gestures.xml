@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  This is the final version to be used in Montreal 2018
+//-->
 <gestures>
   <gesture name="waving" difficulty="easy" />
   <gesture name="raising their left arm" difficulty="easy" />
