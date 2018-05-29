@@ -5,7 +5,7 @@
     <object name="soap"          difficulty="easy"                                   />
     <object name="cloth"         difficulty="high"     type="alike"                  />
     <object name="sponge"        difficulty="high"                                   />
-    <object name="tooth paste"   difficulty="moderate"                               />
+    <object name="toothpaste"   difficulty="moderate"                               />
   </category>
   <category name="snacks" defaultLocation="center table" room="living room">
     <object name="chips"         difficulty="moderate" />
