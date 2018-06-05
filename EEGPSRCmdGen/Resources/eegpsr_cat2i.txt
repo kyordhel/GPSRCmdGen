@@ -43,7 +43,7 @@ $task      = $describeI
 # Describe
 #
 ##############################################################################
-$describeI = tell me how the person $posture in the {beacon?} looks like
+$describeI = tell me what the person $posture in the {beacon?} looks like
 $describeI = describe the person $posture in the {beacon?} to me
 $describeI = describe the person $posture in the {beacon?} to the person at the {beacon}
 $describeI = describe me the person $posture in the {beacon?}
