@@ -232,7 +232,7 @@ namespace RoboCup.AtHome.CommandGenerator.ReplaceableTypes
 			pronouns.Add( (int)Class.PersonalSubjective | (int)Person.Second | (int)Form.Singular, "you");
 			pronouns.Add( (int)Class.PersonalSubjective | (int)Person.Third  | (int)Form.Singular | (int)Gender.Masculine, "he");
 			pronouns.Add( (int)Class.PersonalSubjective | (int)Person.Third  | (int)Form.Singular | (int)Gender.Femenine, "she");
-			pronouns.Add( (int)Class.PersonalSubjective | (int)Person.Third  | (int)Form.Singular | (int)Gender.Neutral, "it");
+			pronouns.Add( (int)Class.PersonalSubjective | (int)Person.Third  | (int)Form.Singular | (int)Gender.Neutral, "they");
 			pronouns.Add( (int)Class.PersonalSubjective | (int)Person.First  | (int)Form.Plural, "we");
 			pronouns.Add( (int)Class.PersonalSubjective | (int)Person.Second | (int)Form.Plural, "you");
 			pronouns.Add( (int)Class.PersonalSubjective | (int)Person.Third  | (int)Form.Plural, "they");
@@ -241,7 +241,7 @@ namespace RoboCup.AtHome.CommandGenerator.ReplaceableTypes
 			pronouns.Add( (int)Class.PersonalObjective | (int)Person.Second | (int)Form.Singular, "you");
 			pronouns.Add( (int)Class.PersonalObjective | (int)Person.Third  | (int)Form.Singular | (int)Gender.Masculine, "him");
 			pronouns.Add( (int)Class.PersonalObjective | (int)Person.Third  | (int)Form.Singular | (int)Gender.Femenine, "her");
-			pronouns.Add( (int)Class.PersonalObjective | (int)Person.Third  | (int)Form.Singular | (int)Gender.Neutral, "it");
+			pronouns.Add( (int)Class.PersonalObjective | (int)Person.Third  | (int)Form.Singular | (int)Gender.Neutral, "them");
 			pronouns.Add( (int)Class.PersonalObjective | (int)Person.First  | (int)Form.Plural, "us");
 			pronouns.Add( (int)Class.PersonalObjective | (int)Person.Second | (int)Form.Plural, "you");
 			pronouns.Add( (int)Class.PersonalObjective | (int)Person.Third  | (int)Form.Plural, "them");
