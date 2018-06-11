@@ -1,257 +1,257 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-	This is an example file for testing the generators.
-	The real information used in Montreal 2018 will be published
-	and distributed by the Organizing Committee during Setup days
+  This is an example file for testing the generators.
+  The real information used in Montreal 2018 will be published
+  and distributed by the Organizing Committee during Setup days
 //-->
 <questions>
-	<question>
-		<q>Who's the most handsome person in Canada?<q>
-		<a>I think he's Justin Trudeau</a>
-	</question>
+  <question>
+    <q>Who's the most handsome person in Canada?</q>
+    <a>I that Justin Trudeau is very handsome.</a>
+  </question>
 
-	<question>
-		<q>How many time zones has Canada?<q>
-		<a>Canada spans 9984670 square km and comprises 6 time zones</a>
-	</question>
+  <question>
+    <q>How many time zones are there in Canada?</q>
+    <a>Canada spans almost 10 million square km and comprises 6 time zones</a>
+  </question>
 
-	<question>
-		<q>What's the longest street in the world?<q>
-		<a>The Yonge Street in Ontario.</a>
-	</question>
+  <question>
+    <q>What's the longest street in the world?</q>
+    <a>Yonge Street in Ontario is the longest street in the world.</a>
+  </question>
 
-	<question>
-		<q>How long is the Yonge Street in Ontario?<q>
-		<a>Almost 2,000 km, starting in Lake Ontario, and running north	to the Minnesota border.</a>
-	</question>
+  <question>
+    <q>How long is Yonge Street in Ontario?</q>
+    <a>Yonge street is almost 2,000 km, starting at Lake Ontario, and running north to the Minnesota border.</a>
+  </question>
 
-	<question>
-		<q>What's the name of the bear cub exported from Canada to the London Zoo in 1915?<q>
-		<a>The bear cube was named Winnipeg. It inspired the stories of Winnie-the-Pooh.</a>
-	</question>
+  <question>
+    <q>What's the name of the bear cub exported from Canada to the London Zoo in 1915?</q>
+    <a>The bear cub was named Winnipeg. It inspired the stories of Winnie-the-Pooh.</a>
+  </question>
 
-	<question>
-		<q>Where was developed the Blackberry Smartphone?<q>
-		<a>It was developed in Ontario, at Research In Motion's Waterloo offices.</a>
-	</question>
+  <question>
+    <q>Where was the Blackberry Smartphone developed?</q>
+    <a>It was developed in Ontario, at Research In Motion's Waterloo offices.</a>
+  </question>
 
-	<question>
-		<q>What's the world's largest coin?<q>
-		<a>The Big Nickel in Sudbury, Ontario. It has nine meters in diameter.</a>
-	</question>
+  <question>
+    <q>What is the world's largest coin?</q>
+    <a>The Big Nickel in Sudbury, Ontario. It is nine meters in diameter.</a>
+  </question>
 
-	<question>
-		<q>What year was Canada invaded by the USA for the first time?<q>
-		<a>The fisrt time the USA invaded Canada	was in 1775</a>
-	</question>
+  <question>
+    <q>In what year was Canada invaded by the USA for the first time?</q>
+    <a>The first time that the USA invaded Canada was in 1775</a>
+  </question>
 
-	<question>
-		<q>What year was Canada invaded by the USA for the second time?<q>
-		<a>The USA invaed Canada a second time	in 1812.</a>
-	</question>
+  <question>
+    <q>What year was Canada invaded by the USA for the second time?</q>
+    <a>The USA invaded Canada a second time in 1812.</a>
+  </question>
 
-	<question>
-		<q>What country holds the record for the most gold medals at the Winter Olympics?<q>
-		<a>Canada! With 14 Golds at the 2010 Vancouver Winter Olympics.</a>
-	</question>
+  <question>
+    <q>What country holds the record for the most gold medals at the Winter Olympics?</q>
+    <a>Canada does! With 14 Golds at the 2010 Vancouver Winter Olympics.</a>
+  </question>
 
-	<question>
-		<q>Who coined the term Beatlemania?<q>
-		<a>Sandy Gardiner, a journalist of the Ottawa Journal.</a>
-	</question>
+  <question>
+    <q>Who coined the term Beatlemania?</q>
+    <a>Sandy Gardiner, a journalist of the Ottawa Journal.</a>
+  </question>
 
-	<question>
-		<q>Why is Canada named like that?<q>
-		<a>French explorers misunderstood the local native word "Kanata", which means village.</a>
-	</question>
+  <question>
+    <q>Why is Canada named Canada?</q>
+    <a>French explorers misunderstood the local native word "Kanata", which means village.</a>
+  </question>
 
-	<question>
-		<q>When was The Mounted Police formed?<q>
-		<a>The Mounted Police was formed in 1873.</a>
-	</question>
+  <question>
+    <q>When was The Mounted Police formed?</q>
+    <a>The Mounted Police was formed in 1873.</a>
+  </question>
 
-	<question>
-		<q>When was The Royal Canadian Mounted Police formed?<q>
-		<a>In 1920, when The Mounted Police merged with the Dominion Police.</a>
-	</question>
+  <question>
+    <q>When was The Royal Canadian Mounted Police formed?</q>
+    <a>In 1920, when The Mounted Police merged with the Dominion Police.</a>
+  </question>
 
-	<question>
-		<q>How big The Mounted Police is?<q>
-		<a>Today, The Mounted Police has close to 30 000 members.</a>
-	</question>
+  <question>
+    <q>How big is the RCMP?</q>
+    <a>Today, the RCMP has close to 30,000 members.</a>
+  </question>
 
-	<question>
-		<q>How else is also Montreal called?<q>
-		<a>Montreal is often called The City of Saints or City of a Hundred Bell Towers.</a>
-	</question>
+  <question>
+    <q>What else is Montreal called?</q>
+    <a>Montreal is often called the City of Saints or the City of a Hundred Bell Towers.</a>
+  </question>
 
-	<question>
-		<q>Where is located The Hotel de Glace?<q>
-		<a>The Hotel de Glace is in Quebec.</a>
-	</question>
+  <question>
+    <q>Where is The Hotel de Glace located?</q>
+    <a>The Hotel de Glace is in Quebec.</a>
+  </question>
 
-	<question>
-		<q>How many tons of ice are required for The Hotel de Glace?<q>
-		<a>The Hotel de Glace requires about 400 tons of ice.</a>
-	</question>
+  <question>
+    <q>How many tons of ice are required to build The Hotel de Glace?</q>
+    <a>The Hotel de Glace requires about 400 tons of ice.</a>
+  </question>
 
-	<question>
-		<q>How many tons of snow are required for The Hotel de Glace?<q>
-		<a>Every year, 12000 tons of snow are used for The Hotel de Glace.</a>
-	</question>
+  <question>
+    <q>How many tons of snow are required to build The Hotel de Glace?</q>
+    <a>Every year, 12000 tons of snow are used for The Hotel de Glace.</a>
+  </question>
 
-	<question>
-		<q>Can I visit the Hotel de Glace in summer?<q>
-		<a>No. Every summer it melts away, only to be rebuilt the following winter.</a>
-	</question>
+  <question>
+    <q>Can I visit the Hotel de Glace in summer?</q>
+    <a>No. Every summer it melts away, only to be rebuilt the following winter.</a>
+  </question>
 
-	<question>
-		<q>What's Canada's only desert?<q>
-		<a>Canada's only desert is British Columbia.</a>
-	</question>
+  <question>
+    <q>Where is Canada's only desert?</q>
+    <a>Canada's only desert is British Columbia.</a>
+  </question>
 
-	<question>
-		<q>How big is Canada's only desert?<q>
-		<a>The British Columbia desert is only 15 miles long.</a>
-	</question>
+  <question>
+    <q>How big is Canada's only desert?</q>
+    <a>The British Columbia desert is only 15 miles long.</a>
+  </question>
 
-	<question>
-		<q>Name 3 famous male Canadians.<q>
-		<a>Leonard Cohen, Keanu Reeves, and Jim Carrey.</a>
-	</question>
+  <question>
+    <q>Name 3 famous male Canadians.</q>
+    <a>Leonard Cohen, Keanu Reeves, and Jim Carrey.</a>
+  </question>
 
-	<question>
-		<q>Name 3 famous female Canadians.<q>
-		<a>Celine Dion, Pamela Anderson, and Avril Lavigne.</a>
-	</question>
+  <question>
+    <q>Name 3 famous female Canadians.</q>
+    <a>Celine Dion, Pamela Anderson, and Avril Lavigne.</a>
+  </question>
 
-	<question>
-		<q>What's the origin of the Comic Sans font?</q>
-		<a>Comic Sans is based on Dave Gibbons' lettering in the Watchmen comic books.</a>
-	</question>
+  <question>
+    <q>What's the origin of the Comic Sans font?</q>
+    <a>Comic Sans is based on Dave Gibbons' lettering in the Watchmen comic books.</a>
+  </question>
 
-	<question>
-		<q>What is a nanobot?</q>
-		<a>The smallest robot possible is called a nanobot. </a>
-	</question>
+  <question>
+    <q>What is a nanobot?</q>
+    <a>The smallest robot possible is called a nanobot. </a>
+  </question>
 
-	<question>
-		<q>How small can be a nanobot?</q>
-		<a>A nanobot can be less than one-thousandth of a millimeter. </a>
-	</question>
+  <question>
+    <q>How small can a nanobot be?</q>
+    <a>A nanobot can be less than one-thousandth of a millimeter. </a>
+  </question>
 
-	<question>
-		<q>Why Tron wasn't nominated by The Motion Picture Academy?</q>
-		<a>Because The Academy thought they cheated by using computers.</a>
-	</question>
+  <question>
+    <q>Why wasn't Tron nominated for an award by The Motion Picture Academy?</q>
+    <a>The Academy thought that Tron cheated by using computers.</a>
+  </question>
 
-	<question>
-		<q>Which was first computer with a hard disk drive?</q>
-		<a>The IBM 305 RAMAC.</a>
-	</question>
+  <question>
+    <q>Which was the first computer with a hard disk drive?</q>
+    <a>The IBM 305 RAMAC.</a>
+  </question>
 
-	<question>
-		<q>When was launched the first computer with a hard disk drive?</q>
-		<a>The IBM 305 RAMAC was launched in 1956.</a>
-	</question>
+  <question>
+    <q>When was the first computer with a hard disk drive launched?</q>
+    <a>The IBM 305 RAMAC was launched in 1956.</a>
+  </question>
 
-	<question>
-		<q>How big was first computer's' hard disk drive?</q>
-		<a>The IBM 305 RAMAC hard disk weighed over a ton and stored 5 MB of data.</a>
-	</question>
+  <question>
+    <q>How big was the first hard disk drive?</q>
+    <a>The IBM 305 RAMAC hard disk weighed over a ton and stored 5 MB of data.</a>
+  </question>
 
-	<question>
-		<q>What does CAPTCHA stands for?</q>
-		<a>CAPTCHA is an acronym for "Completely Automated Public Turing test to tell Computers and Humans Apart"</a>
-	</question>
+  <question>
+    <q>What does CAPTCHA stands for?</q>
+    <a>CAPTCHA is an acronym for "Completely Automated Public Turing test to tell Computers and Humans Apart"</a>
+  </question>
 
-	<question>
-		<q>What's the first computer bug?</q>
-		<a>The first actual computer bug was a dead moth stuck in a Harvard Mark II.</a>
-	</question>
+  <question>
+    <q>What was the first computer bug?</q>
+    <a>The first actual computer bug was a dead moth stuck in a Harvard Mark II.</a>
+  </question>
 
-	<question>
-		<q>Name the all the robots on Mars.</q>
-		<a>There are four robots on Mars: Sojourner, Spirit, Opportunity, and Curiosity. Three more crashed on landing.</a>
-	</question>
+  <question>
+    <q>Name all of the robots on Mars.</q>
+    <a>There are four robots on Mars: Sojourner, Spirit, Opportunity, and Curiosity. Three more crashed on landing.</a>
+  </question>
 
-	<question>
-		<q>Who's the world's first android?</q>
-		<a>Professor Kevin Warwick uses chips in his arm to operate doors, a robotic hand, and a wheelchair.</a>
-	</question>
+  <question>
+    <q>Who is the world's first android?</q>
+    <a>Professor Kevin Warwick uses chips in his arm to operate doors, a robotic hand, and a wheelchair.</a>
+  </question>
 
-	<question>
-		<q>What's a Mechanical Knight?</q>
-		<a>A robot sketch made by Leonardo DaVinci.</a>
-	</question>
+  <question>
+    <q>What is a Mechanical Knight?</q>
+    <a>A robot sketch made by Leonardo DaVinci.</a>
+  </question>
 
-	<question>
-		<q>What's the first computer in pass the Turing test?</q>
-		<a>Some people think it was IBM Watson, but it was Eugene, a computer designed at England's University of Reading.</a>
-	</question>
+  <question>
+    <q>What was the first computer in pass the Turing test?</q>
+    <a>Some people think it was IBM Watson, but it was Eugene, a computer designed at England's University of Reading.</a>
+  </question>
 
-	<question>
-		<q>What states Moravec's paradox?</q>
-		<a>Moravec's paradox states that a computer can crunch numbers like Bernoulli, but lacks a toddler's motor skills.</a>
-	</question>
+  <question>
+    <q>What does Moravec's paradox state?</q>
+    <a>Moravec's paradox states that a computer can crunch numbers like Bernoulli, but lacks a toddler's motor skills.</a>
+  </question>
 
-	<question>
-		<q>What's the AI knowledge engineering bottleneck?</q>
-		<a>It's when you need to load an AI with enough knowledge before it can start learning.</a>
-	</question>
+  <question>
+    <q>What is the AI knowledge engineering bottleneck?</q>
+    <a>It is when you need to load an AI with enough knowledge to start learning.</a>
+  </question>
 
-	<question>
-		<q>Why is Elon Musk is worried about AI's impact on humanity?</q>
-		<a>I don't know. He should worry more about the people's impact on humanity.</a>
-	</question>
+  <question>
+    <q>Why is Elon Musk is worried about AI's impact on humanity?</q>
+    <a>I don't know. He should worry more about the people's impact on humanity.</a>
+  </question>
 
-	<question>
-		<q>Do you think robots are a threat to humanity?</q>
-		<a>No. Humans are the real threat to humanity.</a>
-	</question>
+  <question>
+    <q>Do you think robots are a threat to humanity?</q>
+    <a>No. Humans are the real threat to humanity.</a>
+  </question>
 
-	<question>
-		<q>What is a chatbot?</q>
-		<a>An A.I. you put in customer service to avoid paying salaries.</a>
-	</question>
+  <question>
+    <q>What is a chatbot?</q>
+    <a>A chatbot is an A.I. you put in customer service to avoid paying salaries.</a>
+  </question>
 
-	<question>
-		<q>Are self-driving cars safe?</q>
-		<a>Yes. All car accidents are product of human misconduct.</a>
-	</question>
+  <question>
+    <q>Are self-driving cars safe?</q>
+    <a>Yes. Car accidents are product of human misconduct.</a>
+  </question>
 
-	<question>
-		<q>What's the Uncanny Valley?</q>
-		<a>A guide to ugliness based on human-like appearance. Look at the mirror and you'll find out.</a>
-	</question>
+  <question>
+    <q>Who invented the compiler?</q>
+    <a>Grace Hoper. She wrote it in her spare time.</a>
+  </question>
 
-	<question>
-		<q>Who invented the same compiler?</q>
-		<a>Grace Hoper. She wrote it in her spare time.</a>
-	</question>
+  <question>
+    <q>Who created the C Programming Language?</q>
+    <a>C was invented by Dennis MacAlistair Ritchie.</a>
+  </question>
 
-	<question>
-		<q>Who created the C Programming Language?</q>
-		<a>C was invented by Dennis MacAlistair Ritchie.</a>
-	</question>
+  <question>
+    <q>Who created the Python Programming Language?</q>
+    <a>Python was invented by Guido van Rossum.</a>
+  </question>
 
-	<question>
-		<q>Who created the Python Programming Language?</q>
-		<a>Python was invented by Guido van Rossum.</a>
-	</question>
+  <question>
+    <q>Is Mark Zuckerberg a robot?</q>
+    <a>Sure. I've never seen him drink water.</a>
+  </question>
 
-	<question>
-		<q>Is Mark Zuckerberg a robot?</q>
-		<a>Sure. I've never seen him drink water.</a>
-	</question>
+  <question>
+    <q>Who is the inventor of the Apple I microcomputer?</q>
+    <a>My lord and master Steve Wozniak.</a>
+  </question>
 
-	<question>
-		<q>Who's the inventor of the Apple I microcomputer?</q>
-		<a>My lord and master Steve Wozniak.</a>
-	</question>
+  <question>
+    <q>Who is considered to be the first computer programmer?</q>
+    <a>Ada Lovelace.</a>
+  </question>
 
-	<question>
-		<q>Who is considered to be the first computer programmer?</q>
-		<a>I like to think it was Ada Lovelace.</a>
-	</question>
+  <question>
+    <q>Which program do Jedi use to open PDF files?</q>
+    <a>Adobe Wan Kenobi</a>
+  </question>
 </questions>
