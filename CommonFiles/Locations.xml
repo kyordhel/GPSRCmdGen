@@ -5,53 +5,30 @@
   and distributed by the Organizing Committee during Setup days
 //-->
 <rooms>
+  <room name="corridor">
+    <location name="entrance" isBeacon="true" />
+  </room>
   <room name="bedroom">
     <location name="bed" isBeacon="true" />
-    <location name="night table" isPlacement="true" />
-    <location name="wardrobe" isPlacement="true" />
-    <location name="dresser" isPlacement="true" />
-    <location name="armchair" isBeacon="true" />
-    <location name="drawer" isPlacement="true" />
+    <location name="side table" isPlacement="true" />
     <location name="desk" isBeacon="true" isPlacement="true" />
   </room>
   <room name="dining room">
-    <location name="sideboard" isPlacement="true" />
-    <location name="cutlery drawer" isPlacement="true" />
     <location name="dining table" isBeacon="true" isPlacement="true" />
-    <location name="chair" isBeacon="true" />
-    <location name="baby chair" isBeacon="true" />
   </room>
   <room name="living room">
-    <location name="bookshelf" isPlacement="true" />
-    <location name="sofa" isBeacon="true" isPlacement="true" />
-    <location name="coffee table" isBeacon="true" isPlacement="true" />
-    <location name="center table" isPlacement="true" />
-    <location name="bar" isPlacement="true" />
-    <location name="fireplace" isPlacement="true" />
-    <location name="tv couch" isBeacon="true" />
+    <location name="exit" isBeacon="true" />
+    <location name="couch" isBeacon="true" />
+    <location name="end table" isBeacon="true" isPlacement="true" />
+    <location name="bookcase" isPlacement="true" isBeacon="true" />
   </room>
   <room name="kitchen">
-    <location name="microwave" isPlacement="true" />
     <location name="cupboard" isPlacement="true" />
-    <location name="counter" isPlacement="true" />
-    <location name="cabinet" isPlacement="true" />
+    <location name="storage table" isPlacement="true" />
     <location name="sink" isBeacon="true" isPlacement="true" />
-    <location name="stove" isBeacon="true" isPlacement="true" />
-    <location name="fridge" isPlacement="true" />
-    <location name="freezer" isPlacement="true" />
-    <location name="washing machine" isPlacement="true" />
-    <location name="dishwasher" isPlacement="true" />
-  </room>
-  <room name="corridor">
-    <location name="cabinet" isBeacon="true" isPlacement="true" />
-  </room>
-  <room name="bathroom">
-    <location name="bidet" isBeacon="true" />
-    <location name="shower" isBeacon="true" />
-    <location name="bathtub" isBeacon="true" />
-    <location name="toilet" isBeacon="true" />
-    <location name="towel rail" isPlacement="true" />
-    <location name="bathroom cabinet" isPlacement="true" />
-    <location name="washbasin" isBeacon="true" isPlacement="true" />
+    <location name="counter" isPlacement="true" />
+    <location name="dishwasher" isBeacon="true" />
   </room>
 </rooms>
+
+
