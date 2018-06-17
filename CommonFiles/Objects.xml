@@ -5,20 +5,27 @@
 	and distributed by the Organizing Committee during Setup days
 //-->
 <categories>
-	<category name="cleaning stuff" defaultLocation="storage table" room="kitchen">
+
+	<category name="cleaning stuff" defaultLocation="side table" room="bedroom">
 		<object name="cloth"   type="known" difficulty="high" />
 		<object name="scrubby" type="known" difficulty="easy" />
 		<object name="sponge"  type="known" difficulty="moderate" />
 		<object name="cascade pod"  type="known" difficulty="high" />
 	</category>
 
-	<category name="snacks"         defaultLocation="book case" room="living room">
-		<object name="pringles"     type="known" difficulty="easy" />
-		<object name="crackers"     type="known" difficulty="easy" />
-		<object name="potato chips" type="known" difficulty="easy" />
+	<category name="containers" defaultLocation="end table" room="living room">
+		<object name="tray"     type="special" difficulty="high"      canPlaceOn="true" twoHands="true"  />
+		<object name="basket"   type="special" difficulty="high"      canPlaceIn="true" twoHands="true"  />
+		<object name="bag"      type="special" difficulty="easy"      canPlaceIn="true"                  />
 	</category>
 
-	<category name="drinks"         defaultLocation="cupboard" room="kitchen">
+	<category name="cutlery"    defaultLocation="storage table" room="kitchen">
+		<object name="fork"     type="known" difficulty="high" />
+		<object name="knife"    type="known" difficulty="high" />
+		<object name="spoon"    type="known" difficulty="high" />
+	</category>
+
+	<category name="drinks"         defaultLocation="counter" room="kitchen">
 		<object name="chocolate drink" type="known" difficulty="easy" canPour="true" />
 		<object name="coke"            type="known" difficulty="easy" canPour="true" />
 		<object name="grape juice"     type="known" difficulty="easy" canPour="true" />
@@ -32,28 +39,22 @@
 		<object name="sausages" type="known" difficulty="easy" />
 	</category>
 
-	<category name="fruits"     defaultLocation="desk" room="bedroom">
+	<category name="fruits"     defaultLocation="bookcase" room="living room">
 		<object name="apple"    type="alike" difficulty="moderate" />
 		<object name="orange"   type="alike" difficulty="moderate" />
 		<object name="paprika"  type="alike" difficulty="moderate" />
 	</category>
 
-	<category name="cutlery"    defaultLocation="dining table" room="dining room">
-		<object name="fork"     type="known" difficulty="high" />
-		<object name="knife"    type="known" difficulty="high" />
-		<object name="spoon"    type="known" difficulty="high" />
+	<category name="snacks"         defaultLocation="bookcase" room="living room">
+		<object name="pringles"     type="known" difficulty="easy" />
+		<object name="crackers"     type="known" difficulty="easy" />
+		<object name="potato chips" type="known" difficulty="easy" />
 	</category>
 
-	<category name="tableware"  defaultLocation="dining table" room="dining room">
+	<category name="tableware"  defaultLocation="storage table" room="kitchen">
 		<object name="dish"     type="known" difficulty="moderate" canPlaceOn="true" />
 		<object name="bowl"     type="known" difficulty="moderate" canPourIn="true"  />
 		<object name="glass"    type="known" difficulty="moderate" canPourIn="true"  />
-	</category>
-
-	<category name="containers" defaultLocation="bookcase" room="living room">
-		<object name="tray"     type="special" difficulty="high"      canPlaceOn="true" twoHands="true"  />
-		<object name="basket"   type="special" difficulty="high"      canPlaceIn="true" twoHands="true"  />
-		<object name="bag"      type="special" difficulty="easy"      canPlaceIn="true"                  />
 	</category>
 
 </categories>
