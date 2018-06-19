@@ -54,7 +54,7 @@
 	<category name="tableware"  defaultLocation="storage table" room="kitchen">
 		<object name="dish"     type="known" difficulty="moderate" canPlaceOn="true" />
 		<object name="bowl"     type="known" difficulty="moderate" canPourIn="true"  />
-		<object name="glass"    type="known" difficulty="moderate" canPourIn="true"  />
+		<object name="cup"    type="known" difficulty="moderate" canPourIn="true"  />
 	</category>
 
 </categories>
