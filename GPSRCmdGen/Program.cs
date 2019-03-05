@@ -42,18 +42,32 @@ namespace RoboCup.AtHome.GPSRCmdGen
 		/// <returns>The user's option.</returns>
 		protected override char GetOption()
 		{
-			return base.GetOption(1, 3);
+			ConsoleKeyInfo k;
+			Console.WriteLine("Press Esc to quit, q for QR Code, t for type in a QR, c to clear.");
+			Console.Write("Hit Enter to generate: ");
+			return (k = Console.ReadKey(true)).Key == ConsoleKey.Escape ? '\0' : k.KeyChar;
 		}
 
-		private Task GetTask(char category)
+		private Task GetTask()
 		{
-			switch (category)
+			return gen.GenerateTask(DifficultyDegree.High);
+		}
+
+		/// <summary>
+		/// Starts the user input loop
+		/// </summary>
+		public override void Run()
+		{
+			Task task = null;
+			char opc = '\0';
+			Setup();
+			RunOption('\r', ref task);
+			do
 			{
-				case '1': return gen.GenerateTask(DifficultyDegree.Easy);
-				case '2': return gen.GenerateTask(DifficultyDegree.Moderate);
-				case '3': return gen.GenerateTask(DifficultyDegree.High);
-				default: return null;
+				opc = GetOption();
+				RunOption(opc, ref task);
 			}
+			while (opc != '\0');
 		}
 
 		/// <summary>
@@ -64,12 +78,6 @@ namespace RoboCup.AtHome.GPSRCmdGen
 		{
 			switch (opc)
 			{
-				case '1':
-				case '2':
-				case '3':
-					task = GetTask(opc);
-					break;
-
 				case 'c':
 					Console.Clear();
 					return;
@@ -87,6 +95,10 @@ namespace RoboCup.AtHome.GPSRCmdGen
 
 					ShowQRDialog(task.ToString());
 					return;
+
+				default:
+					task = GetTask();
+					break;
 			}
 
 			Console.WriteLine("Choosen category {0}", opc);
@@ -101,7 +113,7 @@ namespace RoboCup.AtHome.GPSRCmdGen
 			this.gen = new GPSRGenerator ();
 
 			Console.ForegroundColor = ConsoleColor.Gray;
-			Console.WriteLine ("GPSR Generator 2018 Beta");
+			Console.WriteLine ("GPSR Generator 2019 Release Candidate");
 			Console.WriteLine ();
 			base.LoadData();
 			Console.WriteLine ();
@@ -120,7 +132,6 @@ namespace RoboCup.AtHome.GPSRCmdGen
 				return;
 			}
 			ParseArgs (args);
-
 		}
 
 		/// <summary>
@@ -134,15 +145,10 @@ namespace RoboCup.AtHome.GPSRCmdGen
 
 			p.Setup ();
 			for (int i = 0; i < args.Length; ++i){
-				if (Int32.TryParse(args[i], out category) && (category > 0) && (category < 4))
-				{
-					Task t = null;
-					p.RunOption((char)(category + '0'), ref t);
-					continue;
-				}
-
-				if (args[i] == "--bulk")
+				if (args[i] == "--bulk"){
 					DoBulk(p, args, ref i);
+					Environment.Exit(0);
+				}
 			}
 		}
 
@@ -152,21 +158,17 @@ namespace RoboCup.AtHome.GPSRCmdGen
 			if ((args.Length < (i + 2)) || !Int32.TryParse(args[++i], out dCount) || (dCount < 1))
 				dCount = 100;
 
-			Console.WriteLine("Generating {0} examples in bulk mode for 3 categories", dCount);
+			Console.WriteLine("Generating {0} examples in bulk mode", dCount);
 			try
 			{
-				for (char category = '1'; category <= '3'; ++category)
-				{
-					Console.WriteLine("Generating {0} examples for category {1}", dCount, category);
-					BulkExamples(p, category, dCount);
-				}
+				BulkExamples(p, dCount);
 			}
 			catch (Exception ex) { Console.WriteLine(ex.Message); }
 		}
 
-		private static void BulkExamples(Program p, char category, int count)
+		private static void BulkExamples(Program p, int count)
 		{
-			string oDir = String.Format("GPSR Cat{0} Examples", category);
+			string oDir = String.Format("GPSR Examples");
 			if (!Directory.Exists(oDir))
 				Directory.CreateDirectory(oDir);
 			string oFile = Path.Combine(oDir, String.Format("{0}.txt", oDir));
@@ -174,7 +176,7 @@ namespace RoboCup.AtHome.GPSRCmdGen
 			{
 				for (int i = 1; i <= count; ++i)
 				{
-					Task task = p.GetTask(category);
+					Task task = p.GetTask();
 					if (task == null) continue;
 					string sTask = task.ToString().Trim();
 					if (sTask.Length < 1) continue;

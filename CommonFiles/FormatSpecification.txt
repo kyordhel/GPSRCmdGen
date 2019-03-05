@@ -134,11 +134,11 @@
 * absent; and 2) evaluating an inexistent property against a boolean
 * (true or false), which will implicitly assume that the property exists
 * and has its value set to false.
-* 
 *
 *
 *
-* Obfuscating information 
+*
+* Obfuscating information
 * ===========================
 * A wildcard ended with a question mark will be replaced by an
 * obfuscated value instead of the random value choosen by that
@@ -173,6 +173,16 @@
 *	{pron}		Reference with pronoun, objective case.
 *	{pron obj}	Reference with pronoun, objective case (explicit).
 *	{pron sub}	Reference with pronoun, subjective case.
+*
+* Likewise, possessive pronouns can be specified in both cases,
+* absolute (mine, yours, theirs) and adjective (my, your, their) which
+* is default. Shortcuts are defined for convenience as shown below:
+*
+*	{pron pos}	    Reference with possessive pronoun, adjective case.
+*	{pron pab}	    Reference with possessive pronoun, absolute case.
+*	{pron paj}	    Reference with possessive pronoun, adjective case.
+*	{pron posabs}	Reference with possessive pronoun, absolute case.
+*	{pron posadj}	Reference with possessive pronoun, adjective case.
 *
 *
 *

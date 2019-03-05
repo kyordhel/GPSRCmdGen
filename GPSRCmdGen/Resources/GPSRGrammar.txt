@@ -1,0 +1,158 @@
+﻿; grammar name GPSR Grammar
+; grammar tier High
+; import common.txt
+
+$Main     = $pmain | $main
+$pmain    = $polite $main
+
+;$main     = $fndppl
+;$main     = $fndobj
+;$main     = $guide
+;$main     = $follow
+;$main     = $followout
+;$main     = $incomplete
+;$main     = $man
+;$main     = $complexman
+$main     = $partyhost
+
+##############################################################################
+#
+# Production Rules required by common.txt
+#
+##############################################################################
+; Define an object type
+$object   = {object} | bowl | cloth | tray
+
+; Rule for finding a specific (named) person
+$findp    = $vbfind a $pgenders
+$findp    = $vbfind a person {gesture}
+$findp    = $vbfind a person $pose
+
+; A named or described person in the given place
+$whowhere = the person {gesture} in the {room}
+
+
+
+##############################################################################
+#
+# Manipulation
+#
+##############################################################################
+$man      = $deliver
+$deliver  = $vbbtake the {aobject} from the {room} to the {placement 2}
+
+$deliver  = $vbbring me the {aobject} from the {placement}
+$deliver  = $takefrom and ($delivme | $delivat)
+$deliver  = $takefrom and $place
+$deliver  = $vbbtake my $luggage to the $taxi
+
+
+##############################################################################
+#
+# Complex manipulation
+#
+##############################################################################
+$complexman  = $cmanwarn $cmancmd
+
+$cmancmd     = $vbbtake the {kobject} to the {placement 2 meta: Block access to {placement 2} with a movable object or furniture}
+$cmancmd     = $vbbring me the $abspos object $cmanobjsrc
+$cmancmd     = $vbbring me the object $relpos the {object}  $cmanobjsrc
+$cmancmd     = $vbbring me the $oprop (object | {category}) $cmanobjsrc
+$cmancmd     = $vbclean the {room meta: Place 3 objects randomly, at least one on the floor.}
+$cmancmd     = $vbtakeout the $garbage
+$cmanwarn    = {void meta: This command is for DSPL and OPL only}
+$cmanobjsrc  = from the {placement 2 meta: Place at least 5 objects in the {placement 2}}
+
+
+
+##############################################################################
+#
+# Find objects
+#
+##############################################################################
+$fndobj   = $vbfind the {aobject?} in the {room}
+$fndobj   = Tell me how many {category} there are on the {placement}
+$fndobj   = Tell me what's the $oprop object on the {placement}
+$fndobj   = Tell me what's the $oprop {category} on the {placement}
+$fndobj   = $vbfind the {category} in the {room}
+$fndobj   = tell me which are the three $oprop (objects | {category}) on the {placement 1 meta: Place at least 5 objects on the {placement 1}}
+$fndobj   = $vbfind three {category} in the {room meta: Place only 3 objects in the room}
+
+
+##############################################################################
+#
+# Find people
+#
+##############################################################################
+$fndppl   = Tell me the (name | gender | pose) of the person at the {beacon}
+$fndppl   = Tell me the (name | gender | pose) of the person in the {room}
+$fndppl   = tell me how many people in the {room} are ($pgenderp | $pose)
+
+
+##############################################################################
+#
+# Follow [& guide]
+#
+##############################################################################
+$followout   = $fllwoutdest meet {name 1} at the {beacon 1}, $vbfollow {pron}, and $goroom
+$followout   = $fllwoutdest meet {name 1} at the {beacon 1}, $vbfollow {pron}, and $vbguide {pron} back
+
+$fllwoutdest = {void meta: The robot must follow {name 1} outside the arena}
+
+
+##############################################################################
+#
+# Incomplete commands
+#
+##############################################################################
+$incomplete  = $vbfollow {name 1 meta: {name 1} is at the {beacon 1}}
+$incomplete  = $cmanwarn $vbbring me the {object?}
+$incomplete  = $vbdeliver {object?} to $someone
+$incomplete  = $vbguide {name 1 meta: {name 1} is at the {beacon 1}} to the {beacon 2}
+$incomplete  = meet $inguidewho and $vbguide {pron}
+$incomplete  = $gobeacon, meet $inguidewho, and $vbguide {pron}
+
+$inguidewho  = {name 1 meta: {name 1} must be taken from {beacon 1} to {beacon 2}, but he will get lost before reaching it}
+
+
+##############################################################################
+#
+# Party host
+#
+##############################################################################
+$partyhost   = $vbserve (drinks | snacks) to $phpeopler
+$partyhost   = $vbmeet {name} at the $door and introduce {pron} to $phpeopler
+$partyhost   = $vbmeet {name} at the {beacon} and ask {pron} to leave
+$partyhost   = $vbmeet {name 1} at the {beacon 1} and introduce {pron} to {name 2} at the {beacon 2}
+$partyhost   = $vbmeet {name 1} at the {beacon 1} and $vbguide {pron} to {pron pos} $taxi
+$phpeople    = everyone | (all the (people | men | women | guests | elders | children))
+$phpeopler   = $phpeople in the {room meta: There are two people here}.
+
+##############################################################################
+#
+# Rules
+#
+##############################################################################
+; Find people
+$pgenders = man | woman | boy | girl | (male person) | (female person)
+$pgenderp = men | women | boys | girls | male | female
+$pose     = sitting | standing | lying down
+$abspos      = (left | right) most
+$relpos      = at the (left | right) of
+$relpos      = on top of
+$relpos      = above | behind | under
+$garbage     = litter | garbage | trash | waste | debris | junk
+$luggage     = bag | baggage | valise | suitcase | trolley
+$taxi        = taxi | cab | uber
+$door        = ( front | back | main | rear ) (entrance | door)
+
+
+##############################################################################
+#
+# verbs
+#
+##############################################################################
+$vbtakeout   = (take out) | dump
+$vbcleanup   = (clean out) | (clean up) | (tidy op) | neaten | order
+$vbserve     = serve | arrange | deliver | distribute | give | provide
+$vbmeet      = contact | face | find | greet
