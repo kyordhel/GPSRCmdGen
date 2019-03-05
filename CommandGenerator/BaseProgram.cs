@@ -28,16 +28,26 @@ namespace RoboCup.AtHome.CommandGenerator
 		protected virtual char GetOption(int opcMin, int opcMax)
 		{
 			ConsoleKeyInfo k;
+			int tmp = Math.Min(opcMax, opcMin);
+			opcMax = Math.Max(opcMax, opcMin);
+			opcMin = tmp;
 			Console.WriteLine("Press Esc to quit, q for QR Code, t for type in a QR, c to clear.");
-			Console.Write("Enter category {0} to {1}: ", opcMin, opcMax);
-			do
+			if( opcMax > opcMin){
+				Console.Write("Enter category {0} to {1}: ", opcMin, opcMax);
+				do
+				{
+					k = Console.ReadKey(true);
+				} while ((k.Key != ConsoleKey.Escape) && (k.KeyChar != 'q') && (k.KeyChar != 't') && (k.KeyChar != 'c') && ((k.KeyChar < ('0' + opcMin)) || (k.KeyChar > ('0' + opcMax) )));
+				if (k.Key == ConsoleKey.Escape)
+					return '\0';
+				Console.WriteLine(k.KeyChar);
+				return k.KeyChar;
+			}
+			else
 			{
-				k = Console.ReadKey(true);
-			} while ((k.Key != ConsoleKey.Escape) && (k.KeyChar != 'q') && (k.KeyChar != 't') && (k.KeyChar != 'c') && ((k.KeyChar < ('0' + opcMin)) || (k.KeyChar > ('0' + opcMax) )));
-			if (k.Key == ConsoleKey.Escape)
-				return '\0';
-			Console.WriteLine(k.KeyChar);
-			return k.KeyChar;
+				Console.Write("Hit any other key to generate: ");
+				return (k = Console.ReadKey(true)).Key == ConsoleKey.Escape ? '\0' : k.KeyChar;
+			}
 		}
 
 		/// <summary>
