@@ -249,7 +249,7 @@ namespace RoboCup.AtHome.CommandGenerator
 				break;
 			}
 				
-			w.Replacement = new NamedTaskElement (Pronoun.Personal.FromWildcard (w, prev));
+			w.Replacement = new NamedTaskElement (Pronoun.FromWildcard (w, prev));
 		}
 
 		/// <summary>
