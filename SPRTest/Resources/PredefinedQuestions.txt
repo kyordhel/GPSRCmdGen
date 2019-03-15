@@ -1,4 +1,0 @@
-; grammar name PredefinedQuestions
-; grammar tier Easy
-
-$Main   = {question}
