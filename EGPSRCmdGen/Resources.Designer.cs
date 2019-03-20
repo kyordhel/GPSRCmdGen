@@ -132,57 +132,9 @@ namespace RoboCup.AtHome.EGPSRCmdGen {
 			}
 		}
 
-        internal static string EGPSR_Category1 {
+        internal static string EGPSRGrammar {
             get {
-                return ResourceManager.GetString("EGPSR_Category1", resourceCulture);
-            }
-        }
-
-        internal static string EGPSR_Category2 {
-            get {
-                return ResourceManager.GetString("EGPSR_Category2", resourceCulture);
-            }
-        }
-
-        internal static string EGPSR_Category3 {
-            get {
-                return ResourceManager.GetString("EGPSR_Category3", resourceCulture);
-            }
-        }
-
-        internal static string EGPSR_Category1e {
-            get {
-                return ResourceManager.GetString("EGPSR_Category1e", resourceCulture);
-            }
-        }
-
-        internal static string EGPSR_Category2e {
-            get {
-                return ResourceManager.GetString("EGPSR_Category2e", resourceCulture);
-            }
-        }
-
-        internal static string EGPSR_Category3e {
-            get {
-                return ResourceManager.GetString("EGPSR_Category3e", resourceCulture);
-            }
-        }
-
-        internal static string EGPSR_Category1i {
-            get {
-                return ResourceManager.GetString("EGPSR_Category1i", resourceCulture);
-            }
-        }
-
-        internal static string EGPSR_Category2i {
-            get {
-                return ResourceManager.GetString("EGPSR_Category2i", resourceCulture);
-            }
-        }
-
-        internal static string EGPSR_Category3i {
-            get {
-                return ResourceManager.GetString("EGPSR_Category3i", resourceCulture);
+                return ResourceManager.GetString("EGPSRGrammar", resourceCulture);
             }
         }
 

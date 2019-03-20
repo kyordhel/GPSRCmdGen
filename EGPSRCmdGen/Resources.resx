@@ -139,32 +139,8 @@
   <data name="Questions" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources/Questions.xml;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="EGPSR_Category1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\eegpsr_cat1.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="EGPSR_Category2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\eegpsr_cat2.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="EGPSR_Category3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\eegpsr_cat3.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="EGPSR_Category1i" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\eegpsr_cat1i.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="EGPSR_Category2i" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\eegpsr_cat2i.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="EGPSR_Category3i" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\eegpsr_cat3i.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="EGPSR_Category1e" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\eegpsr_cat1e.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="EGPSR_Category2e" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\eegpsr_cat2e.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="EGPSR_Category3e" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\eegpsr_cat3e.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="EGPSRGrammar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\EGPSRGrammar.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="CommonRules" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\CommonRules.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
