@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{CC113145-1565-4976-8D87-8C2D40471F2E}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>RoboCup.AtHome.EGPSRCmdGen</RootNamespace>
+    <AssemblyName>EGPSRCmdGen</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Debug</OutputPath>
+    <BaseIntermediateOutputPath>..\obj\</BaseIntermediateOutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\Release</OutputPath>
+    <BaseIntermediateOutputPath>..\obj\</BaseIntermediateOutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="EGPSRGenerator.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="ExampleFilesGenerator.cs" />
+    <Compile Include="Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\EGPSR_cat1.txt" />
+    <None Include="Resources\EGPSR_cat2.txt" />
+    <None Include="Resources\EGPSR_cat3.txt" />
+    <None Include="Resources\EGPSR_cat4.txt" />
+    <None Include="Resources\EGPSR_cat5.txt" />
+    <None Include="Resources\EGPSR_cat6.txt" />
+    <Content Include="Resources\FormatSpecification.txt" />
+    <Content Include="Resources\GrammarHeader.txt" />
+    <None Include="Resources\Gestures.xml" />
+    <None Include="Resources\Locations.xml" />
+    <None Include="Resources\Names.xml" />
+    <None Include="Resources\Objects.xml" />
+    <None Include="Resources\Questions.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CommandGenerator\CommandGenerator.csproj">
+      <Project>{0C657018-3F18-40D4-836E-2D2D0D529660}</Project>
+      <Name>CommandGenerator</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <EmbeddedResource Include="Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

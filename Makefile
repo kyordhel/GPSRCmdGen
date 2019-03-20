@@ -85,10 +85,10 @@ gpsr:
 	$(SILENT) $(MAKE) release
 	$(SILENT) $(MONO) $(BIN_RELEASE)GPSRCmdGen.exe
 
-eegpsr:
+egpsr:
 	$(SILENT) $(MAKE) clean
 	$(SILENT) $(MAKE) release
-	$(SILENT) $(MONO) $(BIN_RELEASE)EEGPSRCmdGen.exe
+	$(SILENT) $(MONO) $(BIN_RELEASE)EGPSRCmdGen.exe
 
 debug:
 	$(SILENT) $(XBUILD) $(DEBUG) $(SOLUTION)

@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandGenerator", "Command
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GPSRCmdGen", "GPSRCmdGen\GPSRCmdGen.csproj", "{34FB033E-112E-418F-B815-ADB8EC36027C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EEGPSRCmdGen", "EEGPSRCmdGen\EEGPSRCmdGen.csproj", "{CC113145-1565-4976-8D87-8C2D40471F2E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EGPSRCmdGen", "EGPSRCmdGen\EGPSRCmdGen.csproj", "{CC113145-1565-4976-8D87-8C2D40471F2E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
