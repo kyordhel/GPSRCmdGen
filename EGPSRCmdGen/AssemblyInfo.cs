@@ -1,17 +1,17 @@
-using System.Reflection;
+﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // Information about this assembly is defined by the following attributes.
 // Change them to the values specific to your project.
-[assembly: AssemblyTitle("GPSR Command Generator")]
-[assembly: AssemblyDescription("GPSR Command Generator for RoboCup@Home")]
-[assembly: AssemblyConfiguration ("")]
+[assembly: AssemblyTitle("EGPSR Command Generator")]
+[assembly: AssemblyDescription("EGPSR Command Generator for RoboCup@Home")]
+[assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("RoboCup")]
-[assembly: AssemblyProduct ("GPSRCmdGen")]
-[assembly: AssemblyCopyright("Copyright © 2019 Mauricio Matamoros")]
-[assembly: AssemblyTrademark ("")]
-[assembly: AssemblyCulture ("")]
+[assembly: AssemblyProduct("EGPSRCmdGen")]
+[assembly: AssemblyCopyright("Copyright ©  2019 Mauricio Matamoros")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
 // The assembly version has the format "{Major}.{Minor}.{Build}.{Revision}".
 // The form "{Major}.{Minor}.*" will automatically update the build and revision,
 // and "{Major}.{Minor}.{Build}.*" will update just the revision.

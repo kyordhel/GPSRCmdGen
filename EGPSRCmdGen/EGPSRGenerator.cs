@@ -6,13 +6,19 @@ using RoboCup.AtHome.CommandGenerator;
 using RoboCup.AtHome.CommandGenerator.Containers;
 using RoboCup.AtHome.CommandGenerator.ReplaceableTypes;
 
-namespace RoboCup.AtHome.EEGPSRCmdGen
+namespace RoboCup.AtHome.EGPSRCmdGen
 {
 	/// <summary>
-	/// Generates Random Sentences for the EEGPSR test
+	/// Generates Random Sentences for the EGPSR test
 	/// </summary>
-	public class EEGPSRGenerator : RoboCup.AtHome.CommandGenerator.Generator
+	public class EGPSRGenerator : RoboCup.AtHome.CommandGenerator.Generator
 	{
+		#region Constants
+
+		public const string GRAMMARS_PATH = "egpsr_grammars";
+
+		#endregion
+
 		#region Variables
 
 		#endregion
@@ -20,9 +26,9 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 		#region Constructor
 
 		/// <summary>
-		/// Initializes a new instance of EEGPSRGenerator
+		/// Initializes a new instance of EGPSRGenerator
 		/// </summary>
-		public EEGPSRGenerator() : base() {}
+		public EGPSRGenerator() : base() {}
 
 		#endregion
 
@@ -44,7 +50,7 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 		}
 
 		/// <summary>
-		/// Loads the set of gestures from disk. If no gestures file is found, 
+		/// Loads the set of gestures from disk. If no gestures file is found,
 		/// the default set is loaded from Resources
 		/// </summary>
 		public override void LoadGestures()
@@ -65,17 +71,17 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 		public override void LoadGrammars()
 		{
 			try {
-				this.allGrammars = Loader.LoadGrammars("eegpsr_grammars");
+				this.allGrammars = Loader.LoadGrammars(EGPSRGenerator.GRAMMARS_PATH);
 				Green("Done!");
-			} catch {
+			} catch(Exception ex) {
 
-				Err ("Failed! Application terminated");
+				Err ("Failed! Application terminated" + ex.Message);
 				Environment.Exit (0);
 			}
 		}
 
 		/// <summary>
-		/// Loads the set of locations from disk. If no locations file is found, 
+		/// Loads the set of locations from disk. If no locations file is found,
 		/// the default set is loaded from Resources
 		/// </summary>
 		public override void LoadLocations ()
@@ -86,13 +92,13 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 			} catch {
 				List<Room> defaultRooms = Loader.LoadXmlString<RoomContainer> (Resources.Locations).Rooms;
 				foreach (Room room in defaultRooms)
-					this.allLocations.Add(room); 
+					this.allLocations.Add(room);
 				Err ("Failed! Default Locations loaded");
 			}
 		}
 
 		/// <summary>
-		/// Loads the set of names from disk. If no names file is found, 
+		/// Loads the set of names from disk. If no names file is found,
 		/// the default set is loaded from Resources
 		/// </summary>
 		public override void LoadNames()
@@ -107,7 +113,7 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 		}
 
 		/// <summary>
-		/// Loads the set of objects and categories from disk. If no objects file is found, 
+		/// Loads the set of objects and categories from disk. If no objects file is found,
 		/// the default set is loaded from Resources
 		/// </summary>
 		public override void LoadObjects()
@@ -124,7 +130,7 @@ namespace RoboCup.AtHome.EEGPSRCmdGen
 		}
 
 		/// <summary>
-		/// Loads the set of questions from disk. If no questions file is found, 
+		/// Loads the set of questions from disk. If no questions file is found,
 		/// the default set is loaded from Resources
 		/// </summary>
 		public override void LoadQuestions()

@@ -7,7 +7,7 @@ using RoboCup.AtHome.CommandGenerator;
 using RoboCup.AtHome.CommandGenerator.Containers;
 using RoboCup.AtHome.CommandGenerator.ReplaceableTypes;
 
-namespace RoboCup.AtHome.SPRTest
+namespace RoboCup.AtHome.EGPSRCmdGen
 {
 	/// <summary>
 	/// Example files generator.
@@ -67,7 +67,7 @@ namespace RoboCup.AtHome.SPRTest
 		static void SaveGrammarFile (string name, string header, string formatSpec, string content)
 		{
 			string fileName = String.Format ("{0}.txt", name);
-			fileName = Loader.GetPath("spr_grammars", fileName);
+			fileName = Loader.GetPath(EGPSRGenerator.GRAMMARS_PATH, fileName);
 			if (!Overwrite (fileName))
 				return;
 			string Name = name.Substring (0, 1).ToUpper () + name.Substring (1);
@@ -86,7 +86,7 @@ namespace RoboCup.AtHome.SPRTest
 		/// </summary>
 		private static void SaveGrammars()
 		{
-			string path = Loader.GetPath("spr_grammars");
+			string path = Loader.GetPath(EGPSRGenerator.GRAMMARS_PATH);
 			if(!Directory.Exists(path))
 				Directory.CreateDirectory(path);
 
@@ -94,10 +94,19 @@ namespace RoboCup.AtHome.SPRTest
 			string authoring = Resources.GrammarHeader;
 
 			Dictionary<string, string> grammars = new Dictionary<string, string> ();
-			grammars.Add("arena_questions", Resources.ArenaQuestions);
-			grammars.Add("crowd_questions", Resources.CrowdQuestions);
-			grammars.Add("object_questions", Resources.ObjectQuestions);
-			grammars.Add("predefined_questions", Resources.PredefinedQuestions);
+			grammars.Add("egpsr", Resources.EGPSRGrammar);
+			/*
+			grammars.Add("eegpsr_cat1", Resources.EGPSR_Category1);
+			grammars.Add("eegpsr_cat2", Resources.EGPSR_Category2);
+			grammars.Add("eegpsr_cat3", Resources.EGPSR_Category3);
+			grammars.Add("eegpsr_cat1e", Resources.EGPSR_Category1e);
+			grammars.Add("eegpsr_cat2e", Resources.EGPSR_Category2e);
+			grammars.Add("eegpsr_cat3e", Resources.EGPSR_Category3e);
+			grammars.Add("eegpsr_cat1i", Resources.EGPSR_Category1i);
+			grammars.Add("eegpsr_cat2i", Resources.EGPSR_Category2i);
+			grammars.Add("eegpsr_cat3i", Resources.EGPSR_Category3i);
+			*/
+			grammars.Add("common", Resources.CommonRules);
 
 			foreach (KeyValuePair<string, string> g in grammars) {
 				try{
