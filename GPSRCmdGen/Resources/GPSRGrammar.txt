@@ -5,14 +5,14 @@
 $Main     = $pmain | $main
 $pmain    = $polite $main
 
-;$main     = $fndppl
-;$main     = $fndobj
-;$main     = $guide
-;$main     = $follow
-;$main     = $followout
-;$main     = $incomplete
-;$main     = $man
-;$main     = $complexman
+$main     = $fndppl
+$main     = $fndobj
+$main     = $guide
+$main     = $follow
+$main     = $followout
+$main     = $incomplete
+$main     = $man
+$main     = $complexman
 $main     = $partyhost
 
 ##############################################################################
