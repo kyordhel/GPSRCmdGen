@@ -24,7 +24,7 @@ SILENT = @
 
 ## COMMANDS ###############
 MONO   = mono
-XBUILD = xbuild
+XBUILD = msbuild
 REMOVE = rm -R -f
 
 ## COLORS #################
