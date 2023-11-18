@@ -26,25 +26,11 @@ Although the code itself is compatible with the specification of the .NET Framew
 
 ### Linux
 
-- Ubuntu
+- Ubuntu: check https://learn.microsoft.com/en-us/dotnet/core/install/linux-ubuntu#supported-distributions
 
-    `sudo apt-get install mono-complete cmake git-all`
+- Other distros: check https://learn.microsoft.com/en-us/dotnet/core/install/linux?WT.mc_id=dotnet-35129-website
 
-- Debian
 
-    `# apt install mono-devel cmake git-all`
-
-- CentOS
-
-    `# yum install mono-devel cmake git-all`
-
-- Fedora
-
-    `# dnf install mono-devel cmake git-all`
-
-Normally, running the aforementioned command in your linux distribution should suffice.
-Should this is not the case, it may be necessary to add the package repository.
-To learn more, please visit the [Mono Project Website](https://www.mono-project.com/download/stable/)
 
 ## Building
 First clone the repository (you will need git installed)
